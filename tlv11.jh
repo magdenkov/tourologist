@@ -1,0 +1,139 @@
+enum TourType {
+	DIY,
+    SURPRISE_ME,
+    FIXED
+}
+
+entity Tour {
+	name String required maxlength(255),
+    description String maxlength(4096),
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime,
+    tourType TourType,
+    approved Boolean
+}
+
+entity TourAdminReview {
+	reason String maxlength(255),
+    approved Boolean,
+	time ZonedDateTime
+}
+
+entity TourRating  {
+	rate Integer required min(0) max(5),
+    feedback String maxlength(255),
+	time ZonedDateTime
+}
+
+entity TourDownload {
+	time ZonedDateTime required
+}
+
+entity Interest {
+	name String required maxlength(255),
+    icon String maxlength(255)
+}
+
+entity Bubbl {
+	approved Boolean
+	lat Double,
+    lng Double,
+    radiusMeters Integer min(0),
+	name String maxlength(255),
+    description String maxlength(255),
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime,
+    orderNumber Integer min(0)
+}
+
+entity BubblAdminReview {
+	reason String maxlength(255),
+    approved Boolean,
+	time ZonedDateTime
+}
+
+entity BubblRating  {
+	rate Integer required min(0) max(5),
+    feedback String maxlength(255),
+	time ZonedDateTime
+}
+
+entity BubblDownload {
+	time ZonedDateTime required
+}
+
+enum PayloadType {
+	OTHER,
+	AUDIO,
+    VIDEO,
+    IMAGE
+}
+
+entity Payload {
+	payloadType PayloadType,
+    url String maxlength(2083),
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime
+}
+
+entity TourRoutePoint {
+	lat Double,
+    lng Double,
+    orderNumber Integer min(0)
+}
+
+entity TourImage {
+	name String,
+    uploaded ZonedDateTime,
+    s3Key String,
+    s3bucket String,
+    s3ThumbKey String,
+    s3Region String,
+    type String,
+    master Boolean
+}
+
+entity BubblImage {
+	name String,
+    uploaded ZonedDateTime,
+    s3Key String,
+    s3bucket String,
+    s3ThumbKey String,
+    s3Region String,
+    type String,
+    master Boolean
+}
+
+relationship ManyToOne {
+	Tour{user} to User,
+	Bubbl{user} to User,
+	TourRating{user} to User,
+    TourRating{tour(name)} to Tour,
+    TourDownload{user} to User,
+    TourDownload{tour(name)} to Tour,
+    BubblRating{user} to User,
+    BubblRating{bubbl(name)} to Bubbl,
+    BubblDownload{user} to User,
+    BubblDownload{bubbl(name)} to Bubbl,
+    Bubbl{tour(name)} to Tour{bubbl(name)},
+    Payload{bubbl(name)} to Bubbl{payload(url)},
+    TourImage{tour(name)} to Tour{tourImage(name)},
+    TourAdminReview{tour(name)} to Tour,
+    BubblAdminReview{bubbl(name)} to Bubbl,
+    BubblAdminReview{user} to User,
+    TourAdminReview{user} to User,
+    TourRoutePoint{tour(name)} to Tour{tourRoutePoint},
+    BubblImage{bubbl(name)} to Bubbl{bubblImage(name)}
+}
+
+relationship ManyToMany {
+	Tour{interest(name)} to Interest{tour}
+}
+
+service all with serviceImpl
+paginate all with pager
+dto all with mapstruct
+skipClient for BubblImage
