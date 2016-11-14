@@ -1,0 +1,82 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "tour",
+            "relationshipName": "interest",
+            "otherEntityName": "interest",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "bubbl",
+            "otherEntityName": "bubbl",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourImage",
+            "otherEntityName": "tourImage",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourRoutePoint",
+            "otherEntityName": "tourRoutePoint",
+            "otherEntityRelationshipName": "tour"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 255
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 4096
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastModified",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "deleted",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "tourType",
+            "fieldType": "TourType",
+            "fieldValues": "DIY,SURPRISE_ME,FIXED"
+        },
+        {
+            "fieldName": "approved",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20161114195152",
+    "entityTableName": "tour",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

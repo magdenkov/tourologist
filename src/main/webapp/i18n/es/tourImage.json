@@ -1,0 +1,30 @@
+{
+    "tourologistApp": {
+        "tourImage" : {
+            "home": {
+                "title": "Tour Images",
+                "createLabel": "Crear nuevo Tour Image",
+                "createOrEditLabel": "Crear o editar Tour Image",
+                "search": "Search for Tour Image"
+            },
+            "created": "Un nuevo Tour Image ha sido creado con el identificador {{ param }}",
+            "updated": "Un Tour Image ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Tour Image ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Tour Image {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Image"
+            },
+            "name": "Name",
+            "uploaded": "Uploaded",
+            "s3Key": "S 3 Key",
+            "s3Bucket": "S 3 Bucket",
+            "s3ThumbKey": "S 3 Thumb Key",
+            "s3Region": "S 3 Region",
+            "type": "Type",
+            "master": "Master",
+            "tour": "Tour"
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "tourologistApp": {
+        "tourDownload" : {
+            "home": {
+                "title": "TourDownloads",
+                "createLabel": "Créer un nouveau Tour Download",
+                "createOrEditLabel": "Créer ou éditer un Tour Download",
+                "search": "Recherche pour Tour Download"
+            },
+            "created": "Un nouveau Tour Download a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Tour Download avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Tour Download avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Tour Download {{ id }} ?"
+            },
+            "detail": {
+                "title": "Tour Download"
+            },
+            "time": "Time",
+            "user": "User",
+            "tour": "Tour"
+        }
+    }
+}

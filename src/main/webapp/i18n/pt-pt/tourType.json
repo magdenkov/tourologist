@@ -1,0 +1,10 @@
+{
+    "tourologistApp": {
+        "TourType" : {
+            "null": "",
+            "DIY": "DIY",
+            "SURPRISE_ME": "SURPRISE_ME",
+            "FIXED": "FIXED"
+        }
+    }
+}

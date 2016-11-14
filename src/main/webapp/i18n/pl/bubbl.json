@@ -1,0 +1,35 @@
+{
+    "tourologistApp": {
+        "bubbl" : {
+            "home": {
+                "title": "Bubbls",
+                "createLabel": "Dodaj Bubbl",
+                "createOrEditLabel": "Dodaj lub edytuj: Bubbl",
+                "search": "Search for Bubbl"
+            },
+            "created": "A new Bubbl is created with identifier {{ param }}",
+            "updated": "A Bubbl is updated with identifier {{ param }}",
+            "deleted": "A Bubbl is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Bubbl {{ id }}?"
+            },
+            "detail": {
+                "title": "Bubbl"
+            },
+            "approved": "Approved",
+            "lat": "Lat",
+            "lng": "Lng",
+            "radiusMeters": "Radius Meters",
+            "name": "Name",
+            "description": "Description",
+            "createdDate": "Created Date",
+            "lastModified": "Last Modified",
+            "deleted": "Deleted",
+            "orderNumber": "Order Number",
+            "user": "User",
+            "tour": "Tour",
+            "payload": "Payload",
+            "bubblImage": "Bubbl Image"
+        }
+    }
+}

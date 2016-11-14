@@ -1,0 +1,26 @@
+{
+    "tourologistApp": {
+        "tourAdminReview" : {
+            "home": {
+                "title": "Tour Admin Reviews",
+                "createLabel": "Criar um(a) novo(a) Tour Admin Review",
+                "createOrEditLabel": "Criar ou editar um(a) Tour Admin Review",
+                "search": "Search for Tour Admin Review"
+            },
+            "created": "A new Tour Admin Review is created with identifier {{ param }}",
+            "updated": "A Tour Admin Review is updated with identifier {{ param }}",
+            "deleted": "A Tour Admin Review is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Tem a certeza que pretende eliminar o(a) Tour Admin Review {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Admin Review"
+            },
+            "reason": "Reason",
+            "approved": "Approved",
+            "time": "Time",
+            "tour": "Tour",
+            "user": "User"
+        }
+    }
+}

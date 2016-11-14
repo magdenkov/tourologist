@@ -1,0 +1,72 @@
+<div>
+    <h2 data-translate="tourologistApp.payload.home.title">Payloads</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="payload.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="tourologistApp.payload.home.createLabel">
+                        Create new Payload
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="payloadType"><span data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="url"><span data-translate="tourologistApp.payload.url">Url</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createdDate"><span data-translate="tourologistApp.payload.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lastModified"><span data-translate="tourologistApp.payload.lastModified">Last Modified</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="deleted"><span data-translate="tourologistApp.payload.deleted">Deleted</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="payload in vm.payloads track by payload.id">
+                    <td><a ui-sref="payload-detail({id:payload.id})">{{payload.id}}</a></td>
+                    <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}</td>
+                    <td>{{payload.url}}</td>
+                    <td>{{payload.createdDate | date:'medium'}}</td>
+                    <td>{{payload.lastModified | date:'medium'}}</td>
+                    <td>{{payload.deleted | date:'medium'}}</td>
+                    <td>
+                        <a ui-sref="bubbl-detail({id:payload.bubblId})">{{payload.bubblName}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="payload-detail({id:payload.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="payload.edit({id:payload.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="payload.delete({id:payload.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+    </div>
+    <uib-pager total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pager>
+</div>

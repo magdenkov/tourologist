@@ -1,0 +1,24 @@
+{
+    "tourologistApp": {
+        "interest" : {
+            "home": {
+                "title": "Interests",
+                "createLabel": "Создать новый Interest",
+                "createOrEditLabel": "Создать или отредактировать Interest",
+                "search": "Найти Interest"
+            },
+            "created": "Новый Interest создан с идентификатором {{ param }}",
+            "updated": "Interest обновлен с идентификатором {{ param }}",
+            "deleted": "Interest удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Interest {{ id }}?"
+            },
+            "detail": {
+                "title": "Interest"
+            },
+            "name": "Name",
+            "icon": "Icon",
+            "tour": "Tour"
+        }
+    }
+}

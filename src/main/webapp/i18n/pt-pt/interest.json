@@ -1,0 +1,24 @@
+{
+    "tourologistApp": {
+        "interest" : {
+            "home": {
+                "title": "Interests",
+                "createLabel": "Criar um(a) novo(a) Interest",
+                "createOrEditLabel": "Criar ou editar um(a) Interest",
+                "search": "Search for Interest"
+            },
+            "created": "A new Interest is created with identifier {{ param }}",
+            "updated": "A Interest is updated with identifier {{ param }}",
+            "deleted": "A Interest is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Tem a certeza que pretende eliminar o(a) Interest {{ id }}?"
+            },
+            "detail": {
+                "title": "Interest"
+            },
+            "name": "Name",
+            "icon": "Icon",
+            "tour": "Tour"
+        }
+    }
+}

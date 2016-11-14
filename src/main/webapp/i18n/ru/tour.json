@@ -1,0 +1,33 @@
+{
+    "tourologistApp": {
+        "tour" : {
+            "home": {
+                "title": "Tours",
+                "createLabel": "Создать новый Tour",
+                "createOrEditLabel": "Создать или отредактировать Tour",
+                "search": "Найти Tour"
+            },
+            "created": "Новый Tour создан с идентификатором {{ param }}",
+            "updated": "Tour обновлен с идентификатором {{ param }}",
+            "deleted": "Tour удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Tour {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour"
+            },
+            "name": "Name",
+            "description": "Description",
+            "createdDate": "Created Date",
+            "lastModified": "Last Modified",
+            "deleted": "Deleted",
+            "tourType": "Tour Type",
+            "approved": "Approved",
+            "user": "User",
+            "interest": "Interest",
+            "bubbl": "Bubbl",
+            "tourImage": "Tour Image",
+            "tourRoutePoint": "Tour Route Point"
+        }
+    }
+}

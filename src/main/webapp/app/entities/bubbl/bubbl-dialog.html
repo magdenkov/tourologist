@@ -1,0 +1,142 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myBubblLabel" data-translate="tourologistApp.bubbl.home.createOrEditLabel">Create or edit a Bubbl</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.bubbl.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.bubbl.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.approved" for="field_approved">Approved</label>
+            <input type="checkbox" class="form-control" name="approved" id="field_approved"
+                    ng-model="vm.bubbl.approved"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.lat" for="field_lat">Lat</label>
+            <input type="number" class="form-control" name="lat" id="field_lat"
+                    ng-model="vm.bubbl.lat"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.lng" for="field_lng">Lng</label>
+            <input type="number" class="form-control" name="lng" id="field_lng"
+                    ng-model="vm.bubbl.lng"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.radiusMeters" for="field_radiusMeters">Radius Meters</label>
+            <input type="number" class="form-control" name="radiusMeters" id="field_radiusMeters"
+                    ng-model="vm.bubbl.radiusMeters"
+                    min="0" />
+            <div ng-show="editForm.radiusMeters.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.radiusMeters.$error.min" data-translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.radiusMeters.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.bubbl.name"
+                    ng-maxlength="255" />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="255">
+                    This field cannot be longer than 255 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="vm.bubbl.description"
+                    ng-maxlength="255" />
+            <div ng-show="editForm.description.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.description.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="255">
+                    This field cannot be longer than 255 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.createdDate" for="field_createdDate">Created Date</label>
+                <div class="input-group">
+                    <input id="field_createdDate" type="text" class="form-control" name="createdDate" datetime-picker="{{dateformat}}" ng-model="vm.bubbl.createdDate" is-open="vm.datePickerOpenStatus.createdDate"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('createdDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.lastModified" for="field_lastModified">Last Modified</label>
+                <div class="input-group">
+                    <input id="field_lastModified" type="text" class="form-control" name="lastModified" datetime-picker="{{dateformat}}" ng-model="vm.bubbl.lastModified" is-open="vm.datePickerOpenStatus.lastModified"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('lastModified')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.deleted" for="field_deleted">Deleted</label>
+                <div class="input-group">
+                    <input id="field_deleted" type="text" class="form-control" name="deleted" datetime-picker="{{dateformat}}" ng-model="vm.bubbl.deleted" is-open="vm.datePickerOpenStatus.deleted"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('deleted')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.orderNumber" for="field_orderNumber">Order Number</label>
+            <input type="number" class="form-control" name="orderNumber" id="field_orderNumber"
+                    ng-model="vm.bubbl.orderNumber"
+                    min="0" />
+            <div ng-show="editForm.orderNumber.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.orderNumber.$error.min" data-translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.orderNumber.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="tourologistApp.bubbl.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" ng-model="vm.bubbl.userId" ng-options="user.id as user.id for user in vm.users"            >
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="tourologistApp.bubbl.tour" for="field_tour">Tour</label>
+            <select class="form-control" id="field_tour" name="tour" ng-model="vm.bubbl.tourId" ng-options="tour.id as tour.name for tour in vm.tours"            >
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

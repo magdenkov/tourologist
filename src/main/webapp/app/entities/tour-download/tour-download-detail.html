@@ -1,0 +1,31 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.tourDownload.detail.title">Tour Download</span> {{vm.tourDownload.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.tourDownload.time">Time</span></dt>
+        <dd>
+            <span>{{vm.tourDownload.time | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourDownload.user">User</span></dt>
+        <dd>
+            {{vm.tourDownload.userId}}
+        </dd>
+        <dt><span data-translate="tourologistApp.tourDownload.tour">Tour</span></dt>
+        <dd>
+            <a ui-sref="tour-detail({id:vm.tourDownload.tourId})">{{vm.tourDownload.tourName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="tour-download-detail.edit({id:vm.tourDownload.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

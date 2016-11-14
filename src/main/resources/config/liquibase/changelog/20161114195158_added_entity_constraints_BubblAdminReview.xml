@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity BubblAdminReview.
+    -->
+    <changeSet id="20161114195158-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="bubbl_id"
+                                 baseTableName="bubbl_admin_review"
+                                 constraintName="fk_bubbl_admin_review_bubbl_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bubbl"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="bubbl_admin_review"
+                                 constraintName="fk_bubbl_admin_review_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+</databaseChangeLog>

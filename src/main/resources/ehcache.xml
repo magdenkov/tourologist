@@ -42,5 +42,85 @@
            timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="tech.bubbl.tourologist.domain.BubblDownload"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Payload"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.TourRoutePoint"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.TourImage"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.BubblImage"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Tour"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Tour.interests"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Tour.bubbls"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Tour.tourImages"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Tour.tourRoutePoints"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.TourAdminReview"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.TourRating"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.TourDownload"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Interest"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Interest.tours"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Bubbl"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Bubbl.payloads"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Bubbl.bubblImages"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.BubblAdminReview"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.BubblRating"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

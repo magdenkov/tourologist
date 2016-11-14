@@ -1,0 +1,26 @@
+{
+    "tourologistApp": {
+        "bubblAdminReview" : {
+            "home": {
+                "title": "Bubbl Admin Reviews",
+                "createLabel": "Crear nuevo Bubbl Admin Review",
+                "createOrEditLabel": "Crear o editar Bubbl Admin Review",
+                "search": "Search for Bubbl Admin Review"
+            },
+            "created": "Un nuevo Bubbl Admin Review ha sido creado con el identificador {{ param }}",
+            "updated": "Un Bubbl Admin Review ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Bubbl Admin Review ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Bubbl Admin Review {{ id }}?"
+            },
+            "detail": {
+                "title": "Bubbl Admin Review"
+            },
+            "reason": "Reason",
+            "approved": "Approved",
+            "time": "Time",
+            "bubbl": "Bubbl",
+            "user": "User"
+        }
+    }
+}

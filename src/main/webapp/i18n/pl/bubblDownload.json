@@ -1,0 +1,24 @@
+{
+    "tourologistApp": {
+        "bubblDownload" : {
+            "home": {
+                "title": "Bubbl Downloads",
+                "createLabel": "Dodaj Bubbl Download",
+                "createOrEditLabel": "Dodaj lub edytuj: Bubbl Download",
+                "search": "Search for Bubbl Download"
+            },
+            "created": "A new Bubbl Download is created with identifier {{ param }}",
+            "updated": "A Bubbl Download is updated with identifier {{ param }}",
+            "deleted": "A Bubbl Download is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Bubbl Download {{ id }}?"
+            },
+            "detail": {
+                "title": "Bubbl Download"
+            },
+            "time": "Time",
+            "user": "User",
+            "bubbl": "Bubbl"
+        }
+    }
+}
