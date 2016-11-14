@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .controller('JhiMetricsMonitoringController', JhiMetricsMonitoringController);
+        .controller('TlMetricsMonitoringController', TlMetricsMonitoringController);
 
-    JhiMetricsMonitoringController.$inject = ['$scope','JhiMetricsService', '$uibModal'];
+    TlMetricsMonitoringController.$inject = ['$scope','TlMetricsService', '$uibModal'];
 
-    function JhiMetricsMonitoringController ($scope, JhiMetricsService, $uibModal) {
+    function TlMetricsMonitoringController ($scope, TlMetricsService, $uibModal) {
         var vm = this;
 
         vm.cachesStats = {};
@@ -42,7 +42,7 @@
 
         function refresh () {
             vm.updatingMetrics = true;
-            JhiMetricsService.getMetrics().then(function (promise) {
+            TlMetricsService.getMetrics().then(function (promise) {
                 vm.metrics = promise;
                 vm.updatingMetrics = false;
             }, function (promise) {
@@ -52,10 +52,10 @@
         }
 
         function refreshThreadDumpData () {
-            JhiMetricsService.threadDump().then(function(data) {
+            TlMetricsService.threadDump().then(function(data) {
                 $uibModal.open({
                     templateUrl: 'app/admin/metrics/metrics.modal.html',
-                    controller: 'JhiMetricsMonitoringModalController',
+                    controller: 'TlMetricsMonitoringModalController',
                     controllerAs: 'vm',
                     size: 'lg',
                     resolve: {

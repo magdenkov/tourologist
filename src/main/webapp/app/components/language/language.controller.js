@@ -3,17 +3,17 @@
 
     angular
         .module('tourologistApp')
-        .controller('JhiLanguageController', JhiLanguageController);
+        .controller('TlLanguageController', TlLanguageController);
 
-    JhiLanguageController.$inject = ['$translate', 'JhiLanguageService', 'tmhDynamicLocale'];
+    TlLanguageController.$inject = ['$translate', 'TlLanguageService', 'tmhDynamicLocale'];
 
-    function JhiLanguageController ($translate, JhiLanguageService, tmhDynamicLocale) {
+    function TlLanguageController ($translate, TlLanguageService, tmhDynamicLocale) {
         var vm = this;
 
         vm.changeLanguage = changeLanguage;
         vm.languages = null;
 
-        JhiLanguageService.getAll().then(function (languages) {
+        TlLanguageService.getAll().then(function (languages) {
             vm.languages = languages;
         });
 

@@ -2,18 +2,18 @@
 
 describe('Controller Tests', function () {
 
-    describe('JhiHealthCheckController', function () {
+    describe('TlHealthCheckController', function () {
         var $scope, jhiHealthService; // actual implementations
         var createController; // local utility functions
 
-        beforeEach(inject(function ($injector, JhiHealthService) {
+        beforeEach(inject(function ($injector, TlHealthService) {
             $scope = $injector.get('$rootScope').$new();
-            jhiHealthService = JhiHealthService;
+            jhiHealthService = TlHealthService;
             var locals = {
                 '$scope': $scope
             };
             createController = function() {
-                $injector.get('$controller')('JhiHealthCheckController as vm', locals);
+                $injector.get('$controller')('TlHealthCheckController as vm', locals);
             };
             createController();
         }));

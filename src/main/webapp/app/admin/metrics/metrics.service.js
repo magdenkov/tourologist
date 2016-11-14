@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .factory('JhiMetricsService', JhiMetricsService);
+        .factory('TlMetricsService', TlMetricsService);
 
-    JhiMetricsService.$inject = ['$rootScope', '$http'];
+    TlMetricsService.$inject = ['$rootScope', '$http'];
 
-    function JhiMetricsService ($rootScope, $http) {
+    function TlMetricsService ($rootScope, $http) {
         var service = {
             getMetrics: getMetrics,
             threadDump: threadDump

@@ -3,19 +3,19 @@
 
     angular
         .module('tourologistApp')
-        .controller('JhiHealthCheckController', JhiHealthCheckController);
+        .controller('TlHealthCheckController', TlHealthCheckController);
 
-    JhiHealthCheckController.$inject = ['JhiHealthService', '$uibModal'];
+    TlHealthCheckController.$inject = ['TlHealthService', '$uibModal'];
 
-    function JhiHealthCheckController (JhiHealthService, $uibModal) {
+    function TlHealthCheckController (TlHealthService, $uibModal) {
         var vm = this;
 
         vm.updatingHealth = true;
         vm.getLabelClass = getLabelClass;
         vm.refresh = refresh;
         vm.showHealth = showHealth;
-        vm.baseName = JhiHealthService.getBaseName;
-        vm.subSystemName = JhiHealthService.getSubSystemName;
+        vm.baseName = TlHealthService.getBaseName;
+        vm.subSystemName = TlHealthService.getSubSystemName;
 
         vm.refresh();
 
@@ -29,11 +29,11 @@
 
         function refresh () {
             vm.updatingHealth = true;
-            JhiHealthService.checkHealth().then(function (response) {
-                vm.healthData = JhiHealthService.transformHealthData(response);
+            TlHealthService.checkHealth().then(function (response) {
+                vm.healthData = TlHealthService.transformHealthData(response);
                 vm.updatingHealth = false;
             }, function (response) {
-                vm.healthData =  JhiHealthService.transformHealthData(response.data);
+                vm.healthData =  TlHealthService.transformHealthData(response.data);
                 vm.updatingHealth = false;
             });
         }

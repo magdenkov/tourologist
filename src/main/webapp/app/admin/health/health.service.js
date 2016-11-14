@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .factory('JhiHealthService', JhiHealthService);
+        .factory('TlHealthService', TlHealthService);
 
-    JhiHealthService.$inject = ['$rootScope', '$http'];
+    TlHealthService.$inject = ['$rootScope', '$http'];
 
-    function JhiHealthService ($rootScope, $http) {
+    function TlHealthService ($rootScope, $http) {
         var separator = '.';
         var service = {
             checkHealth: checkHealth,

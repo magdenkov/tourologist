@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .factory('JhiLanguageService', JhiLanguageService);
+        .factory('TlLanguageService', TlLanguageService);
 
-    JhiLanguageService.$inject = ['$q', '$http', '$translate', 'LANGUAGES'];
+    TlLanguageService.$inject = ['$q', '$http', '$translate', 'LANGUAGES'];
 
-    function JhiLanguageService ($q, $http, $translate, LANGUAGES) {
+    function TlLanguageService ($q, $http, $translate, LANGUAGES) {
         var service = {
             getAll: getAll,
             getCurrent: getCurrent

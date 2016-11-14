@@ -32,21 +32,21 @@ describe('administration', function () {
     });
 
     it('should load metrics', function () {
-        element(by.css('[ui-sref="jhi-metrics"]')).click();
+        element(by.css('[ui-sref="tl-metrics"]')).click();
         element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
             expect(value).toMatch(/metrics.title/);
         });
     });
 
     it('should load health', function () {
-        element(by.css('[ui-sref="jhi-health"]')).click();
+        element(by.css('[ui-sref="tl-health"]')).click();
         element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
             expect(value).toMatch(/health.title/);
         });
     });
 
     it('should load configuration', function () {
-        element(by.css('[ui-sref="jhi-configuration"]')).click();
+        element(by.css('[ui-sref="tl-configuration"]')).click();
         element.all(by.css('h2')).first().getAttribute('data-translate').then(function (value) {
             expect(value).toMatch(/configuration.title/);
         });

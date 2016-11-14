@@ -24,13 +24,18 @@
       "cucumber",
       "protractor"
     ],
-    "jhiPrefix": "jhi",
+    "jhiPrefix": "tl",
     "enableTranslation": true,
     "serviceDiscoveryType": false,
     "languages": [
       "en",
       "pt-pt",
-      "ru"
+      "ru",
+      "pl",
+      "fr",
+      "es",
+      "it",
+      "de"
     ]
   }
 }

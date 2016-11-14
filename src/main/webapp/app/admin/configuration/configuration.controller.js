@@ -3,20 +3,20 @@
 
     angular
         .module('tourologistApp')
-        .controller('JhiConfigurationController', JhiConfigurationController);
+        .controller('TlConfigurationController', TlConfigurationController);
 
-    JhiConfigurationController.$inject = ['$filter','JhiConfigurationService'];
+    TlConfigurationController.$inject = ['$filter','TlConfigurationService'];
 
-    function JhiConfigurationController (filter,JhiConfigurationService) {
+    function TlConfigurationController (filter,TlConfigurationService) {
         var vm = this;
 
         vm.allConfiguration = null;
         vm.configuration = null;
 
-        JhiConfigurationService.get().then(function(configuration) {
+        TlConfigurationService.get().then(function(configuration) {
             vm.configuration = configuration;
         });
-        JhiConfigurationService.getEnv().then(function (configuration) {
+        TlConfigurationService.getEnv().then(function (configuration) {
             vm.allConfiguration = configuration;
         });
     }

@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .controller('JhiMetricsMonitoringModalController', JhiMetricsMonitoringModalController);
+        .controller('TlMetricsMonitoringModalController', TlMetricsMonitoringModalController);
 
-    JhiMetricsMonitoringModalController.$inject = ['$uibModalInstance', 'threadDump'];
+    TlMetricsMonitoringModalController.$inject = ['$uibModalInstance', 'threadDump'];
 
-    function JhiMetricsMonitoringModalController ($uibModalInstance, threadDump) {
+    function TlMetricsMonitoringModalController ($uibModalInstance, threadDump) {
         var vm = this;
 
         vm.cancel = cancel;

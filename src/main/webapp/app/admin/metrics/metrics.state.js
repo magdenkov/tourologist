@@ -8,7 +8,7 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('jhi-metrics', {
+        $stateProvider.state('tl-metrics', {
             parent: 'admin',
             url: '/metrics',
             data: {
@@ -18,7 +18,7 @@
             views: {
                 'content@': {
                     templateUrl: 'app/admin/metrics/metrics.html',
-                    controller: 'JhiMetricsMonitoringController',
+                    controller: 'TlMetricsMonitoringController',
                     controllerAs: 'vm'
                 }
             },

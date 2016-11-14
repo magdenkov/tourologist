@@ -3,11 +3,11 @@
 
     angular
         .module('tourologistApp')
-        .factory('JhiConfigurationService', JhiConfigurationService);
+        .factory('TlConfigurationService', TlConfigurationService);
 
-    JhiConfigurationService.$inject = ['$filter', '$http'];
+    TlConfigurationService.$inject = ['$filter', '$http'];
 
-    function JhiConfigurationService ($filter, $http) {
+    function TlConfigurationService ($filter, $http) {
         var service = {
             get: get,
             getEnv: getEnv

@@ -5,10 +5,10 @@
         .module('tourologistApp')
         .factory('stateHandler', stateHandler);
 
-    stateHandler.$inject = ['$rootScope', '$state', '$sessionStorage', '$translate', 'JhiLanguageService', 'translationHandler', '$window',
+    stateHandler.$inject = ['$rootScope', '$state', '$sessionStorage', '$translate', 'TlLanguageService', 'translationHandler', '$window',
         'Auth', 'Principal', 'VERSION'];
 
-    function stateHandler($rootScope, $state, $sessionStorage, $translate, JhiLanguageService, translationHandler, $window,
+    function stateHandler($rootScope, $state, $sessionStorage, $translate, TlLanguageService, translationHandler, $window,
         Auth, Principal, VERSION) {
         return {
             initialize: initialize
@@ -34,7 +34,7 @@
 
                 
                 // Update the language
-                JhiLanguageService.getCurrent().then(function (language) {
+                TlLanguageService.getCurrent().then(function (language) {
                     $translate.use(language);
                 });
                 
