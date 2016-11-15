@@ -36,6 +36,15 @@
       "es",
       "it",
       "de"
-    ]
+    ],
+    "aws": {
+      "applicationName": "tl",
+      "environmentName": "tl-env",
+      "bucketName": "wkctest",
+      "instanceType": "t2.micro",
+      "awsRegion": "eu-west-1",
+      "dbName": "tl",
+      "dbInstanceClass": "db.t2.micro"
+    }
   }
 }
