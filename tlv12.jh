@@ -1,0 +1,150 @@
+enum TourType {
+	DIY,
+    SURPRISE_ME,
+    FIXED
+}
+
+enum Status {
+	DRAFT,
+    SUBMITTED,
+    APPROVED,
+    REJECTED
+}
+
+entity Tour {
+	name String required maxlength(255),
+    description String maxlength(4096),
+	status Status,
+    tourType TourType,
+    price Double,
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime
+}
+
+entity TourAdminReview {
+	reason String maxlength(4096),
+    approved Boolean,
+	time ZonedDateTime
+}
+
+entity TourRating  {
+	rate Integer required min(1) max(5),
+    feedback String maxlength(4096),
+	time ZonedDateTime
+}
+
+entity TourDownload {
+	time ZonedDateTime required
+}
+
+entity Interest {
+	name String required maxlength(255),
+    icon String maxlength(255)
+}
+
+entity Bubbl {
+	name String maxlength(255),
+    description String maxlength(255),
+	status Status,
+	lat Double,
+    lng Double,
+    radiusMeters Integer min(0),
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime
+}
+
+entity TourBubbl {
+	orderNumber Integer min(0)
+}
+
+entity BubblAdminReview {
+	reason String maxlength(4096),
+    approved Boolean,
+	time ZonedDateTime
+}
+
+entity BubblRating  {
+	rate Integer required min(1) max(5),
+    feedback String maxlength(4096),
+	time ZonedDateTime
+}
+
+entity BubblDownload {
+	time ZonedDateTime
+}
+
+enum PayloadType {
+	OTHER,
+	AUDIO,
+    VIDEO,
+    IMAGE
+}
+
+entity Payload {
+	payloadType PayloadType,
+    name String,
+    url String maxlength(2083),
+    thumbUrl String maxlength(2083),
+    mimeType String,
+    createdDate ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime
+}
+
+entity TourRoutePoint {
+	lat Double,
+    lng Double,
+    orderNumber Integer min(0)
+}
+
+entity TourBubblRoutePoint {
+	lat Double,
+    lng Double,
+    orderNumber Integer min(0)
+}
+
+entity TourImage {
+	name String,
+    url String maxlength(2083),
+    thumbUrl String maxlength(2083),
+    mimeType String,
+    master Boolean,
+    uploaded ZonedDateTime,
+    lastModified ZonedDateTime,
+    deleted ZonedDateTime
+}
+
+relationship ManyToOne {
+	Tour{user(email)} to User,
+	Bubbl{user(email)} to User,
+	TourRating{user(email)} to User,
+    TourRating{tour(name)} to Tour{tourRating},
+    TourDownload{user(email)} to User,
+    TourDownload{tour(name)} to Tour{tourDownload},
+    BubblRating{user(email)} to User,
+    BubblRating{bubbl(name)} to Bubbl{bubblRating},
+    BubblDownload{user(email)} to User,
+    BubblDownload{bubbl(name)} to Bubbl{bubblDownload},
+    Payload{bubbl(name)} to Bubbl{payload(url)},
+    TourImage{tour(name)} to Tour{tourImage(name)},
+    TourAdminReview{tour(name)} to Tour{tourAdminReview},
+    BubblAdminReview{bubbl(name)} to Bubbl{bubblAdminReview},
+    BubblAdminReview{user(email)} to User,
+    TourAdminReview{user(email)} to User,
+    TourRoutePoint{tour(name)} to Tour{tourRoutePoint},
+    TourBubbl{bubbl(name)} to Bubbl{tourBubbl(orderNumber)},
+    TourBubbl{tour(name)} to Tour{tourBubbl(orderNumber)},
+    TourBubblRoutePoint{tourBubbl} to TourBubbl{tourBubbl}
+}
+
+relationship ManyToMany {
+	Tour{interest(name)} to Interest{tour},
+    Bubbl{interest(name)} to Interest{bubbl}
+}
+
+service all with serviceImpl
+paginate all with pagination
+dto all with mapstruct
+
