@@ -1,0 +1,50 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "bubbl",
+            "otherEntityName": "bubbl",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "uploaded",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "s3Key",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "s3Bucket",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "s3ThumbKey",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "s3Region",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "master",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20161114195104",
+    "entityTableName": "bubbl_image",
+    "dto": "mapstruct",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

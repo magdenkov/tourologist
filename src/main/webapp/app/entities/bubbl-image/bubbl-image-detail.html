@@ -1,0 +1,55 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.bubblImage.detail.title">Bubbl Image</span> {{vm.bubblImage.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.bubblImage.name">Name</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.name}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.uploaded">Uploaded</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.uploaded | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.s3Key">S 3 Key</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.s3Key}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.s3Bucket">S 3 Bucket</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.s3Bucket}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.s3ThumbKey">S 3 Thumb Key</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.s3ThumbKey}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.s3Region">S 3 Region</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.s3Region}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.type">Type</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.type}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.master">Master</span></dt>
+        <dd>
+            <span>{{vm.bubblImage.master}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblImage.bubbl">Bubbl</span></dt>
+        <dd>
+            <a ui-sref="bubbl-detail({id:vm.bubblImage.bubblId})">{{vm.bubblImage.bubblName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="bubbl-image-detail.edit({id:vm.bubblImage.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,30 @@
+{
+    "tourologistApp": {
+        "bubblImage" : {
+            "home": {
+                "title": "Bubbl Images",
+                "createLabel": "Create a new Bubbl Image",
+                "createOrEditLabel": "Create or edit a Bubbl Image",
+                "search": "Search for Bubbl Image"
+            },
+            "created": "A new Bubbl Image is created with identifier {{ param }}",
+            "updated": "A Bubbl Image is updated with identifier {{ param }}",
+            "deleted": "A Bubbl Image is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Bubbl Image {{ id }}?"
+            },
+            "detail": {
+                "title": "Bubbl Image"
+            },
+            "name": "Name",
+            "uploaded": "Uploaded",
+            "s3Key": "S 3 Key",
+            "s3Bucket": "S 3 Bucket",
+            "s3ThumbKey": "S 3 Thumb Key",
+            "s3Region": "S 3 Region",
+            "type": "Type",
+            "master": "Master",
+            "bubbl": "Bubbl"
+        }
+    }
+}
