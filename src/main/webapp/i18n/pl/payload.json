@@ -1,0 +1,30 @@
+{
+    "tourologistApp": {
+        "payload" : {
+            "home": {
+                "title": "Payloads",
+                "createLabel": "Dodaj Payload",
+                "createOrEditLabel": "Dodaj lub edytuj: Payload",
+                "search": "Search for Payload"
+            },
+            "created": "A new Payload is created with identifier {{ param }}",
+            "updated": "A Payload is updated with identifier {{ param }}",
+            "deleted": "A Payload is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Payload {{ id }}?"
+            },
+            "detail": {
+                "title": "Payload"
+            },
+            "payloadType": "Payload Type",
+            "name": "Name",
+            "url": "Url",
+            "thumbUrl": "Thumb Url",
+            "mimeType": "Mime Type",
+            "createdDate": "Created Date",
+            "lastModified": "Last Modified",
+            "deleted": "Deleted",
+            "bubbl": "Bubbl"
+        }
+    }
+}

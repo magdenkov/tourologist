@@ -1,0 +1,61 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.tour.detail.title">Tour</span> {{vm.tour.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.tour.name">Name</span></dt>
+        <dd>
+            <span>{{vm.tour.name}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.description">Description</span></dt>
+        <dd>
+            <span>{{vm.tour.description}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.status">Status</span></dt>
+        <dd>
+            <span data-translate="{{'tourologistApp.Status.' + vm.tour.status}}">{{vm.tour.status}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.tourType">Tour Type</span></dt>
+        <dd>
+            <span data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.price">Price</span></dt>
+        <dd>
+            <span>{{vm.tour.price}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{vm.tour.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.lastModified">Last Modified</span></dt>
+        <dd>
+            <span>{{vm.tour.lastModified | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.deleted">Deleted</span></dt>
+        <dd>
+            <span>{{vm.tour.deleted | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.user">User</span></dt>
+        <dd>
+            {{vm.tour.userEmail}}
+        </dd>
+        <dt><span data-translate="tourologistApp.tour.interest">Interest</span></dt>
+        <dd>
+            <span ng-repeat="interest in vm.tour.interests">
+                <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="tour-detail.edit({id:vm.tour.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

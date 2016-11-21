@@ -1,0 +1,55 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.payload.detail.title">Payload</span> {{vm.payload.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.payload.payloadType">Payload Type</span></dt>
+        <dd>
+            <span data-translate="{{'tourologistApp.PayloadType.' + vm.payload.payloadType}}">{{vm.payload.payloadType}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.name">Name</span></dt>
+        <dd>
+            <span>{{vm.payload.name}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.url">Url</span></dt>
+        <dd>
+            <span>{{vm.payload.url}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.thumbUrl">Thumb Url</span></dt>
+        <dd>
+            <span>{{vm.payload.thumbUrl}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.mimeType">Mime Type</span></dt>
+        <dd>
+            <span>{{vm.payload.mimeType}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.createdDate">Created Date</span></dt>
+        <dd>
+            <span>{{vm.payload.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.lastModified">Last Modified</span></dt>
+        <dd>
+            <span>{{vm.payload.lastModified | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.deleted">Deleted</span></dt>
+        <dd>
+            <span>{{vm.payload.deleted | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.payload.bubbl">Bubbl</span></dt>
+        <dd>
+            <a ui-sref="bubbl-detail({id:vm.payload.bubblId})">{{vm.payload.bubblName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="payload-detail.edit({id:vm.payload.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

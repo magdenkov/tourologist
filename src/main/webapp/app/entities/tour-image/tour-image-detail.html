@@ -1,0 +1,55 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.tourImage.detail.title">Tour Image</span> {{vm.tourImage.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.tourImage.name">Name</span></dt>
+        <dd>
+            <span>{{vm.tourImage.name}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.url">Url</span></dt>
+        <dd>
+            <span>{{vm.tourImage.url}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.thumbUrl">Thumb Url</span></dt>
+        <dd>
+            <span>{{vm.tourImage.thumbUrl}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.mimeType">Mime Type</span></dt>
+        <dd>
+            <span>{{vm.tourImage.mimeType}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.master">Master</span></dt>
+        <dd>
+            <span>{{vm.tourImage.master}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.uploaded">Uploaded</span></dt>
+        <dd>
+            <span>{{vm.tourImage.uploaded | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.lastModified">Last Modified</span></dt>
+        <dd>
+            <span>{{vm.tourImage.lastModified | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.deleted">Deleted</span></dt>
+        <dd>
+            <span>{{vm.tourImage.deleted | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.tourImage.tour">Tour</span></dt>
+        <dd>
+            <a ui-sref="tour-detail({id:vm.tourImage.tourId})">{{vm.tourImage.tourName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="tour-image-detail.edit({id:vm.tourImage.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

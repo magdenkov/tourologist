@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "tour",
+            "otherEntityName": "tour",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "interest"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "bubbl",
+            "otherEntityName": "bubbl",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "interest"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 255
+        },
+        {
+            "fieldName": "icon",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 255
+        }
+    ],
+    "changelogDate": "20161121113113",
+    "entityTableName": "interest",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}

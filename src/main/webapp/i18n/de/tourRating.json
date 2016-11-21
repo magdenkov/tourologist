@@ -1,0 +1,26 @@
+{
+    "tourologistApp": {
+        "tourRating" : {
+            "home": {
+                "title": "Tour Ratings",
+                "createLabel": "Tour Rating erstellen",
+                "createOrEditLabel": "Tour Rating erstellen oder bearbeiten",
+                "search": "Suche nach Tour Rating"
+            },
+            "created": "Tour Rating erstellt mit ID {{ param }}",
+            "updated": "Tour Rating aktualisiert mit ID {{ param }}",
+            "deleted": "Tour Rating gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Tour Rating {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Tour Rating"
+            },
+            "rate": "Rate",
+            "feedback": "Feedback",
+            "time": "Time",
+            "user": "User",
+            "tour": "Tour"
+        }
+    }
+}

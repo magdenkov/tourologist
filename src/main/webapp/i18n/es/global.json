@@ -7,6 +7,20 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entidades",
+                "tour": "Tour",
+                "tourAdminReview": "Tour Admin Review",
+                "tourRating": "Tour Rating",
+                "tourDownload": "Tour Download",
+                "interest": "Interest",
+                "bubbl": "Bubbl",
+                "tourBubbl": "Tour Bubbl",
+                "bubblAdminReview": "Bubbl Admin Review",
+                "bubblRating": "Bubbl Rating",
+                "bubblDownload": "Bubbl Download",
+                "payload": "Payload",
+                "tourRoutePoint": "Tour Route Point",
+                "tourBubblRoutePoint": "Tour Bubbl Route Point",
+                "tourImage": "Tour Image",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

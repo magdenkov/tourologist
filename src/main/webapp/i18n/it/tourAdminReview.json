@@ -1,0 +1,26 @@
+{
+    "tourologistApp": {
+        "tourAdminReview" : {
+            "home": {
+                "title": "TourAdminReviews",
+                "createLabel": "Genera un nuovo Tour Admin Review",
+                "createOrEditLabel": "Genera o modifica un Tour Admin Review",
+                "search": "Cerca Tour Admin Review"
+            },
+            "created": "&Egrave; stato generato un nuovo Tour Admin Review con identificatore { param }}",
+            "updated": "&Egrave; stato aggiornato Tour Admin Review identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Tour Admin Review con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Tour Admin Review {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Admin Review"
+            },
+            "reason": "Reason",
+            "approved": "Approved",
+            "time": "Time",
+            "tour": "Tour",
+            "user": "User"
+        }
+    }
+}

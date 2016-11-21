@@ -1,0 +1,25 @@
+{
+    "tourologistApp": {
+        "tourRoutePoint" : {
+            "home": {
+                "title": "Tour Route Points",
+                "createLabel": "Crear nuevo Tour Route Point",
+                "createOrEditLabel": "Crear o editar Tour Route Point",
+                "search": "Search for Tour Route Point"
+            },
+            "created": "Un nuevo Tour Route Point ha sido creado con el identificador {{ param }}",
+            "updated": "Un Tour Route Point ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Tour Route Point ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Tour Route Point {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Route Point"
+            },
+            "lat": "Lat",
+            "lng": "Lng",
+            "orderNumber": "Order Number",
+            "tour": "Tour"
+        }
+    }
+}

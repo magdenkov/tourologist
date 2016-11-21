@@ -1,0 +1,58 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "tour",
+            "otherEntityName": "tour",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "url",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 2083
+        },
+        {
+            "fieldName": "thumbUrl",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 2083
+        },
+        {
+            "fieldName": "mimeType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "master",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "uploaded",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastModified",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "deleted",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20161121113122",
+    "entityTableName": "tour_image",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}

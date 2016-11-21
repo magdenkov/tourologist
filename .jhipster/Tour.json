@@ -1,0 +1,105 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "email"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "tour",
+            "relationshipName": "interest",
+            "otherEntityName": "interest",
+            "otherEntityField": "name",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourRating",
+            "otherEntityName": "tourRating",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourDownload",
+            "otherEntityName": "tourDownload",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourImage",
+            "otherEntityName": "tourImage",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourAdminReview",
+            "otherEntityName": "tourAdminReview",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourRoutePoint",
+            "otherEntityName": "tourRoutePoint",
+            "otherEntityRelationshipName": "tour"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "tourBubbl",
+            "otherEntityName": "tourBubbl",
+            "otherEntityRelationshipName": "tour"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 255
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 4096
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Status",
+            "fieldValues": "DRAFT,SUBMITTED,APPROVED,REJECTED"
+        },
+        {
+            "fieldName": "tourType",
+            "fieldType": "TourType",
+            "fieldValues": "DIY,SURPRISE_ME,FIXED"
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastModified",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "deleted",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20161121113109",
+    "entityTableName": "tour",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}

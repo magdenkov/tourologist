@@ -1,0 +1,37 @@
+{
+    "tourologistApp": {
+        "tour" : {
+            "home": {
+                "title": "Tours",
+                "createLabel": "Genera un nuovo Tour",
+                "createOrEditLabel": "Genera o modifica un Tour",
+                "search": "Cerca Tour"
+            },
+            "created": "&Egrave; stato generato un nuovo Tour con identificatore { param }}",
+            "updated": "&Egrave; stato aggiornato Tour identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Tour con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Tour {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour"
+            },
+            "name": "Name",
+            "description": "Description",
+            "status": "Status",
+            "tourType": "Tour Type",
+            "price": "Price",
+            "createdDate": "Created Date",
+            "lastModified": "Last Modified",
+            "deleted": "Deleted",
+            "user": "User",
+            "interest": "Interest",
+            "tourRating": "Tour Rating",
+            "tourDownload": "Tour Download",
+            "tourImage": "Tour Image",
+            "tourAdminReview": "Tour Admin Review",
+            "tourRoutePoint": "Tour Route Point",
+            "tourBubbl": "Tour Bubbl"
+        }
+    }
+}

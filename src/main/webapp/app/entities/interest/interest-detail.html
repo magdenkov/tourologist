@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.interest.detail.title">Interest</span> {{vm.interest.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.interest.name">Name</span></dt>
+        <dd>
+            <span>{{vm.interest.name}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.interest.icon">Icon</span></dt>
+        <dd>
+            <span>{{vm.interest.icon}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="interest-detail.edit({id:vm.interest.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

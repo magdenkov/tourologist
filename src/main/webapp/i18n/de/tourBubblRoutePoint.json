@@ -1,0 +1,25 @@
+{
+    "tourologistApp": {
+        "tourBubblRoutePoint" : {
+            "home": {
+                "title": "Tour Bubbl Route Points",
+                "createLabel": "Tour Bubbl Route Point erstellen",
+                "createOrEditLabel": "Tour Bubbl Route Point erstellen oder bearbeiten",
+                "search": "Suche nach Tour Bubbl Route Point"
+            },
+            "created": "Tour Bubbl Route Point erstellt mit ID {{ param }}",
+            "updated": "Tour Bubbl Route Point aktualisiert mit ID {{ param }}",
+            "deleted": "Tour Bubbl Route Point gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Tour Bubbl Route Point {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Tour Bubbl Route Point"
+            },
+            "lat": "Lat",
+            "lng": "Lng",
+            "orderNumber": "Order Number",
+            "tourBubbl": "Tour Bubbl"
+        }
+    }
+}

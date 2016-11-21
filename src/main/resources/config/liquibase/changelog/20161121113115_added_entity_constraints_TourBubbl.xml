@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity TourBubbl.
+    -->
+    <changeSet id="20161121113115-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="bubbl_id"
+                                 baseTableName="tour_bubbl"
+                                 constraintName="fk_tour_bubbl_bubbl_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bubbl"/>
+
+        <addForeignKeyConstraint baseColumnNames="tour_id"
+                                 baseTableName="tour_bubbl"
+                                 constraintName="fk_tour_bubbl_tour_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tour"/>
+
+    </changeSet>
+</databaseChangeLog>

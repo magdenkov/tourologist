@@ -1,0 +1,25 @@
+{
+    "tourologistApp": {
+        "tourBubbl" : {
+            "home": {
+                "title": "TourBubbls",
+                "createLabel": "Genera un nuovo Tour Bubbl",
+                "createOrEditLabel": "Genera o modifica un Tour Bubbl",
+                "search": "Cerca Tour Bubbl"
+            },
+            "created": "&Egrave; stato generato un nuovo Tour Bubbl con identificatore { param }}",
+            "updated": "&Egrave; stato aggiornato Tour Bubbl identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Tour Bubbl con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Tour Bubbl {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Bubbl"
+            },
+            "orderNumber": "Order Number",
+            "bubbl": "Bubbl",
+            "tour": "Tour",
+            "tourBubbl": "Tour Bubbl"
+        }
+    }
+}

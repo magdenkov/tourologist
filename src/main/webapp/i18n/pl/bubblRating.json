@@ -1,0 +1,26 @@
+{
+    "tourologistApp": {
+        "bubblRating" : {
+            "home": {
+                "title": "Bubbl Ratings",
+                "createLabel": "Dodaj Bubbl Rating",
+                "createOrEditLabel": "Dodaj lub edytuj: Bubbl Rating",
+                "search": "Search for Bubbl Rating"
+            },
+            "created": "A new Bubbl Rating is created with identifier {{ param }}",
+            "updated": "A Bubbl Rating is updated with identifier {{ param }}",
+            "deleted": "A Bubbl Rating is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Czy na pewno chcesz usunąć Bubbl Rating {{ id }}?"
+            },
+            "detail": {
+                "title": "Bubbl Rating"
+            },
+            "rate": "Rate",
+            "feedback": "Feedback",
+            "time": "Time",
+            "user": "User",
+            "bubbl": "Bubbl"
+        }
+    }
+}

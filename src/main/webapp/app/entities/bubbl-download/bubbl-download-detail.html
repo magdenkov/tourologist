@@ -1,0 +1,31 @@
+
+<div>
+    <h2><span data-translate="tourologistApp.bubblDownload.detail.title">Bubbl Download</span> {{vm.bubblDownload.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="tourologistApp.bubblDownload.time">Time</span></dt>
+        <dd>
+            <span>{{vm.bubblDownload.time | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblDownload.user">User</span></dt>
+        <dd>
+            {{vm.bubblDownload.userEmail}}
+        </dd>
+        <dt><span data-translate="tourologistApp.bubblDownload.bubbl">Bubbl</span></dt>
+        <dd>
+            <a ui-sref="bubbl-detail({id:vm.bubblDownload.bubblId})">{{vm.bubblDownload.bubblName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="bubbl-download-detail.edit({id:vm.bubblDownload.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

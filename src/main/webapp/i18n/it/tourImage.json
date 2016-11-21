@@ -1,0 +1,30 @@
+{
+    "tourologistApp": {
+        "tourImage" : {
+            "home": {
+                "title": "TourImages",
+                "createLabel": "Genera un nuovo Tour Image",
+                "createOrEditLabel": "Genera o modifica un Tour Image",
+                "search": "Cerca Tour Image"
+            },
+            "created": "&Egrave; stato generato un nuovo Tour Image con identificatore { param }}",
+            "updated": "&Egrave; stato aggiornato Tour Image identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Tour Image con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Tour Image {{ id }}?"
+            },
+            "detail": {
+                "title": "Tour Image"
+            },
+            "name": "Name",
+            "url": "Url",
+            "thumbUrl": "Thumb Url",
+            "mimeType": "Mime Type",
+            "master": "Master",
+            "uploaded": "Uploaded",
+            "lastModified": "Last Modified",
+            "deleted": "Deleted",
+            "tour": "Tour"
+        }
+    }
+}

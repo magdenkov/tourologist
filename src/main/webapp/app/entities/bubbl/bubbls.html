@@ -1,0 +1,80 @@
+<div>
+    <h2 data-translate="tourologistApp.bubbl.home.title">Bubbls</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="bubbl.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="tourologistApp.bubbl.home.createLabel">
+                        Create new Bubbl
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="tourologistApp.bubbl.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="description"><span data-translate="tourologistApp.bubbl.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="status"><span data-translate="tourologistApp.bubbl.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lat"><span data-translate="tourologistApp.bubbl.lat">Lat</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lng"><span data-translate="tourologistApp.bubbl.lng">Lng</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="radiusMeters"><span data-translate="tourologistApp.bubbl.radiusMeters">Radius Meters</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createdDate"><span data-translate="tourologistApp.bubbl.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lastModified"><span data-translate="tourologistApp.bubbl.lastModified">Last Modified</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="deleted"><span data-translate="tourologistApp.bubbl.deleted">Deleted</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="userEmail"><span data-translate="tourologistApp.bubbl.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bubbl in vm.bubbls track by bubbl.id">
+                    <td><a ui-sref="bubbl-detail({id:bubbl.id})">{{bubbl.id}}</a></td>
+                    <td>{{bubbl.name}}</td>
+                    <td>{{bubbl.description}}</td>
+                    <td data-translate="{{'tourologistApp.Status.' + bubbl.status}}">{{bubbl.status}}</td>
+                    <td>{{bubbl.lat}}</td>
+                    <td>{{bubbl.lng}}</td>
+                    <td>{{bubbl.radiusMeters}}</td>
+                    <td>{{bubbl.createdDate | date:'medium'}}</td>
+                    <td>{{bubbl.lastModified | date:'medium'}}</td>
+                    <td>{{bubbl.deleted | date:'medium'}}</td>
+                    <td>
+                        {{bubbl.userEmail}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="bubbl-detail({id:bubbl.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="bubbl.edit({id:bubbl.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="bubbl.delete({id:bubbl.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

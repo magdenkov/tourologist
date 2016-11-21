@@ -1,0 +1,60 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myTourBubblRoutePointLabel" data-translate="tourologistApp.tourBubblRoutePoint.home.createOrEditLabel">Create or edit a Tour Bubbl Route Point</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.tourBubblRoutePoint.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.tourBubblRoutePoint.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.tourBubblRoutePoint.lat" for="field_lat">Lat</label>
+            <input type="number" class="form-control" name="lat" id="field_lat"
+                    ng-model="vm.tourBubblRoutePoint.lat"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.tourBubblRoutePoint.lng" for="field_lng">Lng</label>
+            <input type="number" class="form-control" name="lng" id="field_lng"
+                    ng-model="vm.tourBubblRoutePoint.lng"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.tourBubblRoutePoint.orderNumber" for="field_orderNumber">Order Number</label>
+            <input type="number" class="form-control" name="orderNumber" id="field_orderNumber"
+                    ng-model="vm.tourBubblRoutePoint.orderNumber"
+                    min="0" />
+            <div ng-show="editForm.orderNumber.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.orderNumber.$error.min" data-translate="entity.validation.min" translate-value-min="0">
+                    This field should be more than 0.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.orderNumber.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="tourologistApp.tourBubblRoutePoint.tourBubbl" for="field_tourBubbl">Tour Bubbl</label>
+            <select class="form-control" id="field_tourBubbl" name="tourBubbl" ng-model="vm.tourBubblRoutePoint.tourBubblId" ng-options="tourBubbl.id as tourBubbl.id for tourBubbl in vm.tourbubbls"            >
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

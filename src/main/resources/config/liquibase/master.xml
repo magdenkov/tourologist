@@ -5,6 +5,33 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113109_added_entity_Tour.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113110_added_entity_TourAdminReview.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113111_added_entity_TourRating.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113112_added_entity_TourDownload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113113_added_entity_Interest.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113114_added_entity_Bubbl.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113115_added_entity_TourBubbl.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113116_added_entity_BubblAdminReview.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113117_added_entity_BubblRating.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113118_added_entity_BubblDownload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113119_added_entity_Payload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113120_added_entity_TourRoutePoint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113121_added_entity_TourBubblRoutePoint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113122_added_entity_TourImage.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="classpath:config/liquibase/changelog/20161121113109_added_entity_constraints_Tour.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113110_added_entity_constraints_TourAdminReview.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113111_added_entity_constraints_TourRating.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113112_added_entity_constraints_TourDownload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113114_added_entity_constraints_Bubbl.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113115_added_entity_constraints_TourBubbl.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113116_added_entity_constraints_BubblAdminReview.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113117_added_entity_constraints_BubblRating.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113118_added_entity_constraints_BubblDownload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113119_added_entity_constraints_Payload.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113120_added_entity_constraints_TourRoutePoint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113121_added_entity_constraints_TourBubblRoutePoint.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161121113122_added_entity_constraints_TourImage.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

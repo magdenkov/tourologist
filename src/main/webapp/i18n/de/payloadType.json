@@ -1,0 +1,11 @@
+{
+    "tourologistApp": {
+        "PayloadType" : {
+            "null": "",
+            "OTHER": "OTHER",
+            "AUDIO": "AUDIO",
+            "VIDEO": "VIDEO",
+            "IMAGE": "IMAGE"
+        }
+    }
+}
