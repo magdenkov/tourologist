@@ -16,6 +16,7 @@ entity Tour {
     description String maxlength(4096),
 	status Status,
     tourType TourType,
+    price Double,
     createdDate ZonedDateTime,
     lastModified ZonedDateTime,
     deleted ZonedDateTime
@@ -48,10 +49,10 @@ entity Bubbl {
 	status Status,
 	lat Double,
     lng Double,
-    radiusMeters Integer min(0),	
+    radiusMeters Integer min(0),
     createdDate ZonedDateTime,
     lastModified ZonedDateTime,
-    deleted ZonedDateTime    
+    deleted ZonedDateTime
 }
 
 entity TourBubbl {
@@ -83,9 +84,9 @@ enum PayloadType {
 
 entity Payload {
 	payloadType PayloadType,
-    name String,    
-    url String,
-    thumbUrl String,
+    name String,
+    url String maxlength(2083),
+    thumbUrl String maxlength(2083),
     mimeType String,
     createdDate ZonedDateTime,
     lastModified ZonedDateTime,
@@ -105,9 +106,9 @@ entity TourBubblRoutePoint {
 }
 
 entity TourImage {
-	name String,    
-    url String,
-    thumbUrl String,
+	name String,
+    url String maxlength(2083),
+    thumbUrl String maxlength(2083),
     mimeType String,
     master Boolean,
     uploaded ZonedDateTime,
@@ -125,14 +126,14 @@ relationship ManyToOne {
     BubblRating{user(email)} to User,
     BubblRating{bubbl(name)} to Bubbl{bubblRating},
     BubblDownload{user(email)} to User,
-    BubblDownload{bubbl(name)} to Bubbl{bubblDownload},  
+    BubblDownload{bubbl(name)} to Bubbl{bubblDownload},
     Payload{bubbl(name)} to Bubbl{payload(url)},
     TourImage{tour(name)} to Tour{tourImage(name)},
     TourAdminReview{tour(name)} to Tour{tourAdminReview},
     BubblAdminReview{bubbl(name)} to Bubbl{bubblAdminReview},
     BubblAdminReview{user(email)} to User,
     TourAdminReview{user(email)} to User,
-    TourRoutePoint{tour(name)} to Tour{tourRoutePoint},    
+    TourRoutePoint{tour(name)} to Tour{tourRoutePoint},
     TourBubbl{bubbl(name)} to Bubbl{tourBubbl(orderNumber)},
     TourBubbl{tour(name)} to Tour{tourBubbl(orderNumber)},
     TourBubblRoutePoint{tourBubbl} to TourBubbl{tourBubbl}
@@ -140,10 +141,10 @@ relationship ManyToOne {
 
 relationship ManyToMany {
 	Tour{interest(name)} to Interest{tour},
-    Bubbl{interest(name)} to Interest{bubbl}    
+    Bubbl{interest(name)} to Interest{bubbl}
 }
 
 service all with serviceImpl
-paginate all with pager
+paginate all with pagination
 dto all with mapstruct
 
