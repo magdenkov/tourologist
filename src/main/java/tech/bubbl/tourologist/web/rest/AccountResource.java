@@ -112,14 +112,21 @@ public class AccountResource {
 
     @GetMapping("/account_token")
     @Timed
-    public ResponseEntity<UserTokenDTO> getUserAccountWithJWTToken(HttpServletRequest request) throws IOException {
+    public ResponseEntity<UserTokenDTO> getUserAccountWithJWTToken(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
         ObjectMapper objectMapper = new ObjectMapper();
-        TokenDTO token = objectMapper.readValue(request.getRemoteUser(), TokenDTO.class);
+        String token = null;
+        try {
+            token = objectMapper.readValue(request.getRemoteUser(), TokenDTO.class).getId_token();
+        } catch (IOException e) {
+            log.error("Failed to parse token {}", request.getRemoteUser() );
+            token = request.getRemoteUser();
+        }
 
+        String finalToken = token;
         return Optional.ofNullable(userService.getUserWithAuthorities())
             .map(user -> {
-                return new ResponseEntity<>(new UserTokenDTO(user, token.getId_token()), HttpStatus.OK);})
+                return new ResponseEntity<>(new UserTokenDTO(user, finalToken), HttpStatus.OK);})
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
