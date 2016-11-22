@@ -2,9 +2,12 @@ package tech.bubbl.tourologist.web.rest;
 
 import tech.bubbl.tourologist.security.jwt.JWTConfigurer;
 import tech.bubbl.tourologist.security.jwt.TokenProvider;
+import tech.bubbl.tourologist.service.UserService;
+import tech.bubbl.tourologist.service.dto.UserTokenDTO;
 import tech.bubbl.tourologist.web.rest.vm.LoginVM;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,10 @@ public class UserJWTController {
     @Inject
     private AuthenticationManager authenticationManager;
 
+    @Inject
+    private UserService userService;
+
+
     @PostMapping("/authenticate")
     @Timed
     public ResponseEntity<?> authorize(@Valid @RequestBody LoginVM loginVM, HttpServletResponse response) {
@@ -48,4 +55,28 @@ public class UserJWTController {
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
+
+
+    @PostMapping("/authenticate_ios")
+    @Timed
+    public ResponseEntity<?> authorizeIos(@Valid @RequestBody LoginVM loginVM, HttpServletResponse response) {
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+            new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
+
+        try {
+            Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
+            String jwt = tokenProvider.createToken(authentication, rememberMe);
+            response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            return Optional.ofNullable(userService.getUserWithAuthorities())
+                .map(user -> {
+                    return new ResponseEntity<>(new UserTokenDTO(user, "Bearer " + jwt), HttpStatus.OK);})
+                .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+        } catch (AuthenticationException exception) {
+            return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
 }
