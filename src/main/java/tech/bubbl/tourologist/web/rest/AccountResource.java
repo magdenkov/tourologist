@@ -2,14 +2,13 @@ package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.MailService;
 import tech.bubbl.tourologist.service.UserService;
-import tech.bubbl.tourologist.service.dto.ErrorDTO;
-import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
-import tech.bubbl.tourologist.service.dto.UserDTO;
+import tech.bubbl.tourologist.service.dto.*;
 import tech.bubbl.tourologist.web.rest.vm.KeyAndPasswordVM;
 import tech.bubbl.tourologist.web.rest.vm.ManagedUserVM;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -107,6 +107,20 @@ public class AccountResource {
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
         return request.getRemoteUser();
+    }
+
+
+    @GetMapping("/account_token")
+    @Timed
+    public ResponseEntity<UserTokenDTO> getUserAccountWithJWTToken(HttpServletRequest request) throws IOException {
+        log.debug("REST request to check if the current user is authenticated");
+        ObjectMapper objectMapper = new ObjectMapper();
+        TokenDTO token = objectMapper.readValue(request.getRemoteUser(), TokenDTO.class);
+
+        return Optional.ofNullable(userService.getUserWithAuthorities())
+            .map(user -> {
+                return new ResponseEntity<>(new UserTokenDTO(user, token.getId_token()), HttpStatus.OK);})
+            .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
     /**
