@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aws-cache="http://www.springframework.org/schema/cloud/aws/cache"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aws-context="http://www.springframework.org/schema/cloud/aws/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/cloud/aws/context
+http://www.springframework.org/schema/cloud/spring-cloud-aws-context.xsd
+http://www.springframework.org/schema/cache
+	   	http://www.springframework.org/schema/cache/spring-cache.xsd">
+    <aws-context:context-credentials>
+        <aws-context:simple-credentials
+                access-key="AKIAIPNWKSS4II6QE5QQ"
+                secret-key="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"/>
+    </aws-context:context-credentials>
+
+    <aws-context:context-region region="eu-west-1"/>
+
+    <aws-context:context-resource-loader
+            region="eu-west-1"/>
+
+</beans>
