@@ -36,7 +36,7 @@
     <cache name="tech.bubbl.tourologist.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
 
     <cache name="tech.bubbl.tourologist.social.SocialUserConnection"
            timeToLiveSeconds="3600">
@@ -104,6 +104,14 @@
 
     <cache name="tech.bubbl.tourologist.domain.Bubbl.interests"
         timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.Interest.users"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="tech.bubbl.tourologist.domain.User.interests"
+           timeToLiveSeconds="3600">
     </cache>
 
     <cache name="tech.bubbl.tourologist.domain.Bubbl.bubblRatings"

@@ -44,6 +44,11 @@ public class Interest implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Bubbl> bubbls = new HashSet<>();
 
+    @ManyToMany(mappedBy = "interests")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<User> users = new HashSet<>();
+
     public Long getId() {
         return id;
     }

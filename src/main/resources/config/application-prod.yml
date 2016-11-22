@@ -24,7 +24,7 @@ spring:
         url: jdbc:mysql://localhost:3306/tourologist?useUnicode=true&characterEncoding=utf8&useSSL=false
         name:
         username: root
-        password:
+        password: root
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -97,3 +97,11 @@ jhipster:
             host: localhost
             port: 5000
             queueSize: 512
+cloud:
+     aws:
+        credentials:
+            accessKey: AKIAIPNWKSS4II6QE5QQ
+            secretKey: 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
+        region:
+              static: eu-west-1
+        s3bucket: tl-audio

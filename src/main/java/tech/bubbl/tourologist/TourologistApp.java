@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist;
 
+import org.springframework.context.annotation.ImportResource;
 import tech.bubbl.tourologist.config.Constants;
 import tech.bubbl.tourologist.config.DefaultProfileUtil;
 import tech.bubbl.tourologist.config.JHipsterProperties;
@@ -22,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @ComponentScan
+@ImportResource({"classpath:/spring/aws-config.xml"})
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
 @EnableConfigurationProperties({ JHipsterProperties.class, LiquibaseProperties.class })
 public class TourologistApp {

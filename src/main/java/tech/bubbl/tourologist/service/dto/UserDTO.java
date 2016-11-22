@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service.dto;
 import tech.bubbl.tourologist.config.Constants;
 
 import tech.bubbl.tourologist.domain.Authority;
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 
 import org.hibernate.validator.constraints.Email;
@@ -37,6 +38,8 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Set<Interest> interests;
+
     public UserDTO() {
     }
 
@@ -44,11 +47,12 @@ public class UserDTO {
         this(user.getLogin(), user.getFirstName(), user.getLastName(),
             user.getEmail(), user.getActivated(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()),
+            user.getInterests());
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
+        String email, boolean activated, String langKey, Set<String> authorities, Set<Interest> interests) {
 
         this.login = login;
         this.firstName = firstName;
@@ -57,6 +61,15 @@ public class UserDTO {
         this.activated = activated;
         this.langKey = langKey;
         this.authorities = authorities;
+        this.interests = interests;
+    }
+
+    public Set<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(Set<Interest> interests) {
+        this.interests = interests;
     }
 
     public String getLogin() {

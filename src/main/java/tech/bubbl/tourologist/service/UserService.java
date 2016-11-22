@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service;
 
 import tech.bubbl.tourologist.domain.Authority;
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.AuthorityRepository;
 import tech.bubbl.tourologist.repository.UserRepository;
@@ -134,12 +135,14 @@ public class UserService {
         return user;
     }
 
-    public void updateUser(String firstName, String lastName, String email, String langKey) {
+    public void updateUser(String firstName, String lastName, String email, String langKey, Set<Interest> interests) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
             u.setFirstName(firstName);
             u.setLastName(lastName);
             u.setEmail(email);
             u.setLangKey(langKey);
+            u.getInterests().clear();
+            u.setInterests(interests);
             userRepository.save(u);
             log.debug("Changed Information for User: {}", u);
         });

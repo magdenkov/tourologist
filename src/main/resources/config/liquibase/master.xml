@@ -33,5 +33,6 @@
     <include file="classpath:config/liquibase/changelog/20161121113120_added_entity_constraints_TourRoutePoint.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161121113121_added_entity_constraints_TourBubblRoutePoint.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161121113122_added_entity_constraints_TourImage.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161122113109_added_user_interest.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
