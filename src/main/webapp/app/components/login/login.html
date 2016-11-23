@@ -1,28 +1,56 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-            ng-click="vm.cancel()">&times;</button>
-    <h4 class="modal-title" data-translate="login.title">Sign in</h4>
-</div>
-<div class="modal-body">
+<div>
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <h1 data-translate="login.title">Sign in</h1>
+        <div class="col-md-12 ">
+            <h1 data-translate="login.title" class="text-center">Sign in</h1>
         </div>
-        <div class="col-md-8 col-md-offset-2">
-            <div class="alert alert-danger" ng-show="vm.authenticationError" data-translate="login.messages.error.authentication">
+        <div class="col-md-12">
+            <div class="alert alert-danger" ng-show="vm.authenticationError"
+                 data-translate="login.messages.error.authentication">
                 <strong>Failed to sign in!</strong> Please check your credentials and try again.
             </div>
         </div>
-        <div class="col-md-6">
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+
+            <jh-social ng-provider="facebook"></jh-social>
+            <!-- jhipster-needle-add-social-button -->
+        </div>
+        <div class="col-xs-4">
+            <jh-social ng-provider="google"></jh-social>
+
+            <!-- jhipster-needle-add-social-button -->
+        </div>
+        <div class="col-xs-4">
+
+            <jh-social ng-provider="twitter"></jh-social>
+            <!-- jhipster-needle-add-social-button -->
+        </div>
+    </div>
+    <div class="row omb_loginOr">
+        <div class="col-xs-12 hidden-xs">
+            <hr class="omb_hrOr">
+            <span class="omb_spanOr">or</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7 reg-border">
             <form class="form" role="form" ng-submit="vm.login($event)">
                 <div class="form-group">
                     <label for="username" data-translate="global.form.username">Login</label>
-                    <input type="text" class="form-control" id="username" placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="vm.username">
+                    <input type="text" class="form-control" id="username"
+                           placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="vm.username">
                 </div>
                 <div class="form-group">
                     <label for="password" data-translate="login.form.password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="{{'login.form.password.placeholder' | translate}}"
+                    <input type="password" class="form-control" id="password"
+                           placeholder="{{'login.form.password.placeholder' | translate}}"
                            ng-model="vm.password">
+                    <div class="spacing"><a href="#" ng-click="vm.requestResetPassword()">
+                        <small> Forgot Password?</small>
+                    </a><br/></div>
+
                 </div>
                 <div class="form-group">
                     <label for="rememberMe">
@@ -32,20 +60,62 @@
                 </div>
                 <button type="submit" class="btn btn-primary" data-translate="login.form.button">Sign in</button>
             </form>
-            <p></p>
-            <div class="alert alert-warning">
-                <a class="alert-link" href="" ng-click="vm.requestResetPassword()" data-translate="login.password.forgot">Did you forget your password?</a>
-            </div>
-            <div class="alert alert-warning" data-translate="global.messages.info.register" translate-compile>
-                You don't have an account yet? <a class="alert-link" href="" ng-click="vm.register()">Register a new account</a>
-            </div>
         </div>
-        <div class="col-md-6">
-            <br/>
-            <jh-social ng-provider="google"></jh-social>
-            <jh-social ng-provider="facebook"></jh-social>
-            <jh-social ng-provider="twitter"></jh-social>
-            <!-- jhipster-needle-add-social-button -->
+
+        <div class="col-md-5">
+
+            <h3 class="text-center"> Sign Up</h3>
+
+            <p class="text-center">If you dont have account yet</p>
+            <div class="col-md-12 text-center">
+                <a class=" btn btn-danger" ng-click="vm.register()">Register</a>
+            </div>
+
         </div>
+
     </div>
+
 </div>
+<style>
+    .reg-border {
+height: 100%;
+        border-right: 2px solid #666;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .omb_loginOr {
+        position: relative;
+        font-size: 1.5em;
+        color: #aaa;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+    }
+
+    .omb_loginOr .omb_hrOr {
+        background-color: #cdcdcd;
+        height: 1px;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .omb_loginOr .omb_spanOr {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: -0.6em;
+        height: 36px;
+        margin-left: -1.5em;
+        width: 3em;
+        text-align: center;
+        border-radius: 100%;
+        background: #fff;
+        border: 2px solid #666;
+        color: #666;
+
+    }
+
+
+</style>

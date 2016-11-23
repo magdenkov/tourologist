@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('tourologistApp')
         .factory('Auth', Auth);
 
-    Auth.$inject = ['$rootScope', '$state', '$sessionStorage', '$q', '$translate', 'Principal', 'AuthServerProvider', 'Account', 'LoginService', 'Register', 'Activate', 'Password', 'PasswordResetInit', 'PasswordResetFinish'];
+    Auth.$inject = ['$rootScope', '$state', '$sessionStorage', '$q', '$translate', 'Principal', 'AuthServerProvider', 'Account', 'Register', 'Activate', 'Password', 'PasswordResetInit', 'PasswordResetFinish'];
 
-    function Auth ($rootScope, $state, $sessionStorage, $q, $translate, Principal, AuthServerProvider, Account, LoginService, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
+    function Auth($rootScope, $state, $sessionStorage, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish) {
         var service = {
             activateAccount: activateAccount,
             authorize: authorize,
@@ -26,7 +26,7 @@
 
         return service;
 
-        function activateAccount (key, callback) {
+        function activateAccount(key, callback) {
             var cb = callback || angular.noop;
 
             return Activate.get(key,
@@ -38,12 +38,12 @@
                 }.bind(this)).$promise;
         }
 
-        function authorize (force) {
+        function authorize(force) {
             var authReturn = Principal.identity(force).then(authThen);
 
             return authReturn;
 
-            function authThen () {
+            function authThen() {
                 var isAuthenticated = Principal.isAuthenticated();
 
                 // an authenticated user can't access to login and register pages
@@ -69,15 +69,15 @@
                         storePreviousState($rootScope.toState.name, $rootScope.toStateParams);
 
                         // now, send them to the signin state so they can log in
-                        $state.go('accessdenied').then(function() {
-                            LoginService.open();
+                        $state.go('accessdenied').then(function () {
+                            $state.go('login');
                         });
                     }
                 }
             }
         }
 
-        function changePassword (newPassword, callback) {
+        function changePassword(newPassword, callback) {
             var cb = callback || angular.noop;
 
             return Password.save(newPassword, function () {
@@ -87,7 +87,7 @@
             }).$promise;
         }
 
-        function createAccount (account, callback) {
+        function createAccount(account, callback) {
             var cb = callback || angular.noop;
 
             return Register.save(account,
@@ -100,7 +100,7 @@
                 }.bind(this)).$promise;
         }
 
-        function login (credentials, callback) {
+        function login(credentials, callback) {
             var cb = callback || angular.noop;
             var deferred = $q.defer();
 
@@ -112,11 +112,11 @@
                     return cb(err);
                 }.bind(this));
 
-            function loginThen (data) {
-                Principal.identity(true).then(function(account) {
+            function loginThen(data) {
+                Principal.identity(true).then(function (account) {
                     // After the login the language will be changed to
                     // the language selected by the user during his registration
-                    if (account!== null) {
+                    if (account !== null) {
                         $translate.use(account.langKey).then(function () {
                             $translate.refresh();
                         });
@@ -133,12 +133,12 @@
             return AuthServerProvider.loginWithToken(jwt, rememberMe);
         }
 
-        function logout () {
+        function logout() {
             AuthServerProvider.logout();
             Principal.authenticate(null);
         }
 
-        function resetPasswordFinish (keyAndPassword, callback) {
+        function resetPasswordFinish(keyAndPassword, callback) {
             var cb = callback || angular.noop;
 
             return PasswordResetFinish.save(keyAndPassword, function () {
@@ -148,17 +148,17 @@
             }).$promise;
         }
 
-        function resetPasswordInit (mail, callback) {
+        function resetPasswordInit(mail, callback) {
             var cb = callback || angular.noop;
 
-            return PasswordResetInit.save(mail, function() {
+            return PasswordResetInit.save(mail, function () {
                 return cb();
             }, function (err) {
                 return cb(err);
             }).$promise;
         }
 
-        function updateAccount (account, callback) {
+        function updateAccount(account, callback) {
             var cb = callback || angular.noop;
 
             return Account.save(account,
@@ -180,7 +180,7 @@
         }
 
         function storePreviousState(previousStateName, previousStateParams) {
-            var previousState = { "name": previousStateName, "params": previousStateParams };
+            var previousState = {"name": previousStateName, "params": previousStateParams};
             $sessionStorage.previousState = previousState;
         }
     }

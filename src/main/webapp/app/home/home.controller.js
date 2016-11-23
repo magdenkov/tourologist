@@ -5,14 +5,14 @@
         .module('tourologistApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', 'Principal',  '$state'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, Principal, $state) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.login = LoginService.open;
+        vm.login = $state.go('login');
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
