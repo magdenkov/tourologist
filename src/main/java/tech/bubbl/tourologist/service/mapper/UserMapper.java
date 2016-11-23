@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service.mapper;
 
 import tech.bubbl.tourologist.domain.Authority;
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.service.dto.UserDTO;
 import org.mapstruct.*;
@@ -39,6 +40,15 @@ public interface UserMapper {
         User user = new User();
         user.setId(id);
         return user;
+    }
+
+    default Interest interestFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Interest interest = new Interest();
+        interest.setId(id);
+        return interest;
     }
 
     default Set<String> stringsFromAuthorities (Set<Authority> authorities) {

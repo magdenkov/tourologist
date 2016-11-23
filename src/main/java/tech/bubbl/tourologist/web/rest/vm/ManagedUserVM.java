@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import java.util.Set;
 
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.service.dto.UserDTO;
 import javax.validation.constraints.NotNull;
@@ -45,8 +46,9 @@ public class ManagedUserVM extends UserDTO {
 
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String langKey, Set<String> authorities,
-                         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate) {
-        super(login, firstName, lastName, email, activated, langKey, authorities);
+                         String createdBy, ZonedDateTime createdDate, String lastModifiedBy, ZonedDateTime lastModifiedDate,
+                         Set<Interest> interests) {
+        super(login, firstName, lastName, email, activated, langKey, authorities, interests);
         this.id = id;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
