@@ -38,7 +38,7 @@ To optimize the tourologist application for production, run:
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 To ensure everything worked, run:
 
-    java -jar build/libs/*.war
+    java -jar   build/libs/tourologist-0.0.1-SNAPSHOT.war
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
 
