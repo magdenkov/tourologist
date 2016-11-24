@@ -162,7 +162,7 @@ public class AccountResource {
 
     @PutMapping("/account/interests")
     @Timed
-    public ResponseEntity<List<InterestDTO>> updateCurrentUserInterests(@RequestBody InterestsDTO interestsDTOReq) {
+    public ResponseEntity<List<InterestDTO>> updateCurrentUserInterests(@RequestBody IdsDto interestsDTOReq) {
         List<Interest> interests = userService.updateUserInterests(interestsDTOReq.getInterests());
         List<InterestDTO> interestDTOs = interests
             .stream()
@@ -171,19 +171,6 @@ public class AccountResource {
         return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
     }
 
-    private class InterestsDTO implements Serializable {
-        private List<Integer> interests =  new ArrayList<>();
-
-        public List<Integer> getInterests() {
-            return interests;
-        }
-
-        public void setInterests(List<Integer> interests) {
-            this.interests = interests;
-        }
-
-        public InterestsDTO() {}
-    }
 
     /**
      * POST  /account : update the current user information.
