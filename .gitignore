@@ -11,6 +11,12 @@ node/
 node_tmp/
 node_modules/
 
+
+######################
+# bower
+######################
+src/main/webapp/bower_components
+
 ######################
 # SASS
 ######################
@@ -137,3 +143,4 @@ deploy/
 # ESLint
 ######################
 .eslintcache
+
