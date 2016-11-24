@@ -232,7 +232,7 @@ public class UserService {
     }
 
     @Transactional
-    public List<Interest> updateUserInterests(List<Integer> interestIds) {
+    public List<Interest> updateUserInterests(List<Long> interestIds) {
         Set<Interest> interests = interestRepository.findByInterestsIds(interestIds);
 
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {

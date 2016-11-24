@@ -15,5 +15,5 @@ import java.util.Set;
 public interface InterestRepository extends JpaRepository<Interest,Long> {
 
     @Query("SELECT dpt FROM Interest dpt WHERE dpt.id in (:ids) ")
-    Set<Interest> findByInterestsIds(@Param("ids")List<Integer> interestIds);
+    Set<Interest> findByInterestsIds(@Param("ids")List<Long> interestIds);
 }
