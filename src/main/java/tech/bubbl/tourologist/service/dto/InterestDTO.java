@@ -1,5 +1,7 @@
 package tech.bubbl.tourologist.service.dto;
 
+import tech.bubbl.tourologist.domain.Interest;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -20,6 +22,12 @@ public class InterestDTO implements Serializable {
 
     @Size(max = 255)
     private String icon;
+
+    public InterestDTO(Interest interest) {
+        this.name = interest.getName();
+        this.icon = interest.getIcon();
+        this.id = interest.getId();
+    }
 
 
     public Long getId() {

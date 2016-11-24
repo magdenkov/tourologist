@@ -1,9 +1,11 @@
 package tech.bubbl.tourologist.service;
 
+import com.google.common.base.Joiner;
 import tech.bubbl.tourologist.domain.Authority;
 import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.AuthorityRepository;
+import tech.bubbl.tourologist.repository.InterestRepository;
 import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
@@ -40,6 +42,9 @@ public class UserService {
 
     @Inject
     private AuthorityRepository authorityRepository;
+
+    @Inject
+    private InterestRepository interestRepository;
 
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -212,6 +217,33 @@ public class UserService {
          return user;
     }
 
+    @Transactional(readOnly = true)
+    public List<Interest> findUserInterests() {
+        Optional<User> optionalUser = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin());
+        User user = null;
+        List<Interest> interests = new ArrayList<>();
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            user.getInterests().size(); // eagerly load the association
+            interests = new ArrayList<>(user.getInterests());
+        }
+
+        return interests;
+    }
+
+    @Transactional
+    public List<Interest> updateUserInterests(List<Integer> interestIds) {
+        Set<Interest> interests = interestRepository.findByInterestsIds(interestIds);
+
+        userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+            u.getInterests().clear();
+            u.setInterests(interests);
+            userRepository.save(u);
+            log.debug("Updated user {} interests ids {}", u, interestIds);
+        });
+
+        return new ArrayList<>(interests);
+    }
 
     /**
      * Not activated users should be automatically deleted after 3 days.

@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.web.rest;
 import com.codahale.metrics.annotation.Timed;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.SecurityUtils;
@@ -27,6 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * REST controller for managing the current user's account.
@@ -141,6 +144,27 @@ public class AccountResource {
         return Optional.ofNullable(userService.getUserWithAuthorities())
             .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @GetMapping("/account/interests")
+    @Timed
+    public ResponseEntity<List<InterestDTO>> getCurrentUserInterests() {
+       List<InterestDTO> interestDTOs = userService.findUserInterests()
+           .stream()
+           .map(InterestDTO::new)
+           .collect(Collectors.toList());
+        return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
+    }
+
+    @PutMapping("/account/interests")
+    @Timed
+    public ResponseEntity<List<InterestDTO>> updateCurrentUserInterests(@RequestBody List<Integer> interestIds) {
+        List<Interest> interests = userService.updateUserInterests(interestIds);
+        List<InterestDTO> interestDTOs = interests
+            .stream()
+            .map(InterestDTO::new)
+            .collect(Collectors.toList());
+        return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
     }
 
     /**
