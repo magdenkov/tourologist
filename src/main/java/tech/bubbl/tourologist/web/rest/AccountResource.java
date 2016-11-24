@@ -28,9 +28,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * REST controller for managing the current user's account.
@@ -162,13 +162,27 @@ public class AccountResource {
 
     @PutMapping("/account/interests")
     @Timed
-    public ResponseEntity<List<InterestDTO>> updateCurrentUserInterests(@RequestBody List<Integer> interestIds) {
-        List<Interest> interests = userService.updateUserInterests(interestIds);
+    public ResponseEntity<List<InterestDTO>> updateCurrentUserInterests(@RequestBody InterestsDTO interestsDTOReq) {
+        List<Interest> interests = userService.updateUserInterests(interestsDTOReq.getInterests());
         List<InterestDTO> interestDTOs = interests
             .stream()
             .map(interestMapper::interestToInterestDTO)
             .collect(Collectors.toList());
         return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
+    }
+
+    private class InterestsDTO implements Serializable {
+        private List<Integer> interests =  new ArrayList<>();
+
+        public List<Integer> getInterests() {
+            return interests;
+        }
+
+        public void setInterests(List<Integer> interests) {
+            this.interests = interests;
+        }
+
+        public InterestsDTO() {}
     }
 
     /**
