@@ -240,6 +240,7 @@ public class UserService {
                 userRepository.save(u);
                 log.debug("Removed all interests of user {} ", u);
             });
+            return new ArrayList<>();
         }
 
         Set<Interest> interests = interestRepository.findByInterestsIds(interestIds);
