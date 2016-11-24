@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -9,10 +9,11 @@
 
     function stateConfig($stateProvider) {
         $stateProvider.state('home', {
-            parent: 'app',
             url: '/home',
+            parent: 'app',
             data: {
-                authorities: []
+                authorities: [],
+                pageTitle: 'global.menu.home'
             },
             views: {
                 'content@': {
@@ -22,7 +23,7 @@
                 }
             },
             resolve: {
-                mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
+                mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('home');
                     return $translate.refresh();
                 }]

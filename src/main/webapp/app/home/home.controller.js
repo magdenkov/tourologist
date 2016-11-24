@@ -12,7 +12,6 @@
 
         vm.account = null;
         vm.isAuthenticated = null;
-        vm.login = $state.go('login');
         vm.register = register;
         $scope.$on('authenticationSuccess', function() {
             getAccount();
