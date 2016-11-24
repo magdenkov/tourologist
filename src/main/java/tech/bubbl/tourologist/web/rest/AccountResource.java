@@ -10,6 +10,7 @@ import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.MailService;
 import tech.bubbl.tourologist.service.UserService;
 import tech.bubbl.tourologist.service.dto.*;
+import tech.bubbl.tourologist.service.mapper.InterestMapper;
 import tech.bubbl.tourologist.web.rest.vm.KeyAndPasswordVM;
 import tech.bubbl.tourologist.web.rest.vm.ManagedUserVM;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
@@ -48,6 +49,9 @@ public class AccountResource {
 
     @Inject
     private MailService mailService;
+
+    @Inject
+    private InterestMapper interestMapper;
 
     /**
      * POST  /register : register the user.
@@ -151,7 +155,7 @@ public class AccountResource {
     public ResponseEntity<List<InterestDTO>> getCurrentUserInterests() {
        List<InterestDTO> interestDTOs = userService.findUserInterests()
            .stream()
-           .map(InterestDTO::new)
+           .map(interestMapper::interestToInterestDTO)
            .collect(Collectors.toList());
         return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
     }
@@ -162,7 +166,7 @@ public class AccountResource {
         List<Interest> interests = userService.updateUserInterests(interestIds);
         List<InterestDTO> interestDTOs = interests
             .stream()
-            .map(InterestDTO::new)
+            .map(interestMapper::interestToInterestDTO)
             .collect(Collectors.toList());
         return new ResponseEntity<>(interestDTOs, HttpStatus.OK);
     }

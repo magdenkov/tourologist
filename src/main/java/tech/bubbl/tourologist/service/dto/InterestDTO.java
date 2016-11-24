@@ -23,11 +23,11 @@ public class InterestDTO implements Serializable {
     @Size(max = 255)
     private String icon;
 
-    public InterestDTO(Interest interest) {
-        this.name = interest.getName();
-        this.icon = interest.getIcon();
-        this.id = interest.getId();
-    }
+//    public InterestDTO(Interest interest) {
+//        this.name = interest.getName();
+//        this.icon = interest.getIcon();
+//        this.id = interest.getId();
+//    }
 
 
     public Long getId() {
