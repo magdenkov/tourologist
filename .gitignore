@@ -139,3 +139,8 @@ deploy/
 ######################
 .eslintcache
 
+######################
+# bower
+######################
+src/main/webapp/bower_components
+

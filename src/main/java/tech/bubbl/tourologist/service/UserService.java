@@ -233,6 +233,15 @@ public class UserService {
 
     @Transactional
     public List<Interest> updateUserInterests(List<Long> interestIds) {
+        if (interestIds == null || interestIds.isEmpty()) {
+            // remove all user interests
+            userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
+                u.getInterests().clear();
+                userRepository.save(u);
+                log.debug("Removed all interests of user {} ", u);
+            });
+        }
+
         Set<Interest> interests = interestRepository.findByInterestsIds(interestIds);
 
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
