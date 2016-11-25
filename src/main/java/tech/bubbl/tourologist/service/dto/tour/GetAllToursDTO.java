@@ -30,6 +30,10 @@ public class GetAllToursDTO {
 
     private Integer downloadsAmount;
 
+    private Double routeLength;
+
+    private Double distanceToRouteStart;
+
     public GetAllToursDTO() {
     }
 
@@ -46,6 +50,24 @@ public class GetAllToursDTO {
         // todo implement this with hibernate formula
         setDownloadsAmount(120);
         setRating(3.75d);
+        setRouteLength(5.1);
+        setDistanceToRouteStart(4.2);
+    }
+
+    public Double getRouteLength() {
+        return routeLength;
+    }
+
+    public void setRouteLength(Double routeLength) {
+        this.routeLength = routeLength;
+    }
+
+    public Double getDistanceToRouteStart() {
+        return distanceToRouteStart;
+    }
+
+    public void setDistanceToRouteStart(Double distanceToRouteStart) {
+        this.distanceToRouteStart = distanceToRouteStart;
     }
 
     public Double getRating() {
