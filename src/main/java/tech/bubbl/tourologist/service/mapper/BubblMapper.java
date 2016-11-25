@@ -21,7 +21,7 @@ public interface BubblMapper {
     @Mapping(source = "userId", target = "user")
     @Mapping(target = "bubblRatings", ignore = true)
     @Mapping(target = "bubblDownloads", ignore = true)
-    @Mapping(target = "payloads", ignore = true)
+//    @Mapping(target = "payloads", ignore = true)
     @Mapping(target = "bubblAdminReviews", ignore = true)
     @Mapping(target = "tourBubbls", ignore = true)
     Bubbl bubblDTOToBubbl(BubblDTO bubblDTO);

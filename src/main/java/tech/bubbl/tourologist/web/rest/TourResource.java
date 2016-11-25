@@ -2,7 +2,10 @@ package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
+import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
+import tech.bubbl.tourologist.service.dto.BubblDTO;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
@@ -35,6 +38,8 @@ public class TourResource {
 
     @Inject
     private TourService tourService;
+    @Inject
+    private BubblService bubblService;
 
     /**
      * POST  /tours : Create a new tour.
@@ -78,20 +83,23 @@ public class TourResource {
             .body(result);
     }
 
-    /**
-     * GET  /tours : get all the tours.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of tours in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
-     */
+
     @GetMapping("/tours")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocation(@RequestParam(value = "currentLat", required = false) Double curLat,
-                                                                                 @RequestParam(value = "targetLat", required = false) Double tarLat,
+    public ResponseEntity<List<GetAllToursDTO>> getAllTours(@RequestParam(value = "type", required = false) TourType type,
+                                                                                           Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Tours");
+        Page<GetAllToursDTO> page = tourService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/tours/fixed")
+    @Timed
+    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "targetLng", required = false) Double tarLng,
-                                                                                 @RequestParam(value = "type", required = false) TourType type,
+//                                                                                 @RequestParam(value = "type", required = false) TourType type,
                                                                                  Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
@@ -99,6 +107,34 @@ public class TourResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("/tours/diy")
+    @Timed
+    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = false) Double curLat,
+                                                                                 @RequestParam(value = "targetLat", required = false) Double tarLat,
+                                                                                 @RequestParam(value = "currentLng", required = false) Double curLng,
+                                                                                 @RequestParam(value = "targetLng", required = false) Double tarLng,
+                                                                                           Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Tours");
+        Page<GetAllToursDTO> page = tourService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/tours/surprise")
+    @Timed
+    public ResponseEntity<List<BubblDTO>> getToursClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = false) Double curLat,
+                                                                                          @RequestParam(value = "currentLng", required = false) Double curLng,
+                                                                                          Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Tours");
+        Page<BubblDTO> page = bubblService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 
     /**
      * GET  /tours/:id : get the "id" tour.
