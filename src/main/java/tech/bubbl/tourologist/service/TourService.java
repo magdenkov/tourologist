@@ -4,6 +4,7 @@ import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 
 /**
  * Service Interface for managing Tour.
@@ -32,7 +33,7 @@ public interface TourService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    TourDTO findOne(Long id);
+    TourFullDTO findOne(Long id);
 
     /**
      *  Delete the "id" tour.

@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourDTO;
@@ -105,9 +106,9 @@ public class TourResource {
      */
     @GetMapping("/tours/{id}")
     @Timed
-    public ResponseEntity<TourDTO> getTour(@PathVariable Long id) {
+    public ResponseEntity<TourFullDTO> getTour(@PathVariable Long id) {
         log.debug("REST request to get Tour : {}", id);
-        TourDTO tourDTO = tourService.findOne(id);
+        TourFullDTO tourDTO = tourService.findOne(id);
         return Optional.ofNullable(tourDTO)
             .map(result -> new ResponseEntity<>(
                 result,

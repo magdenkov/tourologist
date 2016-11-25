@@ -1,6 +1,9 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
+import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.enumeration.Status;
+import tech.bubbl.tourologist.domain.enumeration.TourType;
 
 import java.util.Optional;
 
@@ -9,18 +12,88 @@ import java.util.Optional;
  */
 public class GetAllToursDTO {
 
+    private Long id;
+
     private String name;
 
     private String author;
 
     private Integer bubblsAmount;
 
+    private TourType tourType;
+
+    private Double price;
+
+    private Status status;
+
+    private Double rating;
+
+    private Integer downloadsAmount;
+
+    public GetAllToursDTO() {
+    }
+
     public GetAllToursDTO(Tour tour) {
         setBubblsAmount(tour.getTourBubbls().size());
         Optional.ofNullable(tour.getUser()).ifPresent(user ->{
-            setAuthor(user.getFirstName() + " " + user.getLastName());
+            setAuthor(user.getFullName());
         });
         setName(tour.getName());
+        setId(tour.getId());
+        setTourType(tour.getTourType());
+        setStatus(tour.getStatus());
+        setPrice(tour.getPrice());
+        // todo implement this with hibernate formula
+        setDownloadsAmount(120);
+        setRating(3.75d);
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getDownloadsAmount() {
+        return downloadsAmount;
+    }
+
+    public void setDownloadsAmount(Integer downloadsAmount) {
+        this.downloadsAmount = downloadsAmount;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public TourType getTourType() {
+        return tourType;
+    }
+
+    public void setTourType(TourType tourType) {
+        this.tourType = tourType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAuthor() {

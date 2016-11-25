@@ -93,6 +93,15 @@ public class User extends AbstractAuditingEntity implements Serializable {
         inverseJoinColumns = @JoinColumn(name="interests_id", referencedColumnName="ID"))
     private Set<Interest> interests = new HashSet<>();
 
+
+    public String getFullName() {
+        if ((firstName != null && !firstName.isEmpty()) || (lastName != null && !lastName.isEmpty())) {
+            return firstName + " " + lastName;
+        }
+
+        return email;
+    }
+
     public Set<Interest> getInterests() {
         return interests;
     }

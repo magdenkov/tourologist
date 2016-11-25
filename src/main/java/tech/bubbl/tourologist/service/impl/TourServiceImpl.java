@@ -5,7 +5,8 @@ import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.repository.TourRepository;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
-import tech.bubbl.tourologist.service.mapper.TourMapper;
+import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
+import tech.bubbl.tourologist.service.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,21 @@ public class TourServiceImpl implements TourService{
 
     @Inject
     private TourMapper tourMapper;
+
+    @Inject
+    private InterestMapper interestMapper;
+
+    @Inject
+    private BubblMapper bubblMapper;
+
+    @Inject
+    private TourImageMapper tourImageMapper;
+
+    @Inject
+    private TourRoutePointMapper tourRoutePointMapper;
+
+    @Inject
+    private TourBubblMapper tourBubblMapper;
 
     /**
      * Save a tour.
@@ -64,11 +80,10 @@ public class TourServiceImpl implements TourService{
      *  @return the entity
      */
     @Transactional(readOnly = true)
-    public TourDTO findOne(Long id) {
+    public TourFullDTO findOne(Long id) {
         log.debug("Request to get Tour : {}", id);
         Tour tour = tourRepository.findOneWithEagerRelationships(id);
-        TourDTO tourDTO = tourMapper.tourToTourDTO(tour);
-        return tourDTO;
+        return new TourFullDTO(tour, tourImageMapper);
     }
 
     /**

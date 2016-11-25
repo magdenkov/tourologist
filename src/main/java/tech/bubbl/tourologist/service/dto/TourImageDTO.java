@@ -27,15 +27,15 @@ public class TourImageDTO implements Serializable {
 
     private Boolean master;
 
-    private ZonedDateTime uploaded;
-
-    private ZonedDateTime lastModified;
-
-    private ZonedDateTime deleted;
+//    private ZonedDateTime uploaded;
+//
+//    private ZonedDateTime lastModified;
+//
+//    private ZonedDateTime deleted;
 
 
     private Long tourId;
-    
+
 
     private String tourName;
 
@@ -81,27 +81,27 @@ public class TourImageDTO implements Serializable {
     public void setMaster(Boolean master) {
         this.master = master;
     }
-    public ZonedDateTime getUploaded() {
-        return uploaded;
-    }
-
-    public void setUploaded(ZonedDateTime uploaded) {
-        this.uploaded = uploaded;
-    }
-    public ZonedDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(ZonedDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
-    public ZonedDateTime getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(ZonedDateTime deleted) {
-        this.deleted = deleted;
-    }
+//    public ZonedDateTime getUploaded() {
+//        return uploaded;
+//    }
+//
+//    public void setUploaded(ZonedDateTime uploaded) {
+//        this.uploaded = uploaded;
+//    }
+//    public ZonedDateTime getLastModified() {
+//        return lastModified;
+//    }
+//
+//    public void setLastModified(ZonedDateTime lastModified) {
+//        this.lastModified = lastModified;
+//    }
+//    public ZonedDateTime getDeleted() {
+//        return deleted;
+//    }
+//
+//    public void setDeleted(ZonedDateTime deleted) {
+//        this.deleted = deleted;
+//    }
 
     public Long getTourId() {
         return tourId;
@@ -150,9 +150,9 @@ public class TourImageDTO implements Serializable {
             ", thumbUrl='" + thumbUrl + "'" +
             ", mimeType='" + mimeType + "'" +
             ", master='" + master + "'" +
-            ", uploaded='" + uploaded + "'" +
-            ", lastModified='" + lastModified + "'" +
-            ", deleted='" + deleted + "'" +
+//            ", uploaded='" + uploaded + "'" +
+//            ", lastModified='" + lastModified + "'" +
+//            ", deleted='" + deleted + "'" +
             '}';
     }
 }

@@ -19,12 +19,12 @@ public class TourBubblDTO implements Serializable {
 
 
     private Long bubblId;
-    
+
 
     private String bubblName;
 
     private Long tourId;
-    
+
 
     private String tourName;
 

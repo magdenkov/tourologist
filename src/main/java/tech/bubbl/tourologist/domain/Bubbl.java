@@ -79,7 +79,7 @@ public class Bubbl implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<BubblDownload> bubblDownloads = new HashSet<>();
 
-    @OneToMany(mappedBy = "bubbl")
+    @OneToMany(mappedBy = "bubbl", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Payload> payloads = new HashSet<>();

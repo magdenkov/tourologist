@@ -7,7 +7,7 @@ import org.mapstruct.*;
 import java.util.List;
 
 /**
- * Mapper for the entity TourBubbl and its DTO TourBubblDTO.
+ * Mapper for the entity TourBubbl and its DTO TourBubblNumberedDTO.
  */
 @Mapper(componentModel = "spring", uses = {})
 public interface TourBubblMapper {

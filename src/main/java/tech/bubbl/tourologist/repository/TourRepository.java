@@ -19,7 +19,7 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
     @Query("select distinct tour from Tour tour left join fetch tour.interests")
     List<Tour> findAllWithEagerRelationships();
 
-    @Query("select tour from Tour tour left join fetch tour.interests where tour.id =:id")
+    @Query("select tour from Tour tour left join fetch tour.interests left join fetch tour.tourBubbls left join fetch tour.tourRoutePoints left join fetch tour.tourImages where tour.id =:id")
     Tour findOneWithEagerRelationships(@Param("id") Long id);
 
 }
