@@ -3,7 +3,7 @@ package tech.bubbl.tourologist.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.TourService;
-import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourDTO;
@@ -20,10 +20,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Tour.

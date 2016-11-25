@@ -1,4 +1,4 @@
-package tech.bubbl.tourologist.service.dto;
+package tech.bubbl.tourologist.service.dto.tour;
 
 import tech.bubbl.tourologist.domain.Tour;
 

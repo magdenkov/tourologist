@@ -1,12 +1,9 @@
 package tech.bubbl.tourologist.service;
 
-import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Service Interface for managing Tour.

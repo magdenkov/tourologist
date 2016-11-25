@@ -3,7 +3,7 @@ package tech.bubbl.tourologist.service.impl;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.repository.TourRepository;
-import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import tech.bubbl.tourologist.service.mapper.TourMapper;
 import org.slf4j.Logger;
@@ -14,9 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Tour.
