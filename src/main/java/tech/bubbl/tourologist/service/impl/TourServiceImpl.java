@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service.impl;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.repository.TourRepository;
+import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import tech.bubbl.tourologist.service.mapper.TourMapper;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class TourServiceImpl implements TourService{
 
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
-    
+
     @Inject
     private TourRepository tourRepository;
 
@@ -48,15 +49,15 @@ public class TourServiceImpl implements TourService{
 
     /**
      *  Get all the tours.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
-    public Page<TourDTO> findAll(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<GetAllToursDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Tours");
         Page<Tour> result = tourRepository.findAll(pageable);
-        return result.map(tour -> tourMapper.tourToTourDTO(tour));
+        return result.map(GetAllToursDTO::new);
     }
 
     /**
@@ -65,7 +66,7 @@ public class TourServiceImpl implements TourService{
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public TourDTO findOne(Long id) {
         log.debug("Request to get Tour : {}", id);
         Tour tour = tourRepository.findOneWithEagerRelationships(id);

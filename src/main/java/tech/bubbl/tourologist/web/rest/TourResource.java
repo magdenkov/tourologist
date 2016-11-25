@@ -1,7 +1,9 @@
 package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.TourService;
+import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourDTO;
@@ -31,7 +33,7 @@ import java.util.stream.Collectors;
 public class TourResource {
 
     private final Logger log = LoggerFactory.getLogger(TourResource.class);
-        
+
     @Inject
     private TourService tourService;
 
@@ -86,10 +88,13 @@ public class TourResource {
      */
     @GetMapping("/tours")
     @Timed
-    public ResponseEntity<List<TourDTO>> getAllTours(Pageable pageable)
+    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocation(@RequestParam(value = "lat", required = false) Double lat,
+                                                                                 @RequestParam(value = "lng", required = false) Double lng,
+                                                                                 @RequestParam(value = "type", required = false) TourType type,
+                                                                                 Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<TourDTO> page = tourService.findAll(pageable);
+        Page<GetAllToursDTO> page = tourService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

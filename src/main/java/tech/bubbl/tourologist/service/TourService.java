@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.service;
 
+import tech.bubbl.tourologist.service.dto.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +23,11 @@ public interface TourService {
 
     /**
      *  Get all the tours.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<TourDTO> findAll(Pageable pageable);
+    Page<GetAllToursDTO> findAll(Pageable pageable);
 
     /**
      *  Get the "id" tour.
