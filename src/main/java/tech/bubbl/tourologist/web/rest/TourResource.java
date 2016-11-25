@@ -87,8 +87,10 @@ public class TourResource {
      */
     @GetMapping("/tours")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocation(@RequestParam(value = "lat", required = false) Double lat,
-                                                                                 @RequestParam(value = "lng", required = false) Double lng,
+    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocation(@RequestParam(value = "currentLat", required = false) Double curLat,
+                                                                                 @RequestParam(value = "targetLat", required = false) Double tarLat,
+                                                                                 @RequestParam(value = "currentLng", required = false) Double curLng,
+                                                                                 @RequestParam(value = "targetLng", required = false) Double tarLng,
                                                                                  @RequestParam(value = "type", required = false) TourType type,
                                                                                  Pageable pageable)
         throws URISyntaxException {
