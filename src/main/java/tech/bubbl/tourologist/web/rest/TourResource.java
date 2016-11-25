@@ -127,7 +127,8 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<BubblDTO>> getToursClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                           @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                          Pageable pageable)
+                                                                                          @RequestParam(value = "radiusMeters", required = false) Integer radius,
+                                                                                                  Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
         Page<BubblDTO> page = bubblService.findAll(pageable);
