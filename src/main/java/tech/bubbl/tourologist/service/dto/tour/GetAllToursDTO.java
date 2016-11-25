@@ -34,6 +34,10 @@ public class GetAllToursDTO {
 
     private Double distanceToRouteStart;
 
+    private Double lat;
+
+    private Double lng;
+
     public GetAllToursDTO() {
     }
 
@@ -47,11 +51,29 @@ public class GetAllToursDTO {
         setTourType(tour.getTourType());
         setStatus(tour.getStatus());
         setPrice(tour.getPrice());
-        // todo implement this with hibernate formula
+        /// TODO: 25.11.2016  replace this hardcode with actual values
         setDownloadsAmount(120);
         setRating(3.75d);
         setRouteLength(5.1);
         setDistanceToRouteStart(4.2);
+        setLat(44.3434334);
+        setLng(67.556756);
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
     public Double getRouteLength() {

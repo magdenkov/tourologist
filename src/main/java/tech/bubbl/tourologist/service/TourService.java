@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.service;
 
+import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import org.springframework.data.domain.Page;
@@ -41,4 +42,6 @@ public interface TourService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO);
 }

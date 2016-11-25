@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service.impl;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.repository.TourRepository;
+import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -46,12 +47,6 @@ public class TourServiceImpl implements TourService{
     @Inject
     private TourBubblMapper tourBubblMapper;
 
-    /**
-     * Save a tour.
-     *
-     * @param tourDTO the entity to save
-     * @return the persisted entity
-     */
     public TourDTO save(TourDTO tourDTO) {
         log.debug("Request to save Tour : {}", tourDTO);
         Tour tour = tourMapper.tourDTOToTour(tourDTO);
@@ -60,12 +55,6 @@ public class TourServiceImpl implements TourService{
         return result;
     }
 
-    /**
-     *  Get all the tours.
-     *
-     *  @param pageable the pagination information
-     *  @return the list of entities
-     */
     @Transactional(readOnly = true)
     public Page<GetAllToursDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Tours");
@@ -73,12 +62,6 @@ public class TourServiceImpl implements TourService{
         return result.map(GetAllToursDTO::new);
     }
 
-    /**
-     *  Get one tour by id.
-     *
-     *  @param id the id of the entity
-     *  @return the entity
-     */
     @Transactional(readOnly = true)
     public TourFullDTO findOne(Long id) {
         log.debug("Request to get Tour : {}", id);
@@ -86,13 +69,15 @@ public class TourServiceImpl implements TourService{
         return new TourFullDTO(tour, tourImageMapper);
     }
 
-    /**
-     *  Delete the  tour by id.
-     *
-     *  @param id the id of the entity
-     */
     public void delete(Long id) {
         log.debug("Request to delete Tour : {}", id);
         tourRepository.delete(id);
     }
+
+    @Override
+    public TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO) {
+        return null;
+    }
+
+
 }
