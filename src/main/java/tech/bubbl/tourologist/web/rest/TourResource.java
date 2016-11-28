@@ -84,7 +84,7 @@ public class TourResource {
     @PostMapping("/tours/fixed")
     @Timed
     public ResponseEntity<TourFullDTO> createFixedTour(@Valid @RequestBody CreateFixedTourDTO tourDTO) throws URISyntaxException {
-        log.debug("REST request to save Tour : {}", tourDTO);
+        log.debug("REST request to save Fixed  Tour : {}", tourDTO);
         if (tourDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tour", "idexists", "A new tour cannot already have an ID")).body(null);
         }
@@ -96,7 +96,7 @@ public class TourResource {
 
     @GetMapping("/tours/fixed")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
+    public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
 //                                                                                 @RequestParam(value = "type", required = false) TourType type,
                                                                                  Pageable pageable)

@@ -31,15 +31,15 @@ public class BubblDTO implements Serializable {
     @Min(value = 0)
     private Integer radiusMeters;
 
-    private ZonedDateTime createdDate;
-
-    private ZonedDateTime lastModified;
-
-    private ZonedDateTime deleted;
+//    private ZonedDateTime createdDate;
+//
+//    private ZonedDateTime lastModified;
+//
+//    private ZonedDateTime deleted;
 
 
     private Long userId;
-    
+
 
     private String userEmail;
 
@@ -94,27 +94,27 @@ public class BubblDTO implements Serializable {
     public void setRadiusMeters(Integer radiusMeters) {
         this.radiusMeters = radiusMeters;
     }
-    public ZonedDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-    public ZonedDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(ZonedDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
-    public ZonedDateTime getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(ZonedDateTime deleted) {
-        this.deleted = deleted;
-    }
+//    public ZonedDateTime getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(ZonedDateTime createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//    public ZonedDateTime getLastModified() {
+//        return lastModified;
+//    }
+//
+//    public void setLastModified(ZonedDateTime lastModified) {
+//        this.lastModified = lastModified;
+//    }
+//    public ZonedDateTime getDeleted() {
+//        return deleted;
+//    }
+//
+//    public void setDeleted(ZonedDateTime deleted) {
+//        this.deleted = deleted;
+//    }
 
     public Long getUserId() {
         return userId;
@@ -172,9 +172,6 @@ public class BubblDTO implements Serializable {
             ", lat='" + lat + "'" +
             ", lng='" + lng + "'" +
             ", radiusMeters='" + radiusMeters + "'" +
-            ", createdDate='" + createdDate + "'" +
-            ", lastModified='" + lastModified + "'" +
-            ", deleted='" + deleted + "'" +
             '}';
     }
 }

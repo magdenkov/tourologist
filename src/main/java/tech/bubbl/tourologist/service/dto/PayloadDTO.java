@@ -28,15 +28,14 @@ public class PayloadDTO implements Serializable {
 
     private String mimeType;
 
-    private ZonedDateTime createdDate;
-
-    private ZonedDateTime lastModified;
-
-    private ZonedDateTime deleted;
+//    private ZonedDateTime createdDate;
+//
+//    private ZonedDateTime lastModified;
+//
+//    private ZonedDateTime deleted;
 
 
     private Long bubblId;
-    
 
     private String bubblName;
 
@@ -82,27 +81,27 @@ public class PayloadDTO implements Serializable {
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
-    public ZonedDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(ZonedDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-    public ZonedDateTime getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(ZonedDateTime lastModified) {
-        this.lastModified = lastModified;
-    }
-    public ZonedDateTime getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(ZonedDateTime deleted) {
-        this.deleted = deleted;
-    }
+//    public ZonedDateTime getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(ZonedDateTime createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//    public ZonedDateTime getLastModified() {
+//        return lastModified;
+//    }
+//
+//    public void setLastModified(ZonedDateTime lastModified) {
+//        this.lastModified = lastModified;
+//    }
+//    public ZonedDateTime getDeleted() {
+//        return deleted;
+//    }
+//
+//    public void setDeleted(ZonedDateTime deleted) {
+//        this.deleted = deleted;
+//    }
 
     public Long getBubblId() {
         return bubblId;
@@ -151,9 +150,9 @@ public class PayloadDTO implements Serializable {
             ", url='" + url + "'" +
             ", thumbUrl='" + thumbUrl + "'" +
             ", mimeType='" + mimeType + "'" +
-            ", createdDate='" + createdDate + "'" +
-            ", lastModified='" + lastModified + "'" +
-            ", deleted='" + deleted + "'" +
+//            ", createdDate='" + createdDate + "'" +
+//            ", lastModified='" + lastModified + "'" +
+//            ", deleted='" + deleted + "'" +
             '}';
     }
 }

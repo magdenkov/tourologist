@@ -64,8 +64,6 @@ public class PayloadResource {
         PayloadDTO payloadDTO = new PayloadDTO();
         payloadDTO.setBubblId(bubblId);
         payloadDTO.setName(file.getOriginalFilename());
-        payloadDTO.setCreatedDate(ZonedDateTime.now());
-        payloadDTO.setLastModified(ZonedDateTime.now());
         payloadDTO.setMimeType(file.getContentType());
 
         log.debug("REST request to save Payload to bubbl : {}", payloadDTO);
