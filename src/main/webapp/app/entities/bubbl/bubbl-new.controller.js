@@ -3,18 +3,17 @@
 
     angular
         .module('tourologistApp')
-        .controller('BubblDialogController', BubblDialogController);
+        .controller('CreateBubblController', BubblDialogController);
 
-    BubblDialogController.$inject = ['$timeout', '$scope', '$state', 'entity', 'Bubbl', 'User', 'Interest', 'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl', 'uiGmapGoogleMapApi'];
+    BubblDialogController.$inject = ['$timeout', '$scope', '$state', 'entity', 'Bubbl', 'Interest',
+        'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl', 'uiGmapGoogleMapApi', 'SharedProperties', 'Principal'];
 
-    function BubblDialogController($timeout, $scope, $state, entity, Bubbl, User, Interest, BubblRating, BubblDownload, Payload, BubblAdminReview, TourBubbl, uiGmapGoogleMapApi) {
+    function BubblDialogController($timeout, $scope, $state, entity, Bubbl, Interest, BubblRating,
+                                   BubblDownload, Payload, BubblAdminReview, TourBubbl, uiGmapGoogleMapApi, SharedProperties, Principal) {
         var vm = this;
 
         vm.bubbl = entity;
-        vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.users = User.query();
         vm.interests = Interest.query();
         vm.bubblratings = BubblRating.query();
         vm.bubbldownloads = BubblDownload.query();
@@ -22,21 +21,22 @@
         vm.bubbladminreviews = BubblAdminReview.query();
         vm.tourbubbls = TourBubbl.query();
 
-
         vm.bubbl = {
             name: '',
             lat: '',
             lng: '',
             radiusMeters: '',
-            id: ''
+            id: '',
+            status: 'SUBMITTED'
         };
 
         $scope.lat = "0";
         $scope.lng = "0";
 
+
         $scope.map = {
             center: {latitude: 54.00366, longitude: -2.547855},
-            zoom: 5,
+
             events: {
                 tilesloaded: function (map, eventname, args) {
                     $scope.mapInstance = map;
@@ -75,17 +75,21 @@
             $scope.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
 
         });
+
         var firstLoad = true;
         $scope.drawBoundaries = function () {
+
+            vm.bubbl.userId = $scope.currentUser;
 
             function updatePoly() {
                 vm.bubbl.lat = '';
                 vm.bubbl.lng = '';
                 vm.bubbl.radiusMeters = '';
+
                 $scope.circle.getPath = function (element, index) {
-                    vm.bubbl.lat =  $scope.circle.getCenter().lat();
-                    vm.bubbl.lng =  $scope.circle.getCenter().lng();
-                    vm.bubbl.radiusMeters =  $scope.circle.getRadius();
+                    vm.bubbl.lat = $scope.circle.getCenter().lat();
+                    vm.bubbl.lng = $scope.circle.getCenter().lng();
+                    vm.bubbl.radiusMeters = $scope.circle.getRadius();
                 };
             }
 
@@ -180,6 +184,8 @@
 
         function onSaveSuccess(result) {
             $scope.$emit('tourologistApp:bubblUpdate', result);
+            SharedProperties.setValue('BubblEntity', vm.bubbl.id);
+
             $state.go('bubbl');
             vm.isSaving = false;
         }
@@ -188,12 +194,5 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.createdDate = false;
-        vm.datePickerOpenStatus.lastModified = false;
-        vm.datePickerOpenStatus.deleted = false;
-
-        function openCalendar(date) {
-            vm.datePickerOpenStatus[date] = true;
-        }
     }
 })();

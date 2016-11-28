@@ -19,7 +19,9 @@
             'angular-loading-bar',
             'uiGmapgoogle-maps',
             'angularGrid',
-            'ngMapAutocomplete'
+            'ngMapAutocomplete',
+            '$q-spread',
+
         ])
         .run(run);
 

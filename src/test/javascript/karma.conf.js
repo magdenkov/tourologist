@@ -53,6 +53,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-simple-logger/dist/angular-simple-logger.js',
             'src/main/webapp/bower_components/angulargrid/angulargrid.js',
             'src/main/webapp/bower_components/ng-map-autocomplete/src/ng-map-autocomplete.js',
+            'src/main/webapp/bower_components/angular-q-spread/dist/q-spread.min.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             'src/main/webapp/bower_components/angular-google-maps/dist/angular-google-maps.js',
             // endbower

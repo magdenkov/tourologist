@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-md-12">
+        <div id="map-container">
+            <div id="map-canvas">
+
+                <ui-gmap-google-map center="map.center"
+                                    zoom="10"
+                                    id="map"
+                                    pan="true"
+
+                                    draggable="true"
+                                    events="map.events">
+                </ui-gmap-google-map>
+
+            </div>
+            <div class="create-venue-controls">
+                <div class="col-md-4">
+                    <div ng-hide="showFinishButton">
+
+                        <br>
+                        <input ng-model="autocomplete" class="form-control"
+                               options="options" details="details" id="searchbar"
+                               ng-map-autocomplete
+                               name="name" id="name" class="mdl-textfield__input"
+                               placeholder="Search for a location..."
+                               type="text"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+
+        <form ng-show="showFinishButton" name="editForm" role="form" novalidate show-validation>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="form-group col-md-6">
+                <label class="control-label" data-translate="tourologistApp.bubbl.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       ng-model="vm.bubbl.name"
+                       ng-maxlength="255"/>
+                <div ng-show="editForm.name.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength"
+                       translate-value-max="255">
+                        This field cannot be longer than 255 characters.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="control-label" data-translate="tourologistApp.bubbl.description" for="field_description">Description</label>
+                <input type="text" class="form-control" name="description" id="field_description"
+                       ng-model="vm.bubbl.description"
+                       ng-maxlength="255"/>
+                <div ng-show="editForm.description.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.description.$error.maxlength" data-translate="entity.validation.maxlength"
+                       translate-value-max="255">
+                        This field cannot be longer than 255 characters.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label data-translate="tourologistApp.bubbl.interest" for="field_interest">Interest</label>
+                <select class="form-control" id="field_interest" multiple name="interest" ng-model="vm.bubbl.interests"
+                        ng-options="interest as interest.name for interest in vm.interests track by interest.id"></select>
+            </div>
+            <div class="form-group col-lg-12">
+                <button ng-click="vm.save()" type="submit" ng-disabled="editForm.$invalid || vm.isSaving"
+                        class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;<span
+                    data-translate="entity.action.save">Save</span>
+                </button>
+                <button ng-click="removeLine();"
+                        class="btn btn-danger">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    <span>Clear</span>
+                </button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+</div>
