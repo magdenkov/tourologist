@@ -112,7 +112,10 @@ public class TourRoutePoint implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        int result = getLat().hashCode();
+        result = 31 * result + getLng().hashCode();
+        result = 31 * result + getOrderNumber().hashCode();
+        return result;
     }
 
     @Override
