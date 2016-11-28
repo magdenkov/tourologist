@@ -5,9 +5,11 @@
         .module('tourologistApp')
         .controller('BubblController', BubblController);
 
-    BubblController.$inject = ['$scope', '$state', 'Bubbl', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', '$rootScope', 'angularGridInstance'];
+    BubblController.$inject = ['$scope', '$state', 'Bubbl', 'ParseLinks', 'AlertService', 'pagingParams',
+        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'geoHelpers'];
 
-    function BubblController($scope, $state, Bubbl, ParseLinks, AlertService, pagingParams, paginationConstants, $rootScope, angularGridInstance) {
+    function BubblController($scope, $state, Bubbl, ParseLinks, AlertService, pagingParams, paginationConstants,
+                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, geoHelpers) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -15,41 +17,41 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-        $scope.map = {center: {latitude: 44, longitude: -108}, zoom: 10};
-        $scope.options = {scrollwheel: false};
-        $scope.circles = [
-            {
-                id: 1,
-                center: {
-                    latitude: 44,
-                    longitude: -108
-                },
-                radius: 500000,
-                stroke: {
-                    color: '#08B21F',
-                    weight: 2,
-                    opacity: 1
-                },
-                fill: {
-                    color: '#08B21F',
-                    opacity: 0.5
-                },
-                geodesic: true, // optional: defaults to false
-                draggable: true, // optional: defaults to false
-                clickable: true, // optional: defaults to true
-                editable: true, // optional: defaults to false
-                visible: true, // optional: defaults to true
-                control: {}
-            }
-        ];
+        $scope.mapControl = {};
 
+        var bubbls ={};
+        var circles = [];
+        var markers = [];
+        $timeout(function () {
+
+            $scope.map = {
+                center: {latitude: 54.00366, longitude: -2.547855},
+                zoom: 10,
+                events: {
+                    tilesloaded: function (map, eventname, args) {
+                        $scope.mapInstance = map;
+                    }
+                },
+                options: {
+                    disableDefaultUI: true,
+                    scrollwheel: true,
+                }
+            };
+        }, 1000);
+
+
+        $scope.mapHeight = function () {
+            return $(window).height() - 210;
+        };
         loadAll();
 
-        $scope.swapvenues = function () {
+        $scope.swapbubbls = function () {
             $rootScope.multiple = !$rootScope.multiple;
-                loadAll();
-                angularGridInstance.vm.bubbls.refresh();
+            loadAll();
+            angularGridInstance.bubbls.refresh();
+            $scope.mapControl.refresh();
         };
+
 
         function loadAll() {
             Bubbl.query({
@@ -69,14 +71,62 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
-                vm.bubbls = data;
+                bubbls = vm.bubbls = data;
                 vm.page = pagingParams.page;
+
+
+                getBubblMap();
             }
+
 
             function onError(error) {
                 AlertService.error(error.data.message);
             }
         }
+
+        function getBubblMap() {
+
+            $scope.bubblmap = bubbls;
+
+            function drawMapMarkers() {
+                $q.all([uiGmapIsReady.promise(), $scope.bubblmap])
+                    .spread(function (maps, data) {
+                        var bounds = new google.maps.LatLngBounds();
+                        var map = maps[0].map;
+                        data.forEach(function (bubbl) {
+                            var sbubbl = bubbl.toGooglePolygon({
+                                strokeColor: '#3f51b5',
+                                fillColor: '#00BFA5',
+                                strokeWeight: 1,
+                                fillOpacity: .1
+                            });
+                            sbubbl.setMap(map);
+                            circles.push(sbubbl);
+                            bubbl.toGoogleLatLngArray().forEach(function (ll) {
+                                bounds.extend(ll);
+                            });
+
+                            markers.push(new google.maps.Marker({
+                                position: bubbl.getCenter(),
+                                map: map,
+                                title: bubbl.name,
+
+                            }));
+                            map.fitBounds(bounds);
+                            $scope.map.center = {
+                                latitude: bounds.getCenter().lat(),
+                                longitude: bounds.getCenter().lng()
+                            };
+                        });
+                        google.maps.event.trigger($scope.map, 'refresh')
+
+                    });
+            }
+
+            drawMapMarkers();
+            $timeout(drawMapMarkers, 1000);
+        }
+
 
         function loadPage(page) {
             vm.page = page;

@@ -118,8 +118,8 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/bubbl/bubbl-dialog.html',
-                        controller: 'BubblDialogController',
+                        templateUrl: 'app/entities/bubbl/bubbl-new.html',
+                        controller: 'CreateBubblController',
                         controllerAs: 'vm'
                     }
                 },

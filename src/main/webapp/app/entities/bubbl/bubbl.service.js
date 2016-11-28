@@ -4,9 +4,9 @@
         .module('tourologistApp')
         .factory('Bubbl', Bubbl);
 
-    Bubbl.$inject = ['$resource', 'DateUtils'];
+    Bubbl.$inject = ['$resource', 'DateUtils','BubblEntity','API'];
 
-    function Bubbl ($resource, DateUtils) {
+    function Bubbl ($resource, DateUtils,BubblEntity,API) {
         var resourceUrl =  'api/bubbls/:id';
 
         return $resource(resourceUrl, {}, {
