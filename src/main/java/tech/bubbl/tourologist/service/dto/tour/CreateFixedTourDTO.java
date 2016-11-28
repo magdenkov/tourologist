@@ -1,5 +1,8 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
+import tech.bubbl.tourologist.domain.Interest;
+import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.dto.InterestDTO;
@@ -8,9 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A DTO for the Tour entity.
@@ -32,9 +34,35 @@ public class CreateFixedTourDTO implements Serializable {
 
     private Double price;
 
+    private List<CreateTourBubblDTO> bubbls =  new ArrayList<>();
 
     private Set<InterestDTO> interests = new HashSet<>();
 
+    public Tour createTour(User user) {
+        Tour tour = new Tour();
+        tour.setName(name);
+        tour.setTourType(tourType);
+        tour.setPrice(price);
+        tour.setDescription(description);
+        tour.setCreatedDate(ZonedDateTime.now());
+        tour.setLastModified(ZonedDateTime.now());
+        tour.setUser(user);
+        tour.setInterests(interests.stream().map(interestDTO -> {
+            Interest interest =  new Interest();
+            interest.setId(interestDTO.getId());
+            return interest;
+        }).collect(Collectors.toSet()));
+        return tour;
+    }
+
+
+    public List<CreateTourBubblDTO> getBubbls() {
+        return bubbls;
+    }
+
+    public void setBubbls(List<CreateTourBubblDTO> bubbls) {
+        this.bubbls = bubbls;
+    }
 
     public Long getId() {
         return id;

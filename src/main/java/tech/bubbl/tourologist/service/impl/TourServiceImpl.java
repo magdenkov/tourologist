@@ -1,9 +1,15 @@
 package tech.bubbl.tourologist.service.impl;
 
+import tech.bubbl.tourologist.domain.TourBubbl;
+import tech.bubbl.tourologist.domain.User;
+import tech.bubbl.tourologist.repository.TourBubblRepository;
+import tech.bubbl.tourologist.repository.UserRepository;
+import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.repository.TourRepository;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
+import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -16,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Service Implementation for managing Tour.
@@ -47,6 +54,12 @@ public class TourServiceImpl implements TourService{
     @Inject
     private TourBubblMapper tourBubblMapper;
 
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private TourBubblRepository tourBubblRepository;
+
     public TourDTO save(TourDTO tourDTO) {
         log.debug("Request to save Tour : {}", tourDTO);
         Tour tour = tourMapper.tourDTOToTour(tourDTO);
@@ -75,8 +88,22 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
+    @Transactional
     public TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO) {
-        return null;
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Tour finalTour = tourRepository.save(tourDTO.createTour(user));
+
+        tourDTO.getBubbls().stream().forEach(createTourBubblDTO -> {
+            TourBubbl tourBubbl = new TourBubbl();
+            tourBubbl.setOrderNumber(createTourBubblDTO.getOrderNumber());
+            tourBubbl.setTour(finalTour);
+            tourBubbl.setBubbl(tourBubblMapper.bubblFromId(createTourBubblDTO.getBubblId()));
+            tourBubblRepository.save(tourBubbl);
+        });
+
+
+        return new TourFullDTO(finalTour, tourImageMapper);
     }
 
 

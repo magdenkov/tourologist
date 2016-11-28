@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class PayloadServiceImpl implements PayloadService{
 
     private final Logger log = LoggerFactory.getLogger(PayloadServiceImpl.class);
-    
+
     @Inject
     private PayloadRepository payloadRepository;
 
@@ -40,6 +40,9 @@ public class PayloadServiceImpl implements PayloadService{
      */
     public PayloadDTO save(PayloadDTO payloadDTO) {
         log.debug("Request to save Payload : {}", payloadDTO);
+        // todo copy paste upload to s3
+
+
         Payload payload = payloadMapper.payloadDTOToPayload(payloadDTO);
         payload = payloadRepository.save(payload);
         PayloadDTO result = payloadMapper.payloadToPayloadDTO(payload);
@@ -48,11 +51,11 @@ public class PayloadServiceImpl implements PayloadService{
 
     /**
      *  Get all the payloads.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<PayloadDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Payloads");
         Page<Payload> result = payloadRepository.findAll(pageable);
@@ -65,7 +68,7 @@ public class PayloadServiceImpl implements PayloadService{
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public PayloadDTO findOne(Long id) {
         log.debug("Request to get Payload : {}", id);
         Payload payload = payloadRepository.findOne(id);
