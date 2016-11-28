@@ -34,7 +34,7 @@ var handleErrors = require('./gulp/handle-errors'),
 var config = require('./gulp/config');
 
 gulp.task('clean', function () {
-    return del([config.dist], { dot: true });
+    return del([config.dist], {dot: true});
 });
 
 gulp.task('copy', ['copy:i18n', 'copy:fonts', 'copy:common']);
@@ -69,15 +69,15 @@ gulp.task('images', function () {
 gulp.task('sass', function () {
     return es.merge(
         gulp.src(config.sassSrc)
-        .pipe(plumber({errorHandler: handleErrors}))
-        .pipe(expect(config.sassSrc))
-        .pipe(sass({includePaths:config.bower}).on('error', sass.logError))
-        .pipe(gulp.dest(config.cssDir)),
+            .pipe(plumber({errorHandler: handleErrors}))
+            .pipe(expect(config.sassSrc))
+            .pipe(sass({includePaths: config.bower}).on('error', sass.logError))
+            .pipe(gulp.dest(config.cssDir)),
         gulp.src(config.bower + '**/fonts/**/*.{woff,woff2,svg,ttf,eot,otf}')
-        .pipe(plumber({errorHandler: handleErrors}))
-        .pipe(changed(config.app + 'content/fonts'))
-        .pipe(flatten())
-        .pipe(gulp.dest(config.app + 'content/fonts'))
+            .pipe(plumber({errorHandler: handleErrors}))
+            .pipe(changed(config.app + 'content/fonts'))
+            .pipe(flatten())
+            .pipe(gulp.dest(config.app + 'content/fonts'))
     );
 });
 
@@ -86,7 +86,7 @@ gulp.task('styles', ['sass'], function () {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('inject', function() {
+gulp.task('inject', function () {
     runSequence('inject:dep', 'inject:app');
 });
 
@@ -123,8 +123,8 @@ gulp.task('ngconstant:dev', function () {
         template: config.constantTemplate,
         stream: true
     })
-    .pipe(rename('app.constants.js'))
-    .pipe(gulp.dest(config.app + 'app/'));
+        .pipe(rename('app.constants.js'))
+        .pipe(gulp.dest(config.app + 'app/'));
 });
 
 gulp.task('ngconstant:prod', function () {
@@ -137,8 +137,8 @@ gulp.task('ngconstant:prod', function () {
         template: config.constantTemplate,
         stream: true
     })
-    .pipe(rename('app.constants.js'))
-    .pipe(gulp.dest(config.app + 'app/'));
+        .pipe(rename('app.constants.js'))
+        .pipe(gulp.dest(config.app + 'app/'));
 });
 
 // check app for eslint errors
@@ -192,6 +192,7 @@ gulp.task('watch', function () {
     gulp.watch(['gulpfile.js', 'build.gradle'], ['ngconstant:dev']);
     gulp.watch(config.sassSrc, ['styles']);
     gulp.watch(config.app + 'content/images/**', ['images']);
+    gulp.watch(config.app + 'content/css/**/*.css', ['inject:app']);
     gulp.watch(config.app + 'app/**/*.js', ['inject:app']);
     gulp.watch([config.app + '*.html', config.app + 'app/**', config.app + 'i18n/**']).on('change', browserSync.reload);
 });

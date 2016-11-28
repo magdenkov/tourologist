@@ -1,19 +1,19 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('tourologistApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService'];
+    NavbarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService','$scope'];
 
-    function NavbarController ($state, Auth, Principal, ProfileService) {
+    function NavbarController($state, Auth, Principal, ProfileService,$scope) {
         var vm = this;
 
         vm.isNavbarCollapsed = true;
         vm.isAuthenticated = Principal.isAuthenticated;
 
-        ProfileService.getProfileInfo().then(function(response) {
+        ProfileService.getProfileInfo().then(function (response) {
             vm.inProduction = response.inProduction;
             vm.swaggerEnabled = response.swaggerEnabled;
         });
@@ -23,6 +23,13 @@
         vm.toggleNavbar = toggleNavbar;
         vm.collapseNavbar = collapseNavbar;
         vm.$state = $state;
+
+
+
+        $scope.back = function() {
+
+            $window.history.back();
+        };
 
         function login() {
             collapseNavbar();
