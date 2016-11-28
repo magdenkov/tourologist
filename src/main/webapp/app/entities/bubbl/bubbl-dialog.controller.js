@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('BubblDialogController', BubblDialogController);
 
-    BubblDialogController.$inject = ['$timeout', '$scope', '$stateParams', 'entity', 'Bubbl', 'User', 'Interest', 'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl', 'uiGmapGoogleMapApi'];
+    BubblDialogController.$inject = ['$timeout', '$scope', '$state', 'entity', 'Bubbl', 'User', 'Interest', 'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl', 'uiGmapGoogleMapApi'];
 
-    function BubblDialogController($timeout, $scope, $stateParams, entity, Bubbl, User, Interest, BubblRating, BubblDownload, Payload, BubblAdminReview, TourBubbl, uiGmapGoogleMapApi) {
+    function BubblDialogController($timeout, $scope, $state, entity, Bubbl, User, Interest, BubblRating, BubblDownload, Payload, BubblAdminReview, TourBubbl, uiGmapGoogleMapApi) {
         var vm = this;
 
         vm.bubbl = entity;
@@ -81,10 +81,11 @@
             function updatePoly() {
                 vm.bubbl.lat = '';
                 vm.bubbl.lng = '';
-
+                vm.bubbl.radiusMeters = '';
                 $scope.circle.getPath = function (element, index) {
-                    vm.bubbl.lat = element.lat();
-                    vm.bubbl.lng = element.lng();
+                    vm.bubbl.lat =  $scope.circle.getCenter().lat();
+                    vm.bubbl.lng =  $scope.circle.getCenter().lng();
+                    vm.bubbl.radiusMeters =  $scope.circle.getRadius();
                 };
             }
 
