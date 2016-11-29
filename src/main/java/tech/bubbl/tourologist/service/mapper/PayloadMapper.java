@@ -4,6 +4,8 @@ import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.service.dto.PayloadDTO;
 
 import org.mapstruct.*;
+import tech.bubbl.tourologist.service.dto.payload.FilePayloadDTO;
+
 import java.util.List;
 
 /**

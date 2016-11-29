@@ -1,19 +1,16 @@
-package tech.bubbl.tourologist.service.dto;
-
-import java.time.ZonedDateTime;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
+package tech.bubbl.tourologist.service.dto.payload;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import tech.bubbl.tourologist.domain.enumeration.PayloadType;
 
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * A DTO for the Payload entity.
  */
-public class PayloadDTO implements Serializable {
+public class FilePayloadDTO implements Serializable {
 
     private Long id;
 
@@ -29,8 +26,8 @@ public class PayloadDTO implements Serializable {
 
     private String mimeType;
 
-//    @JsonIgnore
-//    private byte[] fileBytes;
+    @JsonIgnore
+    private byte[] fileBytes;
 
 //    private ZonedDateTime createdDate;
 //
@@ -44,13 +41,13 @@ public class PayloadDTO implements Serializable {
     private String bubblName;
 
 
-//    public byte[] getFileBytes() {
-//        return fileBytes;
-//    }
-//
-//    public void setFileBytes(byte[] fileBytes) {
-//        this.fileBytes = fileBytes;
-//    }
+    public byte[] getFileBytes() {
+        return fileBytes;
+    }
+
+    public void setFileBytes(byte[] fileBytes) {
+        this.fileBytes = fileBytes;
+    }
 
     public Long getId() {
         return id;
@@ -142,7 +139,7 @@ public class PayloadDTO implements Serializable {
             return false;
         }
 
-        PayloadDTO payloadDTO = (PayloadDTO) o;
+        FilePayloadDTO payloadDTO = (FilePayloadDTO) o;
 
         if ( ! Objects.equals(id, payloadDTO.id)) return false;
 

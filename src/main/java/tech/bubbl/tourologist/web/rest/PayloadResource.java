@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tech.bubbl.tourologist.domain.enumeration.PayloadType;
 import tech.bubbl.tourologist.service.PayloadService;
+import tech.bubbl.tourologist.service.dto.payload.FilePayloadDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.MimeTypesUtils;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -25,11 +26,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.ZonedDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Payload.
@@ -66,11 +64,13 @@ public class PayloadResource {
         payloadDTO.setName(file.getOriginalFilename());
         payloadDTO.setMimeType(file.getContentType());
 
+
         log.debug("REST request to save Payload to bubbl : {}", payloadDTO);
         if (payloadDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("payload", "idexists", "A new payload cannot already have an ID")).body(null);
         }
-        PayloadDTO result = payloadService.save(payloadDTO);
+        PayloadDTO result = payloadService.save(payloadDTO , file);
+
         return ResponseEntity.created(new URI("/api/payloads/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("payload", result.getId().toString()))
             .body(result);

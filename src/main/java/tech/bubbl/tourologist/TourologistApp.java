@@ -1,26 +1,34 @@
 package tech.bubbl.tourologist;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
+import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
+import org.springframework.boot.autoconfigure.web.MultipartProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.env.Environment;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.DispatcherServlet;
 import tech.bubbl.tourologist.config.Constants;
 import tech.bubbl.tourologist.config.DefaultProfileUtil;
 import tech.bubbl.tourologist.config.JHipsterProperties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.autoconfigure.*;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.MultipartConfigElement;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
+
 
 @ComponentScan
 @ImportResource({"classpath:/spring/aws-config.xml"})
@@ -29,9 +37,26 @@ import java.util.Collection;
 public class TourologistApp {
 
     private static final Logger log = LoggerFactory.getLogger(TourologistApp.class);
+    public static final String MAX_FILE_SIZE = "32Mb";
 
     @Inject
     private Environment env;
+
+    private MultipartProperties multipartProperties = new MultipartProperties();
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MultipartConfigElement multipartConfigElement() {
+        this.multipartProperties.setMaxFileSize(MAX_FILE_SIZE);
+        return this.multipartProperties.createMultipartConfig();
+    }
+
+    @Bean(name = DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME)
+    @ConditionalOnMissingBean(MultipartResolver.class)
+    public StandardServletMultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
+    }
+
 
     /**
      * Initializes tourologist.
