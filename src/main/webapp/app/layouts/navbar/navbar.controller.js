@@ -33,7 +33,7 @@
 
         function login() {
             collapseNavbar();
-            $state.go('home')
+            $state.go('bubbl')
         }
 
         function logout() {

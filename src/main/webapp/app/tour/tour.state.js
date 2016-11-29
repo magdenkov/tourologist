@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
         .state('tour', {
-            parent: 'entity',
+            parent: 'app',
             url: '/tour?page&sort&search',
             data: {
                 authorities: ['ROLE_USER'],
@@ -18,7 +18,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/tour/tours.html',
+                    templateUrl: 'app/tour/tours.html',
                     controller: 'TourController',
                     controllerAs: 'vm'
                 }
@@ -54,7 +54,7 @@
             }
         })
         .state('tour-detail', {
-            parent: 'entity',
+            parent: 'app',
             url: '/tour/{id}',
             data: {
                 authorities: ['ROLE_USER'],
@@ -62,7 +62,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/tour/tour-detail.html',
+                    templateUrl: 'app/tour/tour-detail.html',
                     controller: 'TourDetailController',
                     controllerAs: 'vm'
                 }
@@ -95,7 +95,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/tour/tour-dialog.html',
+                    templateUrl: 'app/tour/tour-dialog.html',
                     controller: 'TourDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -120,7 +120,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/tour/tour-dialog.html',
+                    templateUrl: 'app/tour/tour-dialog.html',
                     controller: 'TourDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -155,7 +155,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/tour/tour-dialog.html',
+                    templateUrl: 'app/tour/tour-dialog.html',
                     controller: 'TourDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -180,7 +180,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/tour/tour-delete-dialog.html',
+                    templateUrl: 'app/tour/tour-delete-dialog.html',
                     controller: 'TourDeleteController',
                     controllerAs: 'vm',
                     size: 'md',

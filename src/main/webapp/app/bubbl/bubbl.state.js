@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
             .state('bubbl', {
-                parent: 'entity',
+                parent: 'app',
                 url: '/bubbl?page&sort&search',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -18,7 +18,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/bubbl/bubbls.html',
+                        templateUrl: 'app/bubbl/bubbls.html',
                         controller: 'BubblController',
                         controllerAs: 'vm'
                     }
@@ -53,7 +53,7 @@
                 }
             })
             .state('bubbl-detail', {
-                parent: 'entity',
+                parent: 'app',
                 url: '/bubbl/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -61,7 +61,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/bubbl/bubbl-detail.html',
+                        templateUrl: 'app/bubbl/bubbl-detail.html',
                         controller: 'BubblDetailController',
                         controllerAs: 'vm'
                     }
@@ -93,7 +93,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/bubbl/bubbl-dialog.html',
+                        templateUrl: 'app/bubbl/bubbl-dialog.html',
                         controller: 'BubblDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -118,7 +118,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/bubbl/bubbl-new.html',
+                        templateUrl: 'app/bubbl/bubbl-new.html',
                         controller: 'CreateBubblController',
                         controllerAs: 'vm'
                     }
@@ -149,7 +149,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/bubbl/bubbl-dialog.html',
+                        templateUrl: 'app/bubbl/bubbl-dialog.html',
                         controller: 'BubblDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -174,7 +174,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/bubbl/bubbl-delete-dialog.html',
+                        templateUrl: 'app/bubbl/bubbl-delete-dialog.html',
                         controller: 'BubblDeleteController',
                         controllerAs: 'vm',
                         size: 'md',

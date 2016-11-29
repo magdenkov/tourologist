@@ -93,8 +93,7 @@
 
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 
-<script
-    src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
+<script src="bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
 
 <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
 
@@ -124,6 +123,12 @@
 <!-- build:js app/app.js  -->
 <!-- inject:js -->
 <script src="app/app.module.js"></script>
+<script src="app/tour/tour-dialog.controller.js"></script>
+<script src="app/tour/tour-detail.controller.js"></script>
+<script src="app/tour/tour-delete-dialog.controller.js"></script>
+<script src="app/tour/tour.state.js"></script>
+<script src="app/tour/tour.service.js"></script>
+<script src="app/tour/tour.controller.js"></script>
 <script src="app/services/user/user.service.js"></script>
 <script src="app/services/profiles/profile.service.js"></script>
 <script src="app/services/profiles/page-ribbon.directive.js"></script>
@@ -186,12 +191,6 @@
 <script src="app/entities/tour-admin-review/tour-admin-review.state.js"></script>
 <script src="app/entities/tour-admin-review/tour-admin-review.service.js"></script>
 <script src="app/entities/tour-admin-review/tour-admin-review.controller.js"></script>
-<script src="app/entities/tour/tour-dialog.controller.js"></script>
-<script src="app/entities/tour/tour-detail.controller.js"></script>
-<script src="app/entities/tour/tour-delete-dialog.controller.js"></script>
-<script src="app/entities/tour/tour.state.js"></script>
-<script src="app/entities/tour/tour.service.js"></script>
-<script src="app/entities/tour/tour.controller.js"></script>
 <script src="app/entities/payload/payload-dialog.controller.js"></script>
 <script src="app/entities/payload/payload-detail.controller.js"></script>
 <script src="app/entities/payload/payload-delete-dialog.controller.js"></script>
@@ -229,12 +228,6 @@
 <script src="app/entities/bubbl-admin-review/bubbl-admin-review.state.js"></script>
 <script src="app/entities/bubbl-admin-review/bubbl-admin-review.service.js"></script>
 <script src="app/entities/bubbl-admin-review/bubbl-admin-review.controller.js"></script>
-<script src="app/entities/bubbl/bubbl-new.controller.js"></script>
-<script src="app/entities/bubbl/bubbl-detail.controller.js"></script>
-<script src="app/entities/bubbl/bubbl-delete-dialog.controller.js"></script>
-<script src="app/entities/bubbl/bubbl.state.js"></script>
-<script src="app/entities/bubbl/bubbl.service.js"></script>
-<script src="app/entities/bubbl/bubbl.controller.js"></script>
 <script src="app/components/util/truncate-words.filter.js"></script>
 <script src="app/components/util/truncate-characters.filter.js"></script>
 <script src="app/components/util/sort-by.directive.js"></script>
@@ -266,6 +259,12 @@
 <script src="app/components/alert/alert-error.directive.js"></script>
 <script src="app/components/alert/alert.service.js"></script>
 <script src="app/components/alert/alert.directive.js"></script>
+<script src="app/bubbl/bubbl-new.controller.js"></script>
+<script src="app/bubbl/bubbl-detail.controller.js"></script>
+<script src="app/bubbl/bubbl-delete-dialog.controller.js"></script>
+<script src="app/bubbl/bubbl.state.js"></script>
+<script src="app/bubbl/bubbl.service.js"></script>
+<script src="app/bubbl/bubbl.controller.js"></script>
 <script src="app/blocks/interceptor/notification.interceptor.js"></script>
 <script src="app/blocks/interceptor/errorhandler.interceptor.js"></script>
 <script src="app/blocks/interceptor/auth-expired.interceptor.js"></script>
