@@ -23,7 +23,16 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+
+
+            createPayload:{
+                method:"POST",
+                transFormRequest: angular.identity,
+                url: resourceUrl + "/payloads?type=AUDIO",
+                headers: {'Content-Type': undefined}
+            }
+
         });
     }
 })();
