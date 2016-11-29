@@ -147,24 +147,31 @@
                 data: {
                     authorities: ['ROLE_USER']
                 },
-                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                    $uibModal.open({
-                        templateUrl: 'app/bubbl/bubbl-dialog.html',
-                        controller: 'BubblDialogController',
+                views: {
+                    'content@': {
+                        templateUrl: 'app/bubbl/bubbl-edit.html',
+                        controller: 'BubblEditController',
                         controllerAs: 'vm',
-                        backdrop: 'static',
-                        size: 'lg',
-                        resolve: {
-                            entity: ['Bubbl', function (Bubbl) {
-                                return Bubbl.get({id: $stateParams.id}).$promise;
-                            }]
-                        }
-                    }).result.then(function () {
-                        $state.go('bubbl', null, {reload: 'bubbl'});
-                    }, function () {
-                        $state.go('^');
-                    });
-                }]
+                    }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('bubbl');
+                        $translatePartialLoader.addPart('status');
+                        return $translate.refresh();
+                    }],
+                    entity: ['$stateParams', 'Bubbl', function ($stateParams, Bubbl) {
+                        return Bubbl.get({id: $stateParams.id}).$promise;
+                    }],
+                    previousState: ["$state", function ($state) {
+                        var currentStateData = {
+                            name: $state.current.name || 'bubbl',
+                            params: $state.params,
+                            url: $state.href($state.current.name, $state.params)
+                        };
+                        return currentStateData;
+                    }]
+                }
             })
             .state('bubbl.delete', {
                 parent: 'bubbl',

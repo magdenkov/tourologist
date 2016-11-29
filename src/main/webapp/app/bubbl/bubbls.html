@@ -41,15 +41,8 @@
                             <th jh-sort-by="status"><span data-translate="tourologistApp.bubbl.status">Status</span>
                                 <span
                                     class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="lat"><span data-translate="tourologistApp.bubbl.lat">Lat</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="lng"><span data-translate="tourologistApp.bubbl.lng">Lng</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="radiusMeters"><span
-                                data-translate="tourologistApp.bubbl.radiusMeters">Radius Meters</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
 
-                            <th jh-sort-by="userEmail"><span data-translate="tourologistApp.bubbl.user">User</span>
+                            <th  has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span data-translate="tourologistApp.bubbl.user">User</span>
                                 <span
                                     class="glyphicon glyphicon-sort"></span></th>
                             <th></th>
@@ -60,10 +53,7 @@
                             <td><a ui-sref="bubbl-detail({id:bubbl.id})">{{bubbl.name}}</a></td>
                             <td>{{bubbl.description}}</td>
                             <td data-translate="{{'tourologistApp.Status.' + bubbl.status}}">{{bubbl.status}}</td>
-                            <td>{{bubbl.lat}}</td>
-                            <td>{{bubbl.lng}}</td>
-                            <td>{{bubbl.radiusMeters}}</td>
-                            <td>
+                            <td  has-authority="ROLE_ADMIN">
                                 {{bubbl.userEmail}}
                             </td>
                             <td class="text-right">
@@ -74,7 +64,7 @@
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                         <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                                     </button>
-                                    <button type="submit"
+                                    <button type="submit" has-authority="ROLE_ADMIN"
                                             ui-sref="bubbl.edit({id:bubbl.id})"
                                             class="btn btn-primary btn-sm">
                                         <span class="glyphicon glyphicon-pencil"></span>
