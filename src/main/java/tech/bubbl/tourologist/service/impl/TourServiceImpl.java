@@ -109,7 +109,7 @@ public class TourServiceImpl implements TourService{
 
         Tour finalTour = tourRepository.save(tourDTO.createTour(user));
 
-        List<LatLng> bubblsLatLng = tourDTO.getBubbls().stream()
+        List<LatLng> bubblsLatLngList = tourDTO.getBubbls().stream()
             .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
             .map(createTourBubblDTO -> {
                 TourBubbl tourBubbl = new TourBubbl();
@@ -121,26 +121,26 @@ public class TourServiceImpl implements TourService{
                 return new LatLng(bubbl.getLat(), bubbl.getLng());
             }).collect(Collectors.toList());
 
-        LatLng origin = bubblsLatLng.get(0);
-        LatLng destination = bubblsLatLng.get(bubblsLatLng.size() - 1);
-        LatLng [] wayPoints = ArrayUtils.subarray((LatLng[])bubblsLatLng.toArray(), 1, bubblsLatLng.size() - 2);
+        LatLng origin = bubblsLatLngList.get(0);
+        LatLng destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
+        LatLng [] wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
 
-        Optional <DirectionsResult> result = Optional.empty();
+        DirectionsResult result = null;
         try {
-             result = Optional.ofNullable(DirectionsApi.newRequest(geoApiContext)
+             result = DirectionsApi.newRequest(geoApiContext)
                 .origin(origin)
                 .destination(destination)
                 .mode(TravelMode.WALKING)
                 .units(Unit.METRIC)
-                .waypoints(wayPoints)
+//                .waypoints(wayPoints)
                 .optimizeWaypoints(true)
-                .await());
+                .await();
         } catch (Exception e) {
             log.error("Error occurred while creating route for tour {}, Error Message {} ", finalTour.getName(), e.getMessage());
         }
 
-        result.ifPresent(directionsResult -> {
-            DirectionsRoute route = directionsResult.routes[0];
+
+            DirectionsRoute route = result.routes[0];
             List<LatLng> path = route.overviewPolyline.decodePath();
             AtomicInteger i = new AtomicInteger(0);
 
@@ -167,7 +167,6 @@ public class TourServiceImpl implements TourService{
 
 
 
-        });
 
         return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
     }
