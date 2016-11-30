@@ -16,7 +16,7 @@
         <dd>
             <span data-translate="{{'tourologistApp.Status.' + vm.bubbl.status}}">{{vm.bubbl.status}}</span>
         </dd>
-        <dt><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
+        <dt ><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
         <dd>
             <span>{{vm.bubbl.lat}}</span>
         </dd>
@@ -58,7 +58,7 @@
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
     </button>
 
-    <button type="button" ui-sref="bubbl-detail.edit({id:vm.bubbl.id})" class="btn btn-primary">
+    <button type="button" ui-sref="bubbl.edit({id:vm.bubbl.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>
         <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
     </button>

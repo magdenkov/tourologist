@@ -1,0 +1,60 @@
+<div class="container">
+
+    <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myBubblLabel" >Edit a Bubbl</h4>
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label class="control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                   ng-model="vm.bubbl.name"
+                   ng-maxlength="255"/>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength"
+                   translate-value-max="255">
+                    This field cannot be longer than 255 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                   ng-model="vm.bubbl.description"
+                   ng-maxlength="255"/>
+            <div ng-show="editForm.description.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.description.$error.maxlength" data-translate="entity.validation.maxlength"
+                   translate-value-max="255">
+                    This field cannot be longer than 255 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="tourologistApp.bubbl.status" for="field_status">Status</label>
+            <select class="form-control" name="status" ng-model="vm.bubbl.status" id="field_status">
+                <option value="DRAFT" data-translate="tourologistApp.Status.DRAFT">DRAFT</option>
+                <option value="SUBMITTED" data-translate="tourologistApp.Status.SUBMITTED">SUBMITTED</option>
+                <option value="APPROVED" data-translate="tourologistApp.Status.APPROVED">APPROVED</option>
+                <option value="REJECTED" data-translate="tourologistApp.Status.REJECTED">REJECTED</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="tourologistApp.bubbl.interest" for="field_interest">Interest</label>
+            <select class="form-control" id="field_interest" multiple name="interest" ng-model="vm.bubbl.interests"
+                    ng-options="interest as interest.name for interest in vm.interests track by interest.id"></select>
+        </div>
+        <a type="button" class="btn btn-default" ng-click="back()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+        >Cancel</span>
+        </a>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </form>
+
+
+</div>
+
