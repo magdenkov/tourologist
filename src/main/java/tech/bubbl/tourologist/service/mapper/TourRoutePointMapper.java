@@ -4,6 +4,8 @@ import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.service.dto.TourRoutePointDTO;
 
 import org.mapstruct.*;
+import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public interface TourRoutePointMapper {
     @Mapping(source = "tour.name", target = "tourName")
     TourRoutePointDTO tourRoutePointToTourRoutePointDTO(TourRoutePoint tourRoutePoint);
 
-    List<TourRoutePointDTO> tourRoutePointsToTourRoutePointDTOs(List<TourRoutePoint> tourRoutePoints);
+    List<TourFullDTO> tourRoutePointsToTourRoutePointDTOs(List<TourRoutePoint> tourRoutePoints);
 
     @Mapping(source = "tourId", target = "tour")
     TourRoutePoint tourRoutePointDTOToTourRoutePoint(TourRoutePointDTO tourRoutePointDTO);

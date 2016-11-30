@@ -91,7 +91,7 @@ public class TourServiceImpl implements TourService{
     public TourFullDTO findOne(Long id) {
         log.debug("Request to get Tour : {}", id);
         Tour tour = tourRepository.findOneWithEagerRelationships(id);
-        return new TourFullDTO(tour, tourImageMapper);
+        return new TourFullDTO(tour, tourImageMapper, tourRoutePointMapper);
     }
 
     @Transactional
@@ -131,7 +131,7 @@ public class TourServiceImpl implements TourService{
 
         if (bubblsLatLngList.size() < 2) {
             // do not calc route
-            return new TourFullDTO(finalTour, tourImageMapper);
+            return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
         }
 
         LatLng origin = bubblsLatLngList.get(0);
@@ -177,7 +177,7 @@ public class TourServiceImpl implements TourService{
 
             // TODO: 28.11.2016 save duration and distance
 
-        return new TourFullDTO(finalTour, tourImageMapper);
+        return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
     }
 
     private String[] convertLatLngToString(LatLng... waypoints) {
