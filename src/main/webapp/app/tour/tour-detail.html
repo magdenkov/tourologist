@@ -3,7 +3,9 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><spa>Author</spa></dt>
+        <dt>
+            <spa>Author</spa>
+        </dt>
         <dd>
             <span>{{vm.tour.author}}</span>
         </dd>
@@ -15,12 +17,10 @@
         <dd>
             <span data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
         </dd>
-
-        <dt><span >Rating</span></dt>
+        <dt><span>Rating</span></dt>
         <dd>
             {{vm.tour.rating}}
         </dd>
-
         <dt><span>Tour Route Points</span></dt>
         <dd>
             {{vm.tour.tourRoutePoints.length}}
@@ -31,7 +31,7 @@
                 <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
-        <dt><span >Bubbls in order</span></dt>
+        <dt><span>Bubbls in order</span></dt>
         <dd>
             <span ng-repeat="bubbl in vm.tour.bubbls">
                 <a ui-sref="interest-detail({id: interest.id})">{{bubbl.name}}</a>{{$last ? '' : ', '}}
@@ -39,14 +39,25 @@
         </dd>
     </dl>
 
-    <button type="submit"
-            ui-sref="{{ vm.previousState }}"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
+    <div id="map-container">
+        <div id="map-canvas">
 
-    <button type="button" ui-sref="tour-detail.edit({id:vm.tour.id})" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
-    </button>
+            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">
+                <ui-gmap-polyline ng-repeat="p in routes" path="p.path" stroke="p.stroke" visible='p.visible'
+                                  geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable"></ui-gmap-polyline>
+            </ui-gmap-google-map>
+
+        </div>
+    </div>
+</div>
+<button type="submit"
+        ui-sref="{{ vm.previousState }}"
+        class="btn btn-info">
+    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+</button>
+
+<button type="button" ui-sref="tour-detail.edit({id:vm.tour.id})" class="btn btn-primary">
+    <span class="glyphicon glyphicon-pencil"></span>
+    <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+</button>
 </div>
