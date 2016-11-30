@@ -3,9 +3,9 @@
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tourologistApp.tour.description">Description</span></dt>
+        <dt><spa>Author</spa></dt>
         <dd>
-            <span>{{vm.tour.description}}</span>
+            <span>{{vm.tour.author}}</span>
         </dd>
         <dt><span data-translate="tourologistApp.tour.status">Status</span></dt>
         <dd>
@@ -16,14 +16,25 @@
             <span data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
         </dd>
 
-        <dt><span data-translate="tourologistApp.tour.user">User</span></dt>
+        <dt><span >Rating</span></dt>
         <dd>
-            {{vm.tour.userEmail}}
+            {{vm.tour.rating}}
+        </dd>
+
+        <dt><span>Tour Route Points</span></dt>
+        <dd>
+            {{vm.tour.tourRoutePoints.length}}
         </dd>
         <dt><span data-translate="tourologistApp.tour.interest">Interest</span></dt>
         <dd>
             <span ng-repeat="interest in vm.tour.interests">
                 <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span >Bubbls in order</span></dt>
+        <dd>
+            <span ng-repeat="bubbl in vm.tour.bubbls">
+                <a ui-sref="interest-detail({id: interest.id})">{{bubbl.name}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
     </dl>
