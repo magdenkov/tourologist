@@ -23,17 +23,14 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Service Implementation for managing Tour.
  */
 @Service
-@Transactional
 public class TourServiceImpl implements TourService{
 
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
@@ -74,6 +71,7 @@ public class TourServiceImpl implements TourService{
     @Inject
     private TourRoutePointRepository tourRoutePointRepository;
 
+    @Transactional
     public TourDTO save(TourDTO tourDTO) {
         log.debug("Request to save Tour : {}", tourDTO);
         Tour tour = tourMapper.tourDTOToTour(tourDTO);
@@ -96,6 +94,7 @@ public class TourServiceImpl implements TourService{
         return new TourFullDTO(tour, tourImageMapper, tourRoutePointMapper);
     }
 
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Tour : {}", id);
         tourRepository.delete(id);
@@ -107,19 +106,33 @@ public class TourServiceImpl implements TourService{
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        Tour finalTour = tourRepository.save(tourDTO.createTour(user));
+        Tour tour = tourRepository.save(tourDTO.createTour(user));
 
         List<LatLng> bubblsLatLngList = tourDTO.getBubbls().stream()
             .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
             .map(createTourBubblDTO -> {
                 TourBubbl tourBubbl = new TourBubbl();
                 tourBubbl.setOrderNumber(createTourBubblDTO.getOrderNumber());
-                tourBubbl.setTour(finalTour);
+                tourBubbl.setTour(tour);
                 Bubbl bubbl = bubblRepository.findOne(createTourBubblDTO.getBubblId());
                 tourBubbl.setBubbl(bubbl);
                 tourBubblRepository.save(tourBubbl);
                 return new LatLng(bubbl.getLat(), bubbl.getLng());
             }).collect(Collectors.toList());
+
+        tour.setLat(bubblsLatLngList.get(0).lat);
+        tour.setLng(bubblsLatLngList.get(0).lng);
+
+
+        // TODO: 29.11.2016   calc Route Lenght!!!!!
+
+
+        Tour finalTour = tourRepository.save(tour);
+
+        if (bubblsLatLngList.size() < 2) {
+            // do not calc route
+            return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
+        }
 
         LatLng origin = bubblsLatLngList.get(0);
         LatLng destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
@@ -131,9 +144,9 @@ public class TourServiceImpl implements TourService{
                 .origin(origin)
                 .destination(destination)
                 .mode(TravelMode.WALKING)
-                .units(Unit.METRIC)
-//                .waypoints(wayPoints)
-                .optimizeWaypoints(true)
+                .units(Unit.METRIC).waypoints()
+                .waypoints(convertLatLngToString(wayPoints))
+                .optimizeWaypoints(false)   // otherwise it will change original order of Bubbls!
                 .await();
         } catch (Exception e) {
             log.error("Error occurred while creating route for tour {}, Error Message {} ", finalTour.getName(), e.getMessage());
@@ -162,14 +175,24 @@ public class TourServiceImpl implements TourService{
             List<TourRoutePoint> tourRoutePointsSaved = tourRoutePointRepository.save(routePoints);
             finalTour.setTourRoutePoints(new HashSet<>(tourRoutePointsSaved));
 
-
             // TODO: 28.11.2016 save duration and distance
-
-
-
 
         return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
     }
+
+    private String[] convertLatLngToString(LatLng... waypoints) {
+        if (waypoints == null || waypoints.length == 0) {
+            return null;
+        }
+        int length = waypoints.length;
+        String[] waypointStrings = new String[length];
+        for (int i = 0; i < length; i++) {
+            waypointStrings[i] = waypoints[i].toString();
+        }
+        return waypointStrings;
+    }
+
+
 
 
 }
