@@ -18,34 +18,24 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="description"><span data-translate="tourologistApp.tour.description">Description</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th has-authority="ROLE_ADMIN" jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="tourType"><span data-translate="tourologistApp.tour.tourType">Tour Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="price"><span data-translate="tourologistApp.tour.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="createdDate"><span data-translate="tourologistApp.tour.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastModified"><span data-translate="tourologistApp.tour.lastModified">Last Modified</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="deleted"><span data-translate="tourologistApp.tour.deleted">Deleted</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="userEmail"><span data-translate="tourologistApp.tour.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
+                    <th has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span data-translate="tourologistApp.tour.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th has-authority="ROLE_ADMIN"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="tour in vm.tours track by tour.id">
-                    <td><a ui-sref="tour-detail({id:tour.id})">{{tour.id}}</a></td>
-                    <td>{{tour.name}}</td>
+                    <td><a ui-sref="tour-detail({id:tour.id})">{{tour.name}}</a></td>
                     <td>{{tour.description}}</td>
-                    <td data-translate="{{'tourologistApp.Status.' + tour.status}}">{{tour.status}}</td>
+                    <td has-authority="ROLE_ADMIN" data-translate="{{'tourologistApp.Status.' + tour.status}}">{{tour.status}}</td>
                     <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
-                    <td>{{tour.price}}</td>
-                    <td>{{tour.createdDate | date:'medium'}}</td>
-                    <td>{{tour.lastModified | date:'medium'}}</td>
-                    <td>{{tour.deleted | date:'medium'}}</td>
-                    <td>
+                                      <td has-authority="ROLE_ADMIN">
                         {{tour.userEmail}}
                     </td>
-                    <td class="text-right">
+                    <td class="text-right" has-authority="ROLE_ADMIN">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     ui-sref="tour-detail({id:tour.id})"
@@ -53,7 +43,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                             </button>
-                            <button type="submit"
+                            <button  type="submit"
                                     ui-sref="tour.edit({id:tour.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>

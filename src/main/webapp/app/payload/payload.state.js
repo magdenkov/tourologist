@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
             .state('payload', {
-                parent: 'entity',
+                parent: 'app',
                 url: '/payload?page&sort&search',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -18,7 +18,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/payload/payloads.html',
+                        templateUrl: 'app/payload/payloads.html',
                         controller: 'PayloadController',
                         controllerAs: 'vm'
                     }
@@ -53,7 +53,7 @@
                 }
             })
             .state('payload-detail', {
-                parent: 'entity',
+                parent: 'app',
                 url: '/payload/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -61,7 +61,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/payload/payload-detail.html',
+                        templateUrl: 'app/payload/payload-detail.html',
                         controller: 'PayloadDetailController',
                         controllerAs: 'vm'
                     }
@@ -93,7 +93,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/payload/payload-dialog.html',
+                        templateUrl: 'app/payload/payload-dialog.html',
                         controller: 'PayloadDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -116,9 +116,10 @@
                 data: {
                     authorities: ['ROLE_USER']
                 },
+                params: {bubbl: null},
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/payload/payload-dialog.html',
+                        templateUrl: 'app/payload/payload-dialog.html',
                         controller: 'PayloadDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -128,9 +129,8 @@
                                 return {
                                     fileForUpload: null,
                                     name: null,
-                                    data: null,
                                     id: null,
-                                    payloadType:null
+                                    payloadType: null
 
                                 };
                             }
@@ -150,7 +150,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/payload/payload-dialog.html',
+                        templateUrl: 'app/payload/payload-dialog.html',
                         controller: 'PayloadDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -175,7 +175,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/payload/payload-delete-dialog.html',
+                        templateUrl: 'app/payload/payload-delete-dialog.html',
                         controller: 'PayloadDeleteController',
                         controllerAs: 'vm',
                         size: 'md',

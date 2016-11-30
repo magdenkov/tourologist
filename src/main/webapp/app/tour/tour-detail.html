@@ -1,13 +1,8 @@
-
 <div>
-    <h2><span data-translate="tourologistApp.tour.detail.title">Tour</span> {{vm.tour.id}}</h2>
+    <h2><span data-translate="tourologistApp.tour.detail.title">Tour</span> {{vm.tour.name}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tourologistApp.tour.name">Name</span></dt>
-        <dd>
-            <span>{{vm.tour.name}}</span>
-        </dd>
         <dt><span data-translate="tourologistApp.tour.description">Description</span></dt>
         <dd>
             <span>{{vm.tour.description}}</span>
@@ -20,22 +15,7 @@
         <dd>
             <span data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
         </dd>
-        <dt><span data-translate="tourologistApp.tour.price">Price</span></dt>
-        <dd>
-            <span>{{vm.tour.price}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.createdDate">Created Date</span></dt>
-        <dd>
-            <span>{{vm.tour.createdDate | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.lastModified">Last Modified</span></dt>
-        <dd>
-            <span>{{vm.tour.lastModified | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.deleted">Deleted</span></dt>
-        <dd>
-            <span>{{vm.tour.deleted | date:'medium'}}</span>
-        </dd>
+
         <dt><span data-translate="tourologistApp.tour.user">User</span></dt>
         <dd>
             {{vm.tour.userEmail}}

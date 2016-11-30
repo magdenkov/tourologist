@@ -18,34 +18,25 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="payloadType"><span data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+
+                    <th jh-sort-by="payloadType"><span data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="url"><span data-translate="tourologistApp.payload.url">Url</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="thumbUrl"><span data-translate="tourologistApp.payload.thumbUrl">Thumb Url</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">Mime Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="createdDate"><span data-translate="tourologistApp.payload.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lastModified"><span data-translate="tourologistApp.payload.lastModified">Last Modified</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="deleted"><span data-translate="tourologistApp.payload.deleted">Deleted</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
+                    <th has-authority="ROLE_ADMIN"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="payload in vm.payloads track by payload.id">
-                    <td><a ui-sref="payload-detail({id:payload.id})">{{payload.id}}</a></td>
+                    <td><a ui-sref="payload-detail({id:payload.id})">{{payload.name}}</a></td>
                     <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}</td>
-                    <td>{{payload.name}}</td>
                     <td>{{payload.url}}</td>
-                    <td>{{payload.thumbUrl}}</td>
                     <td>{{payload.mimeType}}</td>
-                    <td>{{payload.createdDate | date:'medium'}}</td>
-                    <td>{{payload.lastModified | date:'medium'}}</td>
-                    <td>{{payload.deleted | date:'medium'}}</td>
                     <td>
                         <a ui-sref="bubbl-detail({id:payload.bubblId})">{{payload.bubblName}}</a>
                     </td>
-                    <td class="text-right">
+                    <td class="text-right" has-authority="ROLE_ADMIN">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     ui-sref="payload-detail({id:payload.id})"

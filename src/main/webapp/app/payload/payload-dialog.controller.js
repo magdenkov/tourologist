@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('PayloadDialogController', PayloadDialogController);
 
-    PayloadDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Payload', 'Bubbl'];
+    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl'];
 
-    function PayloadDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Payload, Bubbl) {
+    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl) {
         var vm = this;
 
         vm.payload = entity;
@@ -16,12 +16,14 @@
         vm.save = save;
         vm.bubbls = Bubbl.query();
 
-
-        console.log(vm.bubbls)
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
 
+        $rootScope.$on('setBubbl', function (bubbl, id) {
+            vm.payload.bubblId = id;
+
+        });
         function clear() {
             $uibModalInstance.dismiss('cancel');
         }

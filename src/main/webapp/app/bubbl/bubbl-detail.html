@@ -1,4 +1,3 @@
-
 <div>
     <h2><span data-translate="tourologistApp.bubbl.detail.title">Bubbl</span> {{vm.bubbl.id}}</h2>
     <hr>
@@ -16,7 +15,7 @@
         <dd>
             <span data-translate="{{'tourologistApp.Status.' + vm.bubbl.status}}">{{vm.bubbl.status}}</span>
         </dd>
-        <dt ><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
+        <dt><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
         <dd>
             <span>{{vm.bubbl.lat}}</span>
         </dd>
@@ -28,18 +27,7 @@
         <dd>
             <span>{{vm.bubbl.radiusMeters}}</span>
         </dd>
-        <dt><span data-translate="tourologistApp.bubbl.createdDate">Created Date</span></dt>
-        <dd>
-            <span>{{vm.bubbl.createdDate | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.lastModified">Last Modified</span></dt>
-        <dd>
-            <span>{{vm.bubbl.lastModified | date:'medium'}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.deleted">Deleted</span></dt>
-        <dd>
-            <span>{{vm.bubbl.deleted | date:'medium'}}</span>
-        </dd>
+
         <dt><span data-translate="tourologistApp.bubbl.user">User</span></dt>
         <dd>
             {{vm.bubbl.userEmail}}

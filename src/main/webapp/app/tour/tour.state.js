@@ -120,8 +120,8 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/tour/tour-dialog.html',
-                    controller: 'TourDialogController',
+                    templateUrl: 'app/tour/tour-new.html',
+                    controller: 'CreateTourController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -155,8 +155,8 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/tour/tour-dialog.html',
-                    controller: 'TourDialogController',
+                    templateUrl: 'app/tour/tour-new.html',
+                    controller: 'CreateTourController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',

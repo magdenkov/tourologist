@@ -186,7 +186,7 @@
             $scope.$emit('tourologistApp:bubblUpdate', result);
             SharedProperties.setValue('BubblEntity', vm.bubbl.id);
 
-            $state.go('bubbl');
+            $state.go('payload.new');
             vm.isSaving = false;
         }
 
