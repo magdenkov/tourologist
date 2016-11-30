@@ -8,8 +8,7 @@ import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.TourImageMapper;
 import tech.bubbl.tourologist.service.mapper.TourRoutePointMapper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +27,12 @@ public class TourFullDTO extends GetAllToursDTO {
     public TourFullDTO(Tour tour, TourImageMapper tourImageMapper, TourRoutePointMapper tourRoutePointMapper) {
         super(tour);
         this.tourRoutePoints = tourRoutePointMapper.tourRoutePointsToTourRoutePointDTOs(new ArrayList<>(tour.getTourRoutePoints()));
+        Collections.sort(this.tourRoutePoints, new Comparator<TourRoutePoint>() {
+            @Override
+            public int compare(TourRoutePoint o1, TourRoutePoint o2) {
+                return o1.getOrderNumber() - o2.getOrderNumber();
+            }
+        });
 //        this.tourRoutePoints = tour.getTourRoutePoints().stream()
 //            .map(RoutePointDTO::new)
 //            .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
