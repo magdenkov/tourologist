@@ -2,6 +2,7 @@ package tech.bubbl.tourologist.service.dto.tour;
 
 import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.TourRoutePoint;
 import tech.bubbl.tourologist.service.dto.TourImageDTO;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.TourImageMapper;
@@ -18,7 +19,7 @@ public class TourFullDTO extends GetAllToursDTO {
 
     private List<TourImageDTO> images = new ArrayList<>();
 
-    private List<TourFullDTO> tourRoutePoints =  new ArrayList<>();
+    private List<TourRoutePoint> tourRoutePoints =  new ArrayList<>();
 
     private List<FullTourBubblNumberedDTO> bubbls =  new ArrayList<>();
 
@@ -85,11 +86,11 @@ public class TourFullDTO extends GetAllToursDTO {
         this.images = images;
     }
 
-    public List<TourFullDTO> getTourRoutePoints() {
+    public List<TourRoutePoint> getTourRoutePoints() {
         return tourRoutePoints;
     }
 
-    public void setTourRoutePoints(List<TourFullDTO> tourRoutePoints) {
+    public void setTourRoutePoints(List<TourRoutePoint> tourRoutePoints) {
         this.tourRoutePoints = tourRoutePoints;
     }
 
