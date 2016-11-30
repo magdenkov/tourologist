@@ -3,7 +3,6 @@ package tech.bubbl.tourologist.service.dto.tour;
 import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.service.dto.TourImageDTO;
-import tech.bubbl.tourologist.service.dto.TourRoutePointDTO;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.TourImageMapper;
 import tech.bubbl.tourologist.service.mapper.TourRoutePointMapper;
@@ -19,7 +18,7 @@ public class TourFullDTO extends GetAllToursDTO {
 
     private List<TourImageDTO> images = new ArrayList<>();
 
-    private List<TourRoutePointDTO> tourRoutePoints =  new ArrayList<>();
+    private List<TourFullDTO> tourRoutePoints =  new ArrayList<>();
 
     private List<FullTourBubblNumberedDTO> bubbls =  new ArrayList<>();
 
@@ -28,6 +27,10 @@ public class TourFullDTO extends GetAllToursDTO {
     public TourFullDTO(Tour tour, TourImageMapper tourImageMapper, TourRoutePointMapper tourRoutePointMapper) {
         super(tour);
         this.tourRoutePoints = tourRoutePointMapper.tourRoutePointsToTourRoutePointDTOs(new ArrayList<>(tour.getTourRoutePoints()));
+//        this.tourRoutePoints = tour.getTourRoutePoints().stream()
+//            .map(RoutePointDTO::new)
+//            .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
+//            .collect(Collectors.toList());
         this.interests = new ArrayList<>(tour.getInterests());
         this.images = tourImageMapper.tourImagesToTourImageDTOs(new ArrayList<>(tour.getTourImages()));
         this.bubbls = tour.getTourBubbls().stream().
@@ -82,11 +85,11 @@ public class TourFullDTO extends GetAllToursDTO {
         this.images = images;
     }
 
-    public List<TourRoutePointDTO> getTourRoutePoints() {
+    public List<TourFullDTO> getTourRoutePoints() {
         return tourRoutePoints;
     }
 
-    public void setTourRoutePoints(List<TourRoutePointDTO> tourRoutePoints) {
+    public void setTourRoutePoints(List<TourFullDTO> tourRoutePoints) {
         this.tourRoutePoints = tourRoutePoints;
     }
 
