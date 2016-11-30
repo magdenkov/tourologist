@@ -99,6 +99,39 @@ public class Tour implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();
 
+    @Column(name = "lat")
+    private Double lat;
+
+    @Column(name = "lng")
+    private Double lng;
+
+    @Column(name = "route_length")
+    private Integer routeLength;
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public Integer getRouteLength() {
+        return routeLength;
+    }
+
+    public void setRouteLength(Integer routeLength) {
+        this.routeLength = routeLength;
+    }
+
     public Long getId() {
         return id;
     }

@@ -28,9 +28,9 @@ public class CreateFixedTourDTO implements Serializable {
     @Size(max = 4096)
     private String description;
 
-    private Status status;
-
-    private TourType tourType;
+//    private Status status;
+//
+//    private TourType tourType;
 
     private Double price;
 
@@ -41,7 +41,8 @@ public class CreateFixedTourDTO implements Serializable {
     public Tour createTour(User user) {
         Tour tour = new Tour();
         tour.setName(name);
-        tour.setTourType(tourType);
+        tour.setTourType(TourType.FIXED);
+        tour.setStatus(Status.DRAFT);
         tour.setPrice(price);
         tour.setDescription(description);
         tour.setCreatedDate(ZonedDateTime.now());
@@ -85,20 +86,20 @@ public class CreateFixedTourDTO implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-    public TourType getTourType() {
-        return tourType;
-    }
-
-    public void setTourType(TourType tourType) {
-        this.tourType = tourType;
-    }
+//    public Status getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(Status status) {
+//        this.status = status;
+//    }
+//    public TourType getTourType() {
+//        return tourType;
+//    }
+//
+//    public void setTourType(TourType tourType) {
+//        this.tourType = tourType;
+//    }
     public Double getPrice() {
         return price;
     }
@@ -143,8 +144,8 @@ public class CreateFixedTourDTO implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             ", description='" + description + "'" +
-            ", status='" + status + "'" +
-            ", tourType='" + tourType + "'" +
+//            ", status='" + status + "'" +
+//            ", tourType='" + tourType + "'" +
             ", price='" + price + "'" +
             '}';
     }

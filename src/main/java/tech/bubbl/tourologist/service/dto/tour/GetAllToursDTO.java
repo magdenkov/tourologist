@@ -1,6 +1,5 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
-import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -30,7 +29,7 @@ public class GetAllToursDTO {
 
     private Integer downloadsAmount;
 
-    private Double routeLength;
+    private Integer routeLength;
 
     private Double distanceToRouteStart;
 
@@ -43,9 +42,7 @@ public class GetAllToursDTO {
 
     public GetAllToursDTO(Tour tour) {
         setBubblsAmount(tour.getTourBubbls().size());
-        Optional.ofNullable(tour.getUser()).ifPresent(user ->{
-            setAuthor(user.getFullName());
-        });
+        Optional.ofNullable(tour.getUser()).ifPresent(user -> setAuthor(user.getFullName()));
         setName(tour.getName());
         setId(tour.getId());
         setTourType(tour.getTourType());
@@ -54,10 +51,10 @@ public class GetAllToursDTO {
         /// TODO: 25.11.2016  replace this hardcode with actual values
         setDownloadsAmount(120);
         setRating(3.75d);
-        setRouteLength(5.1);
+        setRouteLength(tour.getRouteLength());
         setDistanceToRouteStart(4.2);
-        setLat(44.3434334);
-        setLng(67.556756);
+        setLat(tour.getLat());
+        setLng(tour.getLng());
     }
 
     public Double getLat() {
@@ -76,11 +73,11 @@ public class GetAllToursDTO {
         this.lng = lng;
     }
 
-    public Double getRouteLength() {
+    public Integer getRouteLength() {
         return routeLength;
     }
 
-    public void setRouteLength(Double routeLength) {
+    public void setRouteLength(Integer routeLength) {
         this.routeLength = routeLength;
     }
 
