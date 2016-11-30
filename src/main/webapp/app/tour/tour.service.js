@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
     angular
         .module('tourologistApp')
@@ -6,11 +6,11 @@
 
     Tour.$inject = ['$resource', 'DateUtils'];
 
-    function Tour ($resource, DateUtils) {
-        var resourceUrl =  'api/tours/:id';
+    function Tour($resource, DateUtils) {
+        var resourceUrl = 'api/tours/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            'query': {method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {
@@ -23,7 +23,20 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': {method: 'PUT'},
+
+            createFixedTour: {
+                method: 'POST',
+                url: resourceUrl + "/fixed",
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
+
+            }
+
         });
     }
 })();

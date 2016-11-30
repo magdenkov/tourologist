@@ -43,28 +43,52 @@
                 </p>
             </div>
         </div>
-        <div class="form-group" has-authority="ROLE_ADMIN">
-            <label class="control-label" data-translate="tourologistApp.tour.status" for="field_status">Status</label>
-            <select class="form-control" name="status" ng-model="vm.tour.status" id="field_status">
-                <option value="DRAFT" data-translate="tourologistApp.Status.DRAFT">DRAFT</option>
-                <option value="SUBMITTED" data-translate="tourologistApp.Status.SUBMITTED">SUBMITTED</option>
-                <option value="APPROVED" data-translate="tourologistApp.Status.APPROVED">APPROVED</option>
-                <option value="REJECTED" data-translate="tourologistApp.Status.REJECTED">REJECTED</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="tourologistApp.tour.tourType" for="field_tourType">Tour
-                Type</label>
-            <select class="form-control" name="tourType" ng-model="vm.tour.tourType" id="field_tourType">
-                <option value="DIY" data-translate="tourologistApp.TourType.DIY">DIY</option>
-                <option value="SURPRISE_ME" data-translate="tourologistApp.TourType.SURPRISE_ME">SURPRISE_ME</option>
-                <option value="FIXED" data-translate="tourologistApp.TourType.FIXED">FIXED</option>
-            </select>
-        </div>
+
         <div class="form-group">
             <label data-translate="tourologistApp.tour.interest" for="field_interest">Interest</label>
             <select class="form-control" id="field_interest" multiple name="interest" ng-model="vm.tour.interests"
                     ng-options="interest as interest.name for interest in vm.interests track by interest.id"></select>
+        </div>
+        <ul ng-model="vm.tour.bubbls" class="">
+            <li class="" ng-repeat="bubbls in vm.tour.bubbls track by $index">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <h6>{{$index+1}}.</h6>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label class="control-label">Bubbl Name</label>
+
+                        <select class="form-control" id="field_bubbl" name="bubbl" ng-model="bubbls.bubblId"
+                                ng-options="bubbl.id as bubbl.name for bubbl in vm.bubbls track by bubbl.id">
+                            <option value=""></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-sm-3">
+                        <label class="control-label" for="ingredient_small">Order Number</label>
+                        <input type="number" class="form-control" name="smallPortionTitle" id="ingredient_small"
+                               ng-model="bubbls.orderNumber"/>
+                    </div>
+
+
+                    <div class="form-group col-sm-1">
+                        <a href="" ng-show="vm.tour.bubbls.length > 1"
+                           ng-click="vm.removebubbl($index)"
+                           class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="hidden-xs hidden-sm"></span>
+                        </a>
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+
+        <div class="text-right m-r-80">
+            <a href="" ng-click="vm.add()" class="mdl-color-text--pink">
+                <i class="">Add new Bubbls</i>
+                <!--Add new ingredient-->
+            </a>
         </div>
     </div>
     <div class="modal-footer">

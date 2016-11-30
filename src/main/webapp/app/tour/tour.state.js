@@ -128,15 +128,9 @@
                     resolve: {
                         entity: function () {
                             return {
-                                name: null,
+                                id: null,
                                 description: null,
-                                status: null,
-                                tourType: null,
-                                price: null,
-                                createdDate: null,
-                                lastModified: null,
-                                deleted: null,
-                                id: null
+                                name:null
                             };
                         }
                     }
