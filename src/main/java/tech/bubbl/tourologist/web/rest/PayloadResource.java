@@ -63,6 +63,7 @@ public class PayloadResource {
         payloadDTO.setBubblId(bubblId);
         payloadDTO.setName(file.getOriginalFilename());
         payloadDTO.setMimeType(file.getContentType());
+        payloadDTO.setPayloadType(payloadType);
 
 
         log.debug("REST request to save Payload to bubbl : {}", payloadDTO);
