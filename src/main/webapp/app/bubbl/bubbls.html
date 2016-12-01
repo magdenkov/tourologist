@@ -14,11 +14,7 @@
                         Create new Bubbl
                     </span>
             </button>
-            <a class="btn btn-primary" ui-sref="payload">
-                                <span>
-                      View Payload
-                    </span>
-            </a>
+         
         </div>
         <div class="col-xs-4">
             <!--  <button class="btn btn-primary" ng-click="swapbubbls()">
@@ -58,8 +54,8 @@
                         <tbody>
                         <tr ng-repeat="bubbl in vm.bubbls track by bubbl.id">
                             <td>
-                                <a  has-authority="ROLE_ADMIN" ui-sref="bubbl-detail({id:bubbl.id})">{{bubbl.name}}</a>
-                                <p has-authority="ROLE_USER" >{{bubbl.name}}</p>
+
+                                <p>{{bubbl.name}}</p>
 
                             </td>
                             <td>{{bubbl.description}}</td>

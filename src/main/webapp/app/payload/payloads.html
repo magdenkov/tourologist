@@ -24,10 +24,12 @@
                 <th jh-sort-by="payloadType"><span
                     data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="url" has-authority="ROLE_ADMIN"><span data-translate="tourologistApp.payload.url">Url</span> <span
+                <th jh-sort-by="url" has-authority="ROLE_ADMIN"><span
+                    data-translate="tourologistApp.payload.url">Url</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span>
+                    <span
+                        class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
                 <th has-authority="ROLE_ADMIN"></th>
@@ -35,8 +37,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="payload in vm.payloads track by payload.id">
-                <td><a has-authority="ROLE_ADMIN" ui-sref="payload-detail({id:payload.id})">{{payload.name}}</a>
-                    <p has-authority="ROLE_USER"> {{payload.name}}</p></td>
+                <td>{{payload.name}}</td>
                 <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
                 </td>
                 <td has-authority="ROLE_ADMIN">{{payload.url}}</td>
