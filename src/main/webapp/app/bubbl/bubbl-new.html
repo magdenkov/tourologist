@@ -61,10 +61,12 @@
                     </p>
                 </div>
             </div>
-            <div class="form-group col-md-6">
-                <label data-translate="tourologistApp.bubbl.interest" for="field_interest">Interest</label>
-                <select class="form-control" id="field_interest" multiple name="interest" ng-model="vm.bubbl.interests"
-                        ng-options="interest as interest.name for interest in vm.interests track by interest.id"></select>
+
+            <div class="well" style="max-height: 300px;overflow: auto;">
+                <span>Select Interest</span>
+                <label style="display:block" ng-repeat="interest in vm.interests track by interest.id">
+                    <input type="checkbox" checklist-model="vm.bubbl.interests"
+                           checklist-value="interest"/> {{interest.name}}</label>
             </div>
             <div class="form-group col-lg-12">
                 <button ng-click="vm.save()" type="submit" ng-disabled="editForm.$invalid || vm.isSaving"

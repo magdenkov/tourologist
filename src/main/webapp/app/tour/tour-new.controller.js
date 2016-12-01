@@ -21,7 +21,9 @@
         vm.add = add;
         vm.removebubbl = removebubbl;
 
-
+        $scope.user = {
+            interest: [vm.interests[0]]
+        };
         if (vm.tour.bubbls === undefined) {
             vm.tour.bubbls = [];
         }

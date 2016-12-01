@@ -28,7 +28,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="tour in vm.tours track by tour.id">
-                    <td><a ui-sref="tour-detail({id:tour.id})">{{tour.name}}</a></td>
+                    <td><a has-authority="ROLE_ADMIN" ui-sref="tour-detail({id:tour.id})">{{tour.name}}</a>
+                    <p has-authority="ROLE_USER"> {{tour.name}}</p></td>
                     <td>{{tour.bubblsAmount}}</td>
                     <td has-authority="ROLE_ADMIN" data-translate="{{'tourologistApp.Status.' + tour.status}}">{{tour.status}}</td>
                     <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
