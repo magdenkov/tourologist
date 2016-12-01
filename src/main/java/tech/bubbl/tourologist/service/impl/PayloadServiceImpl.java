@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -227,6 +228,7 @@ public class PayloadServiceImpl implements PayloadService{
         String s3Bucket = new AmazonS3URI(urls[0]).getBucket();
 
         List<String> s3KeysToDelete = Arrays.stream(urls)
+            .filter(s -> !Strings.isNullOrEmpty(s))
             .map(s -> new AmazonS3URI(s).getKey())
             .collect(Collectors.toList());
 
