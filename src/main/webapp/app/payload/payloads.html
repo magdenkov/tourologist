@@ -24,9 +24,7 @@
                 <th jh-sort-by="payloadType"><span
                     data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="url" has-authority="ROLE_ADMIN"><span
-                    data-translate="tourologistApp.payload.url">Url</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN"><span class="text-center">Audio File</span></span></th>
                 <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span>
                     <span
                         class="glyphicon glyphicon-sort"></span></th>
@@ -40,7 +38,11 @@
                 <td>{{payload.name}}</td>
                 <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
                 </td>
-                <td has-authority="ROLE_ADMIN">{{payload.url}}</td>
+                <td has-authority="ROLE_ADMIN">
+                    <audio ng-src="{{trustSrc(payload.url)}}" controls>
+                        Your browser does not support the <code>video</code> element.
+                    </audio>
+                </td>
                 <td>{{payload.mimeType}}</td>
                 <td>
                     <a has-authority="ROLE_ADMIN" ui-sref="bubbl-detail({id:payload.bubblId})">{{payload.bubblName}}</a>

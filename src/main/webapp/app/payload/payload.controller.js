@@ -5,11 +5,11 @@
         .module('tourologistApp')
         .controller('PayloadController', PayloadController);
 
-    PayloadController.$inject = ['$scope', '$state', 'Payload', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
+    PayloadController.$inject = ['$scope', '$state', 'Payload', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants','$sce'];
 
-    function PayloadController ($scope, $state, Payload, ParseLinks, AlertService, pagingParams, paginationConstants) {
+    function PayloadController ($scope, $state, Payload, ParseLinks, AlertService, pagingParams, paginationConstants,$sce) {
         var vm = this;
-        
+
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
@@ -17,6 +17,10 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
         loadAll();
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        };
+
 
         function loadAll () {
             Payload.query({
