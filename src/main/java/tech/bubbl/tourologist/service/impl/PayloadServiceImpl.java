@@ -2,9 +2,8 @@ package tech.bubbl.tourologist.service.impl;
 
 import com.amazonaws.services.kms.model.UnsupportedOperationException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.AmazonS3URI;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
@@ -33,7 +32,11 @@ import javax.persistence.EntityNotFoundException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Payload.
@@ -74,8 +77,6 @@ public class PayloadServiceImpl implements PayloadService{
         }
 
         log.debug("Request to save Payload : {}", payloadDTO.getName());
-        // todo copy paste upload to s3
-
         log.debug("File size of uploading to S3 file is {}", file.getSize() / BYTES_IN_KB);
 
         byte[] fileBytes = file.getBytes();
@@ -198,7 +199,37 @@ public class PayloadServiceImpl implements PayloadService{
     @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Payload : {}", id);
+        Payload payload = payloadRepository.findOne(id);
+//        Optional.ofNullable(payload)
+//            .orElseThrow(() -> new EntityNotFoundException("Payload w/ id was not found" + id));
+
+        if (payload == null) {
+            log.error("Failed to delete payload w/ id : {}  404 NOT FOUND!", id);
+            return;
+        }
+
+        deletePayload(payload.getUrl() , payload.getThumbUrl());
+
         payloadRepository.delete(id);
+    }
+
+
+    public Boolean deletePayload(String ... urls) {
+        if (urls == null || urls.length == 0) {
+            return false;
+        }
+        String s3Bucket = new AmazonS3URI(urls[0]).getBucket();
+
+        List<String> s3KeysToDelete = Arrays.stream(urls)
+            .map(s -> new AmazonS3URI(s).getKey())
+            .collect(Collectors.toList());
+
+
+        DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest(s3Bucket)
+            .withKeys(s3KeysToDelete.toArray(new String[s3KeysToDelete.size()]));
+        DeleteObjectsResult deleteObjectsResult = s3.deleteObjects(deleteObjectsRequest);
+
+        return true;
     }
 
     @Override
