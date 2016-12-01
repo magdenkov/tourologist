@@ -58,7 +58,7 @@ public class PayloadResource {
     @Timed
     public ResponseEntity<PayloadDTO> uploadImageToRecipe(@RequestParam("file") @Valid @NotNull @NotBlank MultipartFile file,
                                                           @PathVariable("bubblId") Long bubblId,
-                                                          @RequestParam(name = "type", required = false) PayloadType payloadType) throws Exception {
+                                                          @RequestParam(name = "type", required = true) PayloadType payloadType) throws Exception {
         PayloadDTO payloadDTO = new PayloadDTO();
         payloadDTO.setBubblId(bubblId);
         payloadDTO.setName(file.getOriginalFilename());

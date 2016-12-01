@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.enumeration.PayloadType;
 import tech.bubbl.tourologist.repository.BubblRepository;
 import tech.bubbl.tourologist.service.PayloadService;
 import tech.bubbl.tourologist.domain.Payload;
@@ -74,6 +75,13 @@ public class PayloadServiceImpl implements PayloadService{
         Bubbl bubbl = bubblRepository.findOne(payloadDTO.getBubblId());
         if (bubbl == null) {
             throw new EntityNotFoundException("Bubbl with id was not fount " + payloadDTO.getBubblId());
+        }
+
+        if (payloadDTO.getPayloadType() == PayloadType.AUDIO && !bubbl.getPayloads().isEmpty()) {
+            // remove old audio payloads so each bubbl can have only one Payload
+            bubbl.getPayloads().stream()
+                .filter(payload -> payload.getPayloadType() == PayloadType.AUDIO)
+                .forEach(payload -> delete(payload.getId()));
         }
 
         log.debug("Request to save Payload : {}", payloadDTO.getName());
