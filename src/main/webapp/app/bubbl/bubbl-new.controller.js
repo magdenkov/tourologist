@@ -30,6 +30,10 @@
             status: 'SUBMITTED'
         };
 
+        $scope.user = {
+            interest: [vm.interests[0]]
+        };
+
         $scope.lat = "0";
         $scope.lng = "0";
 

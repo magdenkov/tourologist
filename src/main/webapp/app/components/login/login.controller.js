@@ -26,7 +26,7 @@
             vm.credentials = {
                 username: null,
                 password: null,
-                rememberMe: true
+                rememberMe: null
             };
             vm.authenticationError = false;
         }

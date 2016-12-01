@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid ">
     <div class="row">
         <div class="col-md-12">
             <h2 data-translate="tourologistApp.bubbl.home.title" class="text-center">Bubbls</h2>
@@ -14,15 +14,9 @@
                         Create new Bubbl
                     </span>
             </button>
+         
         </div>
         <div class="col-xs-4">
-
-            <button class="btn btn-primary" ui-sref="payload.new">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span>
-                        Create new Payload
-                    </span>
-            </button>
             <!--  <button class="btn btn-primary" ng-click="swapbubbls()">
                   <i class="glyphicon glyphicon-map-marker">
                       {{!multiple ? "Show Venue List" : 'Show Map'}}
@@ -30,6 +24,7 @@
         </div>
     </div>
 
+    <br>
     <div class="row">
 
         <div class="col-md-12">
@@ -48,21 +43,30 @@
                                 <span
                                     class="glyphicon glyphicon-sort"></span></th>
 
-                            <th  has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span data-translate="tourologistApp.bubbl.user">User</span>
+                            <th has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span
+                                data-translate="tourologistApp.bubbl.user">User</span>
                                 <span
                                     class="glyphicon glyphicon-sort"></span></th>
-                            <th></th>
+                            <th>Interests</th>
+                            <th has-authority="ROLE_ADMIN"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="bubbl in vm.bubbls track by bubbl.id">
-                            <td><a ui-sref="bubbl-detail({id:bubbl.id})">{{bubbl.name}}</a></td>
+                            <td>
+
+                                <p>{{bubbl.name}}</p>
+
+                            </td>
                             <td>{{bubbl.description}}</td>
                             <td data-translate="{{'tourologistApp.Status.' + bubbl.status}}">{{bubbl.status}}</td>
-                            <td  has-authority="ROLE_ADMIN">
+                            <td has-authority="ROLE_ADMIN">
                                 {{bubbl.userEmail}}
                             </td>
-                            <td class="text-right">
+                            <td><span
+                                ng-repeat="interest in bubbl.interests"> {{interest.name}}{{$last ? '' : ', '}}</span>
+                            </td>
+                            <td has-authority="ROLE_ADMIN">
                                 <div class="btn-group flex-btn-group-container">
                                     <button type="submit"
                                             ui-sref="bubbl-detail({id:bubbl.id})"
@@ -70,7 +74,7 @@
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                         <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                                     </button>
-                                    <button type="submit" has-authority="ROLE_ADMIN"
+                                    <button type="submit"
                                             ui-sref="bubbl.edit({id:bubbl.id})"
                                             class="btn btn-primary btn-sm">
                                         <span class="glyphicon glyphicon-pencil"></span>

@@ -7,22 +7,39 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="" ui-sref="bubbl" ng-click="vm.collapseNavbar()">
-                Tourologist
+
+            <a class="navbar-brand logo" href="#/bubbl" ng-click="vm.collapseNavbar()">
+                <img class="logo-img" src="content/images/logo.png"/>
+
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
             <ul class="nav navbar-nav navbar-right">
-                <li ui-sref-active="active">
-                    <a ui-sref="bubbl" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-folder-open"></span>&nbsp;
-                        <span>My Recordings</span>
+                <li ng-class="{active: vm.$state.includes('bubbl')}" ui-sref-active="active" uib-dropdown class="dropdown pointer" id="bubbl-menu">
+                    <a class="dropdown-toggle" uib-dropdown-toggle href="">
+                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
+                        <span>Bubbls</span>
+                        <b class="caret"></b>
                     </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li ui-sref-active="active">
+                            <a ui-sref="bubbl" ng-click="vm.collapseNavbar()">
+                                <i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>&nbsp;
+                                <span>Bubbls</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="payload" ng-click="vm.collapseNavbar()">
+                                <i class="fa fa-file-audio-o" aria-hidden="true"></i>&nbsp;
+                                <span>Payloads</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li ui-sref-active="active">
                     <a ui-sref="tour" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
-                        <span data-translate="global.menu.entities.tour">Tour</span>
+                        <i class="fa fa-map-signs" aria-hidden="true"></i>&nbsp;
+                        <span>Tours</span>
                     </a>
                 </li>
                 <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->

@@ -4,9 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="payload.new" >
+                <button class="btn btn-primary" ui-sref="payload.new">
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="tourologistApp.payload.home.createLabel">
+                    <span data-translate="tourologistApp.payload.home.createLabel">
                         Create new Payload
                     </span>
                 </button>
@@ -17,53 +17,64 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
 
-                    <th jh-sort-by="payloadType"><span data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="url"><span data-translate="tourologistApp.payload.url">Url</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">Mime Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th has-authority="ROLE_ADMIN"></th>
-                </tr>
+                <th jh-sort-by="payloadType"><span
+                    data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="url" has-authority="ROLE_ADMIN"><span
+                    data-translate="tourologistApp.payload.url">Url</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span>
+                    <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="payload in vm.payloads track by payload.id">
-                    <td><a ui-sref="payload-detail({id:payload.id})">{{payload.name}}</a></td>
-                    <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}</td>
-                    <td>{{payload.url}}</td>
-                    <td>{{payload.mimeType}}</td>
-                    <td>
-                        <a ui-sref="bubbl-detail({id:payload.bubblId})">{{payload.bubblName}}</a>
-                    </td>
-                    <td class="text-right" has-authority="ROLE_ADMIN">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="payload-detail({id:payload.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="payload.edit({id:payload.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="payload.delete({id:payload.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+            <tr ng-repeat="payload in vm.payloads track by payload.id">
+                <td>{{payload.name}}</td>
+                <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
+                </td>
+                <td has-authority="ROLE_ADMIN">{{payload.url}}</td>
+                <td>{{payload.mimeType}}</td>
+                <td>
+                    <a has-authority="ROLE_ADMIN" ui-sref="bubbl-detail({id:payload.bubblId})">{{payload.bubblName}}</a>
+                    <p has-authority="ROLE_USER"> {{payload.bubblName}}</p>
+                </td>
+                <td class="text-right" has-authority="ROLE_ADMIN">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                ui-sref="payload-detail({id:payload.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="payload.edit({id:payload.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="payload.delete({id:payload.id})"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

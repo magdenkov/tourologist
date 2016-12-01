@@ -4,9 +4,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="tour.new" >
+                <button class="btn btn-primary" ui-sref="tour.new">
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="tourologistApp.tour.home.createLabel">
+                    <span data-translate="tourologistApp.tour.home.createLabel">
                         Create new Tour
                     </span>
                 </button>
@@ -17,52 +17,60 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th has-authority="ROLE_ADMIN" jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="tourType"><span data-translate="tourologistApp.tour.tourType">Tour Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th has-authority="ROLE_ADMIN" jh-sort-by="author"><span>User</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th has-authority="ROLE_ADMIN"></th>
-                </tr>
+            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name">Name</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN" jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span>
+                    <span class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="tourType"><span data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN" jh-sort-by="author"><span>User</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="tour in vm.tours track by tour.id">
-                    <td><a ui-sref="tour-detail({id:tour.id})">{{tour.name}}</a></td>
-                    <td>{{tour.bubblsAmount}}</td>
-                    <td has-authority="ROLE_ADMIN" data-translate="{{'tourologistApp.Status.' + tour.status}}">{{tour.status}}</td>
-                    <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
-                                      <td has-authority="ROLE_ADMIN">
-                        {{tour.author}}
-                    </td>
-                    <td class="text-right" has-authority="ROLE_ADMIN">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="tour-detail({id:tour.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                            </button>
-                            <button  type="submit"
-                                    ui-sref="tour.edit({id:tour.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="tour.delete({id:tour.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+            <tr ng-repeat="tour in vm.tours track by tour.id">
+                <td>{{tour.name}}</td>
+                <td>{{tour.bubblsAmount}}</td>
+                <td has-authority="ROLE_ADMIN" data-translate="{{'tourologistApp.Status.' + tour.status}}">
+                    {{tour.status}}
+                </td>
+                <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
+                <td has-authority="ROLE_ADMIN">
+                    {{tour.author}}
+                </td>
+                <td class="text-right" has-authority="ROLE_ADMIN">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                ui-sref="tour-detail({id:tour.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="tour.edit({id:tour.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="tour.delete({id:tour.id})"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>
