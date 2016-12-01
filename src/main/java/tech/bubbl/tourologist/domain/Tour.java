@@ -51,10 +51,10 @@ public class Tour implements Serializable {
     private Double price;
 
     @Column(name = "created_date")
-    private ZonedDateTime createdDate;
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     @Column(name = "last_modified")
-    private ZonedDateTime lastModified;
+    private ZonedDateTime lastModified = ZonedDateTime.now();
 
     @Column(name = "deleted")
     private ZonedDateTime deleted;
@@ -69,32 +69,32 @@ public class Tour implements Serializable {
                inverseJoinColumns = @JoinColumn(name="interests_id", referencedColumnName="ID"))
     private Set<Interest> interests = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour",  orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourRating> tourRatings = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourDownload> tourDownloads = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourImage> tourImages = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourAdminReview> tourAdminReviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourRoutePoint> tourRoutePoints = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour")
+    @OneToMany(mappedBy = "tour", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();

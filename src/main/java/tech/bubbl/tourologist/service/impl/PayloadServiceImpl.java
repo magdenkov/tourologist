@@ -17,7 +17,6 @@ import tech.bubbl.tourologist.service.PayloadService;
 import tech.bubbl.tourologist.domain.Payload;
 import tech.bubbl.tourologist.repository.PayloadRepository;
 import tech.bubbl.tourologist.service.dto.PayloadDTO;
-import tech.bubbl.tourologist.service.dto.payload.FilePayloadDTO;
 import tech.bubbl.tourologist.service.mapper.PayloadMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,6 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -216,13 +214,13 @@ public class PayloadServiceImpl implements PayloadService{
             return;
         }
 
-        deletePayload(payload.getUrl() , payload.getThumbUrl());
+        deletePayloadFromAWS(payload.getUrl() , payload.getThumbUrl());
 
         payloadRepository.delete(id);
     }
 
 
-    public Boolean deletePayload(String ... urls) {
+    public Boolean deletePayloadFromAWS(String ... urls) {
         if (urls == null || urls.length == 0) {
             return false;
         }

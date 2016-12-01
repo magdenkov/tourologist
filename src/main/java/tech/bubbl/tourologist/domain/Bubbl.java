@@ -51,10 +51,10 @@ public class Bubbl implements Serializable {
     private Integer radiusMeters;
 
     @Column(name = "created_date")
-    private ZonedDateTime createdDate;
+    private ZonedDateTime createdDate  = ZonedDateTime.now();
 
     @Column(name = "last_modified")
-    private ZonedDateTime lastModified;
+    private ZonedDateTime lastModified = ZonedDateTime.now();
 
     @Column(name = "deleted")
     private ZonedDateTime deleted;
@@ -69,12 +69,12 @@ public class Bubbl implements Serializable {
                inverseJoinColumns = @JoinColumn(name="interests_id", referencedColumnName="ID"))
     private Set<Interest> interests = new HashSet<>();
 
-    @OneToMany(mappedBy = "bubbl")
+    @OneToMany(mappedBy = "bubbl", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<BubblRating> bubblRatings = new HashSet<>();
 
-    @OneToMany(mappedBy = "bubbl")
+    @OneToMany(mappedBy = "bubbl", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<BubblDownload> bubblDownloads = new HashSet<>();
@@ -84,12 +84,12 @@ public class Bubbl implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Payload> payloads = new HashSet<>();
 
-    @OneToMany(mappedBy = "bubbl")
+    @OneToMany(mappedBy = "bubbl",  orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<BubblAdminReview> bubblAdminReviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "bubbl")
+    @OneToMany(mappedBy = "bubbl", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();

@@ -44,10 +44,10 @@ public class Payload implements Serializable {
     private String mimeType;
 
     @Column(name = "created_date")
-    private ZonedDateTime createdDate;
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
     @Column(name = "last_modified")
-    private ZonedDateTime lastModified;
+    private ZonedDateTime lastModified = ZonedDateTime.now();
 
     @Column(name = "deleted")
     private ZonedDateTime deleted;
