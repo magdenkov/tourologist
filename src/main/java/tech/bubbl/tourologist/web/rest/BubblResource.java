@@ -1,6 +1,10 @@
 package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -18,9 +22,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,17 +33,14 @@ import java.util.stream.Collectors;
 public class BubblResource {
 
     private final Logger log = LoggerFactory.getLogger(BubblResource.class);
-        
+
     @Inject
     private BubblService bubblService;
 
-    /**
-     * POST  /bubbls : Create a new bubbl.
-     *
-     * @param bubblDTO the bubblDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new bubblDTO, or with status 400 (Bad Request) if the bubbl has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+    @Inject
+    private GeoApiContext geoApiContext;
+
+
     @PostMapping("/bubbls")
     @Timed
     public ResponseEntity<BubblDTO> createBubbl(@Valid @RequestBody BubblDTO bubblDTO) throws URISyntaxException {
@@ -55,15 +54,6 @@ public class BubblResource {
             .body(result);
     }
 
-    /**
-     * PUT  /bubbls : Updates an existing bubbl.
-     *
-     * @param bubblDTO the bubblDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated bubblDTO,
-     * or with status 400 (Bad Request) if the bubblDTO is not valid,
-     * or with status 500 (Internal Server Error) if the bubblDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
     @PutMapping("/bubbls")
     @Timed
     public ResponseEntity<BubblDTO> updateBubbl(@Valid @RequestBody BubblDTO bubblDTO) throws URISyntaxException {
@@ -77,13 +67,6 @@ public class BubblResource {
             .body(result);
     }
 
-    /**
-     * GET  /bubbls : get all the bubbls.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of bubbls in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
-     */
     @GetMapping("/bubbls")
     @Timed
     public ResponseEntity<List<BubblDTO>> getAllBubbls(Pageable pageable)
@@ -94,12 +77,7 @@ public class BubblResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    /**
-     * GET  /bubbls/:id : get the "id" bubbl.
-     *
-     * @param id the id of the bubblDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the bubblDTO, or with status 404 (Not Found)
-     */
+
     @GetMapping("/bubbls/{id}")
     @Timed
     public ResponseEntity<BubblDTO> getBubbl(@PathVariable Long id) {
@@ -112,12 +90,6 @@ public class BubblResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * DELETE  /bubbls/:id : delete the "id" bubbl.
-     *
-     * @param id the id of the bubblDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
     @DeleteMapping("/bubbls/{id}")
     @Timed
     public ResponseEntity<Void> deleteBubbl(@PathVariable Long id) {
@@ -125,5 +97,30 @@ public class BubblResource {
         bubblService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("bubbl", id.toString())).build();
     }
+
+
+    @GetMapping("/bubbls/decode_location")
+    @Timed
+    public ResponseEntity<List<LatLng>> decodeGeolocationByName(@RequestParam(required = true) String name) throws Exception {
+        log.debug("REST request to decode geolocation : {}", name);
+
+        GeocodingResult[] results = GeocodingApi.newRequest(geoApiContext).address(name).await();
+
+        if (results == null || results.length == 0) {
+            return  ResponseEntity.ok().body(new ArrayList<LatLng>());
+        }
+
+        List<LatLng> latLngs = Arrays.stream(results).map(geocodingResult -> geocodingResult.geometry.location).collect(Collectors.toList());
+
+
+        return  ResponseEntity.ok().body(latLngs);
+//        BubblDTO bubblDTO = bubblService.findOne(id);
+//        return Optional.ofNullable(bubblDTO)
+//            .map(result -> new ResponseEntity<>(
+//                result,
+//                HttpStatus.OK))
+//            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
 }

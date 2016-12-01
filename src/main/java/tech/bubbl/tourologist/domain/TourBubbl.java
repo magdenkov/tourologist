@@ -35,7 +35,7 @@ public class TourBubbl implements Serializable {
     @ManyToOne
     private Tour tour;
 
-    @OneToMany(mappedBy = "tourBubbl")
+    @OneToMany(mappedBy = "tourBubbl", orphanRemoval = true)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubblRoutePoint> tourBubbls = new HashSet<>();
