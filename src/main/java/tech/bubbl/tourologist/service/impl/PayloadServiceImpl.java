@@ -103,7 +103,13 @@ public class PayloadServiceImpl implements PayloadService{
 
 //        Payload payload = payloadMapper.payloadDTOToPayload(payloadDTO);
         payload = payloadRepository.save(payload);
+
+        bubbl.getPayloads().clear();
+        bubbl.getPayloads().add(payload);
+        bubblRepository.save(bubbl);
+
         PayloadDTO resultDTO = payloadMapper.payloadToPayloadDTO(payload);
+
         return resultDTO;
     }
 
