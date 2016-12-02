@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('CreateTourController', TourDialogController);
 
-    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest'];
+    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest','ParseLinks'];
 
-    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest) {
+    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest,ParseLinks) {
         var vm = this;
 
         vm.tour = entity;
@@ -17,9 +17,50 @@
         vm.users = User.query();
         vm.interests = Interest.query();
 
-        vm.bubbls = Bubbl.query();
+
         vm.add = add;
         vm.removebubbl = removebubbl;
+
+        vm.bubbls =[];
+        vm.loadPage = loadPage;
+        vm.page = 0;
+        vm.links = {
+            last: 0
+        };
+        vm.size = 250;
+        vm.reset = reset;
+        loadAll();
+
+        function loadAll() {
+            Bubbl.query({
+                page: vm.page,
+                size: vm.size,
+            }, onSuccess, onError);
+
+
+            function onSuccess(data, headers) {
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                for (var i = 0; i < data.length; i++) {
+                    vm.bubbls.push(data[i]);
+                }
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+        function reset() {
+            vm.page = 0;
+            vm.recipes = [];
+            loadAll();
+        }
+
+        function loadPage(page) {
+            vm.page = page;
+            loadAll();
+        }
 
         $scope.user = {
             interest: [vm.interests[0]]
