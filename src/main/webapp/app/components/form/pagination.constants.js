@@ -4,6 +4,6 @@
     angular
         .module('tourologistApp')
         .constant('paginationConstants', {
-            'itemsPerPage': 20
+            'itemsPerPage': 40
         });
 })();
