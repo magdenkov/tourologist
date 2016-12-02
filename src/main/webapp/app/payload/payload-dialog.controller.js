@@ -5,16 +5,16 @@
         .module('tourologistApp')
         .controller('PayloadDialogController', PayloadDialogController);
 
-    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl','ParseLinks'];
+    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl', 'ParseLinks'];
 
-    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl,ParseLinks) {
+    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl, ParseLinks) {
         var vm = this;
 
         vm.payload = entity;
         vm.clear = clear;
 
         vm.save = save;
-        vm.bubbls =[];
+        vm.bubbls = [];
         vm.loadPage = loadPage;
         vm.page = 0;
         vm.links = {
@@ -54,6 +54,7 @@
             vm.page = page;
             loadAll();
         }
+
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
@@ -71,7 +72,12 @@
             var formData = new FormData();
             formData.append('file', vm.payload.fileForUpload);
             vm.isSaving = true;
-            Bubbl.createPayload(vm.payload.bubblId,formData ,vm.payload.name, onSaveSuccess, onSaveError);
+            if (vm.payload.id !== null) {
+                Payload.update(approve, onSaveSuccess, onSaveError);
+            }else{
+                Bubbl.createPayload(vm.payload.bubblId, formData, onSaveSuccess, onSaveError);
+
+            }
 
             console.log(formData);
         }

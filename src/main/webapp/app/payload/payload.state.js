@@ -128,7 +128,7 @@
                             entity: function () {
                                 return {
                                     fileForUpload: null,
-                                    name: null,
+
                                     id: null,
                                     payloadType: null
 

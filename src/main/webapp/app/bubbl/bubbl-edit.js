@@ -11,7 +11,7 @@
         var vm = this;
 
         vm.bubbl = entity;
-        vm.clear = clear;
+
 
         vm.save = save;
         vm.users = User.query();
@@ -21,7 +21,10 @@
         vm.payloads = Payload.query();
         vm.bubbladminreviews = BubblAdminReview.query();
         vm.tourbubbls = TourBubbl.query();
-
+        vm.clear = clear;
+        $scope.user = {
+            interest: [vm.interests[0]]
+        };
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
