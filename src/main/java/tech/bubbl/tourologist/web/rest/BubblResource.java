@@ -110,17 +110,31 @@ public class BubblResource {
             return  ResponseEntity.ok().body(new ArrayList<LatLng>());
         }
 
-        List<LatLng> latLngs = Arrays.stream(results).map(geocodingResult -> geocodingResult.geometry.location).collect(Collectors.toList());
-
+        List<LatLng> latLngs = Arrays.stream(results)
+            .map(geocodingResult -> geocodingResult.geometry.location)
+            .collect(Collectors.toList());
 
         return  ResponseEntity.ok().body(latLngs);
-//        BubblDTO bubblDTO = bubblService.findOne(id);
-//        return Optional.ofNullable(bubblDTO)
-//            .map(result -> new ResponseEntity<>(
-//                result,
-//                HttpStatus.OK))
-//            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/bubbls/reverse_geocode")
+    @Timed
+    public ResponseEntity<List<String>> reverseGeoCode(@RequestParam(required = true) Double lat,
+                                                       @RequestParam(required = true) Double lng) throws Exception {
+
+        log.debug("REST request to reverse geocoding : lat {} lng {}", lat, lng);
+
+        GeocodingResult[] results = GeocodingApi.newRequest(geoApiContext).latlng(new LatLng(lat, lng)).await();
+
+        if (results == null || results.length == 0) {
+            return  ResponseEntity.ok().body(new ArrayList<String>());
+        }
+
+        List<String> address = Arrays.stream(results)
+            .map(geocodingResult -> geocodingResult.formattedAddress)
+            .collect(Collectors.toList());
+
+        return  ResponseEntity.ok().body(address);
+    }
 
 }
