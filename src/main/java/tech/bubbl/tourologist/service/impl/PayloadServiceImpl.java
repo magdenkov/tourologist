@@ -77,10 +77,13 @@ public class PayloadServiceImpl implements PayloadService{
         }
 
         if (payloadDTO.getPayloadType() == PayloadType.AUDIO && !bubbl.getPayloads().isEmpty()) {
-            // remove old audio payloads so each bubbl can have only one Payload
+            // remove old audio payloads so each bubbl can have only one AUDIO Payload
             bubbl.getPayloads().stream()
-                .filter(payload -> payload.getPayloadType() == PayloadType.AUDIO)
-                .forEach(payload -> delete(payload.getId()));
+                .filter(payload -> PayloadType.AUDIO.equals(payload.getPayloadType()))
+                .forEach(payload -> {
+                    deletePayloadFromAWS(payload.getUrl() , payload.getThumbUrl());
+                    payloadRepository.delete(payload);
+                });
         }
 
         log.debug("Request to save Payload : {}", payloadDTO.getName());

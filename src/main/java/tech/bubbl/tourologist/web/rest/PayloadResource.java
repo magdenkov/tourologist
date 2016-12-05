@@ -56,7 +56,7 @@ public class PayloadResource {
 
     @RequestMapping(value = "/bubbls/{bubblId}/payloads", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     @Timed
-    public ResponseEntity<PayloadDTO> uploadImageToRecipe(@RequestParam("file") @Valid @NotNull @NotBlank MultipartFile file,
+    public ResponseEntity<PayloadDTO> uploadPayloadToBubbl(@RequestParam("file") @Valid @NotNull @NotBlank MultipartFile file,
                                                           @PathVariable("bubblId") Long bubblId,
                                                           @RequestParam(name = "type", required = true) PayloadType payloadType) throws Exception {
         PayloadDTO payloadDTO = new PayloadDTO();
