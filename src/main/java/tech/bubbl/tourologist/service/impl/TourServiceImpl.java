@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -106,15 +107,19 @@ public class TourServiceImpl implements TourService{
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        Tour tour = tourRepository.save(tourDTO.createTour(user));
+        final Tour tour = tourRepository.save(tourDTO.createTour(user));
 
         List<LatLng> bubblsLatLngList = tourDTO.getBubbls().stream()
             .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
             .map(createTourBubblDTO -> {
+                Bubbl bubbl = bubblRepository.findOne(createTourBubblDTO.getBubblId());
+                if (bubbl == null) {
+                    log.error("Bubbl w/ id {} was not found while creating tour ", createTourBubblDTO.getBubblId());
+                    return null;
+                }
                 TourBubbl tourBubbl = new TourBubbl();
                 tourBubbl.setOrderNumber(createTourBubblDTO.getOrderNumber());
                 tourBubbl.setTour(tour);
-                Bubbl bubbl = bubblRepository.findOne(createTourBubblDTO.getBubblId());
                 tourBubbl.setBubbl(bubbl);
                 tourBubblRepository.save(tourBubbl);
                 return new LatLng(bubbl.getLat(), bubbl.getLng());
@@ -123,20 +128,13 @@ public class TourServiceImpl implements TourService{
         tour.setLat(bubblsLatLngList.get(0).lat);
         tour.setLng(bubblsLatLngList.get(0).lng);
 
-
-        // TODO: 29.11.2016   calc Route Lenght!!!!!
-
-
-        Tour finalTour = tourRepository.save(tour);
-
-        if (bubblsLatLngList.size() < 2) {
-            // do not calc route
-            return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
-        }
-
         LatLng origin = bubblsLatLngList.get(0);
         LatLng destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
-        LatLng [] wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
+
+        LatLng [] wayPoints = null;
+        if (bubblsLatLngList.size() > 2) {
+            wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
+        }
 
         DirectionsResult result = null;
         try {
@@ -149,35 +147,39 @@ public class TourServiceImpl implements TourService{
                 .optimizeWaypoints(false)   // otherwise it will change original order of Bubbls!
                 .await();
         } catch (Exception e) {
-            log.error("Error occurred while creating route for tour {}, Error Message {} ", finalTour.getName(), e.getMessage());
+            log.error("Error occurred while creating route for tour {}, Error Message {} ", tour.getName(), e.getMessage());
         }
 
+        if (result == null) {
+            tourRepository.save(tour);
+            return new TourFullDTO(tour, tourImageMapper, tourRoutePointMapper);
+        }
 
-            DirectionsRoute route = result.routes[0];
-            List<LatLng> path = route.overviewPolyline.decodePath();
-            AtomicInteger i = new AtomicInteger(0);
+        DirectionsRoute route = calcLengthOfTour(tour, result.routes[0]);
+        Tour finalTour = tourRepository.save(tour);
 
-            Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
-                .tour(finalTour)
-                .lat(latLng.lat)
-                .lng(latLng.lng)
-                .orderNumber(i.getAndIncrement()))
-                .collect(Collectors.toSet());
+        List<LatLng> path = route.overviewPolyline.decodePath();
+        AtomicInteger i = new AtomicInteger(0);
+        Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
+            .tour(finalTour)
+            .lat(latLng.lat)
+            .lng(latLng.lng)
+            .orderNumber(i.getAndIncrement()))
+            .collect(Collectors.toSet());
 
-//            Set<TourRoutePoint> routePoints = Stream.of(route.legs).map(directionsLeg ->
-//                 new TourRoutePoint()
-//                    .tour(finalTour)
-//                    .orderNumber(i.getAndIncrement())
-//                    .lat(directionsLeg.endLocation.lat)
-//                    .lng(directionsLeg.endLocation.lng)
-//            ).collect(Collectors.toSet());
-
-            List<TourRoutePoint> tourRoutePointsSaved = tourRoutePointRepository.save(routePoints);
-            finalTour.setTourRoutePoints(new HashSet<>(tourRoutePointsSaved));
-
-            // TODO: 28.11.2016 save duration and distance
+        List<TourRoutePoint> tourRoutePointsSaved = tourRoutePointRepository.save(routePoints);
+        finalTour.setTourRoutePoints(new HashSet<>(tourRoutePointsSaved));
 
         return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
+    }
+
+    private DirectionsRoute calcLengthOfTour(Tour tour, DirectionsRoute route1) {
+        DirectionsRoute route = route1;
+        long routeLength = Arrays.stream(route.legs)
+            .mapToLong(value -> value.distance.inMeters)
+            .sum();
+        tour.setRouteLength((int) routeLength);
+        return route;
     }
 
     private String[] convertLatLngToString(LatLng... waypoints) {
