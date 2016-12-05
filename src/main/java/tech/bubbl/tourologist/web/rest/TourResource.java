@@ -120,8 +120,8 @@ public class TourResource {
                 .filter(getAllToursDTO -> getAllToursDTO.getLat() != null && getAllToursDTO.getLng() != null)
                 .forEach(getAllToursDTO -> {
                     GlobalPosition tourLocation = new GlobalPosition(getAllToursDTO.getLat(), getAllToursDTO.getLng(), 0.0);
-                    double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-                    getAllToursDTO.setDistanceToRouteStart(distance);
+                    Double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+                    getAllToursDTO.setDistanceToRouteStart(distance.intValue());
                 });
         }
 
@@ -168,8 +168,8 @@ public class TourResource {
         if (curLat != null && curLng != null && tourDTO.getLat() != null && tourDTO.getLng() != null) {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             GlobalPosition tourLocation = new GlobalPosition(tourDTO.getLat(), tourDTO.getLng(), 0.0);
-            double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-            tourDTO.setDistanceToRouteStart(distance);
+            Double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+            tourDTO.setDistanceToRouteStart(distance.intValue());
         }
 
         return Optional.ofNullable(tourDTO)

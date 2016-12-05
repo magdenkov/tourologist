@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
+import io.swagger.models.auth.In;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -31,7 +32,7 @@ public class GetAllToursDTO {
 
     private Integer routeLength;
 
-    private Double distanceToRouteStart;
+    private Integer distanceToRouteStart;
 
     private Double lat;
 
@@ -52,7 +53,6 @@ public class GetAllToursDTO {
         setDownloadsAmount(120);
         setRating(3.75d);
         setRouteLength(tour.getRouteLength());
-        setDistanceToRouteStart(4.2);
         setLat(tour.getLat());
         setLng(tour.getLng());
     }
@@ -81,11 +81,11 @@ public class GetAllToursDTO {
         this.routeLength = routeLength;
     }
 
-    public Double getDistanceToRouteStart() {
+    public Integer getDistanceToRouteStart() {
         return distanceToRouteStart;
     }
 
-    public void setDistanceToRouteStart(Double distanceToRouteStart) {
+    public void setDistanceToRouteStart(Integer distanceToRouteStart) {
         this.distanceToRouteStart = distanceToRouteStart;
     }
 
