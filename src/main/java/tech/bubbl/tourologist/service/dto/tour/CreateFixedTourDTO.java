@@ -45,8 +45,6 @@ public class CreateFixedTourDTO implements Serializable {
         tour.setStatus(Status.DRAFT);
         tour.setPrice(price);
         tour.setDescription(description);
-        tour.setCreatedDate(ZonedDateTime.now());
-        tour.setLastModified(ZonedDateTime.now());
         tour.setUser(user);
         tour.setInterests(interests.stream().map(interestDTO -> {
             Interest interest =  new Interest();
