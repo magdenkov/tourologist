@@ -209,6 +209,8 @@ dependencies {
     compile 'org.imgscalr:imgscalr-lib:4.2'
     compile 'com.google.maps:google-maps-services:0.1.16'
 
+    compile group: 'org.gavaghan', name: 'geodesy', version: '1.1.3'
+
     testCompile "com.jayway.awaitility:awaitility:${awaility_version}"
     testCompile "com.jayway.jsonpath:json-path"
     testCompile "info.cukes:cucumber-junit:${cucumber_version}"
