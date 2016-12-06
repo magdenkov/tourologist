@@ -37,9 +37,9 @@ public class DefaultResource {
 //        return;
 //    }
 
-    @GetMapping(value = "/.well-known/acme-challenge/3ls3axkWVOFPtX0i3HcJXlMj1QdGjr2FxtXiNfJmyPk",  produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+    @GetMapping(value = "/.well-known/acme-challenge/KwZvI-Bv0pYa_btiUJ_WqFnKksLO7pVSbLilzBJODgs",  produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @ResponseBody()
     public String acmeChallenge(HttpServletResponse res) {
-        return "3ls3axkWVOFPtX0i3HcJXlMj1QdGjr2FxtXiNfJmyPk.w562IOnNZJ9f5DUY6htPWDCqhdH02EdZEGrzD4yHm5s";
+        return "KwZvI-Bv0pYa_btiUJ_WqFnKksLO7pVSbLilzBJODgs";
     }
 }
