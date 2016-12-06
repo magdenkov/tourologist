@@ -1,16 +1,14 @@
 package tech.bubbl.tourologist.web.rest;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@Controller
+
+@RestController
 public class DefaultResource {
 
 //    @RequestMapping(value = "/loaderio-a33cd9ecac0e58c6fd6cc78dd198e659")
@@ -39,14 +37,9 @@ public class DefaultResource {
 //        return;
 //    }
 
-    @RequestMapping(value = "/.well-known/acme-challenge/_TdnJjsWUaq2DsDNrhEGIhG7mHE5oqxj9_NURWhFbT8", method = RequestMethod.GET)
+    @GetMapping(value = "/.well-known/acme-challenge/_TdnJjsWUaq2DsDNrhEGIhG7mHE5oqxj9_NURWhFbT8",  produces={MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
     @ResponseBody()
-    public void acmeChallenge(HttpServletResponse res) {
-        try {
-            PrintWriter out = res.getWriter();
-            out.println("_TdnJjsWUaq2DsDNrhEGIhG7mHE5oqxj9_NURWhFbT8" + ".w562IOnNZJ9f5DUY6htPWDCqhdH02EdZEGrzD4yHm5s");
-            out.close();
-        } catch (IOException ignored) {
-        }
+    public String acmeChallenge(HttpServletResponse res) {
+        return "_TdnJjsWUaq2DsDNrhEGIhG7mHE5oqxj9_NURWhFbT8" + ".w562IOnNZJ9f5DUY6htPWDCqhdH02EdZEGrzD4yHm5s";
     }
 }
