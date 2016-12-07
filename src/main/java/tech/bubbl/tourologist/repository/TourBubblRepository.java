@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.repository;
 
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.TourBubbl;
 
 import org.springframework.data.jpa.repository.*;
@@ -16,4 +17,6 @@ public interface TourBubblRepository extends JpaRepository<TourBubbl,Long> {
 
     Set<TourBubbl> findByBubbl(Bubbl bubbl);
 
+    @Modifying
+    void deleteByTour(Tour tour);
 }

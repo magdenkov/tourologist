@@ -21,10 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -72,6 +70,7 @@ public class TourServiceImpl implements TourService{
     @Inject
     private TourRoutePointRepository tourRoutePointRepository;
 
+
     @Transactional
     public TourDTO save(TourDTO tourDTO) {
         log.debug("Request to save Tour : {}", tourDTO);
@@ -98,6 +97,12 @@ public class TourServiceImpl implements TourService{
     @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Tour : {}", id);
+        Tour tour = tourRepository.findOne(id);
+        Optional.ofNullable(tour)
+            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + id));
+
+        tourBubblRepository.deleteByTour(tour);
+
         tourRepository.delete(id);
     }
 

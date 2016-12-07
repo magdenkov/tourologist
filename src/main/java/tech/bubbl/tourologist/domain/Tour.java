@@ -95,7 +95,7 @@ public class Tour implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourRoutePoint> tourRoutePoints = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour", orphanRemoval = true) // put
+    @OneToMany(mappedBy = "tour") // put
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();
