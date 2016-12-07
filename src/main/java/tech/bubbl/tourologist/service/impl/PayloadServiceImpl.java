@@ -230,6 +230,13 @@ public class PayloadServiceImpl implements PayloadService{
     }
 
 
+    public void deleteWithoutTransaction(Payload payload) {
+        deletePayloadFromAWS(payload.getUrl() , payload.getThumbUrl());
+        payloadRepository.delete(payload);
+    }
+
+
+
     public Boolean deletePayloadFromAWS(String ... urls) {
         if (urls == null || urls.length == 0) {
             return false;

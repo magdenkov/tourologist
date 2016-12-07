@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.hibernate.annotations.Formula;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -94,7 +95,7 @@ public class Tour implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourRoutePoint> tourRoutePoints = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour", orphanRemoval = true)
+    @OneToMany(mappedBy = "tour", orphanRemoval = true) // put
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();
@@ -107,6 +108,17 @@ public class Tour implements Serializable {
 
     @Column(name = "route_length")
     private Integer routeLength;
+
+    @Formula("(select count(*) from tour_bubbl a where a.tour_id = id)")
+    private Integer bubblsAmount;
+
+    public Integer getBubblsAmount() {
+        return bubblsAmount;
+    }
+
+    public void setBubblsAmount(Integer bubblsAmount) {
+        this.bubblsAmount = bubblsAmount;
+    }
 
     public Double getLat() {
         return lat;

@@ -106,7 +106,7 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "radiusMeters", required = false) Integer radius,
+                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius,
                                                                                  Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
@@ -147,7 +147,7 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<BubblDTO>> getToursClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                           @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                          @RequestParam(value = "radiusMeters", required = false) Integer radius,
+                                                                                          @RequestParam(value = "radiusMeters", required = false) Double radius,
                                                                                                   Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");

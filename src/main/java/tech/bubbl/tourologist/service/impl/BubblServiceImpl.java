@@ -1,24 +1,23 @@
 package tech.bubbl.tourologist.service.impl;
 
-import tech.bubbl.tourologist.service.BubblService;
-import tech.bubbl.tourologist.domain.Bubbl;
-import tech.bubbl.tourologist.repository.BubblRepository;
-import tech.bubbl.tourologist.service.PayloadService;
-import tech.bubbl.tourologist.service.dto.BubblDTO;
-import tech.bubbl.tourologist.service.mapper.BubblMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.repository.BubblRepository;
+import tech.bubbl.tourologist.repository.TourBubblRepository;
+import tech.bubbl.tourologist.repository.TourRepository;
+import tech.bubbl.tourologist.service.BubblService;
+import tech.bubbl.tourologist.service.PayloadService;
+import tech.bubbl.tourologist.service.dto.BubblDTO;
+import tech.bubbl.tourologist.service.mapper.BubblMapper;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Bubbl.
@@ -36,6 +35,12 @@ public class BubblServiceImpl implements BubblService{
 
     @Inject
     private PayloadService payloadService;
+
+    @Inject
+    private TourBubblRepository tourBubblRepository;
+
+    @Inject
+    private TourRepository tourRepository;
 
     /**
      * Save a bubbl.
@@ -92,9 +97,28 @@ public class BubblServiceImpl implements BubblService{
             .orElseThrow(() -> new EntityNotFoundException("Bubbls w/ id was not found" + id));
          // delete all payloads
 
-        bubbl.getPayloads().stream()
-            .forEach(payload -> payloadService.delete(payload.getId()));
+        bubbl.getPayloads().stream().forEach(payload -> {
+                payloadService.deleteWithoutTransaction(payload);});
+
+//        bubbl.getTourBubbls().stream().forEach(tourBubbl -> {
+//            tourBubblRepository.delete(tourBubbl);
+//        });
+
+        // TODO: 07.12.2016  1) handle bubbl order number changing in all tours (minus one)
+        //  2) recalculate all routes in these tours
 
         bubblRepository.delete(id);
+
+//        Set<TourBubbl> tourBubbls = tourBubblRepository.findByBubbl(bubbl);
+//
+//        tourBubbls.stream().forEach(tourBubbl -> {
+//            // refresh cache
+//            tourBubbl.getTour().getTourBubbls().remove(tourBubbl);
+//            tourRepository.save(tourBubbl.getTour());
+//        });
+
+
+
+
     }
 }

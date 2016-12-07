@@ -42,7 +42,7 @@ public class GetAllToursDTO {
     }
 
     public GetAllToursDTO(Tour tour) {
-        setBubblsAmount(tour.getTourBubbls().size());
+        setBubblsAmount(tour.getBubblsAmount());
         Optional.ofNullable(tour.getUser()).ifPresent(user -> setAuthor(user.getFullName()));
         setName(tour.getName());
         setId(tour.getId());
@@ -51,7 +51,7 @@ public class GetAllToursDTO {
         setPrice(tour.getPrice());
         /// TODO: 25.11.2016  replace this hardcode with actual values
         setDownloadsAmount(120);
-        setRating(3.75d);
+        setRating(4.75d);
         setRouteLength(tour.getRouteLength());
         setLat(tour.getLat());
         setLng(tour.getLng());

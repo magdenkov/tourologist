@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import tech.bubbl.tourologist.domain.Payload;
 import tech.bubbl.tourologist.service.dto.PayloadDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,8 @@ public interface PayloadService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    void deleteWithoutTransaction(Payload payload);
 
     PayloadDTO save(PayloadDTO payloadDTO);
 }
