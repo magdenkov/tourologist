@@ -190,6 +190,7 @@ public class TourServiceImpl implements TourService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius) {
         Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
             @Override
@@ -205,6 +206,9 @@ public class TourServiceImpl implements TourService{
         if (curLat != null && curLng != null && radius != null) {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             tours = tours.stream().filter(tour -> {
+                if (tour.getLng() == null || tour.getLat() == null) {
+                    return false;
+                }
                 GlobalPosition tourLocation = new GlobalPosition(tour.getLat(), tour.getLng(), 0.0);
                 Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
                 return distance < radius;

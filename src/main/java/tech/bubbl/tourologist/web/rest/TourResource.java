@@ -8,6 +8,8 @@ import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
+import tech.bubbl.tourologist.service.dto.bubbl.TourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -125,30 +127,29 @@ public class TourResource {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
+    @GetMapping("/tours/surprise")
+    @Timed
+    public ResponseEntity<List<FullTourBubblNumberedDTO>> getClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = true) Double curLat,
+                                                                                                 @RequestParam(value = "currentLng", required = true) Double curLng,
+                                                                                                 @RequestParam(value = "radiusMeters", required = true) Double radius)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Tours");
+        List<FullTourBubblNumberedDTO> bubblsSurprise = bubblService.findBubblsSurprise(curLat, curLng, radius);
+
+        return new ResponseEntity<>(bubblsSurprise, HttpStatus.OK);
+    }
+
+
     @GetMapping("/tours/diy")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> getToursClosestToCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = false) Double curLat,
-                                                                                 @RequestParam(value = "targetLat", required = false) Double tarLat,
-                                                                                 @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "targetLng", required = false) Double tarLng,
+    public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = false) Double curLat,
+                                                                                    @RequestParam(value = "currentLng", required = false) Double curLng,
+                                                                                    @RequestParam(value = "targetLat", required = false) Double tarLat,
+                                                                                    @RequestParam(value = "targetLng", required = false) Double tarLng,
                                                                                            Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
         Page<GetAllToursDTO> page = tourService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
-
-
-    @GetMapping("/tours/surprise")
-    @Timed
-    public ResponseEntity<List<BubblDTO>> getToursClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = false) Double curLat,
-                                                                                          @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                          @RequestParam(value = "radiusMeters", required = false) Double radius,
-                                                                                                  Pageable pageable)
-        throws URISyntaxException {
-        log.debug("REST request to get a page of Tours");
-        Page<BubblDTO> page = bubblService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service.dto.bubbl;
 import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.enumeration.Status;
+import tech.bubbl.tourologist.service.dto.TransportObject;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -11,7 +12,7 @@ import java.util.Optional;
 /**
  * Created by Denis Magdenkov on 25.11.2016.
  */
-public class TourBubblNumberedDTO {
+public class TourBubblNumberedDTO implements TransportObject{
 
 
     private Long id;

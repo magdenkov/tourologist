@@ -4,6 +4,7 @@ import tech.bubbl.tourologist.domain.Bubbl;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import tech.bubbl.tourologist.domain.Tour;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Spring Data JPA repository for the Bubbl entity.
  */
 @SuppressWarnings("unused")
-public interface BubblRepository extends JpaRepository<Bubbl,Long> {
+public interface BubblRepository extends JpaRepository<Bubbl,Long>, JpaSpecificationExecutor<Bubbl> {
 
     @Query("select bubbl from Bubbl bubbl where bubbl.user.login = ?#{principal.username}")
     List<Bubbl> findByUserIsCurrentUser();

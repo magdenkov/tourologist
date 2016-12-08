@@ -3,6 +3,8 @@ package tech.bubbl.tourologist.service;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
+import tech.bubbl.tourologist.service.dto.bubbl.TourBubblNumberedDTO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +24,7 @@ public interface BubblService {
 
     /**
      *  Get all the bubbls.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -42,4 +44,6 @@ public interface BubblService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    List <FullTourBubblNumberedDTO> findBubblsSurprise(Double curLat, Double curLng, Double radius);
 }
