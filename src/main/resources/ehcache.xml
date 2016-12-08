@@ -70,6 +70,8 @@
         timeToLiveSeconds="3600">
     </cache>
 
+
+
     <cache name="tech.bubbl.tourologist.domain.Tour.tourBubbls"
         timeToLiveSeconds="3600">
     </cache>
@@ -129,6 +131,8 @@
     <cache name="tech.bubbl.tourologist.domain.Bubbl.bubblAdminReviews"
         timeToLiveSeconds="3600">
     </cache>
+
+
 
     <cache name="tech.bubbl.tourologist.domain.Bubbl.tourBubbls"
         timeToLiveSeconds="3600">

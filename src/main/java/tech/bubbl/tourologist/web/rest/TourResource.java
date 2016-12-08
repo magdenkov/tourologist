@@ -4,12 +4,10 @@ import com.codahale.metrics.annotation.Timed;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
-import org.springframework.beans.factory.annotation.Autowired;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
-import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -47,7 +45,7 @@ public class TourResource {
     @Inject
     private BubblService bubblService;
 
-    private GeodeticCalculator geoCalc = new GeodeticCalculator();
+    public static final GeodeticCalculator GEODETIC_CALCULATOR = new GeodeticCalculator();
 
 
     @PostMapping("/tours")
@@ -106,26 +104,25 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius,
-                                                                                 Pageable pageable)
+                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius
+                                                                                 )
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
+        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, radius);
 
-        List<GetAllToursDTO> resp = page.getContent();
+//        List<GetAllToursDTO> resp = page.getContent();
         if (curLat != null && curLng != null) {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             resp.stream()
                 .filter(getAllToursDTO -> getAllToursDTO.getLat() != null && getAllToursDTO.getLng() != null)
                 .forEach(getAllToursDTO -> {
                     GlobalPosition tourLocation = new GlobalPosition(getAllToursDTO.getLat(), getAllToursDTO.getLng(), 0.0);
-                    Double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+                    Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
                     getAllToursDTO.setDistanceToRouteStart(distance.intValue());
                 });
         }
 
-        return new ResponseEntity<>(resp, headers, HttpStatus.OK);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @GetMapping("/tours/diy")
@@ -168,7 +165,7 @@ public class TourResource {
         if (curLat != null && curLng != null && tourDTO.getLat() != null && tourDTO.getLng() != null) {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             GlobalPosition tourLocation = new GlobalPosition(tourDTO.getLat(), tourDTO.getLng(), 0.0);
-            Double distance = geoCalc.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+            Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
             tourDTO.setDistanceToRouteStart(distance.intValue());
         }
 

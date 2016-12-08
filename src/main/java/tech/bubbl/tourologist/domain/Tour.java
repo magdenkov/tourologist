@@ -3,19 +3,18 @@ package tech.bubbl.tourologist.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Formula;
+import tech.bubbl.tourologist.domain.enumeration.Status;
+import tech.bubbl.tourologist.domain.enumeration.TourType;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import org.hibernate.annotations.Formula;
-import tech.bubbl.tourologist.domain.enumeration.Status;
-
-import tech.bubbl.tourologist.domain.enumeration.TourType;
+import java.util.Set;
 
 /**
  * A Tour.
@@ -23,6 +22,8 @@ import tech.bubbl.tourologist.domain.enumeration.TourType;
 @Entity
 @Table(name = "tour")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//@Spatial
+//@Indexed
 public class Tour implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -101,9 +102,11 @@ public class Tour implements Serializable {
     private Set<TourBubbl> tourBubbls = new HashSet<>();
 
     @Column(name = "lat")
+//    @Latitude
     private Double lat;
 
     @Column(name = "lng")
+//    @Longitude
     private Double lng;
 
     @Column(name = "route_length")

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 
+import java.util.List;
+
 /**
  * Service Interface for managing Tour.
  */
@@ -44,4 +46,6 @@ public interface TourService {
     void delete(Long id);
 
     TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO);
+
+    List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius);
 }

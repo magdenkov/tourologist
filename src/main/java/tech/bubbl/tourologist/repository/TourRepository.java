@@ -11,7 +11,7 @@ import java.util.List;
  * Spring Data JPA repository for the Tour entity.
  */
 @SuppressWarnings("unused")
-public interface TourRepository extends JpaRepository<Tour,Long> {
+public interface TourRepository extends JpaRepository<Tour,Long>, JpaSpecificationExecutor<Tour> {
 
     @Query("select tour from Tour tour where tour.user.login = ?#{principal.username}")
     List<Tour> findByUserIsCurrentUser();

@@ -4,7 +4,12 @@ import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.*;
 import org.apache.commons.lang3.ArrayUtils;
+import org.gavaghan.geodesy.Ellipsoid;
+import org.gavaghan.geodesy.GlobalPosition;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import tech.bubbl.tourologist.domain.*;
+import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.repository.*;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.TourService;
@@ -22,9 +27,15 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+
+import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
 
 /**
  * Service Implementation for managing Tour.
@@ -176,6 +187,33 @@ public class TourServiceImpl implements TourService{
         finalTour.setTourRoutePoints(new HashSet<>(tourRoutePointsSaved));
 
         return new TourFullDTO(finalTour, tourImageMapper, tourRoutePointMapper);
+    }
+
+    @Override
+    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius) {
+        Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
+            @Override
+            public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+               return cb.and(cb.equal(root.get("tourType"), TourType.FIXED ));
+            }
+        });
+        List<Tour> tours = tourRepository.findAll(specification);
+
+        // TODO: 08.12.2016  Filter by hibernate search and spatial in criteria
+        // see build gradle compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.3.0.Final' downgrade hibernate core to 4.3.11
+
+        if (curLat != null && curLng != null && radius != null) {
+            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
+            tours = tours.stream().filter(tour -> {
+                GlobalPosition tourLocation = new GlobalPosition(tour.getLat(), tour.getLng(), 0.0);
+                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+                return distance < radius;
+            }).collect(Collectors.toList());
+        }
+
+        return tours.stream().map(GetAllToursDTO::new)
+            .collect(Collectors.toList());
+
     }
 
     private DirectionsRoute calcLengthOfTour(Tour tour, DirectionsRoute route1) {
