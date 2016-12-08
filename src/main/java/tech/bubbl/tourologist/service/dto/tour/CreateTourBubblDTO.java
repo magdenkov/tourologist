@@ -16,6 +16,11 @@ public class CreateTourBubblDTO implements Serializable {
     public CreateTourBubblDTO() {
     }
 
+    public CreateTourBubblDTO(Integer orderNumber, Long bubblId) {
+        this.orderNumber = orderNumber;
+        this.bubblId = bubblId;
+    }
+
     public Integer getOrderNumber() {
         return orderNumber;
     }

@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.service;
 
+import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,5 +46,7 @@ public interface BubblService {
      */
     void delete(Long id);
 
-    List <FullTourBubblNumberedDTO> findBubblsSurprise(Double curLat, Double curLng, Double radius);
+    List <Bubbl> findBubblsSurprise(Double curLat, Double curLng, Double radius);
+
+    List<String> reverseGeocode(Double lat, Double lng);
 }

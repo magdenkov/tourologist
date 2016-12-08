@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
+import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
@@ -13,6 +14,7 @@ import tech.bubbl.tourologist.service.dto.bubbl.TourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
+import tech.bubbl.tourologist.service.util.SortBubbls;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourDTO;
@@ -31,6 +33,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Tour.
@@ -96,7 +100,7 @@ public class TourResource {
         if (tourDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tour", "idexists", "A new tour cannot already have an ID")).body(null);
         }
-        TourFullDTO result = tourService.saveFixedTour(tourDTO);
+        TourFullDTO result = tourService.saveFixedTour(tourDTO, null, null, TourType.FIXED);
         return ResponseEntity.created(new URI("/api/tours/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("tour", result.getId().toString()))
             .body(result);
@@ -133,25 +137,31 @@ public class TourResource {
                                                                                                  @RequestParam(value = "currentLng", required = true) Double curLng,
                                                                                                  @RequestParam(value = "radiusMeters", required = true) Double radius)
         throws URISyntaxException {
-        log.debug("REST request to get a page of Tours");
-        List<FullTourBubblNumberedDTO> bubblsSurprise = bubblService.findBubblsSurprise(curLat, curLng, radius);
+        log.debug("REST request to get a page of SURPRISE  Tours");
+        List<Bubbl> bubblsSurprise = bubblService.findBubblsSurprise(curLat, curLng, radius);
 
-        return new ResponseEntity<>(bubblsSurprise, HttpStatus.OK);
+        AtomicInteger i = new AtomicInteger(0);
+        List<FullTourBubblNumberedDTO> resp = bubblsSurprise.stream()
+            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
+            .collect(Collectors.toList());
+
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 
     @GetMapping("/tours/diy")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = false) Double curLat,
-                                                                                    @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                    @RequestParam(value = "targetLat", required = false) Double tarLat,
-                                                                                    @RequestParam(value = "targetLng", required = false) Double tarLng,
-                                                                                           Pageable pageable)
+    public ResponseEntity<List<GetAllToursDTO>> generateClosestCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = true) Double curLat,
+                                                                                    @RequestParam(value = "currentLng", required = true) Double curLng,
+                                                                                    @RequestParam(value = "targetLat", required = true) Double tarLat,
+                                                                                    @RequestParam(value = "targetLng", required = true) Double tarLng)
         throws URISyntaxException {
-        log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        log.debug("REST request to get a page of DIY Tours");
+
+        List<GetAllToursDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng);
+
+        return new ResponseEntity<>(diyTours,  HttpStatus.OK);
     }
 
 

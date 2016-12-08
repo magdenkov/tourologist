@@ -124,17 +124,11 @@ public class BubblResource {
 
         log.debug("REST request to reverse geocoding : lat {} lng {}", lat, lng);
 
-        GeocodingResult[] results = GeocodingApi.newRequest(geoApiContext).latlng(new LatLng(lat, lng)).await();
 
-        if (results == null || results.length == 0) {
-            return  ResponseEntity.ok().body(new ArrayList<String>());
-        }
 
-        List<String> address = Arrays.stream(results)
-            .map(geocodingResult -> geocodingResult.formattedAddress)
-            .collect(Collectors.toList());
 
-        return  ResponseEntity.ok().body(address);
+        List<String> address1 = bubblService.reverseGeocode(lat,lng);
+        return  ResponseEntity.ok().body(address1);
     }
 
 }

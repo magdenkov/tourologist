@@ -1,5 +1,9 @@
 package tech.bubbl.tourologist.service.impl;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalPosition;
 import org.slf4j.Logger;
@@ -8,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.bubbl.tourologist.domain.Bubbl;
@@ -28,6 +33,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,6 +64,9 @@ public class BubblServiceImpl implements BubblService{
 
     @Inject
     private TourRepository tourRepository;
+
+    @Inject
+    private GeoApiContext geoApiContext;
 
     /**
      * Save a bubbl.
@@ -137,7 +147,7 @@ public class BubblServiceImpl implements BubblService{
 
     @Transactional(readOnly = true)
     @Override
-    public List<FullTourBubblNumberedDTO> findBubblsSurprise(Double curLat, Double curLng, Double radius) {
+    public List<Bubbl> findBubblsSurprise(Double curLat, Double curLng, Double radius) {
 
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
@@ -163,13 +173,36 @@ public class BubblServiceImpl implements BubblService{
             }).collect(Collectors.toList());
         }
 
+        return bubbls;
 
-        AtomicInteger i = new AtomicInteger(0);
-        return bubbls.stream()
-            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
-            .collect(Collectors.toList());
+//        AtomicInteger i = new AtomicInteger(0);
+//        return bubbls.stream()
+//            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+//            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
+//            .collect(Collectors.toList());
 
 
     }
+
+    @Override
+    public List<String> reverseGeocode(Double lat, Double lng) {
+        GeocodingResult[] results = new GeocodingResult[0];
+        try {
+            results = GeocodingApi.newRequest(geoApiContext).latlng(new LatLng(lat, lng)).await();
+        } catch (Exception e) {
+            log.error("failed to decode location from google services");
+        }
+
+        if (results == null || results.length == 0) {
+            return  new ArrayList<>();
+        }
+
+        List<String> address = Arrays.stream(results)
+            .map(geocodingResult -> geocodingResult.formattedAddress)
+            .collect(Collectors.toList());
+
+        return address;
+    }
+
+
 }

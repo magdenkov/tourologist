@@ -12,8 +12,10 @@ import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.repository.*;
 import tech.bubbl.tourologist.security.SecurityUtils;
+import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
+import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -24,6 +26,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import tech.bubbl.tourologist.service.util.SortBubbls;
+import tech.bubbl.tourologist.web.rest.BubblResource;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
@@ -81,6 +85,11 @@ public class TourServiceImpl implements TourService{
     @Inject
     private TourRoutePointRepository tourRoutePointRepository;
 
+    @Inject
+    private BubblService bubblService;
+
+
+
 
     @Transactional
     public TourDTO save(TourDTO tourDTO) {
@@ -119,11 +128,11 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO) {
+    public TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO, LatLng origin, LatLng destination, TourType type) {
 
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        final Tour tour = tourRepository.save(tourDTO.createTour(user));
+        final Tour tour = tourRepository.save(tourDTO.createTour(user, type));
 
         List<LatLng> bubblsLatLngList = tourDTO.getBubbls().stream()
             .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
@@ -143,14 +152,26 @@ public class TourServiceImpl implements TourService{
 
         tour.setLat(bubblsLatLngList.get(0).lat);
         tour.setLng(bubblsLatLngList.get(0).lng);
-
-        LatLng origin = bubblsLatLngList.get(0);
-        LatLng destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
-
         LatLng [] wayPoints = null;
-        if (bubblsLatLngList.size() > 2) {
+
+
+        if (origin == null && destination == null && bubblsLatLngList.size() > 2) {
+            // exclude first and last bubbls
             wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
+        } else {
+            wayPoints = bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]);
+                //ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 0, bubblsLatLngList.size() - 1);
         }
+
+        if (origin == null) {
+            origin = bubblsLatLngList.get(0);
+        }
+
+        if (destination == null) {
+            destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
+        }
+
+
 
         DirectionsResult result = null;
         try {
@@ -218,6 +239,59 @@ public class TourServiceImpl implements TourService{
         return tours.stream().map(GetAllToursDTO::new)
             .collect(Collectors.toList());
 
+    }
+
+    @Override
+    @Transactional
+    public List<GetAllToursDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
+
+        GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
+        GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, 0.0);
+        Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance();
+
+        List<Bubbl> bubblsAround = bubblService.findBubblsSurprise(curLat, curLng, radius);
+        if (bubblsAround.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        AtomicInteger i = new AtomicInteger(0);
+        List<CreateTourBubblDTO> bubblsAroundOrdered = bubblsAround.stream()
+            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+            .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
+            .collect(Collectors.toList());
+
+        // TODO: 08.12.2016 implement more complicated algoritm to pick up bubbls
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        CreateFixedTourDTO createFixedTourDTO = new CreateFixedTourDTO();
+        createFixedTourDTO.setName("DIY tour by " + user.getFullName());
+        List<String> origin = bubblService.reverseGeocode(curLat, curLng);
+        List<String> destination = bubblService.reverseGeocode(tarLat, tarLng);
+        createFixedTourDTO.setDescription("DIY tour from " + origin.get(0) + " to destination " + destination.get(0));
+
+
+//        final Tour tour = tourRepository.save(createFixedTourDTO.createTour(user, TourType.DIY));
+        LatLng originLL = new LatLng(curLat, curLng);
+        LatLng destinationLL = new LatLng(tarLat, tarLng);
+
+        List<GetAllToursDTO> resp = new ArrayList<>();
+        if (bubblsAroundOrdered.size() <= 2) {
+            createFixedTourDTO.setBubbls(bubblsAroundOrdered);
+            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
+        } else {
+            createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
+                .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 == 0 )
+                .collect(Collectors.toList()));
+            createFixedTourDTO.setName(createFixedTourDTO.getName() + " V1");
+            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
+
+            createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
+                .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 != 0 )
+                .collect(Collectors.toList()));
+            createFixedTourDTO.setName(createFixedTourDTO.getName() + " V2");
+            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
+        }
+
+        return resp;
     }
 
     private DirectionsRoute calcLengthOfTour(Tour tour, DirectionsRoute route1) {

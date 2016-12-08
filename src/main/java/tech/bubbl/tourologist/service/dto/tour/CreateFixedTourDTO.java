@@ -38,10 +38,10 @@ public class CreateFixedTourDTO implements Serializable {
 
     private Set<InterestDTO> interests = new HashSet<>();
 
-    public Tour createTour(User user) {
+    public Tour createTour(User user, TourType type) {
         Tour tour = new Tour();
         tour.setName(name);
-        tour.setTourType(TourType.FIXED);
+        tour.setTourType(type);
         tour.setStatus(Status.DRAFT);
         tour.setPrice(price);
         tour.setDescription(description);
