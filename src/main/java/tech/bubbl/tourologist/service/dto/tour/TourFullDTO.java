@@ -18,20 +18,22 @@ public class TourFullDTO extends GetAllToursDTO {
 
     private List<TourImageDTO> images = new ArrayList<>();
 
-    private List<TourRoutePoint> tourRoutePoints =  new ArrayList<>();
+    private List<RoutePointDTO> tourRoutePoints =  new ArrayList<>();
 
     private List<FullTourBubblNumberedDTO> bubbls =  new ArrayList<>();
 
     private List<Interest> interests = new ArrayList<>();
 
+    private String description;
+
     public TourFullDTO(Tour tour, TourImageMapper tourImageMapper, TourRoutePointMapper tourRoutePointMapper) {
         super(tour);
-        this.tourRoutePoints = tourRoutePointMapper.tourRoutePointsToTourRoutePointDTOs(new ArrayList<>(tour.getTourRoutePoints()));
-        Collections.sort(this.tourRoutePoints, (o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber());
-//        this.tourRoutePoints = tour.getTourRoutePoints().stream()
-//            .map(RoutePointDTO::new)
-//            .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
-//            .collect(Collectors.toList());
+//        this.tourRoutePoints = tourRoutePointMapper.tourRoutePointsToTourRoutePointDTOs(new ArrayList<>(tour.getTourRoutePoints()));
+//        Collections.sort(this.tourRoutePoints, (o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber());
+        this.tourRoutePoints = tour.getTourRoutePoints().stream()
+            .map(RoutePointDTO::new)
+            .sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
+            .collect(Collectors.toList());
         this.interests = new ArrayList<>(tour.getInterests());
         this.images = tourImageMapper.tourImagesToTourImageDTOs(new ArrayList<>(tour.getTourImages()));
         this.bubbls = tour.getTourBubbls().stream().
@@ -39,6 +41,7 @@ public class TourFullDTO extends GetAllToursDTO {
             map(tourBubbl -> new FullTourBubblNumberedDTO(tourBubbl.getBubbl(), tourBubbl.getOrderNumber())).
             sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
             .collect(Collectors.toList());
+        setDescription(tour.getDescription());
 
     }
 
@@ -78,6 +81,14 @@ public class TourFullDTO extends GetAllToursDTO {
         return result;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<TourImageDTO> getImages() {
         return images;
     }
@@ -86,11 +97,11 @@ public class TourFullDTO extends GetAllToursDTO {
         this.images = images;
     }
 
-    public List<TourRoutePoint> getTourRoutePoints() {
+    public List<RoutePointDTO> getTourRoutePoints() {
         return tourRoutePoints;
     }
 
-    public void setTourRoutePoints(List<TourRoutePoint> tourRoutePoints) {
+    public void setTourRoutePoints(List<RoutePointDTO> tourRoutePoints) {
         this.tourRoutePoints = tourRoutePoints;
     }
 

@@ -152,14 +152,14 @@ public class TourResource {
 
     @GetMapping("/tours/diy")
     @Timed
-    public ResponseEntity<List<GetAllToursDTO>> generateClosestCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = true) Double curLat,
+    public ResponseEntity<List<TourFullDTO>> generateClosestCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = true) Double curLat,
                                                                                     @RequestParam(value = "currentLng", required = true) Double curLng,
                                                                                     @RequestParam(value = "targetLat", required = true) Double tarLat,
                                                                                     @RequestParam(value = "targetLng", required = true) Double tarLng)
         throws URISyntaxException {
         log.debug("REST request to get a page of DIY Tours");
 
-        List<GetAllToursDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng);
+        List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng);
 
         return new ResponseEntity<>(diyTours,  HttpStatus.OK);
     }

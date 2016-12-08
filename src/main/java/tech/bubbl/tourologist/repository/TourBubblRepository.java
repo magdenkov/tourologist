@@ -17,6 +17,8 @@ public interface TourBubblRepository extends JpaRepository<TourBubbl,Long> {
 
     Set<TourBubbl> findByBubbl(Bubbl bubbl);
 
+    Set<TourBubbl> findByTour(Tour tour);
+
     @Modifying
     void deleteByTour(Tour tour);
 }
