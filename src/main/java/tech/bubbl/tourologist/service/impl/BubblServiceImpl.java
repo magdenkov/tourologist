@@ -152,6 +152,7 @@ public class BubblServiceImpl implements BubblService{
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                // write fetch join for interests here
                 return cb.and(cb.equal(root.get("status"), Status.APPROVED));
             }
         });
@@ -163,14 +164,20 @@ public class BubblServiceImpl implements BubblService{
 
         if (curLat != null && curLng != null && radius != null) {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-            bubbls = bubbls.stream().filter(bubbl -> {
+            bubbls = bubbls.stream()
+            .filter(bubbl -> {
                 if (bubbl.getLng() == null || bubbl.getLat() == null) {
                     return false;
                 }
                 GlobalPosition tourLocation = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), 0.0);
                 Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
                 return distance < radius;
-            }).collect(Collectors.toList());
+            })
+            .map(bubbl -> {
+                bubbl.getInterests().size(); // initialise
+                return bubbl;
+            })
+            .collect(Collectors.toList());
         }
 
         return bubbls;
