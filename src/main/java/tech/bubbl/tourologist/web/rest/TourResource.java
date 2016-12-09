@@ -5,6 +5,7 @@ import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
@@ -84,10 +85,12 @@ public class TourResource {
     @GetMapping("/tours")
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getAllTours(@RequestParam(value = "type", required = false) TourType type,
+                                                            @RequestParam(value = "status", required = false) Status status,
+                                                            @RequestParam(value = "userId", required = false) Long userId,
                                                                                            Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAll(pageable);
+        Page<GetAllToursDTO> page = tourService.findAll(pageable,type, status, userId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

@@ -9,6 +9,7 @@ import org.gavaghan.geodesy.GlobalPosition;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import tech.bubbl.tourologist.domain.*;
+import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.repository.*;
 import tech.bubbl.tourologist.security.SecurityUtils;
@@ -27,7 +28,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import tech.bubbl.tourologist.service.util.SortBubbls;
-import tech.bubbl.tourologist.web.rest.BubblResource;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
@@ -102,9 +102,27 @@ public class TourServiceImpl implements TourService{
     }
 
     @Transactional(readOnly = true)
-    public Page<GetAllToursDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Tours");
-        Page<Tour> result = tourRepository.findAll(pageable);
+    public Page<GetAllToursDTO> findAll(Pageable pageable, TourType type, Status status, Long userId) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
+        Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
+            @Override
+            public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (type != null) {
+                    predicates.add(cb.equal(root.get("tourType"), type));
+                }
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status"), status));
+                }
+                if (userId != null) {
+                    predicates.add(cb.equal(root.get("user").get("id"), userId));
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+
+        Page<Tour> result = tourRepository.findAll(specification, pageable);
         return result.map(GetAllToursDTO::new);
     }
 

@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
  */
 public class UserDTO {
 
+    private Long id;
+
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 100)
     private String login;
@@ -48,11 +50,11 @@ public class UserDTO {
             user.getEmail(), user.getActivated(), user.getLangKey(),
             user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()),
-            user.getInterests());
+            user.getInterests(), user.getId());
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities, Set<Interest> interests) {
+        String email, boolean activated, String langKey, Set<String> authorities, Set<Interest> interests, Long id) {
 
         this.login = login;
         this.firstName = firstName;
@@ -62,6 +64,15 @@ public class UserDTO {
         this.langKey = langKey;
         this.authorities = authorities;
         this.interests = interests;
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Set<Interest> getInterests() {

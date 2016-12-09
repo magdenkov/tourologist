@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service;
 
 import com.google.maps.model.LatLng;
+import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
@@ -26,11 +27,12 @@ public interface TourService {
 
     /**
      *  Get all the tours.
-     *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     *   @param pageable the pagination information
+     *  @param type
+     * @param status @return the list of entities
+     * @param userId
      */
-    Page<GetAllToursDTO> findAll(Pageable pageable);
+    Page<GetAllToursDTO> findAll(Pageable pageable, TourType type, Status status, Long userId);
 
     /**
      *  Get the "id" tour.
