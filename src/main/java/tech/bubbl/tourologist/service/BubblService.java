@@ -5,6 +5,7 @@ import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface BubblService {
      *  @param status
      *@param userId @return the list of entities
      */
-    Page<BubblDTO> findAll(Pageable pageable, Status status, Long userId);
+    Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId);
 
     /**
      *  Get the "id" bubbl.
@@ -36,7 +37,7 @@ public interface BubblService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    BubblDTO findOne(Long id);
+    FullTourBubblNumberedDTO findOne(Long id);
 
     /**
      *  Delete the "id" bubbl.

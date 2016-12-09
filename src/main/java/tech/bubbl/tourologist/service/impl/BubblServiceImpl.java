@@ -15,13 +15,17 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.repository.BubblRepository;
 import tech.bubbl.tourologist.repository.TourBubblRepository;
 import tech.bubbl.tourologist.repository.TourRepository;
+import tech.bubbl.tourologist.repository.UserRepository;
+import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.PayloadService;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.BubblMapper;
 
 import javax.inject.Inject;
@@ -63,6 +67,8 @@ public class BubblServiceImpl implements BubblService{
 
     @Inject
     private GeoApiContext geoApiContext;
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * Save a bubbl.
@@ -74,13 +80,16 @@ public class BubblServiceImpl implements BubblService{
     public BubblDTO save(BubblDTO bubblDTO) {
         log.debug("Request to save Bubbl : {}", bubblDTO);
         Bubbl bubbl = bubblMapper.bubblDTOToBubbl(bubblDTO);
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        bubbl.setUser(user);
+        bubbl.setStatus(Status.DRAFT);
         bubbl = bubblRepository.save(bubbl);
         BubblDTO result = bubblMapper.bubblToBubblDTO(bubbl);
         return result;
     }
 
     @Transactional(readOnly = true)
-    public Page<BubblDTO> findAll(Pageable pageable, Status status, Long userId) {
+    public Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status, userId);
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
@@ -97,7 +106,7 @@ public class BubblServiceImpl implements BubblService{
             }
         });
         Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
-        return result.map(bubbl -> bubblMapper.bubblToBubblDTO(bubbl));
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, 0));
     }
 
     /**
@@ -107,11 +116,10 @@ public class BubblServiceImpl implements BubblService{
      *  @return the entity
      */
     @Transactional(readOnly = true)
-    public BubblDTO findOne(Long id) {
+    public FullTourBubblNumberedDTO findOne(Long id) {
         log.debug("Request to get Bubbl : {}", id);
         Bubbl bubbl = bubblRepository.findOneWithEagerRelationships(id);
-        BubblDTO bubblDTO = bubblMapper.bubblToBubblDTO(bubbl);
-        return bubblDTO;
+        return new FullTourBubblNumberedDTO(bubbl,0);
     }
 
     /**

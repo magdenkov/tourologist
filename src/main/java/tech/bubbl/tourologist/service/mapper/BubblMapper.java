@@ -12,13 +12,12 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {UserMapper.class, InterestMapper.class, })
 public interface BubblMapper {
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "user.email", target = "userEmail")
+
     BubblDTO bubblToBubblDTO(Bubbl bubbl);
 
     List<BubblDTO> bubblsToBubblDTOs(List<Bubbl> bubbls);
 
-    @Mapping(source = "userId", target = "user")
+
     @Mapping(target = "bubblRatings", ignore = true)
     @Mapping(target = "bubblDownloads", ignore = true)
 //    @Mapping(target = "payloads", ignore = true)
