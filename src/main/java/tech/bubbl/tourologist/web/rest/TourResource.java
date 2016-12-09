@@ -109,6 +109,19 @@ public class TourResource {
             .body(result);
     }
 
+    @PutMapping("/tours/fixed")
+    @Timed
+    public ResponseEntity<TourFullDTO> updateFixedTour(@Valid @RequestBody CreateFixedTourDTO tourDTO) throws URISyntaxException {
+        log.debug("REST request to save Fixed  Tour : {}", tourDTO);
+        if (tourDTO.getId() == null) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("tour", "idexists", "A tour should have id to be updated")).body(null);
+        }
+        TourFullDTO result = tourService.saveFixedTour(tourDTO, null, null, TourType.FIXED);
+        return ResponseEntity.created(new URI("/api/tours/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("tour", result.getId().toString()))
+            .body(result);
+    }
+
     @GetMapping("/tours/fixed")
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,

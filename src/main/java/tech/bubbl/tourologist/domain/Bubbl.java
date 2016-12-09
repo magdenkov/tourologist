@@ -62,7 +62,7 @@ public class Bubbl implements Serializable {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "bubbl_interest",
                joinColumns = @JoinColumn(name="bubbls_id", referencedColumnName="ID"),

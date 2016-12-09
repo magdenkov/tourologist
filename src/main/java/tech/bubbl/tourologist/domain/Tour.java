@@ -64,7 +64,7 @@ public class Tour implements Serializable {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "tour_interest",
                joinColumns = @JoinColumn(name="tours_id", referencedColumnName="ID"),
@@ -91,7 +91,7 @@ public class Tour implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourAdminReview> tourAdminReviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "tour", orphanRemoval = true)
+    @OneToMany(mappedBy = "tour", orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourRoutePoint> tourRoutePoints = new HashSet<>();

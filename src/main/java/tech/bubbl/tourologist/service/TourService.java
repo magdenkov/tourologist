@@ -54,4 +54,5 @@ public interface TourService {
     List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius);
 
     List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
+
 }

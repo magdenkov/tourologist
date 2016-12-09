@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.repository;
 
+import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.TourRoutePoint;
 
 import org.springframework.data.jpa.repository.*;
@@ -12,4 +13,6 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface TourRoutePointRepository extends JpaRepository<TourRoutePoint,Long> {
 
+    @Modifying
+    void deleteByTour(Tour tourFromDto);
 }

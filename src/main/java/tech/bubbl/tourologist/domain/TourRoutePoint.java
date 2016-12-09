@@ -97,22 +97,22 @@ public class TourRoutePoint implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TourRoutePoint tourRoutePoint = (TourRoutePoint) o;
-        if(tourRoutePoint.id == null || id == null) {
-            return false;
-        }
-        return Objects.equals(id, tourRoutePoint.id);
+        if (this == o) return true;
+        if (!(o instanceof TourRoutePoint)) return false;
+
+        TourRoutePoint that = (TourRoutePoint) o;
+
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        if (!getLat().equals(that.getLat())) return false;
+        if (!getLng().equals(that.getLng())) return false;
+        return getOrderNumber().equals(that.getOrderNumber());
+
     }
 
     @Override
     public int hashCode() {
-        int result = getLat().hashCode();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + getLat().hashCode();
         result = 31 * result + getLng().hashCode();
         result = 31 * result + getOrderNumber().hashCode();
         return result;
