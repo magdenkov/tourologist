@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.bubbl.tourologist.domain.Bubbl;
@@ -23,9 +22,7 @@ import tech.bubbl.tourologist.repository.TourRepository;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.PayloadService;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
-import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.BubblMapper;
-import tech.bubbl.tourologist.service.util.SortBubbls;
 
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
@@ -37,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
@@ -83,16 +79,24 @@ public class BubblServiceImpl implements BubblService{
         return result;
     }
 
-    /**
-     *  Get all the bubbls.
-     *
-     *  @param pageable the pagination information
-     *  @return the list of entities
-     */
     @Transactional(readOnly = true)
-    public Page<BubblDTO> findAll(Pageable pageable) {
-        log.debug("Request to get all Bubbls");
-        Page<Bubbl> result = bubblRepository.findAll(pageable);
+    public Page<BubblDTO> findAll(Pageable pageable, Status status, Long userId) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status, userId);
+        Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
+            @Override
+            public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status"), status));
+                }
+                if (userId != null) {
+                    predicates.add(cb.equal(root.get("user").get("id"), userId));
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+        Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
         return result.map(bubbl -> bubblMapper.bubblToBubblDTO(bubbl));
     }
 

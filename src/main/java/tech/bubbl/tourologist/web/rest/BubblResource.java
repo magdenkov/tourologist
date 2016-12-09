@@ -5,6 +5,8 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+import tech.bubbl.tourologist.domain.enumeration.Status;
+import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -69,10 +71,12 @@ public class BubblResource {
 
     @GetMapping("/bubbls")
     @Timed
-    public ResponseEntity<List<BubblDTO>> getAllBubbls(Pageable pageable)
+    public ResponseEntity<List<BubblDTO>> getAllBubblsByParams(@RequestParam(value = "status", required = false) Status status,
+                                                       @RequestParam(value = "userId", required = false) Long userId,
+                                                       Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Bubbls");
-        Page<BubblDTO> page = bubblService.findAll(pageable);
+        Page<BubblDTO> page = bubblService.findAll(pageable, status, userId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/bubbls");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

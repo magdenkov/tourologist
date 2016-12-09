@@ -1,13 +1,11 @@
 package tech.bubbl.tourologist.service;
 
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.service.dto.BubblDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
-import tech.bubbl.tourologist.service.dto.bubbl.TourBubblNumberedDTO;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,9 +25,10 @@ public interface BubblService {
      *  Get all the bubbls.
      *
      *  @param pageable the pagination information
-     *  @return the list of entities
+     *  @param status
+     *@param userId @return the list of entities
      */
-    Page<BubblDTO> findAll(Pageable pageable);
+    Page<BubblDTO> findAll(Pageable pageable, Status status, Long userId);
 
     /**
      *  Get the "id" bubbl.
