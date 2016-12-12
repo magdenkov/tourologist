@@ -19,7 +19,9 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         $scope.mapControl = {};
 
-        var bubbls ={};
+        $scope.searchBubbls = '';
+        $scope.queryBy = 'name';
+        var bubbls = {};
         var circles = [];
         var markers = [];
         $timeout(function () {
