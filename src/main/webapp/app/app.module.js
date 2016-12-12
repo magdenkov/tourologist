@@ -21,7 +21,8 @@
             'angularGrid',
             'ngMapAutocomplete',
             '$q-spread',
-            'checklist-model'
+            'checklist-model',
+            'ui.select'
 
         ])
         .run(run);
