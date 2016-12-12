@@ -11,6 +11,16 @@
                     </span>
                 </button>
             </div>
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                        <input type="text" class="form-control" placeholder="Search Payloads" ng-model="searchPayloads[queryBy]">
+
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <br/>
@@ -34,7 +44,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="payload in vm.payloads track by payload.id">
+            <tr ng-repeat="payload in vm.payloads | filter:searchPayloads track by payload.id">
                 <td>{{payload.name}}</td>
                 <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
                 </td>

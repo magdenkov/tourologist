@@ -16,6 +16,9 @@
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
+        $scope.searchTours = '';
+        $scope.queryBy ='name';
+
         loadAll();
 
         function loadAll () {

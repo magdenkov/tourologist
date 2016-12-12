@@ -16,6 +16,8 @@
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
+        $scope.searchPayloads = '';
+        $scope.queryBy = 'name';
         loadAll();
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);

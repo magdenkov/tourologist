@@ -16,6 +16,16 @@
             </button>
 
         </div>
+        <form>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                    <input type="text" class="form-control" placeholder="Search Payloads" ng-model="searchBubbls[queryBy]">
+
+                </div>
+            </div>
+        </form>
         <div class="col-xs-4">
             <!--  <button class="btn btn-primary" ng-click="swapbubbls()">
                   <i class="glyphicon glyphicon-map-marker">
@@ -52,7 +62,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="bubbl in vm.bubbls track by bubbl.id">
+                        <tr ng-repeat="bubbl in vm.bubbls |filter:searchBubbls track by bubbl.id">
                             <td>
 
                                 <p>{{bubbl.name}}</p>
