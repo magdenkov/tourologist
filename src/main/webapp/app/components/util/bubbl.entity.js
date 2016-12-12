@@ -72,7 +72,7 @@ angular.module('tourologistApp').factory('BubblEntity', ["Entity", "geoHelpers" 
     BubblEntity.prototype.toGooglePolygon = function (options) {
         options = options || {};
         var locations = this.latLngArray('lat', 'lng');
-        return new google.maps.Polygon({
+        return new google.maps.Circle({
             paths: locations,
             strokeColor: options.strokeColor || '#FF0000',
             strokeOpacity: options.strokeOpacity || 0.8,

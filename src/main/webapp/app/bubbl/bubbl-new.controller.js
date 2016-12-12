@@ -5,20 +5,16 @@
         .module('tourologistApp')
         .controller('CreateBubblController', BubblDialogController);
 
-    BubblDialogController.$inject = ['$timeout', '$scope', '$state', 'entity', 'Bubbl', 'Interest',
-        'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl', 'uiGmapGoogleMapApi', 'SharedProperties', 'Principal'];
+    BubblDialogController.$inject = ['$scope', '$state', 'entity', 'Bubbl', 'Interest',
+      'Payload', 'TourBubbl', 'uiGmapGoogleMapApi', 'SharedProperties'];
 
-    function BubblDialogController($timeout, $scope, $state, entity, Bubbl, Interest, BubblRating,
-                                   BubblDownload, Payload, BubblAdminReview, TourBubbl, uiGmapGoogleMapApi, SharedProperties, Principal) {
+    function BubblDialogController( $scope, $state, entity, Bubbl, Interest, Payload,  TourBubbl, uiGmapGoogleMapApi, SharedProperties) {
         var vm = this;
 
         vm.bubbl = entity;
         vm.save = save;
         vm.interests = Interest.query();
-        vm.bubblratings = BubblRating.query();
-        vm.bubbldownloads = BubblDownload.query();
         vm.payloads = Payload.query();
-        vm.bubbladminreviews = BubblAdminReview.query();
         vm.tourbubbls = TourBubbl.query();
 
         vm.bubbl = {
@@ -73,6 +69,7 @@
                 map: $scope.mapInstance,
                 title: $scope.details.name
             });
+
             $scope.mapInstance.setCenter($scope.details.geometry.location);
             $scope.mapInstance.setZoom(17);  // Why 17? Because it looks good.
             vm.bubbl.name = $scope.details.name;
@@ -86,15 +83,18 @@
             vm.bubbl.userId = $scope.currentUser;
 
             function updatePoly() {
-                vm.bubbl.lat = '';
-                vm.bubbl.lng = '';
-                vm.bubbl.radiusMeters = '';
+                vm.bubbl.lat = $scope.circle.getCenter().lat();
+                vm.bubbl.lng = $scope.circle.getCenter().lng();
+                vm.bubbl.radiusMeters = $scope.circle.getRadius();
 
                 $scope.circle.getPath = function (element, index) {
                     vm.bubbl.lat = $scope.circle.getCenter().lat();
                     vm.bubbl.lng = $scope.circle.getCenter().lng();
                     vm.bubbl.radiusMeters = $scope.circle.getRadius();
+
                 };
+
+                console.log("lat " + vm.bubbl.lat + " lng " + vm.bubbl.lng)
             }
 
             if (firstLoad) {
@@ -126,6 +126,7 @@
                     },
                     circleOptions: shapeOptions,
                     map: $scope.mapInstance
+
                 });
 
                 google.maps.event.addDomListener($scope.drawingManager, 'circlecomplete', function (circle) {
@@ -139,12 +140,19 @@
                     });
                     $scope.drawingManager.setDrawingMode(null);
                     updatePoly();
-                    google.maps.event.addListener($scope.circle.getPath(), "set_at", function (index) {
+                    google.maps.event.addListener($scope.circle, "set_at", function (index) {
+
                         updatePoly();
                     });
-                    google.maps.event.addListener($scope.circle.getPath(), "insert_at", function (index) {
+                    google.maps.event.addListener($scope.circle, "insert_at", function (index) {
+
                         updatePoly();
                     });
+                    google.maps.event.addListener($scope.circle, "dragend", function (index) {
+
+                        updatePoly();
+                    });
+
                 });
                 firstLoad = false;
             }
@@ -169,21 +177,21 @@
                 if ($scope.mapInstance != null) {
                     $scope.mapInstance.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
                     $scope.mapInstance.setZoom(17);
+
                 } else {
                     $scope.map.center = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
                     $scope.map.zoom = 17;
                 }
+
             });
 
         };
         $scope.getLocation();
         function save() {
             vm.isSaving = true;
-            if (vm.bubbl.id !== null) {
-                Bubbl.update(vm.bubbl, onSaveSuccess, onSaveError);
-            } else {
-                Bubbl.save(vm.bubbl, onSaveSuccess, onSaveError);
-            }
+
+            Bubbl.save(vm.bubbl, onSaveSuccess, onSaveError);
+
         }
 
         function onSaveSuccess(result) {
