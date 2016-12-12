@@ -24,7 +24,7 @@
         vm.reset = reset;
         loadAll();
         $(document).ready(function() {
-            $(".js-example-basic-single").select2();
+            $(".searchbubbl").select2();
         });
 
         $scope.searchBubbls ='';
