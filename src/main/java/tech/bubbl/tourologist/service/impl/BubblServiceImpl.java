@@ -21,6 +21,7 @@ import tech.bubbl.tourologist.repository.BubblRepository;
 import tech.bubbl.tourologist.repository.TourBubblRepository;
 import tech.bubbl.tourologist.repository.TourRepository;
 import tech.bubbl.tourologist.repository.UserRepository;
+import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.PayloadService;
@@ -91,6 +92,8 @@ public class BubblServiceImpl implements BubblService{
     @Transactional(readOnly = true)
     public Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status, userId);
+        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -99,9 +102,13 @@ public class BubblServiceImpl implements BubblService{
                 if (status != null) {
                     predicates.add(cb.equal(root.get("status"), status));
                 }
-                if (userId != null) {
+                if (userId != null && isAdmin) { // only admins can see other users tours
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
                 }
+                if (!isAdmin) {   // simple users can see only their own tours
+                    predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
+                }
+
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });

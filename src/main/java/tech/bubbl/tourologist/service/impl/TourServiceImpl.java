@@ -12,6 +12,7 @@ import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.repository.*;
+import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
@@ -101,6 +102,8 @@ public class TourServiceImpl implements TourService{
     @Transactional(readOnly = true)
     public Page<GetAllToursDTO> findAll(Pageable pageable, TourType type, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
+        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+
         Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
             @Override
             public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -111,8 +114,11 @@ public class TourServiceImpl implements TourService{
                 if (status != null) {
                     predicates.add(cb.equal(root.get("status"), status));
                 }
-                if (userId != null) {
+                if (userId != null && isAdmin) { // only admins can see other users tours
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
+                }
+                if (!isAdmin) {   // simple users can see only their own tours
+                    predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
                 }
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
