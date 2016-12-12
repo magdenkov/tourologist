@@ -141,10 +141,11 @@ public class PayloadResource {
      */
     @GetMapping("/payloads")
     @Timed
-    public ResponseEntity<List<PayloadDTO>> getAllPayloads(Pageable pageable)
+    public ResponseEntity<List<PayloadDTO>> getAllPayloads(@RequestParam(required = false, value = "userId") Long userId,
+                                                           Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Payloads");
-        Page<PayloadDTO> page = payloadService.findAll(pageable);
+        Page<PayloadDTO> page = payloadService.findAll(userId, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payloads");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

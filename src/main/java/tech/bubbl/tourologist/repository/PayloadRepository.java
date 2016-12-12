@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.repository;
 import tech.bubbl.tourologist.domain.Payload;
 
 import org.springframework.data.jpa.repository.*;
+import tech.bubbl.tourologist.domain.Tour;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
  * Spring Data JPA repository for the Payload entity.
  */
 @SuppressWarnings("unused")
-public interface PayloadRepository extends JpaRepository<Payload,Long> {
+public interface PayloadRepository extends JpaRepository<Payload,Long>, JpaSpecificationExecutor<Payload> {
 
 }

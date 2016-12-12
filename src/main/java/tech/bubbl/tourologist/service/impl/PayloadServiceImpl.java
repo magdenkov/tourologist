@@ -9,11 +9,15 @@ import com.amazonaws.services.s3.transfer.Upload;
 import com.amazonaws.services.s3.transfer.model.UploadResult;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.domain.enumeration.PayloadType;
 import tech.bubbl.tourologist.repository.BubblRepository;
+import tech.bubbl.tourologist.security.AuthoritiesConstants;
+import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.PayloadService;
 import tech.bubbl.tourologist.domain.Payload;
 import tech.bubbl.tourologist.repository.PayloadRepository;
@@ -30,9 +34,14 @@ import tech.bubbl.tourologist.web.rest.util.MimeTypesUtils;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -183,13 +192,33 @@ public class PayloadServiceImpl implements PayloadService{
     /**
      *  Get all the payloads.
      *
-     *  @param pageable the pagination information
+     *
+     * @param userId
+     * @param pageable the pagination information
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    public Page<PayloadDTO> findAll(Pageable pageable) {
+    public Page<PayloadDTO> findAll(Long userId, Pageable pageable) {
         log.debug("Request to get all Payloads");
-        Page<Payload> result = payloadRepository.findAll(pageable);
+
+        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        Specification<Payload> specification = Specifications.where(new Specification<Payload>() {
+            @Override
+            public Predicate toPredicate(Root<Payload> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+
+                if (userId != null && isAdmin) { // only admins can see other users tours
+                    predicates.add(cb.equal(root.get("bubbl").get("user").get("id"), userId));
+                }
+                if (!isAdmin) {   // simple users can see only their own tours
+                    predicates.add(cb.equal(root.get("bubbl").get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
+                }
+
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+        Page<Payload> result = payloadRepository.findAll(specification, pageable);
         return result.map(payload -> payloadMapper.payloadToPayloadDTO(payload));
     }
 

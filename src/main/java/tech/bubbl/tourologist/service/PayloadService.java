@@ -5,7 +5,6 @@ import tech.bubbl.tourologist.domain.Payload;
 import tech.bubbl.tourologist.service.dto.PayloadDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tech.bubbl.tourologist.service.dto.payload.FilePayloadDTO;
 
 import java.io.IOException;
 
@@ -26,10 +25,12 @@ public interface PayloadService {
     /**
      *  Get all the payloads.
      *
-     *  @param pageable the pagination information
+     *
+     * @param userId
+     * @param pageable the pagination information
      *  @return the list of entities
      */
-    Page<PayloadDTO> findAll(Pageable pageable);
+    Page<PayloadDTO> findAll(Long userId, Pageable pageable);
 
     /**
      *  Get the "id" payload.
