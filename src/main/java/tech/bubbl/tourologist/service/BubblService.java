@@ -49,4 +49,6 @@ public interface BubblService {
     List <Bubbl> findBubblsSurprise(Double curLat, Double curLng, Double radius);
 
     List<String> reverseGeocode(Double lat, Double lng);
+
+    Page<FullTourBubblNumberedDTO> findOnlyMyBubbls(Pageable pageable, Status status);
 }

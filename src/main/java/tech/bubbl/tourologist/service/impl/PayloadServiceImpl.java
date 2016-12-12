@@ -14,8 +14,10 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.domain.enumeration.PayloadType;
 import tech.bubbl.tourologist.repository.BubblRepository;
+import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.PayloadService;
@@ -68,12 +70,12 @@ public class PayloadServiceImpl implements PayloadService{
     @Autowired
     private AmazonS3 s3;
 
+    @Inject
     private TransferManager transferManager;
 
-    @PostConstruct
-    public void init() {
-        this.transferManager = new TransferManager(s3);
-    }
+    @Inject
+    private UserRepository userRepository;
+
 
     @Inject
     private BubblRepository bubblRepository;
@@ -201,25 +203,29 @@ public class PayloadServiceImpl implements PayloadService{
     public Page<PayloadDTO> findAll(Long userId, Pageable pageable) {
         log.debug("Request to get all Payloads");
 
-        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
-        Specification<Payload> specification = Specifications.where(new Specification<Payload>() {
-            @Override
-            public Predicate toPredicate(Root<Payload> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                List<Predicate> predicates = new ArrayList<>();
-
-                if (userId != null && isAdmin) { // only admins can see other users tours
-                    predicates.add(cb.equal(root.get("bubbl").get("user").get("id"), userId));
-                }
-                if (!isAdmin) {   // simple users can see only their own tours
-                    predicates.add(cb.equal(root.get("bubbl").get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
-                }
-
-                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+//        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        Specification<Payload> specification = getPayloadSpecification(userId);
 
         Page<Payload> result = payloadRepository.findAll(specification, pageable);
         return result.map(payload -> payloadMapper.payloadToPayloadDTO(payload));
+    }
+
+    private Specification<Payload> getPayloadSpecification(final Long userId) {
+        return Specifications.where(new Specification<Payload>() {
+                @Override
+                public Predicate toPredicate(Root<Payload> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                    List<Predicate> predicates = new ArrayList<>();
+
+                    if (userId != null) {
+                        predicates.add(cb.equal(root.get("bubbl").get("user").get("id"), userId));
+                    }
+    //                if (!isAdmin) {   // simple users can see only their own tours
+    //                    predicates.add(cb.equal(root.get("bubbl").get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
+    //                }
+
+                    return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+            });
     }
 
     /**
@@ -295,5 +301,16 @@ public class PayloadServiceImpl implements PayloadService{
         payload = payloadRepository.save(payload);
         PayloadDTO result = payloadMapper.payloadToPayloadDTO(payload);
         return result;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PayloadDTO> findOnlyMyPayloads(Pageable pageable) {
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Specification<Payload> specification = getPayloadSpecification(user.getId());
+
+        Page<Payload> result = payloadRepository.findAll(specification, pageable);
+        return result.map(payload -> payloadMapper.payloadToPayloadDTO(payload));
     }
 }

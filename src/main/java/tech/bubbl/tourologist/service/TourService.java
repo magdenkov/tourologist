@@ -32,7 +32,7 @@ public interface TourService {
      * @param status @return the list of entities
      * @param userId
      */
-    Page<GetAllToursDTO> findAll(Pageable pageable, TourType type, Status status, Long userId);
+    Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status, Long userId);
 
     /**
      *  Get the "id" tour.
@@ -55,4 +55,5 @@ public interface TourService {
 
     List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
 
+    Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status);
 }

@@ -100,29 +100,11 @@ public class TourServiceImpl implements TourService{
     }
 
     @Transactional(readOnly = true)
-    public Page<GetAllToursDTO> findAll(Pageable pageable, TourType type, Status status, Long userId) {
+    public Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
-        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+//        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
-        Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
-            @Override
-            public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                List<Predicate> predicates = new ArrayList<>();
-                if (type != null) {
-                    predicates.add(cb.equal(root.get("tourType"), type));
-                }
-                if (status != null) {
-                    predicates.add(cb.equal(root.get("status"), status));
-                }
-                if (userId != null && isAdmin) { // only admins can see other users tours
-                    predicates.add(cb.equal(root.get("user").get("id"), userId));
-                }
-                if (!isAdmin) {   // simple users can see only their own tours
-                    predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
-                }
-                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
-            }
-        });
+        Specification<Tour> specification = getSearchTourSpecification(type, status, userId);
 
 
         Page<Tour> result = tourRepository.findAll(specification, pageable);
@@ -373,6 +355,41 @@ public class TourServiceImpl implements TourService{
         }
 
         return resp;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
+//        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Long userId = user.getId();
+        Specification<Tour> specification = getSearchTourSpecification(type, status, userId);
+
+
+        Page<Tour> result = tourRepository.findAll(specification, pageable);
+        return result.map(GetAllToursDTO::new);
+    }
+
+    private Specifications<Tour> getSearchTourSpecification(final TourType type, final Status status, final Long userId) {
+        return Specifications.where(new Specification<Tour>() {
+            @Override
+            public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (type != null) {
+                    predicates.add(cb.equal(root.get("tourType"), type));
+                }
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status"), status));
+                }
+                if (userId != null) {
+                    predicates.add(cb.equal(root.get("user").get("id"), userId));
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
     }
 
     private DirectionsRoute calcLengthOfTour(Tour tour, DirectionsRoute route1) {

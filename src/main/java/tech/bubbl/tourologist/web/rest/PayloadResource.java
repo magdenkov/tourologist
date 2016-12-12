@@ -132,13 +132,7 @@ public class PayloadResource {
             .body(result);
     }
 
-    /**
-     * GET  /payloads : get all the payloads.
-     *
-     * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of payloads in body
-     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
-     */
+
     @GetMapping("/payloads")
     @Timed
     public ResponseEntity<List<PayloadDTO>> getAllPayloads(@RequestParam(required = false, value = "userId") Long userId,
@@ -146,6 +140,17 @@ public class PayloadResource {
         throws URISyntaxException {
         log.debug("REST request to get a page of Payloads");
         Page<PayloadDTO> page = payloadService.findAll(userId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payloads");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/my/payloads")
+    @Timed
+    public ResponseEntity<List<PayloadDTO>> getMyPayloads(@RequestParam(required = false, value = "userId") Long userId,
+                                                           Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Payloads");
+        Page<PayloadDTO> page = payloadService.findOnlyMyPayloads(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/payloads");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
