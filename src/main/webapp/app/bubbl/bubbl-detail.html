@@ -38,26 +38,25 @@
                 <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
-        <button
-            ng-click="approve()"
-            class="btn btn-success">
-            <i class="fa fa-check" aria-hidden="true"></i>Approve
-        </button>
-        <button ng-click="rejectBubbl()" class="btn btn-danger">
-            <i class="fa fa-ban" aria-hidden="true"></i>
+        <div has-authority="ROLE_ADMIN">
+            <button
+                ng-click="approve()"
+                class="btn btn-success">
+                <i class="fa fa-check" aria-hidden="true"></i>Approve
+            </button>
+            <button ng-click="rejectBubbl()" class="btn btn-danger">
+                <i class="fa fa-ban" aria-hidden="true"></i>
 
-            Reject
-        </button>
+                Reject
+            </button>
+
+        </div>
+
     </dl>
 
     <button type="submit"
             ui-sref="{{ vm.previousState }}"
             class="btn btn-info">
         <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button" ui-sref="bubbl.edit({id:vm.bubbl.id})" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
     </button>
 </div>

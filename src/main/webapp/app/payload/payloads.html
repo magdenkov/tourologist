@@ -24,13 +24,13 @@
                 <th jh-sort-by="payloadType"><span
                     data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th has-authority="ROLE_ADMIN"><span class="text-center">Audio File</span></span></th>
+                <th><span class="text-center">Audio File</span></span></th>
                 <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span>
                     <span
                         class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th has-authority="ROLE_ADMIN"></th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                 <td>{{payload.name}}</td>
                 <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
                 </td>
-                <td has-authority="ROLE_ADMIN">
+                <td >
                     <audio ng-src="{{trustSrc(payload.url)}}" controls>
                         Your browser does not support the <code>video</code> element.
                     </audio>
@@ -48,7 +48,7 @@
 
                     <p> {{payload.bubblName}}</p>
                 </td>
-                <td class="text-right" has-authority="ROLE_ADMIN">
+                <td>
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
                                 ui-sref="payload-detail({id:payload.id})"
@@ -56,7 +56,12 @@
                             <span class="glyphicon glyphicon-eye-open"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                         </button>
-
+                        <button type="submit"
+                                ui-sref="payload.edit({id:payload.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                        </button>
                         <button type="submit"
                                 ui-sref="payload.delete({id:payload.id})"
                                 class="btn btn-danger btn-sm">

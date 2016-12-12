@@ -14,7 +14,7 @@
                         Create new Bubbl
                     </span>
             </button>
-         
+
         </div>
         <div class="col-xs-4">
             <!--  <button class="btn btn-primary" ng-click="swapbubbls()">
@@ -48,7 +48,7 @@
                                 <span
                                     class="glyphicon glyphicon-sort"></span></th>
                             <th>Interests</th>
-                            <th has-authority="ROLE_ADMIN"></th>
+                            <th class="text-center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -66,8 +66,8 @@
                             <td><span
                                 ng-repeat="interest in bubbl.interests"> {{interest.name}}{{$last ? '' : ', '}}</span>
                             </td>
-                            <td has-authority="ROLE_ADMIN">
-                                <div class="btn-group flex-btn-group-container">
+                            <td class="text-center">
+                                <div class="btn-group ">
                                     <button type="submit"
                                             ui-sref="bubbl-detail({id:bubbl.id})"
                                             class="btn btn-info btn-sm">
