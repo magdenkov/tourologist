@@ -26,6 +26,8 @@ public class PayloadBubblDTO implements Serializable {
 
     private String mimeType;
 
+    private Long bubblId;
+
 
     public PayloadBubblDTO(Payload payload) {
         setId(payload.getId());
@@ -34,6 +36,16 @@ public class PayloadBubblDTO implements Serializable {
         setThumbUrl(payload.getThumbUrl());
         setMimeType(payload.getMimeType());
         setPayloadType(payload.getPayloadType());
+        setBubblId(payload.getBubbl().getId());
+    }
+
+
+    public Long getBubblId() {
+        return bubblId;
+    }
+
+    public void setBubblId(Long bubblId) {
+        this.bubblId = bubblId;
     }
 
     public Long getId() {

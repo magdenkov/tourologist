@@ -96,7 +96,7 @@ public class BubblServiceImpl implements BubblService{
 
         Specification<Bubbl> specification = getBubblsSpecification(status, userId);
         Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
-        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, 0));
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
     }
 
     private Specifications<Bubbl> getBubblsSpecification(final Status status, final Long userId) {
@@ -127,7 +127,7 @@ public class BubblServiceImpl implements BubblService{
     public FullTourBubblNumberedDTO findOne(Long id) {
         log.debug("Request to get Bubbl : {}", id);
         Bubbl bubbl = bubblRepository.findOneWithEagerRelationships(id);
-        return new FullTourBubblNumberedDTO(bubbl,0);
+        return new FullTourBubblNumberedDTO(bubbl, null, null);
     }
 
     /**
@@ -240,7 +240,7 @@ public class BubblServiceImpl implements BubblService{
 
         Specification<Bubbl> specification = getBubblsSpecification(status, user.getId());
         Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
-        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, 0));
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
     }
 
 

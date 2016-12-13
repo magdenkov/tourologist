@@ -169,7 +169,7 @@ public class TourResource {
         AtomicInteger i = new AtomicInteger(0);
         List<FullTourBubblNumberedDTO> resp = bubblsSurprise.stream()
             .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
+            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement(), null))
             .collect(Collectors.toList());
 
         return new ResponseEntity<>(resp, HttpStatus.OK);

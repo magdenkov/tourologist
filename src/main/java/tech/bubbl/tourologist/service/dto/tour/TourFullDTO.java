@@ -38,7 +38,7 @@ public class TourFullDTO extends GetAllToursDTO {
         this.images = tourImageMapper.tourImagesToTourImageDTOs(new ArrayList<>(tour.getTourImages()));
         this.bubbls = tour.getTourBubbls().stream().
             filter(tourBubbl -> (tourBubbl.getBubbl() != null && tourBubbl.getOrderNumber() != null)).
-            map(tourBubbl -> new FullTourBubblNumberedDTO(tourBubbl.getBubbl(), tourBubbl.getOrderNumber())).
+            map(tourBubbl -> new FullTourBubblNumberedDTO(tourBubbl.getBubbl(), tourBubbl.getOrderNumber(), tour.getId())).
             sorted((o1, o2) -> o1.getOrderNumber() - o2.getOrderNumber())
             .collect(Collectors.toList());
         setDescription(tour.getDescription());

@@ -36,10 +36,12 @@ public class TourBubblNumberedDTO implements TransportObject{
 
     private Integer orderNumber;
 
+    private Long tourId;
+
     public TourBubblNumberedDTO() {
     }
 
-    public TourBubblNumberedDTO(Bubbl bubbl, Integer orderNumber) {
+    public TourBubblNumberedDTO(Bubbl bubbl, Integer orderNumber, Long tourId) {
         this.id = bubbl.getId();
         setName(bubbl.getName());
         setStatus(bubbl.getStatus());
@@ -48,9 +50,17 @@ public class TourBubblNumberedDTO implements TransportObject{
         setDescription(bubbl.getDescription());
         setRadiusMeters(bubbl.getRadiusMeters());
         setOrderNumber(orderNumber);
-
+        setTourId(tourId);
 
         Optional.ofNullable(bubbl.getUser()).ifPresent(user -> this.setAuthor(user.getFullName()));
+    }
+
+    public Long getTourId() {
+        return tourId;
+    }
+
+    public void setTourId(Long tourId) {
+        this.tourId = tourId;
     }
 
     public Integer getOrderNumber() {
