@@ -45,6 +45,11 @@ import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
  */
 @Service
 public class TourServiceImpl implements TourService{
+    /**
+     * This is maximum amount of way points that is allowed by google free account
+     * see https://developers.google.com/maps/documentation/directions/usage-limits
+     */
+    public static final int MAX_BUBBLS_ALLOWED_BY_GOOGLE = 20;
 
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
 
@@ -340,6 +345,7 @@ public class TourServiceImpl implements TourService{
             AtomicInteger i2 = new AtomicInteger(1);
             createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
                 .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 == 0 )
+                .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
                 .map(createTourBubblDTO -> createTourBubblDTO.orderNumber(i2.getAndIncrement()))
                 .collect(Collectors.toList()));
             createFixedTourDTO.setName(tourName + " V1 " + ZonedDateTime.now().toString());
@@ -348,6 +354,7 @@ public class TourServiceImpl implements TourService{
             AtomicInteger i3 = new AtomicInteger(1);
             createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
                 .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 != 0 )
+                .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
                 .map(createTourBubblDTO -> createTourBubblDTO.orderNumber(i3.getAndIncrement()))
                 .collect(Collectors.toList()));
             createFixedTourDTO.setName(tourName + " V2 " + ZonedDateTime.now().toString());
