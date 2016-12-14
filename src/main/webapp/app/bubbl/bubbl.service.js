@@ -4,21 +4,22 @@
         .module('tourologistApp')
         .factory('Bubbl', Bubbl);
 
-    Bubbl.$inject = ['$resource', 'DateUtils', 'BubblEntity', 'API', 'Principal'];
+    Bubbl.$inject = ['$resource', 'DateUtils'];
 
-    function Bubbl($resource, DateUtils, BubblEntity, API, Principal) {
+    function Bubbl($resource, DateUtils) {
         var resourceUrl = 'api/bubbls/:id';
 
-        var isAdmin = false;
-        Principal.hasAuthority('ROLE_ADMIN').then(function(result) {
-            return isAdmin = result;
-        });
+          return $resource(resourceUrl, {}, {
+            'query': {method: 'GET', isArray: true,
+                url:  'api/my/bubbls/:id'
+            },
+            'queryAdmin': {method: 'GET', isArray: true,
+                url:  'api/bubbls/:id'
+            },
 
-        return $resource(resourceUrl, {}, {
-            'query': {method: 'GET', isArray: true, url:  isAdmin ? 'api/bubbls/:id' : 'api/my/bubbls/:id'},
             'get': {
                 method: 'GET',
-                url: isAdmin ? 'api/bubbls/:id' : 'api/bubbls/:id',
+
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);

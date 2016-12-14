@@ -6,10 +6,10 @@
         .controller('BubblController', BubblController);
 
     BubblController.$inject = ['$scope', '$state', 'Bubbl', 'ParseLinks', 'AlertService', 'pagingParams',
-        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'geoHelpers'];
+        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'Principal'];
 
     function BubblController($scope, $state, Bubbl, ParseLinks, AlertService, pagingParams, paginationConstants,
-                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, geoHelpers) {
+                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, Principal) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -45,8 +45,6 @@
         $scope.mapHeight = function () {
             return $(window).height() - 210;
         };
-        loadAll();
-
         $scope.swapbubbls = function () {
             $rootScope.multiple = !$rootScope.multiple;
             loadAll();
@@ -54,8 +52,71 @@
             $scope.mapControl.refresh();
         };
 
+        vm.account = null;
+        vm.isAuthenticated = null;
+        $scope.$on('authenticationSuccess', function () {
+            getAccount();
+        });
+
+        getAccount();
+
+        function getAccount() {
+            Principal.identity().then(function (account) {
+                vm.account = account;
+                vm.isAuthenticated = Principal.isAuthenticated;
+                changeUrl()
+            });
+
+
+        }
+
+        function changeUrl() {
+            console.log(vm.account);
+
+            if (vm.account.authorities.includes('ROLE_ADMIN')) {
+                loadAdmin();
+            } else {
+                loadAll();
+            }
+
+
+        }
+
+
+        function loadAdmin() {
+
+            Bubbl.queryAdmin({
+                page: pagingParams.page - 1,
+                size: vm.itemsPerPage,
+                sort: sort()
+            }, onSuccess, onError);
+            function sort() {
+                var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
+                if (vm.predicate !== 'id') {
+                    result.push('id');
+                }
+                return result;
+            }
+
+            function onSuccess(data, headers) {
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                vm.queryCount = vm.totalItems;
+                bubbls = vm.bubbls = data;
+                vm.page = pagingParams.page;
+
+
+                getBubblMap();
+            }
+
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
 
         function loadAll() {
+
             Bubbl.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,

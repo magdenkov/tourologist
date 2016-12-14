@@ -8,20 +8,18 @@
 
     function Tour($resource, DateUtils, Principal) {
         var resourceUrl = 'api/tours/:id';
-        var isAdmin = false;
-        Principal.hasAuthority('ROLE_ADMIN').then(function(result) {
-            return isAdmin = result;
-        });
-        // console.log("HAS Authority " + isAdmin);
 
         return $resource(resourceUrl, {}, {
             'query': {method: 'GET',
                       isArray: true,
-                      url: isAdmin ? 'api/tours/:id' : 'api/my/tours/:id',
+                      url:'api/my/tours/:id'
+            },
+            'queryAdmin': {method: 'GET',
+                isArray: true,
+                url: 'api/tours/:id'
             },
             'get': {
                 method: 'GET',
-                url: isAdmin ? 'api/tours/:id' : 'api/tours/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
