@@ -21,8 +21,8 @@ public class FullTourBubblNumberedDTO extends TourBubblNumberedDTO {
 
 //    private final Logger log = LoggerFactory.getLogger(FullTourBubblNumberedDTO.class);
 
-    public FullTourBubblNumberedDTO (Bubbl bubbl, Integer orderNumber) {
-        super(bubbl, orderNumber);
+    public FullTourBubblNumberedDTO (Bubbl bubbl, Integer orderNumber, Long tourId) {
+        super(bubbl, orderNumber, tourId);
 //        log.error("processing {}  with order {}", bubbl.toString(), orderNumber);
         this.payloads = bubbl.getPayloads().stream()
             .map(payload -> new PayloadBubblDTO(payload))

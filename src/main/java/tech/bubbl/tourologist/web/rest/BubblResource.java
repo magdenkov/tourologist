@@ -82,6 +82,18 @@ public class BubblResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    @GetMapping("/my/bubbls")
+    @Timed
+    public ResponseEntity<List<FullTourBubblNumberedDTO>> getOnlyMy(@RequestParam(value = "status", required = false) Status status,
+                                                                               @RequestParam(value = "userId", required = false) Long userId,
+                                                                               Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Bubbls");
+        Page<FullTourBubblNumberedDTO> page = bubblService.findOnlyMyBubbls(pageable, status);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/bubbls");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 
     @GetMapping("/bubbls/{id}")
     @Timed

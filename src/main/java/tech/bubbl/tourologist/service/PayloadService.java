@@ -50,4 +50,6 @@ public interface PayloadService {
     void deleteWithoutTransaction(Payload payload);
 
     PayloadDTO save(PayloadDTO payloadDTO);
+
+    Page<PayloadDTO> findOnlyMyPayloads(Pageable pageable);
 }

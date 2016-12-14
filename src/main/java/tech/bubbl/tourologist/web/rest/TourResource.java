@@ -9,9 +9,7 @@ import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
-import tech.bubbl.tourologist.service.dto.BubblDTO;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
-import tech.bubbl.tourologist.service.dto.bubbl.TourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
 import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
 import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
@@ -82,6 +80,18 @@ public class TourResource {
     }
 
 
+    @GetMapping("/my/tours")
+    @Timed
+    public ResponseEntity<List<GetAllToursDTO>> getOnyMyTours(@RequestParam(value = "type", required = false) TourType type,
+                                                            @RequestParam(value = "status", required = false) Status status,
+                                                            Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of Tours");
+        Page<GetAllToursDTO> page = tourService.findAllTours(pageable,type, status);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
     @GetMapping("/tours")
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getAllTours(@RequestParam(value = "type", required = false) TourType type,
@@ -90,7 +100,7 @@ public class TourResource {
                                                                                            Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAll(pageable,type, status, userId);
+        Page<GetAllToursDTO> page = tourService.findAllTours(pageable,type, status, userId);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -159,7 +169,7 @@ public class TourResource {
         AtomicInteger i = new AtomicInteger(0);
         List<FullTourBubblNumberedDTO> resp = bubblsSurprise.stream()
             .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
+            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement(), null))
             .collect(Collectors.toList());
 
         return new ResponseEntity<>(resp, HttpStatus.OK);

@@ -92,9 +92,15 @@ public class BubblServiceImpl implements BubblService{
     @Transactional(readOnly = true)
     public Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status, userId);
-        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+//        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
-        Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
+        Specification<Bubbl> specification = getBubblsSpecification(status, userId);
+        Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
+    }
+
+    private Specifications<Bubbl> getBubblsSpecification(final Status status, final Long userId) {
+        return Specifications.where(new Specification<Bubbl>() {
             @Override
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
@@ -102,18 +108,13 @@ public class BubblServiceImpl implements BubblService{
                 if (status != null) {
                     predicates.add(cb.equal(root.get("status"), status));
                 }
-                if (userId != null && isAdmin) { // only admins can see other users tours
+                if (userId != null) {
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
-                }
-                if (!isAdmin) {   // simple users can see only their own tours
-                    predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
                 }
 
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
-        Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
-        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, 0));
     }
 
     /**
@@ -126,7 +127,7 @@ public class BubblServiceImpl implements BubblService{
     public FullTourBubblNumberedDTO findOne(Long id) {
         log.debug("Request to get Bubbl : {}", id);
         Bubbl bubbl = bubblRepository.findOneWithEagerRelationships(id);
-        return new FullTourBubblNumberedDTO(bubbl,0);
+        return new FullTourBubblNumberedDTO(bubbl, null, null);
     }
 
     /**
@@ -228,6 +229,18 @@ public class BubblServiceImpl implements BubblService{
             .collect(Collectors.toList());
 
         return address;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<FullTourBubblNumberedDTO> findOnlyMyBubbls(Pageable pageable, Status status) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status);
+//        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Specification<Bubbl> specification = getBubblsSpecification(status, user.getId());
+        Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
     }
 
 
