@@ -21,7 +21,7 @@
             },
             'get': {
                 method: 'GET',
-                url: isAdmin ? 'api/tours/:id' : 'api/my/tours/:id',
+                url: isAdmin ? 'api/tours/:id' : 'api/tours/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);

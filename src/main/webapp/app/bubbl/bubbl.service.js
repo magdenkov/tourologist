@@ -18,7 +18,7 @@
             'query': {method: 'GET', isArray: true, url:  isAdmin ? 'api/bubbls/:id' : 'api/my/bubbls/:id'},
             'get': {
                 method: 'GET',
-                url: isAdmin ? 'api/bubbls/:id' : 'api/my/bubbls/:id',
+                url: isAdmin ? 'api/bubbls/:id' : 'api/bubbls/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);

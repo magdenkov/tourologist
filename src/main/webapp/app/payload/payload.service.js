@@ -21,7 +21,7 @@
             },
             'get': {
                 method: 'GET',
-                url: isAdmin ? 'api/payloads/:id' : 'api/my/payloads/:id',
+                url: isAdmin ? 'api/payloads/:id' : 'api/payloads/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
