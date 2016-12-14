@@ -99,7 +99,11 @@
 
         function save() {
             vm.isSaving = true;
-            Tour.createFixedTour(vm.tour, onSaveSuccess, onSaveError);
+            if (vm.tour.id !== null) {
+                Tour.updateFixedTour(vm.tour, onSaveSuccess, onSaveError);
+            } else {
+                Tour.createFixedTour(vm.tour, onSaveSuccess, onSaveError);
+            }
         }
 
         function onSaveSuccess(result) {

@@ -24,7 +24,16 @@
                 }
             },
             'update': {method: 'PUT'},
-
+            updateFixedTour: {
+                method: 'PUT',
+                url: resourceUrl + "/fixed",
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
+            },
             createFixedTour: {
                 method: 'POST',
                 url: resourceUrl + "/fixed",
@@ -34,9 +43,7 @@
                     }
                     return data;
                 }
-
             }
-
         });
     }
 })();

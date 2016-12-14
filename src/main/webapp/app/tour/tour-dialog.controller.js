@@ -3,7 +3,7 @@
 
     angular
         .module('tourologistApp')
-        .controller('TourDialogController', TourDialogController);
+        .controller('TourEditController', TourDialogController);
 
     TourDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
 

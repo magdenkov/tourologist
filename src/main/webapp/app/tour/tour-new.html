@@ -63,7 +63,7 @@
                                 infinite-scroll-disabled="vm.page >= vm.links.last"
                                 ng-model="bubbls.bubblId"
                                 ng-options="bubbl.id as bubbl.name for bubbl in vm.bubbls track by bubbl.id">
-                            <option value=""></option>
+                            <option value="">{{bubbls.name}}</option>
                         </select>
                     </div>
                     <div class="form-group col-sm-3">
