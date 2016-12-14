@@ -10,9 +10,10 @@
         var resourceUrl = 'api/tours/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': {method: 'GET', isArray: true},
+            'query': {method: 'GET', isArray: true, url:'api/my/tours/:id'},
             'get': {
                 method: 'GET',
+                url:'api/my/tours/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);

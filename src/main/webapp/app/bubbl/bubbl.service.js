@@ -1,18 +1,19 @@
-(function() {
+(function () {
     'use strict';
     angular
         .module('tourologistApp')
         .factory('Bubbl', Bubbl);
 
-    Bubbl.$inject = ['$resource', 'DateUtils','BubblEntity','API'];
+    Bubbl.$inject = ['$resource', 'DateUtils', 'BubblEntity', 'API'];
 
-    function Bubbl ($resource, DateUtils,BubblEntity,API) {
-        var resourceUrl =  'api/bubbls/:id';
+    function Bubbl($resource, DateUtils, BubblEntity, API) {
+        var resourceUrl = 'api/bubbls/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            'query': {method: 'GET', isArray: true, url: "api/my/bubbls/:id"},
             'get': {
                 method: 'GET',
+                url: 'api/my/payloads/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
@@ -23,11 +24,11 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' },
+            'update': {method: 'PUT'},
 
 
-            createPayload:{
-                method:"POST",
+            createPayload: {
+                method: "POST",
                 transFormRequest: angular.identity,
                 url: resourceUrl + "/payloads?type=AUDIO",
                 headers: {'Content-Type': undefined}

@@ -10,9 +10,10 @@
         var resourceUrl =  'api/payloads/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            'query': { method: 'GET', isArray: true,url:'api/my/payloads/:id'},
             'get': {
                 method: 'GET',
+                url:'api/my/payloads/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
