@@ -4,16 +4,24 @@
         .module('tourologistApp')
         .factory('Tour', Tour);
 
-    Tour.$inject = ['$resource', 'DateUtils'];
+    Tour.$inject = ['$resource', 'DateUtils', 'Principal'];
 
-    function Tour($resource, DateUtils) {
+    function Tour($resource, DateUtils, Principal) {
         var resourceUrl = 'api/tours/:id';
+        var isAdmin = false;
+        Principal.hasAuthority('ROLE_ADMIN').then(function(result) {
+            return isAdmin = result;
+        });
+        // console.log("HAS Authority " + isAdmin);
 
         return $resource(resourceUrl, {}, {
-            'query': {method: 'GET', isArray: true, url:'api/my/tours/:id'},
+            'query': {method: 'GET',
+                      isArray: true,
+                      url: isAdmin ? 'api/tours/:id' : 'api/my/tours/:id',
+            },
             'get': {
                 method: 'GET',
-                url:'api/my/tours/:id',
+                url: isAdmin ? 'api/tours/:id' : 'api/my/tours/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);

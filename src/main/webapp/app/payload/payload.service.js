@@ -4,16 +4,24 @@
         .module('tourologistApp')
         .factory('Payload', Payload);
 
-    Payload.$inject = ['$resource', 'DateUtils'];
+    Payload.$inject = ['$resource', 'DateUtils', 'Principal'];
 
-    function Payload ($resource, DateUtils) {
+    function Payload ($resource, DateUtils, Principal) {
         var resourceUrl =  'api/payloads/:id';
 
+        var isAdmin = false;
+        Principal.hasAuthority('ROLE_ADMIN').then(function(result) {
+            return isAdmin = result;
+        });
+
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true,url:'api/my/payloads/:id'},
+            'query': { method: 'GET',
+                isArray: true,
+                url: isAdmin ? 'api/payloads/:id' : 'api/my/payloads/:id'
+            },
             'get': {
                 method: 'GET',
-                url:'api/my/payloads/:id',
+                url: isAdmin ? 'api/payloads/:id' : 'api/my/payloads/:id',
                 transformResponse: function (data) {
                     if (data) {
                         data = angular.fromJson(data);
