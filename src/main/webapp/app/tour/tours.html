@@ -38,6 +38,8 @@
                     class="glyphicon glyphicon-sort"></span></th>
                 <th has-authority="ROLE_ADMIN" jh-sort-by="author"><span>User</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
+                <th class="text-left"> Ratings</th>
+
                 <th class="text-left"> Actions</th>
             </tr>
             </thead>
@@ -51,6 +53,9 @@
                 <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
                 <td has-authority="ROLE_ADMIN">
                     {{tour.author}}
+                </td>
+                <td has-authority="ROLE_ADMIN">
+                    {{tour.rating}}
                 </td>
                 <td class="text-left">
                     <div class="btn-group">
