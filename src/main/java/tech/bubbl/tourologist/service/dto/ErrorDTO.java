@@ -12,6 +12,11 @@ public class ErrorDTO extends SuccessTransportObject {
         setSuccess(false);
     }
 
+    public ErrorDTO error(String errorMessage) {
+        setError(errorMessage);
+        return this;
+    }
+
     public String getError() {
         return error;
     }

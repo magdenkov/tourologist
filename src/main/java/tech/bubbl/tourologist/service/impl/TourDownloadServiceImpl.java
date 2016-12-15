@@ -1,5 +1,10 @@
 package tech.bubbl.tourologist.service.impl;
 
+import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.User;
+import tech.bubbl.tourologist.repository.TourRepository;
+import tech.bubbl.tourologist.repository.UserRepository;
+import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.TourDownloadService;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.repository.TourDownloadRepository;
@@ -13,8 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -25,12 +33,18 @@ import java.util.stream.Collectors;
 public class TourDownloadServiceImpl implements TourDownloadService{
 
     private final Logger log = LoggerFactory.getLogger(TourDownloadServiceImpl.class);
-    
+
     @Inject
     private TourDownloadRepository tourDownloadRepository;
 
     @Inject
     private TourDownloadMapper tourDownloadMapper;
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private TourRepository tourRepository;
 
     /**
      * Save a tourDownload.
@@ -48,11 +62,11 @@ public class TourDownloadServiceImpl implements TourDownloadService{
 
     /**
      *  Get all the tourDownloads.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<TourDownloadDTO> findAll(Pageable pageable) {
         log.debug("Request to get all TourDownloads");
         Page<TourDownload> result = tourDownloadRepository.findAll(pageable);
@@ -65,7 +79,7 @@ public class TourDownloadServiceImpl implements TourDownloadService{
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public TourDownloadDTO findOne(Long id) {
         log.debug("Request to get TourDownload : {}", id);
         TourDownload tourDownload = tourDownloadRepository.findOne(id);
@@ -81,5 +95,46 @@ public class TourDownloadServiceImpl implements TourDownloadService{
     public void delete(Long id) {
         log.debug("Request to delete TourDownload : {}", id);
         tourDownloadRepository.delete(id);
+    }
+
+    @Transactional
+    @Override
+    public Boolean addTourToFavorites(Long tourId) {
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Tour tour = tourRepository.findOne(tourId);
+        Optional.ofNullable(tour)
+            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+
+        TourDownload tourDownload = tourDownloadRepository.findOneByUserAndTour(user, tour);
+        if (tourDownload != null) {
+            return false;
+        }
+
+        tourDownload = new TourDownload()
+            .tour(tour)
+            .user(user)
+            .time(ZonedDateTime.now());
+
+        tourDownloadRepository.save(tourDownload);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public Boolean removeTourFromFavorites(Long tourId) {
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Tour tour = tourRepository.findOne(tourId);
+        Optional.ofNullable(tour)
+            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+
+        TourDownload tourDownload = tourDownloadRepository.findOneByUserAndTour(user, tour);
+        if (tourDownload == null) {
+            return false;
+        }
+
+        tourDownloadRepository.delete(tourDownload);
+        return true;
     }
 }

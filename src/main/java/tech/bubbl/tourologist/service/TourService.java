@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service;
 
 import com.google.maps.model.LatLng;
+import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
@@ -32,7 +33,7 @@ public interface TourService {
      * @param status @return the list of entities
      * @param userId
      */
-    Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status, Long userId);
+    Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId);
 
     /**
      *  Get the "id" tour.
@@ -55,5 +56,8 @@ public interface TourService {
 
     List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
 
-    Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status);
+    Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status);
+
+
+    Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status);
 }

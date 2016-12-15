@@ -16,16 +16,16 @@ public class TourDownloadDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private ZonedDateTime time;
+    private ZonedDateTime time = ZonedDateTime.now();
 
 
     private Long userId;
-    
+
 
     private String userEmail;
 
     private Long tourId;
-    
+
 
     private String tourName;
 

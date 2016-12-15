@@ -37,6 +37,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
 
@@ -92,7 +93,8 @@ public class TourServiceImpl implements TourService{
     @Inject
     private BubblService bubblService;
 
-
+    @Inject
+    private TourDownloadRepository tourDownloadRepository;
 
 
     @Transactional
@@ -105,7 +107,7 @@ public class TourServiceImpl implements TourService{
     }
 
     @Transactional(readOnly = true)
-    public Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status, Long userId) {
+    public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
 //        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
@@ -323,7 +325,7 @@ public class TourServiceImpl implements TourService{
             .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
             .collect(Collectors.toList());
 
-        // TODO: 08.12.2016 implement more complicated algoritm to pick up bubbls
+        // TODO: 08.12.2016 implement more complicated algoritm to pick up bubbls ANNA MIROSHNIK
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         CreateFixedTourDTO createFixedTourDTO = new CreateFixedTourDTO();
         createFixedTourDTO.setName("DIY tour by " + user.getFullName());
@@ -366,7 +368,7 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<GetAllToursDTO> findAllTours(Pageable pageable, TourType type, Status status) {
+    public Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
 //        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
@@ -378,6 +380,32 @@ public class TourServiceImpl implements TourService{
 
         Page<Tour> result = tourRepository.findAll(specification, pageable);
         return result.map(GetAllToursDTO::new);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
+
+        Specification<TourDownload> specification = Specifications.where(new Specification<TourDownload>() {
+            @Override
+            public Predicate toPredicate(Root<TourDownload> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (type != null) {
+                    predicates.add(cb.equal(root.get("tour").get("tourType"), type));
+                }
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status").get("status"), status));
+                }
+
+                predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
+
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+        return tourDownloadRepository.findAll(specification, pageable);
     }
 
     private Specifications<Tour> getSearchTourSpecification(final TourType type, final Status status, final Long userId) {

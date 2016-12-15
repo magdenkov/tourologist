@@ -22,7 +22,7 @@ public interface TourDownloadService {
 
     /**
      *  Get all the tourDownloads.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -42,4 +42,8 @@ public interface TourDownloadService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Boolean addTourToFavorites(Long tourId);
+
+    Boolean removeTourFromFavorites(Long tourId);
 }
