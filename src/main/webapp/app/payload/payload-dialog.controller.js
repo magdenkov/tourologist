@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('PayloadDialogController', PayloadDialogController);
 
-    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl', 'ParseLinks'];
+    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl', 'ParseLinks','Principal'];
 
-    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl, ParseLinks) {
+    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl, ParseLinks,Principal) {
         var vm = this;
 
         vm.payload = entity;
@@ -23,12 +23,63 @@
         vm.size = 250;
         vm.reset = reset;
         loadAll();
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".searchbubbl").select2();
         });
 
-        $scope.searchBubbls ='';
-        $scope.queryBy ='name';
+        $scope.searchBubbls = '';
+        $scope.queryBy = 'name';
+        vm.account = null;
+        vm.isAuthenticated = null;
+        $scope.$on('authenticationSuccess', function () {
+            getAccount();
+        });
+
+        getAccount();
+
+        function getAccount() {
+            Principal.identity().then(function (account) {
+                vm.account = account;
+                vm.isAuthenticated = Principal.isAuthenticated;
+                changeUrl()
+            });
+
+
+        }
+
+        function changeUrl() {
+
+            if (vm.account.authorities.includes('ROLE_ADMIN')) {
+                loadAdmin();
+            } else {
+                loadAll();
+            }
+
+
+        }
+
+
+        function loadAdmin() {
+            Bubbl.queryAdmin({
+                page: vm.page,
+                size: vm.size,
+            }, onSuccess, onError);
+
+
+            function onSuccess(data, headers) {
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                for (var i = 0; i < data.length; i++) {
+                    vm.bubbls.push(data[i]);
+                }
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
+
         function loadAll() {
             Bubbl.query({
                 page: vm.page,
@@ -57,7 +108,6 @@
 
         function loadPage(page) {
             vm.page = page;
-            loadAll();
         }
 
         $timeout(function () {
@@ -79,7 +129,7 @@
             vm.isSaving = true;
             if (vm.payload.id !== null) {
                 Payload.update(approve, onSaveSuccess, onSaveError);
-            }else{
+            } else {
                 Bubbl.createPayload(vm.payload.bubblId, formData, onSaveSuccess, onSaveError);
 
             }
@@ -100,12 +150,12 @@
     }
 })();
 angular
-    .module('tourologistApp').filter('propsFilter', function() {
-    return function(items, props) {
+    .module('tourologistApp').filter('propsFilter', function () {
+    return function (items, props) {
         var out = [];
 
         if (angular.isArray(items)) {
-            items.forEach(function(item) {
+            items.forEach(function (item) {
                 var itemMatches = false;
 
                 var keys = Object.keys(props);

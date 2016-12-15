@@ -71,7 +71,6 @@
         }
 
         function changeUrl() {
-            console.log(vm.account);
 
             if (vm.account.authorities.includes('ROLE_ADMIN')) {
                 loadAdmin();

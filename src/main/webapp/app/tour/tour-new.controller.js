@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('CreateTourController', TourDialogController);
 
-    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest','ParseLinks'];
+    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest','ParseLinks','Principal'];
 
-    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest,ParseLinks) {
+    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest,ParseLinks,Principal) {
         var vm = this;
 
         vm.tour = entity;
@@ -30,6 +30,55 @@
         vm.size = 250;
         vm.reset = reset;
         loadAll();
+        vm.account = null;
+        vm.isAuthenticated = null;
+        $scope.$on('authenticationSuccess', function () {
+            getAccount();
+        });
+
+        getAccount();
+
+        function getAccount() {
+            Principal.identity().then(function (account) {
+                vm.account = account;
+                vm.isAuthenticated = Principal.isAuthenticated;
+                changeUrl()
+            });
+
+
+        }
+
+        function changeUrl() {
+
+            if (vm.account.authorities.includes('ROLE_ADMIN')) {
+                loadAdmin();
+            } else {
+                loadAll();
+            }
+
+
+        }
+
+        function loadAdmin() {
+            Bubbl.queryAdmin({
+                page: vm.page,
+                size: vm.size,
+            }, onSuccess, onError);
+
+
+            function onSuccess(data, headers) {
+                vm.links = ParseLinks.parse(headers('link'));
+                vm.totalItems = headers('X-Total-Count');
+                for (var i = 0; i < data.length; i++) {
+                    vm.bubbls.push(data[i]);
+                }
+            }
+
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+        }
+
 
         function loadAll() {
             Bubbl.query({
@@ -59,7 +108,7 @@
 
         function loadPage(page) {
             vm.page = page;
-            loadAll();
+
         }
 
         $scope.user = {
