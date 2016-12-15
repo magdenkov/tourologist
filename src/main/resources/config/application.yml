@@ -83,7 +83,7 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: tourologist@localhost
+        from: info@bubbl.tech
     swagger:
         title: tourologist API
         description: tourologist API documentation

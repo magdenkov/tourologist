@@ -151,7 +151,7 @@ public class JHipsterProperties {
 
     public static class Mail {
 
-        private String from = "tourologist@localhost";
+        private String from = "info@bubbl.tech";
 
         public String getFrom() {
             return from;
