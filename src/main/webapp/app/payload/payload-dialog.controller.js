@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('PayloadDialogController', PayloadDialogController);
 
-    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl', 'ParseLinks','Principal'];
+    PayloadDialogController.$inject = ['$timeout', '$scope', '$rootScope', '$uibModalInstance', 'entity', 'Payload', 'Bubbl', 'ParseLinks', 'Principal'];
 
-    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl, ParseLinks,Principal) {
+    function PayloadDialogController($timeout, $scope, $rootScope, $uibModalInstance, entity, Payload, Bubbl, ParseLinks, Principal) {
         var vm = this;
 
         vm.payload = entity;
@@ -22,7 +22,6 @@
         };
         vm.size = 250;
         vm.reset = reset;
-        loadAll();
         $(document).ready(function () {
             $(".searchbubbl").select2();
         });
@@ -103,7 +102,7 @@
         function reset() {
             vm.page = 0;
             vm.recipes = [];
-            loadAll();
+            changeUrl();
         }
 
         function loadPage(page) {

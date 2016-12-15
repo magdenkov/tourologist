@@ -29,7 +29,6 @@
         };
         vm.size = 250;
         vm.reset = reset;
-        loadAll();
         vm.account = null;
         vm.isAuthenticated = null;
         $scope.$on('authenticationSuccess', function () {
@@ -103,7 +102,7 @@
         function reset() {
             vm.page = 0;
             vm.recipes = [];
-            loadAll();
+            changeUrl();
         }
 
         function loadPage(page) {

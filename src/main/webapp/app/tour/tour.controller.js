@@ -30,6 +30,7 @@
 
         function getAccount() {
             Principal.identity().then(function (account) {
+                vm.account = account;
                 vm.isAuthenticated = Principal.isAuthenticated;
                 changeUrl()
             });
@@ -38,8 +39,6 @@
         }
 
         function changeUrl() {
-            console.log(vm.account);
-
             if (vm.account.authorities.includes('ROLE_ADMIN')) {
                 loadAdmin();
             } else {
