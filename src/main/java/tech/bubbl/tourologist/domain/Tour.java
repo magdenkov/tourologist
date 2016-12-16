@@ -127,10 +127,10 @@ public class Tour implements Serializable {
         return this.downloadsAmountByCurrentUser > 0;
     }
 
-    @Formula("(SELECT avg(rate) from tour_rating tr WHERE tr.tour_id = id )")
+    @Formula("(SELECT avg(tr.rate) from tour_rating tr WHERE tr.tour_id = id )")
     private Double averageRating;
 
-    @Formula("(SELECT count(*) from tour_downloads tr WHERE tr.tour_id = id )")
+    @Formula("(SELECT count(*) from tour_download tr WHERE tr.tour_id = id )")
     private Integer totalDownloads;
 
     @Formula("(SELECT count(*) from tour_rating tr WHERE tr.tour_id = id )")
