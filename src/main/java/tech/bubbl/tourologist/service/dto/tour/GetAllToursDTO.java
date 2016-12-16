@@ -28,6 +28,8 @@ public class GetAllToursDTO implements TransportObject {
 
     private Double rating;
 
+    private Integer ratingsAmount;
+
     private Integer downloadsAmount;
 
     private Integer routeLength;
@@ -51,13 +53,22 @@ public class GetAllToursDTO implements TransportObject {
         setTourType(tour.getTourType());
         setStatus(tour.getStatus());
         setPrice(tour.getPrice());
-        /// TODO: 25.11.2016  replace this hardcode with actual values
-        setDownloadsAmount(120);
-        setRating(4.75d);
+        setDownloadsAmount(tour.getTotalDownloads());
+        setRating(tour.getAverageRating());
         setIsDownloaded(tour.isDownloaded());
         setRouteLength(tour.getRouteLength());
         setLat(tour.getLat());
         setLng(tour.getLng());
+        setRatingsAmount(tour.getTotalRatings());
+    }
+
+
+    public Integer getRatingsAmount() {
+        return ratingsAmount;
+    }
+
+    public void setRatingsAmount(Integer ratingsAmount) {
+        this.ratingsAmount = ratingsAmount;
     }
 
     public Boolean getIsDownloaded() {

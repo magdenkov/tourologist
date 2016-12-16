@@ -123,9 +123,41 @@ public class Tour implements Serializable {
         "and u.login = @userLogin )")
     private Integer downloadsAmountByCurrentUser;
 
-
     public Boolean isDownloaded() {
         return this.downloadsAmountByCurrentUser > 0;
+    }
+
+    @Formula("(SELECT avg(rate) from tour_rating tr WHERE tr.tour_id = id )")
+    private Double averageRating;
+
+    @Formula("(SELECT count(*) from tour_downloads tr WHERE tr.tour_id = id )")
+    private Integer totalDownloads;
+
+    @Formula("(SELECT count(*) from tour_rating tr WHERE tr.tour_id = id )")
+    private Integer totalRatings;
+
+    public Integer getTotalRatings() {
+        return totalRatings;
+    }
+
+    public void setTotalRatings(Integer totalRatings) {
+        this.totalRatings = totalRatings;
+    }
+
+    public Integer getTotalDownloads() {
+        return totalDownloads;
+    }
+
+    public void setTotalDownloads(Integer totalDownloads) {
+        this.totalDownloads = totalDownloads;
+    }
+
+    public Double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
     }
 
     public Integer getBubblsAmount() {
