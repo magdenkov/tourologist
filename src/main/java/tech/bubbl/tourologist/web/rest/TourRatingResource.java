@@ -2,6 +2,7 @@ package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.service.TourRatingService;
+import tech.bubbl.tourologist.service.dto.rating.CreateTourRatingCTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourRatingDTO;
@@ -31,17 +32,31 @@ import java.util.stream.Collectors;
 public class TourRatingResource {
 
     private final Logger log = LoggerFactory.getLogger(TourRatingResource.class);
-        
+
     @Inject
     private TourRatingService tourRatingService;
 
-    /**
-     * POST  /tour-ratings : Create a new tourRating.
-     *
-     * @param tourRatingDTO the tourRatingDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new tourRatingDTO, or with status 400 (Bad Request) if the tourRating has already an ID
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+
+
+    @PostMapping("/tour/{tourId}/ratings")
+    @Timed
+    public ResponseEntity<TourRatingDTO> rateTourById(@PathVariable(value = "tourId") Long tourId,
+                                                      @Valid @RequestBody CreateTourRatingCTO tourRatingDTO) throws URISyntaxException {
+        log.debug("REST request to save TourRating : {}", tourRatingDTO);
+        // FIXME: 16.12.2016
+        //         tourRatingService.createRatingForTour(tourRatingDTO, tourId);
+//        return ResponseEntity.created(new URI("/api/tour-ratings/" + result.getId()))
+//            .headers(HeaderUtil.createEntityCreationAlert("tourRating", result.getId().toString()))
+//            .body(result);
+
+        return null;
+    }
+
+
+
+
+
+
     @PostMapping("/tour-ratings")
     @Timed
     public ResponseEntity<TourRatingDTO> createTourRating(@Valid @RequestBody TourRatingDTO tourRatingDTO) throws URISyntaxException {
@@ -55,15 +70,7 @@ public class TourRatingResource {
             .body(result);
     }
 
-    /**
-     * PUT  /tour-ratings : Updates an existing tourRating.
-     *
-     * @param tourRatingDTO the tourRatingDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated tourRatingDTO,
-     * or with status 400 (Bad Request) if the tourRatingDTO is not valid,
-     * or with status 500 (Internal Server Error) if the tourRatingDTO couldnt be updated
-     * @throws URISyntaxException if the Location URI syntax is incorrect
-     */
+
     @PutMapping("/tour-ratings")
     @Timed
     public ResponseEntity<TourRatingDTO> updateTourRating(@Valid @RequestBody TourRatingDTO tourRatingDTO) throws URISyntaxException {
@@ -94,12 +101,7 @@ public class TourRatingResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    /**
-     * GET  /tour-ratings/:id : get the "id" tourRating.
-     *
-     * @param id the id of the tourRatingDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the tourRatingDTO, or with status 404 (Not Found)
-     */
+
     @GetMapping("/tour-ratings/{id}")
     @Timed
     public ResponseEntity<TourRatingDTO> getTourRating(@PathVariable Long id) {
@@ -112,12 +114,7 @@ public class TourRatingResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * DELETE  /tour-ratings/:id : delete the "id" tourRating.
-     *
-     * @param id the id of the tourRatingDTO to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
+
     @DeleteMapping("/tour-ratings/{id}")
     @Timed
     public ResponseEntity<Void> deleteTourRating(@PathVariable Long id) {

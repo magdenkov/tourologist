@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service;
 import tech.bubbl.tourologist.service.dto.TourRatingDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.bubbl.tourologist.service.dto.rating.CreateTourRatingCTO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,4 +43,6 @@ public interface TourRatingService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    Boolean createRatingForTour(CreateTourRatingCTO tourRatingDTO, Long tourId);
 }

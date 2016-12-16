@@ -34,7 +34,7 @@ public class TourRating implements Serializable {
     private String feedback;
 
     @Column(name = "time")
-    private ZonedDateTime time;
+    private ZonedDateTime time = ZonedDateTime.now();
 
     @ManyToOne
     private User user;
