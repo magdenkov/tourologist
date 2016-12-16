@@ -241,7 +241,7 @@ public class TourResource {
         if (tourDownloadService.removeTourFromFavorites(tourId)) {
             return ResponseEntity.ok(new SuccessTransportObject());
         } else {
-            return ResponseEntity.badRequest().body(new ErrorDTO("User already has downloaded this tour w/ id " + tourId));
+            return ResponseEntity.badRequest().body(new ErrorDTO("User already has not yet downloaded or removed from downloads tour w/ id " + tourId));
         }
     }
 

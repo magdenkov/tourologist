@@ -1,16 +1,16 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
-import io.swagger.models.auth.In;
 import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
+import tech.bubbl.tourologist.service.dto.TransportObject;
 
 import java.util.Optional;
 
 /**
  * Created by Denis Magdenkov on 25.11.2016.
  */
-public class GetAllToursDTO {
+public class GetAllToursDTO implements TransportObject {
 
     private Long id;
 
@@ -38,6 +38,8 @@ public class GetAllToursDTO {
 
     private Double lng;
 
+    private Boolean isDownloaded;
+
     public GetAllToursDTO() {
     }
 
@@ -52,9 +54,18 @@ public class GetAllToursDTO {
         /// TODO: 25.11.2016  replace this hardcode with actual values
         setDownloadsAmount(120);
         setRating(4.75d);
+        setIsDownloaded(tour.isDownloaded());
         setRouteLength(tour.getRouteLength());
         setLat(tour.getLat());
         setLng(tour.getLng());
+    }
+
+    public Boolean getIsDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setIsDownloaded(Boolean downloaded) {
+        isDownloaded = downloaded;
     }
 
     public Double getLat() {

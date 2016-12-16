@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Formula;
+import tech.bubbl.tourologist.config.JHipsterProperties;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
+import tech.bubbl.tourologist.security.SecurityUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -112,8 +114,19 @@ public class Tour implements Serializable {
     @Column(name = "route_length")
     private Integer routeLength;
 
-    @Formula("(select count(*) from tour_bubbl a where a.tour_id = id)")
+    @Formula("(select count(*) from tour_bubbl tb where tb.tour_id = id)")
     private Integer bubblsAmount;
+
+    @Formula("(select count(*) from tour_download td, jhi_user u " +
+        "where td.tour_id = id " +
+        "and u.id = td.user_id " +
+        "and u.login = @userLogin )")
+    private Integer downloadsAmountByCurrentUser;
+
+
+    public Boolean isDownloaded() {
+        return this.downloadsAmountByCurrentUser > 0;
+    }
 
     public Integer getBubblsAmount() {
         return bubblsAmount;
