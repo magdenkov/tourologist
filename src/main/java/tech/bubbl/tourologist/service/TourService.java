@@ -28,12 +28,13 @@ public interface TourService {
 
     /**
      *  Get all the tours.
-     *   @param pageable the pagination information
+     * @param pageable the pagination information
      *  @param type
      * @param status @return the list of entities
      * @param userId
+     * @param name
      */
-    Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId);
+    Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId, String name);
 
     /**
      *  Get the "id" tour.
@@ -52,12 +53,12 @@ public interface TourService {
 
     TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO, LatLng origin, LatLng destination, TourType type);
 
-    List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius);
+    List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius, String name);
 
     List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
 
-    Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status);
+    Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status, String name);
 
 
-    Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status);
+    Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status, String name);
 }

@@ -89,10 +89,11 @@ public class TourResource {
     @GetMapping("/my/tours")
     public ResponseEntity<List<GetAllToursDTO>> getOnyMyTours(@RequestParam(value = "type", required = false) TourType type,
                                                             @RequestParam(value = "status", required = false) Status status,
+                                                            @RequestParam(value = "name", required = false) String name,
                                                             Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAllMyTours(pageable,type, status);
+        Page<GetAllToursDTO> page = tourService.findAllMyTours(pageable, type, status, name);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -102,10 +103,11 @@ public class TourResource {
     public ResponseEntity<List<GetAllToursDTO>> getAllTours(@RequestParam(value = "type", required = false) TourType type,
                                                             @RequestParam(value = "status", required = false) Status status,
                                                             @RequestParam(value = "userId", required = false) Long userId,
+                                                            @RequestParam(value = "name", required = false) String name,
                                                                                            Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        Page<GetAllToursDTO> page = tourService.findAllToursByUSerId(pageable,type, status, userId);
+        Page<GetAllToursDTO> page = tourService.findAllToursByUSerId(pageable,type, status, userId, name);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -141,11 +143,12 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius
+                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius,
+                                                                                 @RequestParam(value = "name", required = false) String name
                                                                                  )
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, radius);
+        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, radius, name);
 
 //        List<GetAllToursDTO> resp = page.getContent();
         if (curLat != null && curLng != null) {
@@ -266,11 +269,12 @@ public class TourResource {
     @GetMapping("/my/downloads/tours")
     public ResponseEntity<List<GetAllToursDTO>> getCurrentUserFavoriteTours(@RequestParam(value = "type", required = false) TourType type,
                                                                          @RequestParam(value = "status", required = false) Status status,
+                                                                            @RequestParam(value = "name", required = false) String name,
                                                                          Pageable pageable)
         throws URISyntaxException {
 
         log.debug("REST request to get a page of Tours");
-        Page<TourDownload> page = tourService.findMyFavoritesTours(pageable, type, status);
+        Page<TourDownload> page = tourService.findMyFavoritesTours(pageable, type, status, name);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/users/downloads/tours");
 
         List<GetAllToursDTO> resp = page.getContent().stream()

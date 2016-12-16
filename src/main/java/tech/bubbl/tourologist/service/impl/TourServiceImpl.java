@@ -12,7 +12,6 @@ import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
 import tech.bubbl.tourologist.repository.*;
-import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
@@ -31,7 +30,6 @@ import org.springframework.stereotype.Service;
 import tech.bubbl.tourologist.service.util.SortBubbls;
 
 import javax.inject.Inject;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
@@ -40,7 +38,6 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
 
@@ -104,12 +101,12 @@ public class TourServiceImpl implements TourService{
 
 
     @Transactional
-    public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId) {
+    public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId, String name) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
 //        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
         setUserNameInDb();
 
-        Specification<Tour> specification = getSearchTourSpecification(type, status, userId);
+        Specification<Tour> specification = getSearchTourSpecification(type, status, userId, name);
 
 
         Page<Tour> result = tourRepository.findAll(specification, pageable);
@@ -127,11 +124,16 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius) {
+    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius, String name) {
         Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
             @Override
             public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                return cb.and(cb.equal(root.get("tourType"), TourType.FIXED ));
+                List<Predicate> predicates = new ArrayList<>();
+                if (name != null) {
+                    predicates.add(cb.like(root.get("name"), "%" + name + "%"));
+                }
+                predicates.add(cb.equal(root.get("tourType"), TourType.FIXED ));
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
         setUserNameInDb();
@@ -159,7 +161,7 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status) {
+    public Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status, String name) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
 
         Specification<TourDownload> specification = Specifications.where(new Specification<TourDownload>() {
@@ -171,6 +173,9 @@ public class TourServiceImpl implements TourService{
                 }
                 if (status != null) {
                     predicates.add(cb.equal(root.get("status").get("status"), status));
+                }
+                if (name != null) {
+                    predicates.add(cb.like(root.get("name"), "%" + name + "%"));
                 }
 
                 predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
@@ -185,7 +190,7 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status) {
+    public Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status, String name) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
 //        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
@@ -193,7 +198,7 @@ public class TourServiceImpl implements TourService{
         Long userId = user.getId();
 
         setUserNameInDb();
-        Specification<Tour> specification = getSearchTourSpecification(type, status, userId);
+        Specification<Tour> specification = getSearchTourSpecification(type, status, userId, name);
 
 
         Page<Tour> result = tourRepository.findAll(specification, pageable);
@@ -419,7 +424,7 @@ public class TourServiceImpl implements TourService{
         nativeQuery.executeUpdate();
     }
 
-    private Specifications<Tour> getSearchTourSpecification(final TourType type, final Status status, final Long userId) {
+    private Specifications<Tour> getSearchTourSpecification(final TourType type, final Status status, final Long userId, String name) {
         return Specifications.where(new Specification<Tour>() {
             @Override
             public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -430,6 +435,11 @@ public class TourServiceImpl implements TourService{
                 if (status != null) {
                     predicates.add(cb.equal(root.get("status"), status));
                 }
+
+                if (name != null) {
+                    predicates.add(cb.like(root.get("name"), "%" + name + "%"));
+                }
+
                 if (userId != null) {
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
                 }

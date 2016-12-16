@@ -54,7 +54,7 @@ public class GetAllToursDTO implements TransportObject {
         setStatus(tour.getStatus());
         setPrice(tour.getPrice());
         setDownloadsAmount(tour.getTotalDownloads());
-        setRating(tour.getAverageRating() == null ? 0 : tour.getAverageRating());
+        setRating(Optional.ofNullable(tour.getAverageRating()).isPresent() ? tour.getAverageRating() : 0);
         setIsDownloaded(tour.isDownloaded());
         setRouteLength(tour.getRouteLength());
         setLat(tour.getLat());
