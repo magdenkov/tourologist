@@ -161,6 +161,8 @@ dependencies {
     compile "javax.transaction:javax.transaction-api"
     compile "org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:${geronimo_javamail_1_4_mail_version}"
 
+    compile group: 'org.facebook4j', name: 'facebook4j-core', version: '2.4.8'
+
     compile ("org.hibernate:hibernate-ehcache") {
         exclude(module: 'ehcache-core')
     }

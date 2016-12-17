@@ -1,12 +1,28 @@
 package tech.bubbl.tourologist.web.rest;
 
+import facebook4j.Facebook;
+import facebook4j.FacebookException;
+import facebook4j.FacebookFactory;
+import facebook4j.Reading;
+import facebook4j.auth.AccessToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import tech.bubbl.tourologist.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.AuthoritiesConstants;
+import tech.bubbl.tourologist.security.jwt.JWTConfigurer;
+import tech.bubbl.tourologist.security.jwt.TokenProvider;
 import tech.bubbl.tourologist.service.MailService;
 import tech.bubbl.tourologist.service.UserService;
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
+import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
+import tech.bubbl.tourologist.service.dto.UserTokenDTO;
 import tech.bubbl.tourologist.web.rest.vm.ManagedUserVM;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -19,11 +35,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import tech.bubbl.tourologist.web.rest.vm.Social;
+import tech.bubbl.tourologist.web.rest.vm.SocialLoginDTO;
 
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -55,6 +75,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class UserResource {
 
+    public static final String FACEBOOK_PASSWORD = "FACEBOOK_PASSWORD";
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
     @Inject
@@ -65,6 +86,14 @@ public class UserResource {
 
     @Inject
     private UserService userService;
+
+    @Inject
+    private TokenProvider tokenProvider;
+
+    @Inject
+    private AuthenticationManager authenticationManager;
+
+
 
     /**
      * POST  /users  : Creates a new user.
@@ -96,17 +125,87 @@ public class UserResource {
                 .body(null);
         } else {
             User newUser = userService.createUser(managedUserVM);
-            String baseUrl = request.getScheme() + // "http"
+            sendEmail(request, newUser);
+            return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
+                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
+                .body(newUser);
+        }
+    }
+
+    @PostMapping("/login/social")
+    @Timed
+    public ResponseEntity<?> createUserWithFaceBook(@Valid @RequestBody SocialLoginDTO socialLoginDTO,
+                                                    @RequestParam(value = "type") Social social,
+                                                    HttpServletRequest request,
+                                                    HttpServletResponse response) throws URISyntaxException {
+
+        String token = socialLoginDTO.getToken();
+        Facebook facebook = new FacebookFactory().getInstance();
+        facebook.setOAuthAppId("655316051314562", "8d5b630547d46cb3269dc69dc3c783bb");
+        facebook.setOAuthAccessToken(new AccessToken(token, null));
+        facebook4j.User me;
+        try {
+            me = facebook.getMe(new Reading().fields("id", "email", "first_name", "last_name", "name"));
+        } catch (FacebookException e) {
+            log.error("Facebook authentication failed", e);
+            throw new UsernameNotFoundException("Authentication failed");
+        }
+
+        if (me == null || me.getId() == null) {
+            return new ResponseEntity<Object>(new ErrorDTO("Facebook token is not valid " + token), HttpStatus.NOT_FOUND);
+        }
+
+        String login = me.getId().toLowerCase();
+        String email = Optional.ofNullable(me.getEmail())
+            .map(String::toLowerCase).orElse("");
+        String firstName = me.getFirstName();
+        String lastName = me.getLastName();
+
+        if (userRepository.findOneByLogin(login).isPresent()) {
+            UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(login, FACEBOOK_PASSWORD);
+
+            try {
+                Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String jwt = tokenProvider.createToken(authentication, true);
+                response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+                return Optional.ofNullable(userService.getUserWithAuthorities())
+                    .map(user -> new ResponseEntity<>(new UserTokenDTO(user, "Bearer " + jwt), HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
+            } catch (AuthenticationException exception) {
+                return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+            }
+
+        } else {
+            User user = userService.createUser(login, FACEBOOK_PASSWORD,
+                firstName, lastName, email, "en");
+
+            sendEmail(request, user);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(login, FACEBOOK_PASSWORD);
+
+            try {
+                Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                String jwt = tokenProvider.createToken(authentication, true);
+                response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+                return new ResponseEntity<>(new UserTokenDTO(user, "Bearer " + jwt), HttpStatus.CREATED);
+            } catch (AuthenticationException exception) {
+                return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",exception.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+            }
+        }
+    }
+
+    private void sendEmail(HttpServletRequest request, User user) {
+        String baseUrl = request.getScheme() + // "http"
             "://" +                                // "://"
             request.getServerName() +              // "myhost"
             ":" +                                  // ":"
             request.getServerPort() +              // "80"
             request.getContextPath();              // "/myContextPath" or "" if deployed in root context
-            mailService.sendCreationEmail(newUser, baseUrl);
-            return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "userManagement.created", newUser.getLogin()))
-                .body(newUser);
-        }
+        mailService.sendCreationEmail(user, baseUrl);
     }
 
     /**
@@ -141,7 +240,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     * 
+     *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated

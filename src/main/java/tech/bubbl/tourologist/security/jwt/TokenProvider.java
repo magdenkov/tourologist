@@ -66,6 +66,29 @@ public class TokenProvider {
             .compact();
     }
 
+    public String createTokenByAuthorities(Collection<? extends GrantedAuthority> collOfAuthorities, Boolean rememberMe, String login) {
+        String authorities = collOfAuthorities.stream()
+            .map(authority -> authority.getAuthority())
+            .collect(Collectors.joining(","));
+
+        long now = (new Date()).getTime();
+        Date validity;
+        if (rememberMe) {
+            validity = new Date(now + this.tokenValidityInSecondsForRememberMe);
+        } else {
+            validity = new Date(now + this.tokenValidityInSeconds);
+        }
+
+        return Jwts.builder()
+            .setSubject(login)
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .setExpiration(validity)
+            .compact();
+    }
+
+
+
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(secretKey)
