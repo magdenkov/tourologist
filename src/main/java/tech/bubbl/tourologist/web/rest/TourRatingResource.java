@@ -40,7 +40,7 @@ public class TourRatingResource {
 
 
 
-    @PostMapping("/tour/{tourId}/ratings")
+    @PostMapping("/tours/{tourId}/ratings")
     @Timed
     public ResponseEntity<SuccessTransportObject> rateTourById(@PathVariable(value = "tourId") Long tourId,
                                                       @Valid @RequestBody CreateTourRatingCTO tourRatingDTO) throws URISyntaxException {
