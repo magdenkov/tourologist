@@ -54,8 +54,16 @@ public class TourRatingServiceImpl implements TourRatingService{
         Tour tour = tourRepository.findOne(tourId);
         Optional.ofNullable(tour).orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
 
+        TourRating tourRating = tourRatingRepository.findByUserAndTour(user, tour);
+        if (tourRating != null) {
+            return false;
+        }
 
-        return null;
+        tourRating = new TourRating().tour(tour).user(user);
+
+        tourRatingRepository.save(tourRating);
+
+        return true;
     }
 
     /**

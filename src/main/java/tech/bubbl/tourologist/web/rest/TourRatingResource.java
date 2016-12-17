@@ -2,6 +2,8 @@ package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.service.TourRatingService;
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
+import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
 import tech.bubbl.tourologist.service.dto.rating.CreateTourRatingCTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -40,20 +42,17 @@ public class TourRatingResource {
 
     @PostMapping("/tour/{tourId}/ratings")
     @Timed
-    public ResponseEntity<TourRatingDTO> rateTourById(@PathVariable(value = "tourId") Long tourId,
+    public ResponseEntity<SuccessTransportObject> rateTourById(@PathVariable(value = "tourId") Long tourId,
                                                       @Valid @RequestBody CreateTourRatingCTO tourRatingDTO) throws URISyntaxException {
         log.debug("REST request to save TourRating : {}", tourRatingDTO);
-        // FIXME: 16.12.2016
-        //         tourRatingService.createRatingForTour(tourRatingDTO, tourId);
-//        return ResponseEntity.created(new URI("/api/tour-ratings/" + result.getId()))
-//            .headers(HeaderUtil.createEntityCreationAlert("tourRating", result.getId().toString()))
-//            .body(result);
 
-        return null;
+        if (tourRatingService.createRatingForTour(tourRatingDTO, tourId)) {
+            return ResponseEntity.ok().body(new SuccessTransportObject());
+        } else {
+            return ResponseEntity.badRequest().body(new ErrorDTO("user has laredy left feedback for that tour"));
+        }
+
     }
-
-
-
 
 
 
