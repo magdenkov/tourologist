@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.service;
 import tech.bubbl.tourologist.service.dto.BubblRatingDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import tech.bubbl.tourologist.service.dto.rating.CreateBubblRatingDto;
 import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
 
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ public interface BubblRatingService {
 
     /**
      *  Get all the bubblRatings.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
@@ -44,5 +45,5 @@ public interface BubblRatingService {
      */
     void delete(Long id);
 
-    boolean createRatingForBubbl(CreateTourBubblDTO tourBubblDTO, Long tourId);
+    boolean createRatingForBubbl(CreateBubblRatingDto tourBubblDTO, Long tourId);
 }

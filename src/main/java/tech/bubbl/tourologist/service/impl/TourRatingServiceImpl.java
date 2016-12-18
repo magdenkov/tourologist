@@ -59,7 +59,7 @@ public class TourRatingServiceImpl implements TourRatingService{
             return false;
         }
 
-        tourRating = new TourRating().tour(tour).user(user);
+        tourRating = new TourRating().tour(tour).user(user).feedback(tourRatingDTO.getFeedback()).rate(tourRatingDTO.getRate());
 
         tourRatingRepository.save(tourRating);
 

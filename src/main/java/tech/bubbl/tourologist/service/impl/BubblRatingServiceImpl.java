@@ -7,6 +7,7 @@ import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblRatingService;
 import tech.bubbl.tourologist.repository.BubblRatingRepository;
 import tech.bubbl.tourologist.service.dto.BubblRatingDTO;
+import tech.bubbl.tourologist.service.dto.rating.CreateBubblRatingDto;
 import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
 import tech.bubbl.tourologist.service.mapper.BubblRatingMapper;
 import org.slf4j.Logger;
@@ -97,18 +98,18 @@ public class BubblRatingServiceImpl implements BubblRatingService{
 
     @Override
     @Transactional
-    public boolean createRatingForBubbl(CreateTourBubblDTO tourBubblDTO, Long tourId) {
+    public boolean createRatingForBubbl(CreateBubblRatingDto tourBubblDTO, Long bubblId) {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
 
-        Bubbl bubbl = bubblRepository.findOne(tourId);
-        Optional.ofNullable(bubbl).orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+        Bubbl bubbl = bubblRepository.findOne(bubblId);
+        Optional.ofNullable(bubbl).orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + bubblId));
 
         BubblRating tourRating = bubblRatingRepository.findByUserAndBubbl(user, bubbl);
         if (tourRating != null) {
             return false;
         }
 
-        tourRating = new BubblRating().bubbl(bubbl).user(user);
+        tourRating = new BubblRating().bubbl(bubbl).user(user).rate(tourBubblDTO.getRate()).feedback(tourBubblDTO.getFeedback());
 
         bubblRatingRepository.save(tourRating);
 

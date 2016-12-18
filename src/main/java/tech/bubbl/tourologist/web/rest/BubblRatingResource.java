@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import tech.bubbl.tourologist.service.BubblRatingService;
 import tech.bubbl.tourologist.service.dto.ErrorDTO;
 import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
+import tech.bubbl.tourologist.service.dto.rating.CreateBubblRatingDto;
 import tech.bubbl.tourologist.service.dto.rating.CreateTourRatingCTO;
 import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
@@ -44,7 +45,7 @@ public class BubblRatingResource {
     @PostMapping("/bubbls/{bubblId}/ratings")
     @Timed
     public ResponseEntity<SuccessTransportObject> rateBubblById(@PathVariable(value = "bubblId") Long tourId,
-                                                               @Valid @RequestBody CreateTourBubblDTO tourBubblDTO) throws URISyntaxException {
+                                                               @Valid @RequestBody CreateBubblRatingDto tourBubblDTO) throws URISyntaxException {
         log.debug("REST request to save TourRating : {}", tourBubblDTO);
 
         if (bubblRatingService.createRatingForBubbl(tourBubblDTO, tourId)) {
