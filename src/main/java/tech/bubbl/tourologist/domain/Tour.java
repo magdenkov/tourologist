@@ -124,6 +124,9 @@ public class Tour implements Serializable {
     private Integer downloadsAmountByCurrentUser;
 
     public Boolean isDownloaded() {
+        if (this.downloadsAmountByCurrentUser == null) {
+            return false;
+        }
         return this.downloadsAmountByCurrentUser > 0;
     }
 
