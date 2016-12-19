@@ -143,7 +143,7 @@ public class UserResource {
         Facebook facebook = new FacebookFactory().getInstance();
 
 //            facebook.setOAuthAppId("1620572758230874", "0805cdcfb1ba6cd6fd2283b5f3a6fe64");  todo also try this!!
-        facebook.setOAuthAppId("655316051314562", "8d5b630547d46cb3269dc69dc3c783bb");
+        facebook.setOAuthAppId("353913494977313", "28193f774fd70ab095e0ea700b139e56");
         facebook.setOAuthAccessToken(new AccessToken(token, null));
         facebook4j.User me;
         try {
