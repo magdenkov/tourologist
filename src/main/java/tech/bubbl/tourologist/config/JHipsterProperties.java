@@ -183,7 +183,7 @@ public class JHipsterProperties {
 
                 private long tokenValidityInSeconds = 1800;
 
-                private long tokenValidityInSecondsForRememberMe = 2592000;
+                private long tokenValidityInSecondsForRememberMe = 10368000;
 
                 public String getSecret() {
                     return secret;

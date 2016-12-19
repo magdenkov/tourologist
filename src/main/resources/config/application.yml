@@ -47,8 +47,8 @@ spring:
 
         # see https://developers.facebook.com/docs/facebook-login/v2.2
         facebook:
-            clientId: 655316051314562
-            clientSecret: 8d5b630547d46cb3269dc69dc3c783bb
+            clientId: 353913494977313
+            clientSecret: 28193f774fd70ab095e0ea700b139e56
 
         # see https://apps.twitter.com/app/
         twitter:
@@ -89,9 +89,9 @@ jhipster:
         description: tourologist API documentation
         version: 0.0.1
         termsOfServiceUrl:
-        contactName:
+        contactName: Denis Magdenkov
         contactUrl:
-        contactEmail:
+        contactEmail: denis.magdnekov@bubbl.tech
         license:
         licenseUrl:
     social:
