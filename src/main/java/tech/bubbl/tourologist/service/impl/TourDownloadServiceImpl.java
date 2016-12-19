@@ -1,13 +1,9 @@
 package tech.bubbl.tourologist.service.impl;
 
-import tech.bubbl.tourologist.domain.Tour;
-import tech.bubbl.tourologist.domain.User;
-import tech.bubbl.tourologist.repository.TourRepository;
-import tech.bubbl.tourologist.repository.UserRepository;
+import tech.bubbl.tourologist.domain.*;
+import tech.bubbl.tourologist.repository.*;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.TourDownloadService;
-import tech.bubbl.tourologist.domain.TourDownload;
-import tech.bubbl.tourologist.repository.TourDownloadRepository;
 import tech.bubbl.tourologist.service.dto.TourDownloadDTO;
 import tech.bubbl.tourologist.service.mapper.TourDownloadMapper;
 import org.slf4j.Logger;
@@ -45,6 +41,12 @@ public class TourDownloadServiceImpl implements TourDownloadService{
 
     @Inject
     private TourRepository tourRepository;
+
+    @Inject
+    private BubblDownloadRepository bubblDownloadRepository;
+
+    @Inject
+    private BubblRepository bubblRepository;
 
     /**
      * Save a tourDownload.
@@ -128,6 +130,12 @@ public class TourDownloadServiceImpl implements TourDownloadService{
         Tour tour = tourRepository.findOne(tourId);
         Optional.ofNullable(tour)
             .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+
+//        tour.getTourBubbls().stream().forEach(tourBubbl -> {
+//            Bubbl bubbl = bubblRepository.findOne(tourBubbl.getBubbl().getId());
+//            BubblDownload bubblDownload =  new BubblDownload().bubbl(bubbl);
+//            bubblDownloadRepository.save(bubblDownload);
+//        });
 
         TourDownload tourDownload = tourDownloadRepository.findOneByUserAndTour(user, tour);
         if (tourDownload == null) {

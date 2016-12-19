@@ -23,7 +23,7 @@ public class BubblDownload implements Serializable {
     private Long id;
 
     @Column(name = "time")
-    private ZonedDateTime time;
+    private ZonedDateTime time = ZonedDateTime.now();
 
     @ManyToOne
     private User user;
