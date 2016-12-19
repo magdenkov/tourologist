@@ -13,10 +13,9 @@ import tech.bubbl.tourologist.service.TourDownloadService;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.ErrorDTO;
 import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
+import tech.bubbl.tourologist.service.dto.TourRoutePointDTO;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
-import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
-import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
-import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
+import tech.bubbl.tourologist.service.dto.tour.*;
 import tech.bubbl.tourologist.service.util.SortBubbls;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -283,5 +282,14 @@ public class TourResource {
 
         return new ResponseEntity<>(resp, headers, HttpStatus.OK);
     }
+
+    @PostMapping("/tours/recreate-route")
+    public ResponseEntity<List<RoutePointDTO>> recalculateRoute(@RequestBody RecalculateRoutePointsDTO recalculateRoutePointsDTO) {
+
+
+        return new ResponseEntity<List<RoutePointDTO>>(tourService.recalculateRoute(recalculateRoutePointsDTO), HttpStatus.OK);
+
+    }
+
 
 }

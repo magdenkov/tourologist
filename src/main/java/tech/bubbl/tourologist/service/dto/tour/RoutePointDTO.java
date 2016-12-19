@@ -1,5 +1,7 @@
 package tech.bubbl.tourologist.service.dto.tour;
 
+import com.google.maps.model.LatLng;
+import org.apache.commons.lang3.RandomUtils;
 import tech.bubbl.tourologist.domain.TourRoutePoint;
 
 import javax.validation.constraints.Min;
@@ -27,6 +29,13 @@ public class RoutePointDTO implements Serializable {
         setLng(tourRoutePoint.getLng());
         setOrderNumber(tourRoutePoint.getOrderNumber());
         setId(tourRoutePoint.getId());
+    }
+
+    public RoutePointDTO(LatLng latLng, Integer orderNumber) {
+        this.lat = latLng.lat;
+        this.lng = latLng.lng;
+        this.orderNumber = orderNumber;
+        this.id = new Long(RandomUtils.nextInt(0, Integer.MAX_VALUE - 10));
     }
 
     public Long getId() {

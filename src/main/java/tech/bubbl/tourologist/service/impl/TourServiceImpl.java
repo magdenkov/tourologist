@@ -8,6 +8,7 @@ import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalPosition;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.http.ResponseEntity;
 import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -15,11 +16,8 @@ import tech.bubbl.tourologist.repository.*;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.TourService;
-import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
-import tech.bubbl.tourologist.service.dto.tour.CreateTourBubblDTO;
-import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.*;
 import tech.bubbl.tourologist.service.dto.TourDTO;
-import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 import tech.bubbl.tourologist.service.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +96,7 @@ public class TourServiceImpl implements TourService{
 
     @Inject
     private EntityManager entityManager;
+
 
 
     @Transactional
@@ -186,6 +185,28 @@ public class TourServiceImpl implements TourService{
 
         setUserNameInDb();
         return tourDownloadRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public List<RoutePointDTO> recalculateRoute(RecalculateRoutePointsDTO recalculateRoutePointsDTO) {
+        DirectionsResult result = getDirectionsFromGoogle(recalculateRoutePointsDTO.getOrigin(),
+            recalculateRoutePointsDTO.getDestination(),
+            getWayPoints(null, null, recalculateRoutePointsDTO.getBubblsToCover()));
+
+        List<RoutePointDTO> resp =  new ArrayList<>();
+        if (result == null || result.routes.length == 0) {
+            resp.add(new RoutePointDTO(recalculateRoutePointsDTO.getOrigin(), 0));
+            AtomicInteger i = new AtomicInteger(1);
+            recalculateRoutePointsDTO.getBubblsToCover().stream().forEach(latLng -> {
+                resp.add(new RoutePointDTO(latLng, i.getAndIncrement()));
+            });
+            resp.add(new RoutePointDTO(recalculateRoutePointsDTO.getDestination(), i.getAndIncrement()));
+            return resp;
+        }
+        AtomicInteger i =  new AtomicInteger(0);
+        List<LatLng> latLngs = result.routes[0].overviewPolyline.decodePath();
+        latLngs.stream().forEach(latLng -> resp.add(new RoutePointDTO(latLng, i.getAndIncrement())));
+        return resp;
     }
 
     @Override
@@ -289,7 +310,7 @@ public class TourServiceImpl implements TourService{
             destination = bubblsLatLngList.get(bubblsLatLngList.size() - 1);
         }
 
-        DirectionsResult result = getDirectionsFromGoogle(origin, destination, tour, wayPoints);
+        DirectionsResult result = getDirectionsFromGoogle(origin, destination, wayPoints);
 
         if (result == null || result.routes.length == 0) {
             tourRepository.save(tour);
@@ -330,7 +351,7 @@ public class TourServiceImpl implements TourService{
         finalTour.getTourRoutePoints().addAll(new HashSet<>(tourRoutePointsSaved));
     }
 
-    private DirectionsResult getDirectionsFromGoogle(LatLng origin, LatLng destination, Tour tour, LatLng[] wayPoints) {
+    private DirectionsResult getDirectionsFromGoogle(LatLng origin, LatLng destination,  LatLng[] wayPoints) {
         DirectionsResult result = null;
         try {
              result = DirectionsApi.newRequest(geoApiContext)
@@ -342,7 +363,7 @@ public class TourServiceImpl implements TourService{
                 .optimizeWaypoints(false)   // otherwise it will change original order of Bubbls!
                 .await();
         } catch (Exception e) {
-            log.error("Error occurred while creating route for tour {}, Error Message {} ", tour.getName(), e.getMessage());
+            log.error("Error occurred while creating route , Error Message {} ", e.getMessage());
         }
         return result;
     }

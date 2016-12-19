@@ -1,15 +1,14 @@
 package tech.bubbl.tourologist.service;
 
 import com.google.maps.model.LatLng;
+import org.springframework.http.ResponseEntity;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
-import tech.bubbl.tourologist.service.dto.tour.CreateFixedTourDTO;
-import tech.bubbl.tourologist.service.dto.tour.GetAllToursDTO;
+import tech.bubbl.tourologist.service.dto.tour.*;
 import tech.bubbl.tourologist.service.dto.TourDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import tech.bubbl.tourologist.service.dto.tour.TourFullDTO;
 
 import java.util.List;
 
@@ -61,4 +60,6 @@ public interface TourService {
 
 
     Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status, String name);
+
+    List<RoutePointDTO> recalculateRoute(RecalculateRoutePointsDTO recalculateRoutePointsDTO);
 }
