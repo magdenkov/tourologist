@@ -141,6 +141,8 @@ public class UserResource {
 
         String token = socialLoginDTO.getToken();
         Facebook facebook = new FacebookFactory().getInstance();
+
+//            facebook.setOAuthAppId("1620572758230874", "0805cdcfb1ba6cd6fd2283b5f3a6fe64");  todo also try this!!
         facebook.setOAuthAppId("655316051314562", "8d5b630547d46cb3269dc69dc3c783bb");
         facebook.setOAuthAccessToken(new AccessToken(token, null));
         facebook4j.User me;
@@ -148,7 +150,7 @@ public class UserResource {
             me = facebook.getMe(new Reading().fields("id", "email", "first_name", "last_name", "name"));
         } catch (FacebookException e) {
             log.error("Facebook authentication failed", e);
-            throw new UsernameNotFoundException("Authentication failed");
+            return new ResponseEntity<Object>(new ErrorDTO(e.getMessage()), HttpStatus.NOT_FOUND);
         }
 
         if (me == null || me.getId() == null) {
