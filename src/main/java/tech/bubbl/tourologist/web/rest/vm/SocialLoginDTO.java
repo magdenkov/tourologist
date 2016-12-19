@@ -14,6 +14,16 @@ public class SocialLoginDTO implements TransportObject {
 
     private String lanKey;
 
+    private Boolean rememberMe;
+
+    public Boolean getRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(Boolean rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+
     public String getToken() {
         return token;
     }

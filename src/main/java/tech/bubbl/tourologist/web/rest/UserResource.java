@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.web.rest;
 
+import com.google.common.base.Strings;
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import tech.bubbl.tourologist.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import tech.bubbl.tourologist.domain.Authority;
 import tech.bubbl.tourologist.domain.User;
 import tech.bubbl.tourologist.repository.UserRepository;
 import tech.bubbl.tourologist.security.AuthoritiesConstants;
@@ -143,6 +145,7 @@ public class UserResource {
         Facebook facebook = new FacebookFactory().getInstance();
 
 //            facebook.setOAuthAppId("1620572758230874", "0805cdcfb1ba6cd6fd2283b5f3a6fe64");  todo also try this!!
+//        facebook.setOAuthAppId("655316051314562", "8d5b630547d46cb3269dc69dc3c783bb");
         facebook.setOAuthAppId("353913494977313", "28193f774fd70ab095e0ea700b139e56");
         facebook.setOAuthAccessToken(new AccessToken(token, null));
         facebook4j.User me;
@@ -162,6 +165,19 @@ public class UserResource {
             .map(String::toLowerCase).orElse("");
         String firstName = me.getFirstName();
         String lastName = me.getLastName();
+
+
+        if (userRepository.findOneByEmail(email).isPresent()) {
+            User user = userService.getUserWithAuthoritiesByEmail(email).get();
+
+            String authorities = user.getAuthorities().stream()
+                .map(Authority::getName)
+                .collect(Collectors.joining(","));
+
+            String jwt = tokenProvider.createTokenByAuthorities(authorities, true, email);
+            response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            return new ResponseEntity<>(new UserTokenDTO(user, "Bearer " + jwt), HttpStatus.OK);
+        }
 
         if (userRepository.findOneByLogin(login).isPresent()) {
             UsernamePasswordAuthenticationToken authenticationToken =
@@ -183,7 +199,9 @@ public class UserResource {
             User user = userService.createUser(login, FACEBOOK_PASSWORD,
                 firstName, lastName, email, "en");
 
-            sendEmail(request, user);
+            if (!Strings.isNullOrEmpty(user.getEmail())) {
+                sendEmail(request, user);
+            }
 
             UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(login, FACEBOOK_PASSWORD);

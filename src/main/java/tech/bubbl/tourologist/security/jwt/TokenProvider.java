@@ -66,10 +66,10 @@ public class TokenProvider {
             .compact();
     }
 
-    public String createTokenByAuthorities(Collection<? extends GrantedAuthority> collOfAuthorities, Boolean rememberMe, String login) {
-        String authorities = collOfAuthorities.stream()
-            .map(authority -> authority.getAuthority())
-            .collect(Collectors.joining(","));
+    public String createTokenByAuthorities(String authorities, Boolean rememberMe, String login) {
+//        String authorities = collOfAuthorities.stream()
+//            .map(authority -> authority.getAuthority())
+//            .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
         Date validity;
