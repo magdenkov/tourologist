@@ -45,7 +45,6 @@ public class BubblResource {
 
 
     @PostMapping("/bubbls")
-    @Timed
     public ResponseEntity<BubblDTO> createBubbl(@Valid @RequestBody BubblDTO bubblDTO) throws URISyntaxException {
         log.debug("REST request to save Bubbl : {}", bubblDTO);
         if (bubblDTO.getId() != null) {
@@ -58,7 +57,6 @@ public class BubblResource {
     }
 
     @PutMapping("/bubbls")
-    @Timed
     public ResponseEntity<BubblDTO> updateBubbl(@Valid @RequestBody BubblDTO bubblDTO) throws URISyntaxException {
         log.debug("REST request to update Bubbl : {}", bubblDTO);
         if (bubblDTO.getId() == null) {
@@ -71,7 +69,6 @@ public class BubblResource {
     }
 
     @GetMapping("/bubbls")
-    @Timed
     public ResponseEntity<List<FullTourBubblNumberedDTO>> getAllBubblsByParams(@RequestParam(value = "status", required = false) Status status,
                                                        @RequestParam(value = "userId", required = false) Long userId,
                                                        Pageable pageable)
@@ -117,7 +114,6 @@ public class BubblResource {
 
 
     @GetMapping("/bubbls/decode_location")
-    @Timed
     public ResponseEntity<List<LatLng>> decodeGeolocationByName(@RequestParam(required = true) String name) throws Exception {
         log.debug("REST request to decode geolocation : {}", name);
 
@@ -140,9 +136,6 @@ public class BubblResource {
                                                        @RequestParam(required = true) Double lng) throws Exception {
 
         log.debug("REST request to reverse geocoding : lat {} lng {}", lat, lng);
-
-
-
 
         List<String> address1 = bubblService.reverseGeocode(lat,lng);
         return  ResponseEntity.ok().body(address1);

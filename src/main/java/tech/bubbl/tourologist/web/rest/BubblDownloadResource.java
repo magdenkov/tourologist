@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class BubblDownloadResource {
 
     private final Logger log = LoggerFactory.getLogger(BubblDownloadResource.class);
-        
+
     @Inject
     private BubblDownloadService bubblDownloadService;
 
@@ -42,7 +42,6 @@ public class BubblDownloadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/bubbl-downloads")
-    @Timed
     public ResponseEntity<BubblDownloadDTO> createBubblDownload(@RequestBody BubblDownloadDTO bubblDownloadDTO) throws URISyntaxException {
         log.debug("REST request to save BubblDownload : {}", bubblDownloadDTO);
         if (bubblDownloadDTO.getId() != null) {
@@ -64,7 +63,6 @@ public class BubblDownloadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/bubbl-downloads")
-    @Timed
     public ResponseEntity<BubblDownloadDTO> updateBubblDownload(@RequestBody BubblDownloadDTO bubblDownloadDTO) throws URISyntaxException {
         log.debug("REST request to update BubblDownload : {}", bubblDownloadDTO);
         if (bubblDownloadDTO.getId() == null) {
@@ -84,7 +82,6 @@ public class BubblDownloadResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/bubbl-downloads")
-    @Timed
     public ResponseEntity<List<BubblDownloadDTO>> getAllBubblDownloads(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of BubblDownloads");
@@ -118,7 +115,6 @@ public class BubblDownloadResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/bubbl-downloads/{id}")
-    @Timed
     public ResponseEntity<Void> deleteBubblDownload(@PathVariable Long id) {
         log.debug("REST request to delete BubblDownload : {}", id);
         bubblDownloadService.delete(id);

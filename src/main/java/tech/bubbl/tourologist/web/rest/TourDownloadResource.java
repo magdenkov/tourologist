@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourDownloadResource {
 
     private final Logger log = LoggerFactory.getLogger(TourDownloadResource.class);
-        
+
     @Inject
     private TourDownloadService tourDownloadService;
 
@@ -43,7 +43,6 @@ public class TourDownloadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-downloads")
-    @Timed
     public ResponseEntity<TourDownloadDTO> createTourDownload(@Valid @RequestBody TourDownloadDTO tourDownloadDTO) throws URISyntaxException {
         log.debug("REST request to save TourDownload : {}", tourDownloadDTO);
         if (tourDownloadDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourDownloadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-downloads")
-    @Timed
     public ResponseEntity<TourDownloadDTO> updateTourDownload(@Valid @RequestBody TourDownloadDTO tourDownloadDTO) throws URISyntaxException {
         log.debug("REST request to update TourDownload : {}", tourDownloadDTO);
         if (tourDownloadDTO.getId() == null) {
@@ -85,7 +83,6 @@ public class TourDownloadResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/tour-downloads")
-    @Timed
     public ResponseEntity<List<TourDownloadDTO>> getAllTourDownloads(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TourDownloads");
@@ -101,7 +98,6 @@ public class TourDownloadResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourDownloadDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-downloads/{id}")
-    @Timed
     public ResponseEntity<TourDownloadDTO> getTourDownload(@PathVariable Long id) {
         log.debug("REST request to get TourDownload : {}", id);
         TourDownloadDTO tourDownloadDTO = tourDownloadService.findOne(id);
@@ -119,7 +115,6 @@ public class TourDownloadResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-downloads/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourDownload(@PathVariable Long id) {
         log.debug("REST request to delete TourDownload : {}", id);
         tourDownloadService.delete(id);

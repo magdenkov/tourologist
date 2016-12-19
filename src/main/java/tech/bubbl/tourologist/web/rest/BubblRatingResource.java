@@ -43,7 +43,6 @@ public class BubblRatingResource {
 
 
     @PostMapping("/bubbls/{bubblId}/ratings")
-    @Timed
     public ResponseEntity<SuccessTransportObject> rateBubblById(@PathVariable(value = "bubblId") Long tourId,
                                                                @Valid @RequestBody CreateBubblRatingDto tourBubblDTO) throws URISyntaxException {
         log.debug("REST request to save TourRating : {}", tourBubblDTO);
@@ -68,7 +67,6 @@ public class BubblRatingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/bubbl-ratings")
-    @Timed
     public ResponseEntity<BubblRatingDTO> createBubblRating(@Valid @RequestBody BubblRatingDTO bubblRatingDTO) throws URISyntaxException {
         log.debug("REST request to save BubblRating : {}", bubblRatingDTO);
         if (bubblRatingDTO.getId() != null) {
@@ -110,7 +108,6 @@ public class BubblRatingResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/bubbl-ratings")
-    @Timed
     public ResponseEntity<List<BubblRatingDTO>> getAllBubblRatings(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of BubblRatings");
@@ -126,7 +123,6 @@ public class BubblRatingResource {
      * @return the ResponseEntity with status 200 (OK) and with body the bubblRatingDTO, or with status 404 (Not Found)
      */
     @GetMapping("/bubbl-ratings/{id}")
-    @Timed
     public ResponseEntity<BubblRatingDTO> getBubblRating(@PathVariable Long id) {
         log.debug("REST request to get BubblRating : {}", id);
         BubblRatingDTO bubblRatingDTO = bubblRatingService.findOne(id);
@@ -144,7 +140,6 @@ public class BubblRatingResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/bubbl-ratings/{id}")
-    @Timed
     public ResponseEntity<Void> deleteBubblRating(@PathVariable Long id) {
         log.debug("REST request to delete BubblRating : {}", id);
         bubblRatingService.delete(id);

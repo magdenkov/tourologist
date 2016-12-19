@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourBubblResource {
 
     private final Logger log = LoggerFactory.getLogger(TourBubblResource.class);
-        
+
     @Inject
     private TourBubblService tourBubblService;
 
@@ -43,7 +43,6 @@ public class TourBubblResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-bubbls")
-    @Timed
     public ResponseEntity<TourBubblDTO> createTourBubbl(@Valid @RequestBody TourBubblDTO tourBubblDTO) throws URISyntaxException {
         log.debug("REST request to save TourBubbl : {}", tourBubblDTO);
         if (tourBubblDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourBubblResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-bubbls")
-    @Timed
     public ResponseEntity<TourBubblDTO> updateTourBubbl(@Valid @RequestBody TourBubblDTO tourBubblDTO) throws URISyntaxException {
         log.debug("REST request to update TourBubbl : {}", tourBubblDTO);
         if (tourBubblDTO.getId() == null) {
@@ -85,7 +83,6 @@ public class TourBubblResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/tour-bubbls")
-    @Timed
     public ResponseEntity<List<TourBubblDTO>> getAllTourBubbls(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TourBubbls");
@@ -101,7 +98,6 @@ public class TourBubblResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourBubblDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-bubbls/{id}")
-    @Timed
     public ResponseEntity<TourBubblDTO> getTourBubbl(@PathVariable Long id) {
         log.debug("REST request to get TourBubbl : {}", id);
         TourBubblDTO tourBubblDTO = tourBubblService.findOne(id);
@@ -119,7 +115,6 @@ public class TourBubblResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-bubbls/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourBubbl(@PathVariable Long id) {
         log.debug("REST request to delete TourBubbl : {}", id);
         tourBubblService.delete(id);

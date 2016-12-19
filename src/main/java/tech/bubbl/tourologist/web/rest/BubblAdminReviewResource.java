@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class BubblAdminReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(BubblAdminReviewResource.class);
-        
+
     @Inject
     private BubblAdminReviewService bubblAdminReviewService;
 
@@ -43,7 +43,6 @@ public class BubblAdminReviewResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/bubbl-admin-reviews")
-    @Timed
     public ResponseEntity<BubblAdminReviewDTO> createBubblAdminReview(@Valid @RequestBody BubblAdminReviewDTO bubblAdminReviewDTO) throws URISyntaxException {
         log.debug("REST request to save BubblAdminReview : {}", bubblAdminReviewDTO);
         if (bubblAdminReviewDTO.getId() != null) {
@@ -85,7 +84,6 @@ public class BubblAdminReviewResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/bubbl-admin-reviews")
-    @Timed
     public ResponseEntity<List<BubblAdminReviewDTO>> getAllBubblAdminReviews(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of BubblAdminReviews");
@@ -101,7 +99,6 @@ public class BubblAdminReviewResource {
      * @return the ResponseEntity with status 200 (OK) and with body the bubblAdminReviewDTO, or with status 404 (Not Found)
      */
     @GetMapping("/bubbl-admin-reviews/{id}")
-    @Timed
     public ResponseEntity<BubblAdminReviewDTO> getBubblAdminReview(@PathVariable Long id) {
         log.debug("REST request to get BubblAdminReview : {}", id);
         BubblAdminReviewDTO bubblAdminReviewDTO = bubblAdminReviewService.findOne(id);
@@ -119,7 +116,6 @@ public class BubblAdminReviewResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/bubbl-admin-reviews/{id}")
-    @Timed
     public ResponseEntity<Void> deleteBubblAdminReview(@PathVariable Long id) {
         log.debug("REST request to delete BubblAdminReview : {}", id);
         bubblAdminReviewService.delete(id);

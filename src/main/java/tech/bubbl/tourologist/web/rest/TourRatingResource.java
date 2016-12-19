@@ -57,7 +57,6 @@ public class TourRatingResource {
 
 
     @PostMapping("/tour-ratings")
-    @Timed
     public ResponseEntity<TourRatingDTO> createTourRating(@Valid @RequestBody TourRatingDTO tourRatingDTO) throws URISyntaxException {
         log.debug("REST request to save TourRating : {}", tourRatingDTO);
         if (tourRatingDTO.getId() != null) {
@@ -71,7 +70,6 @@ public class TourRatingResource {
 
 
     @PutMapping("/tour-ratings")
-    @Timed
     public ResponseEntity<TourRatingDTO> updateTourRating(@Valid @RequestBody TourRatingDTO tourRatingDTO) throws URISyntaxException {
         log.debug("REST request to update TourRating : {}", tourRatingDTO);
         if (tourRatingDTO.getId() == null) {
@@ -91,7 +89,6 @@ public class TourRatingResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/tour-ratings")
-    @Timed
     public ResponseEntity<List<TourRatingDTO>> getAllTourRatings(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TourRatings");
@@ -102,7 +99,6 @@ public class TourRatingResource {
 
 
     @GetMapping("/tour-ratings/{id}")
-    @Timed
     public ResponseEntity<TourRatingDTO> getTourRating(@PathVariable Long id) {
         log.debug("REST request to get TourRating : {}", id);
         TourRatingDTO tourRatingDTO = tourRatingService.findOne(id);
@@ -115,7 +111,6 @@ public class TourRatingResource {
 
 
     @DeleteMapping("/tour-ratings/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourRating(@PathVariable Long id) {
         log.debug("REST request to delete TourRating : {}", id);
         tourRatingService.delete(id);

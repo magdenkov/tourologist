@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourBubblRoutePointResource {
 
     private final Logger log = LoggerFactory.getLogger(TourBubblRoutePointResource.class);
-        
+
     @Inject
     private TourBubblRoutePointService tourBubblRoutePointService;
 
@@ -43,7 +43,6 @@ public class TourBubblRoutePointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-bubbl-route-points")
-    @Timed
     public ResponseEntity<TourBubblRoutePointDTO> createTourBubblRoutePoint(@Valid @RequestBody TourBubblRoutePointDTO tourBubblRoutePointDTO) throws URISyntaxException {
         log.debug("REST request to save TourBubblRoutePoint : {}", tourBubblRoutePointDTO);
         if (tourBubblRoutePointDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourBubblRoutePointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-bubbl-route-points")
-    @Timed
     public ResponseEntity<TourBubblRoutePointDTO> updateTourBubblRoutePoint(@Valid @RequestBody TourBubblRoutePointDTO tourBubblRoutePointDTO) throws URISyntaxException {
         log.debug("REST request to update TourBubblRoutePoint : {}", tourBubblRoutePointDTO);
         if (tourBubblRoutePointDTO.getId() == null) {
@@ -85,7 +83,6 @@ public class TourBubblRoutePointResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/tour-bubbl-route-points")
-    @Timed
     public ResponseEntity<List<TourBubblRoutePointDTO>> getAllTourBubblRoutePoints(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TourBubblRoutePoints");
@@ -101,7 +98,6 @@ public class TourBubblRoutePointResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourBubblRoutePointDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-bubbl-route-points/{id}")
-    @Timed
     public ResponseEntity<TourBubblRoutePointDTO> getTourBubblRoutePoint(@PathVariable Long id) {
         log.debug("REST request to get TourBubblRoutePoint : {}", id);
         TourBubblRoutePointDTO tourBubblRoutePointDTO = tourBubblRoutePointService.findOne(id);
@@ -119,7 +115,6 @@ public class TourBubblRoutePointResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-bubbl-route-points/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourBubblRoutePoint(@PathVariable Long id) {
         log.debug("REST request to delete TourBubblRoutePoint : {}", id);
         tourBubblRoutePointService.delete(id);

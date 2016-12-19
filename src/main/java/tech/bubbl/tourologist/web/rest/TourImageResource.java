@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourImageResource {
 
     private final Logger log = LoggerFactory.getLogger(TourImageResource.class);
-        
+
     @Inject
     private TourImageService tourImageService;
 
@@ -43,7 +43,6 @@ public class TourImageResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-images")
-    @Timed
     public ResponseEntity<TourImageDTO> createTourImage(@Valid @RequestBody TourImageDTO tourImageDTO) throws URISyntaxException {
         log.debug("REST request to save TourImage : {}", tourImageDTO);
         if (tourImageDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourImageResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-images")
-    @Timed
     public ResponseEntity<TourImageDTO> updateTourImage(@Valid @RequestBody TourImageDTO tourImageDTO) throws URISyntaxException {
         log.debug("REST request to update TourImage : {}", tourImageDTO);
         if (tourImageDTO.getId() == null) {
@@ -101,7 +99,6 @@ public class TourImageResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourImageDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-images/{id}")
-    @Timed
     public ResponseEntity<TourImageDTO> getTourImage(@PathVariable Long id) {
         log.debug("REST request to get TourImage : {}", id);
         TourImageDTO tourImageDTO = tourImageService.findOne(id);
@@ -119,7 +116,6 @@ public class TourImageResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-images/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourImage(@PathVariable Long id) {
         log.debug("REST request to delete TourImage : {}", id);
         tourImageService.delete(id);

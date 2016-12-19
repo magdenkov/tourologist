@@ -3,6 +3,7 @@ package tech.bubbl.tourologist.web.rest;
 import tech.bubbl.tourologist.security.jwt.JWTConfigurer;
 import tech.bubbl.tourologist.security.jwt.TokenProvider;
 import tech.bubbl.tourologist.service.UserService;
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
 import tech.bubbl.tourologist.service.dto.UserTokenDTO;
 import tech.bubbl.tourologist.web.rest.vm.LoginVM;
 

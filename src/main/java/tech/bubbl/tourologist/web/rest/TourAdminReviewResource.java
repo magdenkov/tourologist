@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourAdminReviewResource {
 
     private final Logger log = LoggerFactory.getLogger(TourAdminReviewResource.class);
-        
+
     @Inject
     private TourAdminReviewService tourAdminReviewService;
 
@@ -43,7 +43,6 @@ public class TourAdminReviewResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-admin-reviews")
-    @Timed
     public ResponseEntity<TourAdminReviewDTO> createTourAdminReview(@Valid @RequestBody TourAdminReviewDTO tourAdminReviewDTO) throws URISyntaxException {
         log.debug("REST request to save TourAdminReview : {}", tourAdminReviewDTO);
         if (tourAdminReviewDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourAdminReviewResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-admin-reviews")
-    @Timed
     public ResponseEntity<TourAdminReviewDTO> updateTourAdminReview(@Valid @RequestBody TourAdminReviewDTO tourAdminReviewDTO) throws URISyntaxException {
         log.debug("REST request to update TourAdminReview : {}", tourAdminReviewDTO);
         if (tourAdminReviewDTO.getId() == null) {
@@ -85,7 +83,6 @@ public class TourAdminReviewResource {
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @GetMapping("/tour-admin-reviews")
-    @Timed
     public ResponseEntity<List<TourAdminReviewDTO>> getAllTourAdminReviews(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of TourAdminReviews");
@@ -101,7 +98,6 @@ public class TourAdminReviewResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourAdminReviewDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-admin-reviews/{id}")
-    @Timed
     public ResponseEntity<TourAdminReviewDTO> getTourAdminReview(@PathVariable Long id) {
         log.debug("REST request to get TourAdminReview : {}", id);
         TourAdminReviewDTO tourAdminReviewDTO = tourAdminReviewService.findOne(id);
@@ -119,7 +115,6 @@ public class TourAdminReviewResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-admin-reviews/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourAdminReview(@PathVariable Long id) {
         log.debug("REST request to delete TourAdminReview : {}", id);
         tourAdminReviewService.delete(id);

@@ -1,5 +1,7 @@
 package tech.bubbl.tourologist.web.rest.errors;
 
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +9,10 @@ import java.util.List;
 /**
  * View Model for transferring error message with a list of field errors.
  */
-public class ErrorVM implements Serializable {
+public class ErrorVM extends ErrorDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String message;
     private final String description;
 
     private List<FieldErrorVM> fieldErrors;
@@ -21,12 +22,12 @@ public class ErrorVM implements Serializable {
     }
 
     public ErrorVM(String message, String description) {
-        this.message = message;
+        super(message);
         this.description = description;
     }
 
     public ErrorVM(String message, String description, List<FieldErrorVM> fieldErrors) {
-        this.message = message;
+        super(message);
         this.description = description;
         this.fieldErrors = fieldErrors;
     }
@@ -38,9 +39,6 @@ public class ErrorVM implements Serializable {
         fieldErrors.add(new FieldErrorVM(objectName, field, message));
     }
 
-    public String getMessage() {
-        return message;
-    }
 
     public String getDescription() {
         return description;

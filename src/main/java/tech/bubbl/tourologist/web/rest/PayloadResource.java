@@ -98,7 +98,6 @@ public class PayloadResource {
          * @throws URISyntaxException if the Location URI syntax is incorrect
          */
     @PostMapping("/payloads")
-    @Timed
     public ResponseEntity<PayloadDTO> createPayload(@Valid @RequestBody PayloadDTO payloadDTO) throws URISyntaxException {
         log.debug("REST request to save Payload : {}", payloadDTO);
         if (payloadDTO.getId() != null) {
@@ -120,7 +119,6 @@ public class PayloadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/payloads")
-    @Timed
     public ResponseEntity<PayloadDTO> updatePayload(@Valid @RequestBody PayloadDTO payloadDTO) throws URISyntaxException {
         log.debug("REST request to update Payload : {}", payloadDTO);
         if (payloadDTO.getId() == null) {
@@ -162,7 +160,6 @@ public class PayloadResource {
      * @return the ResponseEntity with status 200 (OK) and with body the payloadDTO, or with status 404 (Not Found)
      */
     @GetMapping("/payloads/{id}")
-    @Timed
     public ResponseEntity<PayloadDTO> getPayload(@PathVariable Long id) {
         log.debug("REST request to get Payload : {}", id);
         PayloadDTO payloadDTO = payloadService.findOne(id);
@@ -180,7 +177,6 @@ public class PayloadResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/payloads/{id}")
-    @Timed
     public ResponseEntity<Void> deletePayload(@PathVariable Long id) {
         log.debug("REST request to delete Payload : {}", id);
         payloadService.delete(id);

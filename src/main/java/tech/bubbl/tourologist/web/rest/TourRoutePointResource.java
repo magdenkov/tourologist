@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class TourRoutePointResource {
 
     private final Logger log = LoggerFactory.getLogger(TourRoutePointResource.class);
-        
+
     @Inject
     private TourRoutePointService tourRoutePointService;
 
@@ -43,7 +43,6 @@ public class TourRoutePointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tour-route-points")
-    @Timed
     public ResponseEntity<TourRoutePointDTO> createTourRoutePoint(@Valid @RequestBody TourRoutePointDTO tourRoutePointDTO) throws URISyntaxException {
         log.debug("REST request to save TourRoutePoint : {}", tourRoutePointDTO);
         if (tourRoutePointDTO.getId() != null) {
@@ -65,7 +64,6 @@ public class TourRoutePointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tour-route-points")
-    @Timed
     public ResponseEntity<TourRoutePointDTO> updateTourRoutePoint(@Valid @RequestBody TourRoutePointDTO tourRoutePointDTO) throws URISyntaxException {
         log.debug("REST request to update TourRoutePoint : {}", tourRoutePointDTO);
         if (tourRoutePointDTO.getId() == null) {
@@ -101,7 +99,6 @@ public class TourRoutePointResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tourRoutePointDTO, or with status 404 (Not Found)
      */
     @GetMapping("/tour-route-points/{id}")
-    @Timed
     public ResponseEntity<TourRoutePointDTO> getTourRoutePoint(@PathVariable Long id) {
         log.debug("REST request to get TourRoutePoint : {}", id);
         TourRoutePointDTO tourRoutePointDTO = tourRoutePointService.findOne(id);
@@ -119,7 +116,6 @@ public class TourRoutePointResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tour-route-points/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTourRoutePoint(@PathVariable Long id) {
         log.debug("REST request to delete TourRoutePoint : {}", id);
         tourRoutePointService.delete(id);
