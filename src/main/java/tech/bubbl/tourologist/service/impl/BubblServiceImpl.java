@@ -221,7 +221,9 @@ public class BubblServiceImpl implements BubblService{
         }
 
         if (results == null || results.length == 0) {
-            return  new ArrayList<>();
+            List<String> address =  new ArrayList<>();
+            address.add("unknown adress");
+            return address;
         }
 
         List<String> address = Arrays.stream(results)
