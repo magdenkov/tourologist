@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.hibernate.annotations.Formula;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 
 /**
@@ -93,6 +94,53 @@ public class Bubbl implements Serializable {
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<TourBubbl> tourBubbls = new HashSet<>();
+
+
+//    @Formula("(select count(*) from tour_download td, jhi_user u " +
+//        "where td.tour_id = id " +
+//        "and u.id = td.user_id " +
+//        "and u.login = @userLogin )")
+//    private Integer downloadsAmountByCurrentUser;
+//
+//    public Boolean isDownloaded() {
+//        if (this.downloadsAmountByCurrentUser == null) {
+//            return false;
+//        }
+//        return this.downloadsAmountByCurrentUser > 0;
+//    }
+
+    @Formula("(SELECT avg(tr.rate) from bubbl_rating tr WHERE tr.bubbl_id = id )")
+    private Double averageRating;
+
+    @Formula("(SELECT count(*) from bubbl_download tr WHERE tr.bubbl_id = id )")
+    private Integer totalDownloads;
+
+    @Formula("(SELECT count(*) from bubbl_rating tr WHERE tr.bubbl_id = id )")
+    private Integer totalRatings;
+
+    public Double getAverageRating() {
+        return averageRating == null ? 0 : averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public Integer getTotalDownloads() {
+        return totalDownloads;
+    }
+
+    public void setTotalDownloads(Integer totalDownloads) {
+        this.totalDownloads = totalDownloads;
+    }
+
+    public Integer getTotalRatings() {
+        return totalRatings;
+    }
+
+    public void setTotalRatings(Integer totalRatings) {
+        this.totalRatings = totalRatings;
+    }
 
     public Long getId() {
         return id;

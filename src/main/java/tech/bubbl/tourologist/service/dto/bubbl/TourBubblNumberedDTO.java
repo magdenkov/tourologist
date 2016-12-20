@@ -38,6 +38,15 @@ public class TourBubblNumberedDTO implements TransportObject{
 
     private Long tourId;
 
+
+    private Double rating;
+
+    private Integer ratingsAmount;
+
+    private Integer downloadsAmount;
+
+    private Boolean isDownloaded;
+
     public TourBubblNumberedDTO() {
     }
 
@@ -52,7 +61,45 @@ public class TourBubblNumberedDTO implements TransportObject{
         setOrderNumber(orderNumber);
         setTourId(tourId);
 
+        setRating(bubbl.getAverageRating());
+        setRatingsAmount(bubbl.getTotalRatings());
+        setDownloadsAmount(bubbl.getTotalDownloads());
+
+        setDownloaded(false);
+
         Optional.ofNullable(bubbl.getUser()).ifPresent(user -> this.setAuthor(user.getFullName()));
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+    public Integer getRatingsAmount() {
+        return ratingsAmount;
+    }
+
+    public void setRatingsAmount(Integer ratingsAmount) {
+        this.ratingsAmount = ratingsAmount;
+    }
+
+    public Integer getDownloadsAmount() {
+        return downloadsAmount;
+    }
+
+    public void setDownloadsAmount(Integer downloadsAmount) {
+        this.downloadsAmount = downloadsAmount;
+    }
+
+    public Boolean getDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setDownloaded(Boolean downloaded) {
+        isDownloaded = downloaded;
     }
 
     public Long getTourId() {
