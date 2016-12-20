@@ -7,7 +7,10 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
+import tech.bubbl.tourologist.service.BubblDownloadService;
 import tech.bubbl.tourologist.service.BubblService;
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
+import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
@@ -42,6 +45,9 @@ public class BubblResource {
 
     @Inject
     private GeoApiContext geoApiContext;
+
+    @Inject
+    private BubblDownloadService bubblDownloadService;
 
 
     @PostMapping("/bubbls")
@@ -139,6 +145,26 @@ public class BubblResource {
 
         List<String> address1 = bubblService.reverseGeocode(lat,lng);
         return  ResponseEntity.ok().body(address1);
+    }
+
+
+
+    @PostMapping("/bubbls/{bubblId}/downloads")
+    public ResponseEntity<SuccessTransportObject> addTourToFavorites(@PathVariable("bubblId") Long bubblId) {
+        if (bubblDownloadService.addBubblToFavorites(bubblId)){
+            return ResponseEntity.ok(new SuccessTransportObject());
+        }else{
+            return ResponseEntity.badRequest().body(new ErrorDTO("User already has downloaded this tour w/ id " + bubblId));
+        }
+    }
+
+    @DeleteMapping("/bubbls/{bubblId}/downloads")
+    public ResponseEntity<SuccessTransportObject> removeTourFromFavorites(@PathVariable("bubblId") Long bubblId) {
+        if (bubblDownloadService.removeBubblFromFavorites(bubblId)) {
+            return ResponseEntity.ok(new SuccessTransportObject());
+        } else {
+            return ResponseEntity.badRequest().body(new ErrorDTO("User already has not yet downloaded or removed from downloads tour w/ id " + bubblId));
+        }
     }
 
 }

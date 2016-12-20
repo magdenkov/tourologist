@@ -14,6 +14,8 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+
 /**
  * Controller advice to translate the server side exceptions to client-friendly json structures.
  */
@@ -49,6 +51,13 @@ public class ExceptionTranslator {
     @ResponseBody
     public ErrorVM processAccessDeniedException(AccessDeniedException e) {
         return new ErrorVM(ErrorConstants.ERR_ACCESS_DENIED, e.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorVM processEntityNotFoundException(AccessDeniedException e) {
+        return new ErrorVM(ErrorConstants.ERR_ENTITY_NOT_FOUND, e.getMessage());
     }
 
     private ErrorVM processFieldErrors(List<FieldError> fieldErrors) {

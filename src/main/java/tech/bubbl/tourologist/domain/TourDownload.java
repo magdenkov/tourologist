@@ -25,7 +25,7 @@ public class TourDownload implements Serializable {
 
     @NotNull
     @Column(name = "time", nullable = false)
-    private ZonedDateTime time;
+    private ZonedDateTime time = ZonedDateTime.now();
 
     @ManyToOne
     private User user;

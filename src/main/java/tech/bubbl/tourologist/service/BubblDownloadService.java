@@ -42,4 +42,8 @@ public interface BubblDownloadService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    boolean addBubblToFavorites(Long tourId);
+
+    boolean removeBubblFromFavorites(Long tourId);
 }

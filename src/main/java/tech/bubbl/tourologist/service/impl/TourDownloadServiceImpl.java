@@ -112,11 +112,14 @@ public class TourDownloadServiceImpl implements TourDownloadService{
         if (tourDownload != null) {
             return false;
         }
+//      Uncomment this in case we need to mark all bubbls inside tours as downloaded
+//        tour.getTourBubbls().stream().forEach(tourBubbl -> {
+//            Bubbl bubbl = bubblRepository.findOne(tourBubbl.getBubbl().getId());
+//            BubblDownload bubblDownload =  new BubblDownload().bubbl(bubbl);
+//            bubblDownloadRepository.save(bubblDownload);
+//        });
 
-        tourDownload = new TourDownload()
-            .tour(tour)
-            .user(user)
-            .time(ZonedDateTime.now());
+        tourDownload = new TourDownload().tour(tour).user(user);
 
         tourDownloadRepository.save(tourDownload);
         return true;
@@ -131,11 +134,6 @@ public class TourDownloadServiceImpl implements TourDownloadService{
         Optional.ofNullable(tour)
             .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
 
-//        tour.getTourBubbls().stream().forEach(tourBubbl -> {
-//            Bubbl bubbl = bubblRepository.findOne(tourBubbl.getBubbl().getId());
-//            BubblDownload bubblDownload =  new BubblDownload().bubbl(bubbl);
-//            bubblDownloadRepository.save(bubblDownload);
-//        });
 
         TourDownload tourDownload = tourDownloadRepository.findOneByUserAndTour(user, tour);
         if (tourDownload == null) {

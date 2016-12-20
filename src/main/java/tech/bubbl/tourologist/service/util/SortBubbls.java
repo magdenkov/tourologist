@@ -5,7 +5,7 @@ import tech.bubbl.tourologist.domain.Bubbl;
 import java.util.Comparator;
 
 /**
- * Created by Denis Magdenkov on 08.12.2016.
+ * Created by Denis Magdenkov on 08.12.2016. sorting bubbls by distance, from current location
  */
 public class SortBubbls implements Comparator<Bubbl> {
 
