@@ -28,7 +28,7 @@
                 name: vm.bubbl.name,
                 radiusMeters: vm.bubbl.radiusMeters,
                 status: "APPROVED",
-                interests:vm.bubbl.interests,
+                interests: vm.bubbl.interests,
                 userEmail: vm.bubbl.userEmail,
                 userId: vm.bubbl.userId
 
@@ -37,7 +37,9 @@
                 Bubbl.update(approve, onSaveSuccess, onSaveError);
             }
         };
-
+        $scope.back = function () {
+            window.history.back()
+        };
         $scope.rejectBubbl = function () {
             var approve = {
 
@@ -48,7 +50,7 @@
                 name: vm.bubbl.name,
                 radiusMeters: vm.bubbl.radiusMeters,
                 status: "REJECTED",
-                interests:vm.bubbl.interests,
+                interests: vm.bubbl.interests,
                 userEmail: vm.bubbl.userEmail,
                 userId: vm.bubbl.userId
 

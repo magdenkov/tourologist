@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('TourDetailController', TourDetailController);
 
-    TourDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
+    TourDetailController.$inject = ['$scope', '$rootScope', 'previousState', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
 
-    function TourDetailController($scope, $rootScope, uiGmapGoogleMapApi, previousState, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
+    function TourDetailController($scope, $rootScope, previousState, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
         var vm = this;
         var tourRoutePoints = [];
         vm.tour = entity;
@@ -17,21 +17,25 @@
         var myCoordinates = [];
 
         function initialize() {
-            $scope.map = {center: {latitude:vm.tour.lat, longitude: vm.tour.lng}, zoom: 15, bounds: {},events: {
-                tilesloaded: function (map, eventname, args) {
-                    $scope.mapInstance = map;
+            $scope.map = {
+                center: {latitude: vm.tour.lat, longitude: vm.tour.lng}, zoom: 15, bounds: {}, events: {
+                    tilesloaded: function (map, eventname, args) {
+                        $scope.mapInstance = map;
+                    }
                 }
-            }};
+            };
             console.log(vm.tour.tourRoutePoints.length);
             for (var i = 0; i < vm.tour.tourRoutePoints.length; i++) {
                 lat = vm.tour.tourRoutePoints[i].lat;
                 lng = vm.tour.tourRoutePoints[i].lng;
                 myCoordinates.push(new google.maps.LatLng(lat, lng));
 
-                console.log(myCoordinates)
+            }
+            $scope.back = function() {
+                window.history.back()
             }
 
-            $scope.routes =[{
+            $scope.routes = [{
 
                 path: myCoordinates,
                 stroke: {

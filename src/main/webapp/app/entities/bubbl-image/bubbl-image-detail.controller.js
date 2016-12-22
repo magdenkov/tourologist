@@ -11,7 +11,7 @@
         var vm = this;
 
         vm.bubblImage = entity;
-        vm.previousState = previousState.name;
+        vm.previousState = previousState.params;
 
         var unsubscribe = $rootScope.$on('tourologistApp:bubblImageUpdate', function(event, result) {
             vm.bubblImage = result;

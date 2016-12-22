@@ -12,7 +12,9 @@
 
         vm.payload = entity;
         vm.previousState = previousState.name;
-
+        $scope.back = function() {
+            window.history.back()
+        }
         var unsubscribe = $rootScope.$on('tourologistApp:payloadUpdate', function(event, result) {
             vm.payload = result;
         });
