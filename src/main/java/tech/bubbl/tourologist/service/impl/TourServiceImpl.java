@@ -50,6 +50,7 @@ public class TourServiceImpl implements TourService{
      * see https://developers.google.com/maps/documentation/directions/usage-limits
      */
     public static final int MAX_BUBBLS_ALLOWED_BY_GOOGLE = 20;
+    public static final double ELEVATION = 0.0;
 
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
 
@@ -380,31 +381,60 @@ public class TourServiceImpl implements TourService{
         }
     }
 
+    private GlobalPosition midPoint(double lat1, double lon1, double lat2, double lon2){
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        //convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        lon1 = Math.toRadians(lon1);
+
+        double Bx = Math.cos(lat2) * Math.cos(dLon);
+        double By = Math.cos(lat2) * Math.sin(dLon);
+
+        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
+        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
+
+        return new GlobalPosition(Math.toDegrees(lat3), Math.toDegrees(lon3), ELEVATION);
+    }
 
     @Override
     @Transactional
     public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
 
-//        GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-//        GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, 0.0);
-//        Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance();
-
         Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
-        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE, sort);
+        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE * 16 // remove this magic number
+            , sort);
 
+        // todo rewrite this with specification is inside radius
         List<Bubbl> bubblsAround = bubblService.findBubblsSurprise(curLat, curLng,  page);
+
         if (bubblsAround.isEmpty()) {
             return new ArrayList<>();
         }
 
+        GlobalPosition userLocation = new GlobalPosition(curLat, curLng, ELEVATION);
+        GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, ELEVATION);
+        // radius of the internal circle
+        Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance() / 2;
+        GlobalPosition midPoint = midPoint(curLat, curLng, tarLat, tarLng);
+
         AtomicInteger i = new AtomicInteger(1);
         List<CreateTourBubblDTO> bubblsAroundOrdered = bubblsAround.stream()
-//            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-//            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
+            .filter(bubbl -> {
+                // Simplified Algorithm to pick up bubbls created by Anna Miroshnik
+                GlobalPosition bubblPosition = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), ELEVATION);
+                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, midPoint, bubblPosition).getEllipsoidalDistance();
+                return distance < radius;
+            })
+            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
             .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
             .collect(Collectors.toList());
 
-        // TODO: 08.12.2016 implement more complicated algoritm to pick up bubbls ANNA MIROSHNIK
+        if (bubblsAroundOrdered.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         CreateFixedTourDTO createFixedTourDTO = new CreateFixedTourDTO();
         createFixedTourDTO.setName("DIY tour created by " + user.getFullName() + " , creation time " + ZonedDateTime.now());
