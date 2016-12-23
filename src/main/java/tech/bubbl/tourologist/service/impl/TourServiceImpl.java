@@ -393,49 +393,28 @@ public class TourServiceImpl implements TourService{
             return new ArrayList<>();
         }
 
-        AtomicInteger i = new AtomicInteger(0);
+        AtomicInteger i = new AtomicInteger(1);
         List<CreateTourBubblDTO> bubblsAroundOrdered = bubblsAround.stream()
             .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
             .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
             .collect(Collectors.toList());
 
         // TODO: 08.12.2016 implement more complicated algoritm to pick up bubbls ANNA MIROSHNIK
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         CreateFixedTourDTO createFixedTourDTO = new CreateFixedTourDTO();
-        createFixedTourDTO.setName("DIY tour by " + user.getFullName());
+        createFixedTourDTO.setName("DIY tour created by " + user.getFullName() + " , creation time " + ZonedDateTime.now());
         List<String> origin = bubblService.reverseGeocode(curLat, curLng);
         List<String> destination = bubblService.reverseGeocode(tarLat, tarLng);
-        createFixedTourDTO.setDescription("DIY tour from " + origin.get(0) + " to destination " + destination.get(0));
+        createFixedTourDTO.setDescription("DIY tour from: " + origin.get(0) + " ,to destination: " + destination.get(0));
 
 
-//        final Tour tour = tourRepository.save(createFixedTourDTO.createTour(user, TourType.DIY));
         LatLng originLL = new LatLng(curLat, curLng);
         LatLng destinationLL = new LatLng(tarLat, tarLng);
 
         List<TourFullDTO> resp = new ArrayList<>();
-        if (bubblsAroundOrdered.size() <= 2) {
-            createFixedTourDTO.setBubbls(bubblsAroundOrdered);
-            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
-        } else {
-            String tourName = createFixedTourDTO.getName();
-            AtomicInteger i2 = new AtomicInteger(1);
-            createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
-                .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 == 0 )
-                .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
-                .map(createTourBubblDTO -> createTourBubblDTO.orderNumber(i2.getAndIncrement()))
-                .collect(Collectors.toList()));
-            createFixedTourDTO.setName(tourName + " V1 " + ZonedDateTime.now().toString());
-            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
-
-            AtomicInteger i3 = new AtomicInteger(1);
-            createFixedTourDTO.setBubbls(bubblsAroundOrdered.stream()
-                .filter(createTourBubblDTO -> createTourBubblDTO.getOrderNumber() % 2 != 0 )
-                .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
-                .map(createTourBubblDTO -> createTourBubblDTO.orderNumber(i3.getAndIncrement()))
-                .collect(Collectors.toList()));
-            createFixedTourDTO.setName(tourName + " V2 " + ZonedDateTime.now().toString());
-            resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
-        }
+        createFixedTourDTO.setBubbls(bubblsAroundOrdered);
+        resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
 
         return resp;
     }
