@@ -118,6 +118,17 @@ public class Bubbl implements Serializable {
     @Formula("(SELECT count(*) from bubbl_rating tr WHERE tr.bubbl_id = id )")
     private Integer totalRatings;
 
+    @Formula("(6371 * acos(cos(radians(@curLat)) * cos(radians(lat)) * cos(radians(lng) - radians(-@curLng)) + sin(radians(@curLat)) * sin(radians(lat ))))")
+    private Double distanceToBubbl;
+
+    public Double getDistanceToBubbl() {
+        return distanceToBubbl;
+    }
+
+    public void setDistanceToBubbl(Double distanceToBubbl) {
+        this.distanceToBubbl = distanceToBubbl;
+    }
+
     public Double getAverageRating() {
         return averageRating == null ? 0 : averageRating;
     }

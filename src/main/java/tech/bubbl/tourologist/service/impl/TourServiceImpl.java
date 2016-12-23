@@ -6,9 +6,10 @@ import com.google.maps.model.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalPosition;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
-import org.springframework.http.ResponseEntity;
 import tech.bubbl.tourologist.domain.*;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -384,19 +385,22 @@ public class TourServiceImpl implements TourService{
     @Transactional
     public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
 
-        GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-        GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, 0.0);
-        Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance();
+//        GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
+//        GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, 0.0);
+//        Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance();
 
-        List<Bubbl> bubblsAround = bubblService.findBubblsSurprise(curLat, curLng, radius);
+        Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
+        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE, sort);
+
+        List<Bubbl> bubblsAround = bubblService.findBubblsSurprise(curLat, curLng,  page);
         if (bubblsAround.isEmpty()) {
             return new ArrayList<>();
         }
 
         AtomicInteger i = new AtomicInteger(1);
         List<CreateTourBubblDTO> bubblsAroundOrdered = bubblsAround.stream()
-            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
+//            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+//            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
             .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
             .collect(Collectors.toList());
 

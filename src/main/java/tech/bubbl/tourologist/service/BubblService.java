@@ -46,7 +46,7 @@ public interface BubblService {
      */
     void delete(Long id);
 
-    List <Bubbl> findBubblsSurprise(Double curLat, Double curLng, Double radius);
+    List <Bubbl> findBubblsSurprise(Double curLat, Double curLng,  Pageable pageable);
 
     List<String> reverseGeocode(Double lat, Double lng);
 

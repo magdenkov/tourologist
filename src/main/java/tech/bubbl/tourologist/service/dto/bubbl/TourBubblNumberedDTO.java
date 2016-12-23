@@ -47,6 +47,8 @@ public class TourBubblNumberedDTO implements TransportObject{
 
     private Boolean isDownloaded;
 
+    private Double distanceToBubbl;
+
     public TourBubblNumberedDTO() {
     }
 
@@ -64,10 +66,19 @@ public class TourBubblNumberedDTO implements TransportObject{
         setRating(bubbl.getAverageRating());
         setRatingsAmount(bubbl.getTotalRatings());
         setDownloadsAmount(bubbl.getTotalDownloads());
+        setDistanceToBubbl(bubbl.getDistanceToBubbl());
 
         setDownloaded(false);
 
         Optional.ofNullable(bubbl.getUser()).ifPresent(user -> this.setAuthor(user.getFullName()));
+    }
+
+    public Double getDistanceToBubbl() {
+        return distanceToBubbl;
+    }
+
+    public void setDistanceToBubbl(Double distanceToBubbl) {
+        this.distanceToBubbl = distanceToBubbl;
     }
 
     public Double getRating() {

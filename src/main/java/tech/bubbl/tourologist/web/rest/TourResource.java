@@ -168,14 +168,16 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<FullTourBubblNumberedDTO>> getClosestToCurrentLocationSurpriseMeTours(@RequestParam(value = "currentLat", required = true) Double curLat,
                                                                                                  @RequestParam(value = "currentLng", required = true) Double curLng,
-                                                                                                 @RequestParam(value = "radiusMeters", required = true) Double radius)
+//                                                                                                 @RequestParam(value = "radiusMeters", required = true) Double radius,
+                                                                                                     Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of SURPRISE  Tours");
-        List<Bubbl> bubblsSurprise = bubblService.findBubblsSurprise(curLat, curLng, radius);
 
-        AtomicInteger i = new AtomicInteger(0);
+        List<Bubbl> bubblsSurprise = bubblService.findBubblsSurprise(curLat, curLng,  pageable);
+
+        AtomicInteger i = new AtomicInteger(1);
         List<FullTourBubblNumberedDTO> resp = bubblsSurprise.stream()
-            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
+//            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
             .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement(), null))
             .collect(Collectors.toList());
 

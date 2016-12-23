@@ -21,7 +21,6 @@ import tech.bubbl.tourologist.repository.BubblRepository;
 import tech.bubbl.tourologist.repository.TourBubblRepository;
 import tech.bubbl.tourologist.repository.TourRepository;
 import tech.bubbl.tourologist.repository.UserRepository;
-import tech.bubbl.tourologist.security.AuthoritiesConstants;
 import tech.bubbl.tourologist.security.SecurityUtils;
 import tech.bubbl.tourologist.service.BubblService;
 import tech.bubbl.tourologist.service.PayloadService;
@@ -30,7 +29,9 @@ import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.mapper.BubblMapper;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -70,6 +71,9 @@ public class BubblServiceImpl implements BubblService{
     private GeoApiContext geoApiContext;
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private EntityManager entityManager;
 
     /**
      * Save a bubbl.
@@ -165,9 +169,27 @@ public class BubblServiceImpl implements BubblService{
 
     }
 
-    @Transactional(readOnly = true)
+    private void setCurrentLatAndLngInDb(Double curLat, Double curLng) {
+        if (curLat != null && curLng != null) {
+            Query setLat = entityManager.createNativeQuery("SET @curLat=:curLat").setParameter("curLat", curLat);
+            setLat.executeUpdate();
+            Query setLng = entityManager.createNativeQuery("SET @curLng=:curLng").setParameter("curLng", curLng);
+            setLng.executeUpdate();
+        }
+    }
+
+    private void clearCurrentLatAndLngInDb() {
+            Query setLat = entityManager.createNativeQuery("SET @curLat=NULL");
+            setLat.executeUpdate();
+            Query setLng = entityManager.createNativeQuery("SET @curLng=NULL ");
+            setLng.executeUpdate();
+    }
+
+    @Transactional
     @Override
-    public List<Bubbl> findBubblsSurprise(Double curLat, Double curLng, Double radius) {
+    public List<Bubbl> findBubblsSurprise(Double curLat, Double curLng,  Pageable pageable) {
+
+        setCurrentLatAndLngInDb(curLat, curLng);
 
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
@@ -177,28 +199,27 @@ public class BubblServiceImpl implements BubblService{
             }
         });
 
+        List<Bubbl> bubbls = bubblRepository.findAll(pageable).getContent();
 
-        List<Bubbl> bubbls = bubblRepository.findAll();
-
-        // TODO: 08.12.2016 PERFORM SEARCH and order with hibernate search and spatial
-
-        if (curLat != null && curLng != null && radius != null) {
-            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
+//        if (curLat != null && curLng != null) {
+//            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             bubbls = bubbls.stream()
-            .filter(bubbl -> {
-                if (bubbl.getLng() == null || bubbl.getLat() == null) {
-                    return false;
-                }
-                GlobalPosition tourLocation = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), 0.0);
-                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-                return distance < radius;
-            })
+//            .filter(bubbl -> {
+//                if (bubbl.getLng() == null || bubbl.getLat() == null) {
+//                    return false;
+//                }
+//                GlobalPosition tourLocation = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), 0.0);
+//                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
+//                return distance < radius;
+//            })
             .map(bubbl -> {
                 bubbl.getInterests().size(); // initialise
                 return bubbl;
             })
             .collect(Collectors.toList());
-        }
+//        }
+
+        clearCurrentLatAndLngInDb();
 
         return bubbls;
 
@@ -207,7 +228,6 @@ public class BubblServiceImpl implements BubblService{
 //            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
 //            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
 //            .collect(Collectors.toList());
-
 
     }
 
