@@ -1,5 +1,10 @@
 # tourologist
 
+BEFORE UPLOADING TO AWS for a new instance, tune DB like this 
+
+https://techtavern.wordpress.com/2013/06/17/mysql-triggers-and-amazon-rds/
+
+
 This application was generated using JHipster 3.10.0, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.10.0](https://jhipster.github.io/documentation-archive/v3.10.0).
 
 ## Development
