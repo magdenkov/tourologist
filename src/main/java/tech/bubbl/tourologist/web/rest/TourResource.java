@@ -142,24 +142,12 @@ public class TourResource {
     @Timed
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
-                                                                                 @RequestParam(value = "radiusMeters", required = false) Double radius,
-                                                                                 @RequestParam(value = "name", required = false) String name
+                                                                                 @RequestParam(value = "name", required = false) String name,
+                                                                                      Pageable pageable
                                                                                  )
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, radius, name);
-
-//        List<GetAllToursDTO> resp = page.getContent();
-        if (curLat != null && curLng != null) {
-            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-            resp.stream()
-                .filter(getAllToursDTO -> getAllToursDTO.getLat() != null && getAllToursDTO.getLng() != null)
-                .forEach(getAllToursDTO -> {
-                    GlobalPosition tourLocation = new GlobalPosition(getAllToursDTO.getLat(), getAllToursDTO.getLng(), 0.0);
-                    Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-                    getAllToursDTO.setDistanceToRouteStart(distance.intValue());
-                });
-        }
+        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, pageable, name);
 
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
@@ -212,7 +200,7 @@ public class TourResource {
             GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
             GlobalPosition tourLocation = new GlobalPosition(tourDTO.getLat(), tourDTO.getLng(), 0.0);
             Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-            tourDTO.setDistanceToRouteStart(distance.intValue());
+            tourDTO.setDistanceToRouteStart(distance);
         }
 
         return Optional.ofNullable(tourDTO)

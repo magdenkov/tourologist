@@ -34,7 +34,7 @@ public class GetAllToursDTO implements TransportObject {
 
     private Integer routeLength;
 
-    private Integer distanceToRouteStart;
+    private Double distanceToRouteStart;
 
     private Double lat;
 
@@ -60,6 +60,7 @@ public class GetAllToursDTO implements TransportObject {
         setLat(tour.getLat());
         setLng(tour.getLng());
         setRatingsAmount(tour.getTotalRatings());
+        setDistanceToRouteStart(tour.getDistanceToRouteStart());
     }
 
 
@@ -103,11 +104,11 @@ public class GetAllToursDTO implements TransportObject {
         this.routeLength = routeLength;
     }
 
-    public Integer getDistanceToRouteStart() {
+    public Double getDistanceToRouteStart() {
         return distanceToRouteStart;
     }
 
-    public void setDistanceToRouteStart(Integer distanceToRouteStart) {
+    public void setDistanceToRouteStart(Double distanceToRouteStart) {
         this.distanceToRouteStart = distanceToRouteStart;
     }
 

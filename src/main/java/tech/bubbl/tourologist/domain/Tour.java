@@ -139,6 +139,17 @@ public class Tour implements Serializable {
     @Formula("(SELECT count(*) from tour_rating tr WHERE tr.tour_id = id )")
     private Integer totalRatings;
 
+    @Formula("CALC_DISTANCE(@curLat, @curLng, lat, lng)")
+    private Double distanceToRouteStart;
+
+    public Double getDistanceToRouteStart() {
+        return distanceToRouteStart;
+    }
+
+    public void setDistanceToRouteStart(Double distanceToRouteStart) {
+        this.distanceToRouteStart = distanceToRouteStart;
+    }
+
     public Integer getTotalRatings() {
         return totalRatings;
     }

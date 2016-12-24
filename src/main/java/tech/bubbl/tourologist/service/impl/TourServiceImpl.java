@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.service.impl;
 
+import com.google.common.base.Strings;
 import com.google.maps.DirectionsApi;
 import com.google.maps.GeoApiContext;
 import com.google.maps.model.*;
@@ -26,7 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-import tech.bubbl.tourologist.service.util.SortBubbls;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -100,8 +100,6 @@ public class TourServiceImpl implements TourService{
     private EntityManager entityManager;
 
 
-
-
     @Transactional
     public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId, String name) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
@@ -109,7 +107,6 @@ public class TourServiceImpl implements TourService{
         setUserNameInDb();
 
         Specification<Tour> specification = getSearchTourSpecification(type, status, userId, name);
-
 
         Page<Tour> result = tourRepository.findAll(specification, pageable);
         return result.map(GetAllToursDTO::new);
@@ -126,39 +123,29 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Double radius, String name) {
+    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Pageable pageable, String name) {
+        bubblService.setCurrentLatAndLngInDb(curLat, curLng);
+
         Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
             @Override
             public Predicate toPredicate(Root<Tour> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
-                if (name != null) {
+                if (!Strings.isNullOrEmpty(name)) {
                     predicates.add(cb.like(root.get("name"), "%" + name + "%"));
                 }
+
                 predicates.add(cb.equal(root.get("tourType"), TourType.FIXED ));
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
         setUserNameInDb();
-        List<Tour> tours = tourRepository.findAll(specification);
-
+        List<Tour> tours = tourRepository.findAll(specification, pageable).getContent();
+        bubblService.clearCurrentLatAndLngInDb();
         // TODO: 08.12.2016  Filter by hibernate search and spatial in criteria
         // see build gradle compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.3.0.Final' downgrade hibernate core to 4.3.11
 
-        if (curLat != null && curLng != null && radius != null) {
-            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-            tours = tours.stream().filter(tour -> {
-                if (tour.getLng() == null || tour.getLat() == null) {
-                    return false;
-                }
-                GlobalPosition tourLocation = new GlobalPosition(tour.getLat(), tour.getLng(), 0.0);
-                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-                return distance < radius;
-            }).collect(Collectors.toList());
-        }
-
         return tours.stream().map(GetAllToursDTO::new)
             .collect(Collectors.toList());
-
     }
 
     @Override
@@ -328,77 +315,6 @@ public class TourServiceImpl implements TourService{
         return new TourFullDTO(tour, tourImageMapper, tourRoutePointMapper);
     }
 
-    private LatLng[] getWayPoints(LatLng origin, LatLng destination, List<LatLng> bubblsLatLngList) {
-        LatLng [] wayPoints = null;
-        if (origin == null && destination == null && bubblsLatLngList.size() > 2) {
-            // exclude first and last bubbls
-            wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
-        } else {
-            wayPoints = bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]);
-        }
-        return wayPoints;
-    }
-
-    private void saveRoutePoints(DirectionsRoute route, Tour finalTour) {
-        List<LatLng> path = route.overviewPolyline.decodePath();
-        AtomicInteger i = new AtomicInteger(0);
-        Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
-            .tour(finalTour)
-            .lat(latLng.lat)
-            .lng(latLng.lng)
-            .orderNumber(i.getAndIncrement()))
-            .collect(Collectors.toSet());
-
-        List<TourRoutePoint> tourRoutePointsSaved = tourRoutePointRepository.save(routePoints);
-        finalTour.getTourRoutePoints().clear();
-        finalTour.getTourRoutePoints().addAll(new HashSet<>(tourRoutePointsSaved));
-    }
-
-    private DirectionsResult getDirectionsFromGoogle(LatLng origin, LatLng destination,  LatLng[] wayPoints) {
-        DirectionsResult result = null;
-        try {
-             result = DirectionsApi.newRequest(geoApiContext)
-                .origin(origin)
-                .destination(destination)
-                .mode(TravelMode.WALKING)
-                .units(Unit.METRIC)
-                .waypoints(convertLatLngToString(wayPoints))
-                .optimizeWaypoints(false)   // otherwise it will change original order of Bubbls!
-                .await();
-        } catch (Exception e) {
-            log.error("Error occurred while creating route , Error Message {} ", e.getMessage());
-        }
-        return result;
-    }
-
-    public <Entity> Predicate getDistancePredicate(Path<Entity> root, CriteriaBuilder cb) {
-        try {
-            double x = Double.valueOf("23.45");
-            double y = Double.valueOf("23.45");
-            int r = (int) Math.round(Double.valueOf("23.45") * 1000d);
-            return cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("x"), root.get("y"), cb.literal(x), cb.literal(y), cb.literal(r)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private GlobalPosition midPoint(double lat1, double lon1, double lat2, double lon2){
-        double dLon = Math.toRadians(lon2 - lon1);
-
-        //convert to radians
-        lat1 = Math.toRadians(lat1);
-        lat2 = Math.toRadians(lat2);
-        lon1 = Math.toRadians(lon1);
-
-        double Bx = Math.cos(lat2) * Math.cos(dLon);
-        double By = Math.cos(lat2) * Math.sin(dLon);
-
-        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
-        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
-
-        return new GlobalPosition(Math.toDegrees(lat3), Math.toDegrees(lon3), ELEVATION);
-    }
-
     @Override
     @Transactional
     public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
@@ -497,6 +413,34 @@ public class TourServiceImpl implements TourService{
         return route1;
     }
 
+    private GlobalPosition midPoint(double lat1, double lon1, double lat2, double lon2){
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        //convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+        lon1 = Math.toRadians(lon1);
+
+        double Bx = Math.cos(lat2) * Math.cos(dLon);
+        double By = Math.cos(lat2) * Math.sin(dLon);
+
+        double lat3 = Math.atan2(Math.sin(lat1) + Math.sin(lat2), Math.sqrt((Math.cos(lat1) + Bx) * (Math.cos(lat1) + Bx) + By * By));
+        double lon3 = lon1 + Math.atan2(By, Math.cos(lat1) + Bx);
+
+        return new GlobalPosition(Math.toDegrees(lat3), Math.toDegrees(lon3), ELEVATION);
+    }
+
+    private LatLng[] getWayPoints(LatLng origin, LatLng destination, List<LatLng> bubblsLatLngList) {
+        LatLng [] wayPoints = null;
+        if (origin == null && destination == null && bubblsLatLngList.size() > 2) {
+            // exclude first and last bubbls
+            wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
+        } else {
+            wayPoints = bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]);
+        }
+        return wayPoints;
+    }
+
     private String[] convertLatLngToString(LatLng... waypoints) {
         if (waypoints == null || waypoints.length == 0) {
             return null;
@@ -507,6 +451,49 @@ public class TourServiceImpl implements TourService{
             waypointStrings[i] = waypoints[i].toString();
         }
         return waypointStrings;
+    }
+
+    private void saveRoutePoints(DirectionsRoute route, Tour finalTour) {
+        List<LatLng> path = route.overviewPolyline.decodePath();
+        AtomicInteger i = new AtomicInteger(0);
+        Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
+            .tour(finalTour)
+            .lat(latLng.lat)
+            .lng(latLng.lng)
+            .orderNumber(i.getAndIncrement()))
+            .collect(Collectors.toSet());
+
+        List<TourRoutePoint> tourRoutePointsSaved = tourRoutePointRepository.save(routePoints);
+        finalTour.getTourRoutePoints().clear();
+        finalTour.getTourRoutePoints().addAll(new HashSet<>(tourRoutePointsSaved));
+    }
+
+    private DirectionsResult getDirectionsFromGoogle(LatLng origin, LatLng destination,  LatLng[] wayPoints) {
+        DirectionsResult result = null;
+        try {
+            result = DirectionsApi.newRequest(geoApiContext)
+                .origin(origin)
+                .destination(destination)
+                .mode(TravelMode.WALKING)
+                .units(Unit.METRIC)
+                .waypoints(convertLatLngToString(wayPoints))
+                .optimizeWaypoints(false)   // otherwise it will change original order of Bubbls!
+                .await();
+        } catch (Exception e) {
+            log.error("Error occurred while creating route , Error Message {} ", e.getMessage());
+        }
+        return result;
+    }
+
+    public <Entity> Predicate getDistancePredicate(Path<Entity> root, CriteriaBuilder cb) {
+        try {
+            double x = Double.valueOf("23.45");
+            double y = Double.valueOf("23.45");
+            int r = (int) Math.round(Double.valueOf("23.45") * 1000d);
+            return cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("x"), root.get("y"), cb.literal(x), cb.literal(y), cb.literal(r)));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
