@@ -169,7 +169,7 @@ public class BubblServiceImpl implements BubblService{
 
     }
 
-    private void setCurrentLatAndLngInDb(Double curLat, Double curLng) {
+    public void setCurrentLatAndLngInDb(Double curLat, Double curLng) {
         if (curLat != null && curLng != null) {
             Query setLat = entityManager.createNativeQuery("SET @curLat=:curLat").setParameter("curLat", curLat);
             setLat.executeUpdate();
@@ -178,7 +178,7 @@ public class BubblServiceImpl implements BubblService{
         }
     }
 
-    private void clearCurrentLatAndLngInDb() {
+    public void clearCurrentLatAndLngInDb() {
             Query setLat = entityManager.createNativeQuery("SET @curLat=NULL");
             setLat.executeUpdate();
             Query setLng = entityManager.createNativeQuery("SET @curLng=NULL ");

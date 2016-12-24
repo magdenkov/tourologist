@@ -101,6 +101,7 @@ public class TourServiceImpl implements TourService{
 
 
 
+
     @Transactional
     public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId, String name) {
         log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status, userId);
@@ -402,32 +403,37 @@ public class TourServiceImpl implements TourService{
     @Transactional
     public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
 
-        Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
-        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE * 16 // remove this magic number
-            , sort);
-
-        // todo rewrite this with specification is inside radius
-        List<Bubbl> bubblsAround = bubblService.findBubblsSurprise(curLat, curLng,  page);
-
-        if (bubblsAround.isEmpty()) {
-            return new ArrayList<>();
-        }
-
         GlobalPosition userLocation = new GlobalPosition(curLat, curLng, ELEVATION);
         GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, ELEVATION);
         // radius of the internal circle
         Double radius = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, targetLocation).getEllipsoidalDistance() / 2;
         GlobalPosition midPoint = midPoint(curLat, curLng, tarLat, tarLng);
 
+        Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
+        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE, sort);
+
+        bubblService.setCurrentLatAndLngInDb(curLat, curLng);
+
+        Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
+            @Override
+            public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(
+                    cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("lat"), root.get("lng"),
+                        cb.literal(midPoint.getLatitude()), cb.literal(midPoint.getLongitude()), cb.literal(radius))));
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+        List<Bubbl> bubblsAround = bubblRepository.findAll(specification, page).getContent();
+
+        if (bubblsAround.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+
         AtomicInteger i = new AtomicInteger(1);
         List<CreateTourBubblDTO> bubblsAroundOrdered = bubblsAround.stream()
-            .filter(bubbl -> {
-                // Simplified Algorithm to pick up bubbls created by Anna Miroshnik
-                GlobalPosition bubblPosition = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), ELEVATION);
-                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, midPoint, bubblPosition).getEllipsoidalDistance();
-                return distance < radius;
-            })
-            .limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
             .map(bubbl -> new CreateTourBubblDTO(i.getAndIncrement(), bubbl.getId()))
             .collect(Collectors.toList());
 
@@ -450,6 +456,7 @@ public class TourServiceImpl implements TourService{
         createFixedTourDTO.setBubbls(bubblsAroundOrdered);
         resp.add(saveFixedTour(createFixedTourDTO, originLL, destinationLL, TourType.DIY));
 
+        bubblService.clearCurrentLatAndLngInDb();
         return resp;
     }
 

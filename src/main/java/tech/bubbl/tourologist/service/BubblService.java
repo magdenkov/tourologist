@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -51,4 +52,9 @@ public interface BubblService {
     List<String> reverseGeocode(Double lat, Double lng);
 
     Page<FullTourBubblNumberedDTO> findOnlyMyBubbls(Pageable pageable, Status status);
+
+    void setCurrentLatAndLngInDb(Double curLat, Double curLng) ;
+
+    void clearCurrentLatAndLngInDb();
+
 }
