@@ -59,13 +59,15 @@ public class PayloadServiceImpl implements PayloadService{
 
     private final Logger log = LoggerFactory.getLogger(PayloadServiceImpl.class);
 
+    public static String AWS_S3_BUCKET_CONST = "AWS_S3_BUCKET";
+
     @Inject
     private PayloadRepository payloadRepository;
 
     @Inject
     private PayloadMapper payloadMapper;
 
-    public static String AWS_S3_BUCKET = "tl-audio";
+    public static String AWS_S3_BUCKET = getProp(AWS_S3_BUCKET_CONST, "tl-audio");
 
     @Autowired
     private AmazonS3 s3;
@@ -79,6 +81,15 @@ public class PayloadServiceImpl implements PayloadService{
 
     @Inject
     private BubblRepository bubblRepository;
+
+    public static String getProp(String property, String defaultP) {
+        String env = System.getProperty(property);
+        if (env == null)
+            return defaultP;
+        return env;
+    }
+
+
 
     @Transactional
     public PayloadDTO save(PayloadDTO payloadDTO, MultipartFile file) throws UnsupportedOperationException, InterruptedException, IOException {
