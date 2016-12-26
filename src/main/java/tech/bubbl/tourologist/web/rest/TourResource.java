@@ -5,6 +5,7 @@ import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
 import tech.bubbl.tourologist.domain.Bubbl;
+import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -143,13 +144,20 @@ public class TourResource {
     public ResponseEntity<List<GetAllToursDTO>> getClosestToCurrentLocationFixedTours(@RequestParam(value = "currentLat", required = false) Double curLat,
                                                                                  @RequestParam(value = "currentLng", required = false) Double curLng,
                                                                                  @RequestParam(value = "name", required = false) String name,
+                                                                                 @RequestParam(value = "exceptTourIds", required = false) List<Long> exceptTourIds,
                                                                                       Pageable pageable
                                                                                  )
         throws URISyntaxException {
         log.debug("REST request to get a page of Tours");
-        List<GetAllToursDTO> resp = tourService.findAllFixed(curLat, curLng, pageable, name);
+        Page<Tour> page = tourService.findAllFixed(curLat, curLng, pageable, name, exceptTourIds);
 
-        return new ResponseEntity<>(resp, HttpStatus.OK);
+        List<GetAllToursDTO> response = page.getContent().stream()
+            .map(GetAllToursDTO::new)
+            .collect(Collectors.toList());
+
+        HttpHeaders httpHeaders = PaginationUtil.generatePaginationHttpHeaders(page, "/api/tours/fixed");
+
+        return new ResponseEntity<>(response, httpHeaders, HttpStatus.OK);
     }
 
     @GetMapping("/tours/surprise")

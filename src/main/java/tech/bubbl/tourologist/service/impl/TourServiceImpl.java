@@ -123,8 +123,8 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Pageable pageable, String name) {
-        bubblService.setCurrentLatAndLngInDb(curLat, curLng);
+    public Page<Tour> findAllFixed(Double curLat, Double curLng, Pageable pageable, String name, List<Long> exceptTourIds) {
+
 
         Specification<Tour> specification = Specifications.where(new Specification<Tour>() {
             @Override
@@ -134,18 +134,22 @@ public class TourServiceImpl implements TourService{
                     predicates.add(cb.like(root.get("name"), "%" + name + "%"));
                 }
 
+                if(exceptTourIds != null && !exceptTourIds.isEmpty()) {
+                    predicates.add(cb.not(root.get("id").in(exceptTourIds)));
+                }
+
                 predicates.add(cb.equal(root.get("tourType"), TourType.FIXED ));
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
+        bubblService.setCurrentLatAndLngInDb(curLat, curLng);
         setUserNameInDb();
-        List<Tour> tours = tourRepository.findAll(specification, pageable).getContent();
-        bubblService.clearCurrentLatAndLngInDb();
+        Page<Tour> toursPage = tourRepository.findAll(specification, pageable);
+
         // TODO: 08.12.2016  Filter by hibernate search and spatial in criteria
         // see build gradle compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.3.0.Final' downgrade hibernate core to 4.3.11
 
-        return tours.stream().map(GetAllToursDTO::new)
-            .collect(Collectors.toList());
+        return toursPage;
     }
 
     @Override

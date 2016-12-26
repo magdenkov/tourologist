@@ -1,6 +1,7 @@
 package tech.bubbl.tourologist.service;
 
 import com.google.maps.model.LatLng;
+import tech.bubbl.tourologist.domain.Tour;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -51,7 +52,7 @@ public interface TourService {
 
     TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO, LatLng origin, LatLng destination, TourType type);
 
-    List<GetAllToursDTO> findAllFixed(Double curLat, Double curLng, Pageable radius, String name);
+    Page<Tour> findAllFixed(Double curLat, Double curLng, Pageable radius, String name, List<Long> exceptTourIds);
 
     List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
 
