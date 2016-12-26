@@ -99,6 +99,9 @@ public class TourServiceImpl implements TourService{
     @Inject
     private EntityManager entityManager;
 
+    @Inject
+    private TourCompletedRepository tourCompletedRepository;
+
 
     @Transactional
     public Page<GetAllToursDTO> findAllToursByUSerId(Pageable pageable, TourType type, Status status, Long userId, String name) {
@@ -201,6 +204,36 @@ public class TourServiceImpl implements TourService{
         List<LatLng> latLngs = result.routes[0].overviewPolyline.decodePath();
         latLngs.stream().forEach(latLng -> resp.add(new RoutePointDTO(latLng, i.getAndIncrement())));
         return resp;
+    }
+
+    @Override
+    @Transactional
+    public Page<TourCompleted> findMyCompletedTours(Pageable pageable, TourType type, Status status, String name) {
+        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", type, status);
+
+        Specification<TourCompleted> specification = Specifications.where(new Specification<TourCompleted>() {
+            @Override
+            public Predicate toPredicate(Root<TourCompleted> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (type != null) {
+                    predicates.add(cb.equal(root.get("tour").get("tourType"), type));
+                }
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status").get("status"), status));
+                }
+                if (name != null) {
+                    predicates.add(cb.like(root.get("name"), "%" + name + "%"));
+                }
+
+                predicates.add(cb.equal(root.get("user").get("login"), SecurityUtils.getCurrentUserLogin()));
+
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+        setUserNameInDb();
+        return tourCompletedRepository.findAll(specification, pageable);
+
     }
 
     @Override

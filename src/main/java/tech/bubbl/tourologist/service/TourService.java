@@ -2,6 +2,7 @@ package tech.bubbl.tourologist.service;
 
 import com.google.maps.model.LatLng;
 import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.TourCompleted;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -62,4 +63,6 @@ public interface TourService {
     Page<TourDownload> findMyFavoritesTours(Pageable pageable, TourType type, Status status, String name);
 
     List<RoutePointDTO> recalculateRoute(RecalculateRoutePointsDTO recalculateRoutePointsDTO);
+
+    Page<TourCompleted> findMyCompletedTours(Pageable pageable, TourType type, Status status, String name);
 }

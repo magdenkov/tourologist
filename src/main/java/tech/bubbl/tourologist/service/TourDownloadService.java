@@ -46,4 +46,8 @@ public interface TourDownloadService {
     Boolean addTourToFavorites(Long tourId);
 
     Boolean removeTourFromFavorites(Long tourId);
+
+    boolean markTourAsCompleted(Long tourId);
+
+    boolean removeTourFromCompleted(Long tourId);
 }

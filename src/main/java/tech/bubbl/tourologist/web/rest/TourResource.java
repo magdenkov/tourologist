@@ -6,6 +6,7 @@ import org.gavaghan.geodesy.GeodeticCalculator;
 import org.gavaghan.geodesy.GlobalPosition;
 import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.domain.Tour;
+import tech.bubbl.tourologist.domain.TourCompleted;
 import tech.bubbl.tourologist.domain.TourDownload;
 import tech.bubbl.tourologist.domain.enumeration.Status;
 import tech.bubbl.tourologist.domain.enumeration.TourType;
@@ -14,10 +15,8 @@ import tech.bubbl.tourologist.service.TourDownloadService;
 import tech.bubbl.tourologist.service.TourService;
 import tech.bubbl.tourologist.service.dto.ErrorDTO;
 import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
-import tech.bubbl.tourologist.service.dto.TourRoutePointDTO;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 import tech.bubbl.tourologist.service.dto.tour.*;
-import tech.bubbl.tourologist.service.util.SortBubbls;
 import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
 import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 import tech.bubbl.tourologist.service.dto.TourDTO;
@@ -247,6 +246,45 @@ public class TourResource {
             return ResponseEntity.badRequest().body(new ErrorDTO("User already has not yet downloaded or removed from downloads tour w/ id " + tourId));
         }
     }
+
+    @PostMapping("/tours/{tourId}/complete")
+    public ResponseEntity<SuccessTransportObject> markTourAsCompleted(@PathVariable("tourId") Long tourId) {
+        if (tourDownloadService.markTourAsCompleted(tourId)){
+            return ResponseEntity.ok(new SuccessTransportObject());
+        }else{
+            return ResponseEntity.badRequest().body(new ErrorDTO("User already has completed this tour w/ id " + tourId));
+        }
+    }
+
+    @DeleteMapping("/tours/{tourId}/complete")
+    public ResponseEntity<SuccessTransportObject>  removeToursFromCompleted(@PathVariable Long tourId) {
+        if (tourDownloadService.removeTourFromCompleted(tourId)) {
+            return ResponseEntity.ok(new SuccessTransportObject());
+        } else {
+            return ResponseEntity.badRequest().body(new ErrorDTO("User already has not yet comleted  tour w/ id " + tourId));
+        }
+    }
+
+    @GetMapping("/my/completed/tours")
+    public ResponseEntity<List<GetAllToursDTO>> getUserCompletedTours(@RequestParam(value = "type", required = false) TourType type,
+                                                                            @RequestParam(value = "status", required = false) Status status,
+                                                                            @RequestParam(value = "name", required = false) String name,
+                                                                            Pageable pageable)
+        throws URISyntaxException {
+
+        log.debug("REST request to get a page of Tours");
+
+        Page<TourCompleted> page = tourService.findMyCompletedTours(pageable, type, status, name);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/users/completed/tours");
+
+        List<GetAllToursDTO> resp = page.getContent().stream()
+            .map(tourDownload -> new GetAllToursDTO(tourDownload.getTour()))
+            .collect(Collectors.toList());
+
+        return new ResponseEntity<>(resp, headers, HttpStatus.OK);
+    }
+
+
 
 //    @GetMapping("/users/{userId}/downloads/tours")
 //    public ResponseEntity<List<GetAllToursDTO>> getFavoriteToursByUserId(@RequestParam(value = "type", required = false) TourType type,

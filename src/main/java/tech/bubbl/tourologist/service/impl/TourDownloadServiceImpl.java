@@ -34,6 +34,9 @@ public class TourDownloadServiceImpl implements TourDownloadService{
     private TourDownloadRepository tourDownloadRepository;
 
     @Inject
+    private TourCompletedRepository tourCompletedRepository;
+
+    @Inject
     private TourDownloadMapper tourDownloadMapper;
 
     @Inject
@@ -142,5 +145,45 @@ public class TourDownloadServiceImpl implements TourDownloadService{
 
         tourDownloadRepository.delete(tourDownload);
         return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean markTourAsCompleted(Long tourId) {
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Tour tour = tourRepository.findOne(tourId);
+        Optional.ofNullable(tour)
+            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+
+        TourCompleted tourDownload = tourCompletedRepository.findOneByUserAndTour(user, tour);
+        if (tourDownload != null) {
+            return false;
+        }
+
+        tourDownload = new TourCompleted(user, tour);
+
+        tourCompletedRepository.save(tourDownload);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean removeTourFromCompleted(Long tourId) {
+        User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
+
+        Tour tour = tourRepository.findOne(tourId);
+        Optional.ofNullable(tour)
+            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + tourId));
+
+
+        TourCompleted tourDownload = tourCompletedRepository.findOneByUserAndTour(user, tour);
+        if (tourDownload == null) {
+            return false;
+        }
+
+        tourCompletedRepository.delete(tourDownload);
+
+        return false;
     }
 }

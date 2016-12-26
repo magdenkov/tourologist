@@ -36,6 +36,7 @@
     <include file="classpath:config/liquibase/changelog/20161122113109_added_user_interest.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161129113114_added_lat_lng_to_Tour.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161224103114_added_functions.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161226113118_added_entity_TourCompleted.xml" relativeToChangelogFile="false"/>
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
