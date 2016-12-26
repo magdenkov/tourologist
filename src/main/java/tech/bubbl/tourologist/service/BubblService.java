@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
 
-import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public interface BubblService {
      */
     void delete(Long id);
 
-    List <Bubbl> findBubblsSurprise(Double curLat, Double curLng,  Pageable pageable);
+    Page <Bubbl> findBubblsSurprise(Double curLat, Double curLng, Pageable pageable, List<Long> exceptBubblIds);
 
     List<String> reverseGeocode(Double lat, Double lng);
 

@@ -4,8 +4,6 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
-import org.gavaghan.geodesy.Ellipsoid;
-import org.gavaghan.geodesy.GlobalPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -41,8 +39,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static tech.bubbl.tourologist.web.rest.TourResource.GEODETIC_CALCULATOR;
 
 /**
  * Service Implementation for managing Bubbl.
@@ -187,47 +183,29 @@ public class BubblServiceImpl implements BubblService{
 
     @Transactional
     @Override
-    public List<Bubbl> findBubblsSurprise(Double curLat, Double curLng,  Pageable pageable) {
+    public Page<Bubbl> findBubblsSurprise(Double curLat, Double curLng, Pageable pageable, List<Long> exceptBubblIds) {
 
         setCurrentLatAndLngInDb(curLat, curLng);
 
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                // write fetch join for interests here
-                return cb.and(cb.equal(root.get("status"), Status.APPROVED));
+                List<Predicate> predicates = new ArrayList<>();
+
+                if (exceptBubblIds != null && !exceptBubblIds.isEmpty()) {
+                    predicates.add(cb.and(cb.not(root.get("id").in(exceptBubblIds))));
+                }
+//                predicates.add(cb.and(cb.equal(root.get("status"), Status.APPROVED)));
+
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+
             }
         });
 
-        List<Bubbl> bubbls = bubblRepository.findAll(pageable).getContent();
+        Page<Bubbl> bubblPage = bubblRepository.findAll(specification, pageable);
+        bubblPage.map(bubbl -> bubbl.getInterests().size());
 
-//        if (curLat != null && curLng != null) {
-//            GlobalPosition userLocation = new GlobalPosition(curLat, curLng, 0.0);
-            bubbls = bubbls.stream()
-//            .filter(bubbl -> {
-//                if (bubbl.getLng() == null || bubbl.getLat() == null) {
-//                    return false;
-//                }
-//                GlobalPosition tourLocation = new GlobalPosition(bubbl.getLat(), bubbl.getLng(), 0.0);
-//                Double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, userLocation, tourLocation).getEllipsoidalDistance();
-//                return distance < radius;
-//            })
-            .map(bubbl -> {
-                bubbl.getInterests().size(); // initialise
-                return bubbl;
-            })
-            .collect(Collectors.toList());
-//        }
-
-        clearCurrentLatAndLngInDb();
-
-        return bubbls;
-
-//        AtomicInteger i = new AtomicInteger(0);
-//        return bubbls.stream()
-//            .sorted(new SortBubbls(new Bubbl().lat(curLat).lng(curLng)))
-//            .map(bubbl -> new FullTourBubblNumberedDTO(bubbl, i.getAndIncrement()))
-//            .collect(Collectors.toList());
+        return bubblPage;
 
     }
 

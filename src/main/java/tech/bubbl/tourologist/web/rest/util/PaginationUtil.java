@@ -1,5 +1,7 @@
 package tech.bubbl.tourologist.web.rest.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,6 +41,19 @@ public final class PaginationUtil {
         link += "<" + generateUri(baseUrl, lastPage, page.getSize()) + ">; rel=\"last\",";
         link += "<" + generateUri(baseUrl, 0, page.getSize()) + ">; rel=\"first\"";
         headers.add(HttpHeaders.LINK, link);
+
+        PageDTO pageDTO =  new PageDTO();
+        pageDTO.setPage(page.getNumber());
+        pageDTO.setSize(page.getSize());
+        ObjectMapper objectMapper =  new ObjectMapper();
+
+        try {
+            headers.add("X-Mobile-Pagination", objectMapper.writeValueAsString(pageDTO));
+        } catch (JsonProcessingException e) {
+            // ignored
+        }
+
+
         return headers;
     }
 
