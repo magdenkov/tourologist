@@ -10,6 +10,14 @@
         <div class="col-md-12">
             <div id="map-container">
                 <div id="map-canvas">
+                    <div class="contextmenu" style="visibility: hidden">
+                        <a id='menuSetStartPointId' ng-click='vm.onMenuSetStartPointClick()'>
+                            <div class=context>Set start Point</div>
+                        </a>
+                        <a id='menuSetEndPointId' ng-click='vm.onMenuSetEndPointClick()'>
+                            <div class=context>Set End Point</div>
+                        </a>
+                    </div>
                     <ui-gmap-google-map center="vm.mapConfig.center"
                                         zoom="vm.mapConfig.zoom"
                                         id="map"
@@ -18,8 +26,6 @@
                                         events="vm.map.events">
                         <ui-gmap-search-box template="vm.searchbox.template" events="vm.searchbox.events"
                                             position="BOTTOM_RIGHT"></ui-gmap-search-box>
-                       <!-- <ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" events="vm.marker.events"
-                                        idkey="vm.marker.id"> -->
                     </ui-gmap-google-map>
                 </div>
             </div>

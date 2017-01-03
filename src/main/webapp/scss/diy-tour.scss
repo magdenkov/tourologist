@@ -1,9 +1,5 @@
 .diy-tour {
-    .angular-google-map, .angular-google-map-container {
-        height: 100%;
-        width: 100%;
-        flex: 1;
-    }
+
     #map-container {
         height: 500px;
     }
@@ -11,9 +7,27 @@
     #map-canvas {
         width: 100%;
         height: 100%;
+
+        .contextmenu {
+            visibility: hidden;
+            background: #ffffff;
+            border: 1px solid #8888FF;
+            z-index: 10;
+            position: relative;
+            width: 140px;
+
+            div {
+                padding-left: 5px
+            }
+        }
     }
 
     .angular-google-map {
+        &, .angular-google-map-container {
+            height: 100%;
+            width: 100%;
+        }
+
         .controls {
             margin-top: 10px;
             border: 1px solid transparent;
@@ -35,6 +49,7 @@
             margin-left: 12px;
             text-overflow: ellipsis;
         }
+
     }
 }
 
