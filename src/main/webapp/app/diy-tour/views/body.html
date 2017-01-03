@@ -1,0 +1,29 @@
+<div class="container-fluid diy-tour">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">DIY Tours</h2>
+            <jhi-alert></jhi-alert>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map-container">
+                <div id="map-canvas">
+                    <ui-gmap-google-map center="vm.mapConfig.center"
+                                        zoom="vm.mapConfig.zoom"
+                                        id="map"
+                                        pan="true"
+                                        draggable="true"
+                                        events="vm.map.events">
+                        <ui-gmap-search-box template="vm.searchbox.template" events="vm.searchbox.events"
+                                            position="BOTTOM_RIGHT"></ui-gmap-search-box>
+                       <!-- <ui-gmap-marker coords="vm.marker.coords" options="vm.marker.options" events="vm.marker.events"
+                                        idkey="vm.marker.id"> -->
+                    </ui-gmap-google-map>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

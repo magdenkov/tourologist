@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.dataservices')
         .factory('Bubbl', Bubbl);
 
     Bubbl.$inject = ['$resource', 'DateUtils'];

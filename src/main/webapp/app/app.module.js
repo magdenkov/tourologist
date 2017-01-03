@@ -22,7 +22,10 @@
             'ngMapAutocomplete',
             '$q-spread',
             'checklist-model',
-            'ui.select'
+            'ui.select',
+
+            'tourologistApp.dataservices',
+            'tourologistApp.diy-tour'
 
         ])
         .run(run);
