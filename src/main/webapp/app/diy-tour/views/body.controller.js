@@ -160,9 +160,8 @@
                     currentLng: startPosition.lng(),
                     targetLat: endPosition.lat(),
                     targetLng: endPosition.lng()
-
                 }
-                if (vm.maxDelta != null) {
+                if (vm.maxDelta) {
                     params.maxDelta = +vm.maxDelta;
                 }
                 DIYTour.get(params).$promise.then(function (tours) {
