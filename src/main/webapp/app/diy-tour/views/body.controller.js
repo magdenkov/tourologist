@@ -13,6 +13,10 @@
         vm.mapControl = null;
         vm.mapConfig = initialMapConfig.call();
 
+        vm.currentClickPosition = null;
+        vm.startMarker = null;
+        vm.endMarker = null;
+
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
 
@@ -33,20 +37,51 @@
 
         vm.searchbox = {template: 'app/diy-tour/views/searchbox.tpl.html', events: events};
 
-        vm.onMenuSetStartPointClick = function() {
-            alert("onMenuSetStartPointClick");
+        var closeContextMenu = function() {
+            $(".contextmenu").get(0).style.visibility = "hidden";
         }
 
-        vm.onMenuSetEndPointClick = function() {
-            alert("onMenuSetStartPointClick");
+        vm.onMenuSetStartPointClick = function () {
+            if (vm.startMarker) {
+                vm.startMarker.setMap(null);
+            }
+            vm.startMarker = new google.maps.Marker({
+                position: vm.currentClickPosition,
+                title: 'start',
+                animation: google.maps.Animation.DROP,
+                map: vm.mapControl,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10
+                }
+            });
+            closeContextMenu();
+        }
+
+        vm.onMenuSetEndPointClick = function () {
+            if (vm.endMarker) {
+                vm.endMarker.setMap(null);
+            }
+            vm.endMarker = new google.maps.Marker({
+                position: vm.currentClickPosition,
+                title: 'end',
+                animation: google.maps.Animation.DROP,
+                map: vm.mapControl,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10
+                }
+            });
+            closeContextMenu();
         }
 
         vm.initContextMenu = function () {
             google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
+                vm.currentClickPosition = event.latLng;
                 showContextMenu(event.latLng);
             });
 
-            function getCanvasXY(currentLatLng){
+            function getCanvasXY(currentLatLng) {
                 var scale = Math.pow(2, vm.mapControl.getZoom());
                 var nw = new google.maps.LatLng(
                     vm.mapControl.getBounds().getNorthEast().lat(),
