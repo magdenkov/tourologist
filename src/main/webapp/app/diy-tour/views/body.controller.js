@@ -177,8 +177,8 @@
                                 labelClass: "labels",
                                 labelStyle: {
                                     opacity: 0.90,
-                                    color: "white",
-                                    background: 'red',
+                                    color: "black",
+                                    background: 'transparent',
                                     padding: '2px',
                                     margin: '2px',
                                     'font-size': '8px'
