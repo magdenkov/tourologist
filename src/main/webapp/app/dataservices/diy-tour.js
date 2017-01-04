@@ -8,7 +8,10 @@
         var resourceUrl = 'api/tours/diy';
 
         return $resource(resourceUrl, {}, {
-
+            'get': {
+                method: 'GET',
+                isArray: true
+            }
         });
     }
 })();

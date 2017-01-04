@@ -5,9 +5,9 @@
         .module('tourologistApp.diy-tour')
         .controller('DiyTourController', DiyTourController);
 
-    DiyTourController.$inject = ['$scope', '$state', 'uiGmapIsReady', 'InitialMapConfigForDiyTour'];
+    DiyTourController.$inject = ['$scope', '$state', 'uiGmapIsReady', 'InitialMapConfigForDiyTour', 'DIYTour'];
 
-    function DiyTourController($scope, $state, uiGmapIsReady, initialMapConfig) {
+    function DiyTourController($scope, $state, uiGmapIsReady, initialMapConfig, DIYTour) {
         var vm = this;
 
         vm.mapControl = null;
@@ -16,6 +16,7 @@
         vm.currentClickPosition = null;
         vm.startMarker = null;
         vm.endMarker = null;
+        vm.routes = [];
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
@@ -37,7 +38,7 @@
 
         vm.searchbox = {template: 'app/diy-tour/views/searchbox.tpl.html', events: events};
 
-        var closeContextMenu = function() {
+        var closeContextMenu = function () {
             $(".contextmenu").get(0).style.visibility = "hidden";
         }
 
@@ -73,6 +74,10 @@
                 }
             });
             closeContextMenu();
+
+            if (vm.startMarker != null && vm.endMarker != null) {
+                drawDIYTour(vm.startMarker.getPosition(), vm.endMarker.getPosition())
+            }
         }
 
         vm.initContextMenu = function () {
@@ -121,5 +126,76 @@
             }
         }
 
+        var drawDIYTour = function (startPosition, endPosition) {
+            var params = {
+                currentLat: startPosition.lat(),
+                currentLng: startPosition.lng(),
+                targetLat: endPosition.lat(),
+                targetLng: endPosition.lng()
+
+            }
+            DIYTour.get(params).$promise.then(function (tours) {
+                vm.routes.forEach(function (route) {
+                    route.way.setMap(null);
+                    route.bubbls.forEach(function (bubbl) {
+                        bubbl.setMap(null);
+                    })
+                    route.bubbls = [];
+                })
+
+                vm.routes = [];
+
+                tours.forEach(function (tour) {
+                    var coordinates = [];
+                    _.orderBy(tour.tourRoutePoints, 'orderNumber').forEach(function (tourRoutePoint) {
+                        coordinates.push({lat: tourRoutePoint.lat, lng: tourRoutePoint.lng});
+                    })
+
+                    var lineSymbol = {
+                        path: 'M 0,-1 0,1',
+                        strokeOpacity: 1,
+                        scale: 4
+                    };
+
+                    var way = new google.maps.Polyline({
+                        path: coordinates,
+                        geodesic: true,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '20px'
+                        }],
+                        map: vm.mapControl,
+                        title: 'xxxx'
+                    });
+
+                    var bubbls = [];
+                    tour.bubbls.forEach(function (bubble) {
+                        var bubbleMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(bubble.lat, bubble.lng),
+                            title: bubble.name,
+                            animation: google.maps.Animation.DROP,
+                            map: vm.mapControl,
+                            icon: {
+                                path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                                scale: 5,
+                                strokeWeight:2,
+                                strokeColor: "#1637F5"
+                            }
+                        });
+                        bubbls.push(bubbleMarker);
+                    })
+
+                    var route = {
+                        way: way,
+                        bubbls: bubbls
+                    }
+                    vm.routes.push(route);
+                })
+            })
+        }
     }
+
 })();
