@@ -53,10 +53,15 @@
                 map: vm.mapControl,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
-                    scale: 10
+                    scale: 10,
+                    strokeColor: "darkgray"
                 }
             });
             closeContextMenu();
+
+            if (vm.startMarker != null && vm.endMarker != null) {
+                drawDIYTour(vm.startMarker.getPosition(), vm.endMarker.getPosition())
+            }
         }
 
         vm.onMenuSetEndPointClick = function () {
@@ -70,7 +75,8 @@
                 map: vm.mapControl,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
-                    scale: 10
+                    scale: 10,
+                    strokeColor: "gray"
                 }
             });
             closeContextMenu();
@@ -135,8 +141,13 @@
 
             }
             DIYTour.get(params).$promise.then(function (tours) {
+                // clear routes
                 vm.routes.forEach(function (route) {
                     route.way.setMap(null);
+                    route.wayPoints.forEach(function(wayPoint) {
+                        wayPoint.setMap(null);
+                    })
+                    route.wayPoints = [];
                     route.bubbls.forEach(function (bubbl) {
                         bubbl.setMap(null);
                     })
@@ -147,49 +158,74 @@
 
                 tours.forEach(function (tour) {
                     var coordinates = [];
+                    var wayPoints = [];
                     _.orderBy(tour.tourRoutePoints, 'orderNumber').forEach(function (tourRoutePoint) {
                         coordinates.push({lat: tourRoutePoint.lat, lng: tourRoutePoint.lng});
+
+                        var wayPoint = new MarkerWithLabel({
+                            position: new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng),
+                            labelContent: tourRoutePoint.orderNumber,
+                            labelClass: "labels",
+                            labelStyle: {
+                                opacity: 0.90,
+                                color: "white",
+                                background: 'red',
+                                padding: '2px',
+                                margin: '2px',
+                                'font-size': '8px'
+                            },
+                            zIndex: 999999,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 1
+                            },
+                            map: vm.mapControl,
+                            strokeColor: "#1637F5"
+                        });
+                        wayPoints.push(wayPoint);
                     })
 
-                    var lineSymbol = {
-                        path: 'M 0,-1 0,1',
-                        strokeOpacity: 1,
-                        scale: 4
-                    };
 
                     var way = new google.maps.Polyline({
                         path: coordinates,
                         geodesic: true,
-                        strokeColor: '#FF0000',
-                        strokeOpacity: 0,
-                        icons: [{
-                            icon: lineSymbol,
-                            offset: '0',
-                            repeat: '20px'
-                        }],
+                        strokeColor: 'red',
+                        strokeOpacity: 0.5,
+                        strokeWeight: 10,
                         map: vm.mapControl,
                         title: 'xxxx'
                     });
 
                     var bubbls = [];
                     tour.bubbls.forEach(function (bubble) {
-                        var bubbleMarker = new google.maps.Marker({
+                        var bubbleMarker = new MarkerWithLabel({
                             position: new google.maps.LatLng(bubble.lat, bubble.lng),
                             title: bubble.name,
-                            animation: google.maps.Animation.DROP,
-                            map: vm.mapControl,
+                            labelContent: "Bubble: " + bubble.name,
+                            labelClass: "labels",
+                            labelStyle: {
+                                opacity: 0.75,
+                                color: "yellow",
+                                background: 'black',
+                                padding: '2px',
+                                margin: '2px'
+                            },
+                            zIndex: 999999,
                             icon: {
                                 path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                                scale: 5,
-                                strokeWeight:2,
-                                strokeColor: "#1637F5"
-                            }
+                                scale: 3,
+                                strokeWeight: 3,
+                                strokeColor: "blue"
+                            },
+                            map: vm.mapControl,
+                            strokeColor: "#1637F5"
                         });
                         bubbls.push(bubbleMarker);
                     })
 
                     var route = {
                         way: way,
+                        wayPoints: wayPoints,
                         bubbls: bubbls
                     }
                     vm.routes.push(route);
