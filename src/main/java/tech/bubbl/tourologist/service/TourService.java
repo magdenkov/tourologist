@@ -55,7 +55,7 @@ public interface TourService {
 
     Page<Tour> findAllFixed(Double curLat, Double curLng, Pageable radius, String name, List<Long> exceptTourIds);
 
-    List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng);
+    List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng, Double maxDelta);
 
     Page<GetAllToursDTO> findAllMyTours(Pageable pageable, TourType type, Status status, String name);
 

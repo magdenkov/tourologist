@@ -6,6 +6,7 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.model.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.gavaghan.geodesy.Ellipsoid;
+import org.gavaghan.geodesy.GlobalCoordinates;
 import org.gavaghan.geodesy.GlobalPosition;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -354,7 +355,7 @@ public class TourServiceImpl implements TourService{
 
     @Override
     @Transactional
-    public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng) {
+    public List<TourFullDTO> getDIYTours(Double curLat, Double curLng, Double tarLat, Double tarLng, Double maxDelta) {
 
         GlobalPosition userLocation = new GlobalPosition(curLat, curLng, ELEVATION);
         GlobalPosition targetLocation = new GlobalPosition(tarLat, tarLng, ELEVATION);
@@ -363,7 +364,7 @@ public class TourServiceImpl implements TourService{
         GlobalPosition midPoint = midPoint(curLat, curLng, tarLat, tarLng);
 
         Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
-        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE, sort);
+        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE * 10, sort);
 
         bubblService.setCurrentLatAndLngInDb(curLat, curLng);
 
@@ -382,6 +383,35 @@ public class TourServiceImpl implements TourService{
 
         if (bubblsAround.isEmpty()) {
             return new ArrayList<>();
+        }
+
+
+        if (maxDelta != null) {
+            DirectionsResult directionsFromGoogle = getDirectionsFromGoogle(new LatLng(curLat, curLng), new LatLng(tarLat, tarLng), null);
+            List<LatLng> path = directionsFromGoogle.routes[0].overviewPolyline.decodePath();
+            AtomicInteger i = new AtomicInteger(0);
+            Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
+                .tour(null)
+                .lat(latLng.lat)
+                .lng(latLng.lng)
+                .orderNumber(i.getAndIncrement()))
+                .collect(Collectors.toSet());
+
+             bubblsAround = bubblsAround.stream()
+                .filter(bubbl -> {
+                for (TourRoutePoint routePoint: routePoints ) {
+                    GlobalCoordinates bubblCoordinate = new GlobalCoordinates(bubbl.getLat(), bubbl.getLng());
+                    GlobalCoordinates pointWatloc = new GlobalCoordinates(routePoint.getLat(), routePoint.getLng());
+
+                    double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, bubblCoordinate, pointWatloc).getEllipsoidalDistance();
+                    if (distance < maxDelta) {
+                        return true;
+                    }
+                }
+                return false;
+            }).limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
+                 .collect(Collectors.toList());
+
         }
 
 

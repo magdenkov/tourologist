@@ -188,11 +188,13 @@ public class TourResource {
     public ResponseEntity<List<TourFullDTO>> generateClosestCurrentLocationDIYTours(@RequestParam(value = "currentLat", required = true) Double curLat,
                                                                                     @RequestParam(value = "currentLng", required = true) Double curLng,
                                                                                     @RequestParam(value = "targetLat", required = true) Double tarLat,
-                                                                                    @RequestParam(value = "targetLng", required = true) Double tarLng)
+                                                                                    @RequestParam(value = "targetLng", required = true) Double tarLng,
+                                                                                    @RequestParam(value = "maxDelta", required = true) Double maxDelta
+                                                                                    )
         throws URISyntaxException {
         log.debug("REST request to get a page of DIY Tours");
 
-        List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng);
+        List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng,maxDelta );
 
         return new ResponseEntity<>(diyTours,  HttpStatus.OK);
     }
