@@ -17,6 +17,7 @@
         vm.startMarker = null;
         vm.endMarker = null;
         vm.routes = [];
+        vm.maxDelta = null;
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
@@ -42,6 +43,10 @@
             $(".contextmenu").get(0).style.visibility = "hidden";
         }
 
+        vm.redrawRoutes = function () {
+            drawDIYTour()
+        }
+
         vm.onMenuSetStartPointClick = function () {
             if (vm.startMarker) {
                 vm.startMarker.setMap(null);
@@ -58,10 +63,7 @@
                 }
             });
             closeContextMenu();
-
-            if (vm.startMarker != null && vm.endMarker != null) {
-                drawDIYTour(vm.startMarker.getPosition(), vm.endMarker.getPosition())
-            }
+            vm.redrawRoutes();
         }
 
         vm.onMenuSetEndPointClick = function () {
@@ -80,10 +82,7 @@
                 }
             });
             closeContextMenu();
-
-            if (vm.startMarker != null && vm.endMarker != null) {
-                drawDIYTour(vm.startMarker.getPosition(), vm.endMarker.getPosition())
-            }
+            vm.redrawRoutes();
         }
 
         vm.initContextMenu = function () {
@@ -132,19 +131,15 @@
             }
         }
 
-        var drawDIYTour = function (startPosition, endPosition) {
-            var params = {
-                currentLat: startPosition.lat(),
-                currentLng: startPosition.lng(),
-                targetLat: endPosition.lat(),
-                targetLng: endPosition.lng()
+        var drawDIYTour = function () {
+            var startPosition = vm.startMarker ? vm.startMarker.getPosition() : null;
+            var endPosition = vm.endMarker ? vm.endMarker.getPosition() : null;
 
-            }
-            DIYTour.get(params).$promise.then(function (tours) {
+            var clearRoutes = function () {
                 // clear routes
                 vm.routes.forEach(function (route) {
                     route.way.setMap(null);
-                    route.wayPoints.forEach(function(wayPoint) {
+                    route.wayPoints.forEach(function (wayPoint) {
                         wayPoint.setMap(null);
                     })
                     route.wayPoints = [];
@@ -155,82 +150,99 @@
                 })
 
                 vm.routes = [];
+            }
 
-                tours.forEach(function (tour) {
-                    var coordinates = [];
-                    var wayPoints = [];
-                    _.orderBy(tour.tourRoutePoints, 'orderNumber').forEach(function (tourRoutePoint) {
-                        coordinates.push({lat: tourRoutePoint.lat, lng: tourRoutePoint.lng});
+            clearRoutes();
 
-                        var wayPoint = new MarkerWithLabel({
-                            position: new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng),
-                            labelContent: tourRoutePoint.orderNumber,
-                            labelClass: "labels",
-                            labelStyle: {
-                                opacity: 0.90,
-                                color: "white",
-                                background: 'red',
-                                padding: '2px',
-                                margin: '2px',
-                                'font-size': '8px'
-                            },
-                            zIndex: 999999,
-                            icon: {
-                                path: google.maps.SymbolPath.CIRCLE,
-                                scale: 1
-                            },
+            if (startPosition != null && endPosition != null) {
+                var params = {
+                    currentLat: startPosition.lat(),
+                    currentLng: startPosition.lng(),
+                    targetLat: endPosition.lat(),
+                    targetLng: endPosition.lng()
+
+                }
+                if (vm.maxDelta != null) {
+                    params.maxDelta = +vm.maxDelta;
+                }
+                DIYTour.get(params).$promise.then(function (tours) {
+                    tours.forEach(function (tour) {
+                        var coordinates = [];
+                        var wayPoints = [];
+                        _.orderBy(tour.tourRoutePoints, 'orderNumber').forEach(function (tourRoutePoint) {
+                            coordinates.push({lat: tourRoutePoint.lat, lng: tourRoutePoint.lng});
+
+                            var wayPoint = new MarkerWithLabel({
+                                position: new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng),
+                                labelContent: tourRoutePoint.orderNumber,
+                                labelClass: "labels",
+                                labelStyle: {
+                                    opacity: 0.90,
+                                    color: "white",
+                                    background: 'red',
+                                    padding: '2px',
+                                    margin: '2px',
+                                    'font-size': '8px'
+                                },
+                                zIndex: 999999,
+                                icon: {
+                                    path: google.maps.SymbolPath.CIRCLE,
+                                    scale: 1
+                                },
+                                map: vm.mapControl,
+                                strokeColor: "#1637F5"
+                            });
+                            wayPoints.push(wayPoint);
+                        })
+
+
+                        var way = new google.maps.Polyline({
+                            path: coordinates,
+                            geodesic: true,
+                            strokeColor: 'red',
+                            strokeOpacity: 0.5,
+                            strokeWeight: 10,
                             map: vm.mapControl,
-                            strokeColor: "#1637F5"
+                            title: 'xxxx'
                         });
-                        wayPoints.push(wayPoint);
+
+                        var bubbls = [];
+                        tour.bubbls.forEach(function (bubble) {
+                            var bubbleMarker = new MarkerWithLabel({
+                                position: new google.maps.LatLng(bubble.lat, bubble.lng),
+                                title: bubble.name,
+                                labelContent: "Bubble: " + bubble.name,
+                                labelClass: "labels",
+                                labelStyle: {
+                                    opacity: 0.75,
+                                    color: "yellow",
+                                    background: 'black',
+                                    padding: '2px',
+                                    margin: '2px'
+                                },
+                                zIndex: 999999,
+                                icon: {
+                                    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                                    scale: 3,
+                                    strokeWeight: 3,
+                                    strokeColor: "blue"
+                                },
+                                map: vm.mapControl,
+                                strokeColor: "#1637F5"
+                            });
+                            bubbls.push(bubbleMarker);
+                        })
+
+                        var route = {
+                            way: way,
+                            wayPoints: wayPoints,
+                            bubbls: bubbls
+                        }
+                        vm.routes.push(route);
                     })
-
-
-                    var way = new google.maps.Polyline({
-                        path: coordinates,
-                        geodesic: true,
-                        strokeColor: 'red',
-                        strokeOpacity: 0.5,
-                        strokeWeight: 10,
-                        map: vm.mapControl,
-                        title: 'xxxx'
-                    });
-
-                    var bubbls = [];
-                    tour.bubbls.forEach(function (bubble) {
-                        var bubbleMarker = new MarkerWithLabel({
-                            position: new google.maps.LatLng(bubble.lat, bubble.lng),
-                            title: bubble.name,
-                            labelContent: "Bubble: " + bubble.name,
-                            labelClass: "labels",
-                            labelStyle: {
-                                opacity: 0.75,
-                                color: "yellow",
-                                background: 'black',
-                                padding: '2px',
-                                margin: '2px'
-                            },
-                            zIndex: 999999,
-                            icon: {
-                                path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-                                scale: 3,
-                                strokeWeight: 3,
-                                strokeColor: "blue"
-                            },
-                            map: vm.mapControl,
-                            strokeColor: "#1637F5"
-                        });
-                        bubbls.push(bubbleMarker);
-                    })
-
-                    var route = {
-                        way: way,
-                        wayPoints: wayPoints,
-                        bubbls: bubbls
-                    }
-                    vm.routes.push(route);
                 })
-            })
+            }
+
         }
     }
 

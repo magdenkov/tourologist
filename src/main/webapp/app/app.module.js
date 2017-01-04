@@ -25,6 +25,7 @@
             'ui.select',
 
             'tourologistApp.dataservices',
+            'tourologistApp.directives',
             'tourologistApp.diy-tour'
 
         ])

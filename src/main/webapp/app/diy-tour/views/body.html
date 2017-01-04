@@ -8,6 +8,12 @@
 
     <div class="row">
         <div class="col-md-12">
+            <label>
+                Max Delta:
+                <input ng-model="vm.maxDelta" type="text" tour-valid-number/>
+                <button type="button" class="btn btn-default" ng-click="vm.redrawRoutes()">Apply</button>
+            </label>
+
             <div id="map-container">
                 <div id="map-canvas">
                     <div class="contextmenu" style="visibility: hidden">
