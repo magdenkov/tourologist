@@ -189,7 +189,7 @@ public class TourResource {
                                                                                     @RequestParam(value = "currentLng", required = true) Double curLng,
                                                                                     @RequestParam(value = "targetLat", required = true) Double tarLat,
                                                                                     @RequestParam(value = "targetLng", required = true) Double tarLng,
-                                                                                    @RequestParam(value = "maxDelta", required = true) Double maxDelta
+                                                                                    @RequestParam(value = "maxDelta", required = false) Double maxDelta
                                                                                     )
         throws URISyntaxException {
         log.debug("REST request to get a page of DIY Tours");
