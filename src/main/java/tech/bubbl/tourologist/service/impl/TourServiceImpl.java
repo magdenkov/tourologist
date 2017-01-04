@@ -364,7 +364,13 @@ public class TourServiceImpl implements TourService{
         GlobalPosition midPoint = midPoint(curLat, curLng, tarLat, tarLng);
 
         Sort sort = new Sort (Sort.Direction.ASC, "distanceToBubbl");
-        Pageable page =  new PageRequest(0, MAX_BUBBLS_ALLOWED_BY_GOOGLE * 10, sort);
+        Integer maxBubblsToGetFromDb = MAX_BUBBLS_ALLOWED_BY_GOOGLE;
+        if (maxDelta != null) {
+            // get more bubbls since part of them will be filtered later
+            // this is some kind of hack , in future it shud be replaced with criteria JPA
+            maxBubblsToGetFromDb = maxBubblsToGetFromDb * 10;
+        }
+        Pageable page =  new PageRequest(0, maxBubblsToGetFromDb, sort);
 
         bubblService.setCurrentLatAndLngInDb(curLat, curLng);
 
