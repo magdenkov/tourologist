@@ -2,6 +2,11 @@ package tech.bubbl.tourologist.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import com.ecwid.maleorang.MailchimpClient;
+import com.ecwid.maleorang.MailchimpException;
+import com.ecwid.maleorang.MailchimpObject;
+import com.ecwid.maleorang.method.v3_0.lists.members.EditMemberMethod;
+import com.ecwid.maleorang.method.v3_0.lists.members.MemberInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import tech.bubbl.tourologist.domain.Interest;
 import tech.bubbl.tourologist.domain.User;
@@ -82,6 +87,28 @@ public class AccountResource {
                     ":" +                                  // ":"
                     request.getServerPort() +              // "80"
                     request.getContextPath();              // "/myContextPath" or "" if deployed in root context
+
+
+                    // mailchip here
+                    // https://github.com/Ecwid/maleorang/blob/master/src/test/java/com/ecwid/maleorang/examples/ExistingMethodExample.java
+
+                    String apiKey = "some api key";
+                    String listId = "listID";  // todo get api key and list id ask jason
+                        MailchimpClient client = new MailchimpClient(apiKey);
+                            EditMemberMethod.CreateOrUpdate method = new EditMemberMethod.CreateOrUpdate(listId, managedUserVM.getEmail());
+                            method.status = "subscribed";
+                            method.merge_fields = new MailchimpObject();
+                            method.merge_fields.mapping.put("FNAME", managedUserVM.getFirstName());
+                            method.merge_fields.mapping.put("LNAME", managedUserVM.getLastName());
+
+                    try {
+                        MemberInfo member = client.execute(method);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (MailchimpException e) {
+                        e.printStackTrace();
+                    }
+
 
                     mailService.sendActivationEmail(user, baseUrl);
                     return new ResponseEntity<SuccessTransportObject>(new SuccessTransportObject(), HttpStatus.CREATED);

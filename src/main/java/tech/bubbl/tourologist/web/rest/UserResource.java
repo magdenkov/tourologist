@@ -1,5 +1,10 @@
 package tech.bubbl.tourologist.web.rest;
 
+import com.ecwid.maleorang.MailchimpClient;
+import com.ecwid.maleorang.MailchimpException;
+import com.ecwid.maleorang.MailchimpObject;
+import com.ecwid.maleorang.method.v3_0.lists.members.EditMemberMethod;
+import com.ecwid.maleorang.method.v3_0.lists.members.MemberInfo;
 import com.google.common.base.Strings;
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
@@ -41,6 +46,7 @@ import tech.bubbl.tourologist.web.rest.vm.Social;
 import tech.bubbl.tourologist.web.rest.vm.SocialLoginDTO;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
@@ -201,7 +207,35 @@ public class UserResource {
 
             if (!Strings.isNullOrEmpty(user.getEmail())) {
                 sendEmail(request, user);
+
+
+                // mailchip here
+                // https://github.com/Ecwid/maleorang/blob/master/src/test/java/com/ecwid/maleorang/examples/ExistingMethodExample.java
+
+                String apiKey = "some api key";
+                String listId = "listID";  // todo get api key and list id ask jason
+                MailchimpClient client = new MailchimpClient(apiKey);
+                EditMemberMethod.CreateOrUpdate method = new EditMemberMethod.CreateOrUpdate(listId, email);
+                method.status = "subscribed";
+                method.merge_fields = new MailchimpObject();
+                method.merge_fields.mapping.put("FNAME", firstName);
+                method.merge_fields.mapping.put("LNAME", lastName);
+
+                try {
+                    MemberInfo member = client.execute(method);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (MailchimpException e) {
+                    e.printStackTrace();
+                }
+
+
+
             }
+
+
+
+
 
             UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(login, FACEBOOK_PASSWORD);
