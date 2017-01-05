@@ -207,6 +207,7 @@ dependencies {
 
     compile 'org.springframework.cloud:spring-cloud-starter-aws'
     compile 'org.springframework.cloud:spring-cloud-aws-autoconfigure'
+    compile 'com.ecwid:maleorang:3.0-0.9.5'
 
 //    compile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '8.5.9'
 //    compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.3.0.Final' downgrade hibernate core to 4.3.11
