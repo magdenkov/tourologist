@@ -6,9 +6,9 @@
         .controller('TourController', TourController);
 
     TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal',
-        'DeleteTourService'];
+        'TourConstructorService', 'DeleteTourService'];
 
-    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, deleteTour) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -30,6 +30,10 @@
 
         vm.onDeleteTourClick = function(tour) {
             deleteTour.call(tour);
+        }
+
+        vm.onEditTourClick = function(tour) {
+            tourConstructor.call(tour);
         }
 
         function getAccount() {

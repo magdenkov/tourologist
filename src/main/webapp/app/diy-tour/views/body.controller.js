@@ -5,13 +5,12 @@
         .module('tourologistApp.diy-tour')
         .controller('DiyTourController', DiyTourController);
 
-    DiyTourController.$inject = ['$scope', '$state', 'uiGmapIsReady', 'InitialMapConfigForDiyTour', 'DIYTour'];
+    DiyTourController.$inject = ['uiGmapIsReady', 'DIYTour'];
 
-    function DiyTourController($scope, $state, uiGmapIsReady, initialMapConfig, DIYTour) {
+    function DiyTourController(uiGmapIsReady, DIYTour) {
         var vm = this;
 
         vm.mapControl = null;
-        vm.mapConfig = initialMapConfig.call();
 
         vm.currentClickPosition = null;
         vm.startMarker = null;
@@ -25,26 +24,12 @@
             vm.initContextMenu();
         })
 
-        var events = {
-            places_changed: function (searchBox) {
-                var place = searchBox.getPlaces();
-                if (!place || place == 'undefined' || place.length == 0) {
-                    console.log('no place data :(');
-                    return;
-                }
-
-                vm.mapConfig = initialMapConfig.call(place[0].geometry.location.lat(), place[0].geometry.location.lng(), 18);
-            }
-        };
-
-        vm.searchbox = {template: 'app/diy-tour/views/searchbox.tpl.html', events: events};
-
         var closeContextMenu = function () {
             $(".contextmenu").get(0).style.visibility = "hidden";
         }
 
         vm.redrawRoutes = function () {
-            drawDIYTour()
+            drawDIYTour();
         }
 
         vm.onMenuSetStartPointClick = function () {

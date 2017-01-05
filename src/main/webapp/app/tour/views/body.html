@@ -61,19 +61,19 @@
                 <td class="text-left">
                     <div class="btn-group">
                         <button type="submit"
-                                ui-sref="tour-detail({id:tour.id})"
+                                ui-sref="tour-detail({id: tour.id})"
                                 class="btn btn-info btn-sm">
                             <span class="glyphicon glyphicon-eye-open"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                         </button>
-                        <button type="submit"
-                                ui-sref="tour.edit({id:tour.id})"
+                        <button type="button"
+                                ng-click="vm.onEditTourClick(tour)"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
                         </button>
-                        <button type="submit"
-                                ui-sref="tour.delete({id: tour.id})"
+                        <button type="button"
+                                ng-click="vm.onDeleteTourClick(tour)"
                                 class="btn btn-danger btn-sm">
                             <span class="glyphicon glyphicon-remove-circle"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>

@@ -26,15 +26,7 @@
                             <div class=context>Set End Point</div>
                         </a>
                     </div>
-                    <ui-gmap-google-map center="vm.mapConfig.center"
-                                        zoom="vm.mapConfig.zoom"
-                                        id="map"
-                                        pan="true"
-                                        draggable="true"
-                                        events="vm.map.events">
-                        <ui-gmap-search-box template="vm.searchbox.template" events="vm.searchbox.events"
-                                            position="BOTTOM_RIGHT"></ui-gmap-search-box>
-                    </ui-gmap-google-map>
+                    <tour-google-map></tour-google-map>
                 </div>
             </div>
         </div>

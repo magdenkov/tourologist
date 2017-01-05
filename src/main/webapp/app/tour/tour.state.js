@@ -141,19 +141,19 @@
                     });
                 }]
             })
-            .state('tour.edit', {
-                parent: 'tour',
-                url: '/{id}/edit',
+            .state('tour.constructor', {
+                url: '/{id}/constructor',
                 data: {
                     authorities: ['ROLE_USER']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/tour/views/tour-new.html',
-                        controller: 'CreateTourController',
+                        templateUrl: 'app/tour/services/tour-constructor.modal.html',
+                        controller: 'TourConstructorController',
                         controllerAs: 'vm',
                         backdrop: 'static',
                         size: 'lg',
+                        windowClass: 'tour-constructor',
                         resolve: {
                             entity: ['Tour', function (Tour) {
                                 return Tour.get({id: $stateParams.id}).$promise;

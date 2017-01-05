@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tourologistApp.diy-tour')
-        .service('InitialMapConfigForDiyTour', InitialMapConfigForDiyTour);
+        .module('tourologistApp.directives')
+        .service('InitialMapConfig', InitialMapConfig);
 
-    InitialMapConfigForDiyTour.$inject = [];
+    InitialMapConfig.$inject = [];
 
-    function InitialMapConfigForDiyTour() {
+    function InitialMapConfig() {
         var service = this;
 
         service.call = function (lat, lng, zoom) {
