@@ -8,7 +8,7 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5 vertical-scrollable">
                 <div class="form-group" ng-show="vm.tour.id">
                     <label for="id" data-translate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id"
@@ -32,7 +32,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label" data-translate="tourologistApp.tour.description" for="field_description">Description</label>
+                    <label class="control-label" data-translate="tourologistApp.tour.description"
+                           for="field_description">Description</label>
                     <input type="text" class="form-control" name="description" id="field_description"
                            ng-model="vm.tour.description"
                            ng-maxlength="4096"/>
@@ -50,16 +51,9 @@
                         <input type="checkbox" checklist-model="vm.tour.interests"
                                checklist-value="interest"/> {{interest.name}}</label>
                 </div>
-            </div>
-            <div class="col-sm-6">
-
-                <div id="map-container">
-                    <div id="map-canvas">
-                        <tour-google-map></tour-google-map>
-                    </div>
 
                 <ul ng-model="vm.tour.bubbls">
-                    <li class="" ng-repeat="bubbls in vm.tour.bubbls track by $index">
+                    <li ng-repeat="bubbls in vm.tour.bubbls track by $index">
                         <div class="row">
                             <div class="col-sm-1">
                                 <h6>{{$index+1}}.</h6>
@@ -99,16 +93,29 @@
                     </a>
                 </div>
             </div>
+            <div class="col-sm-7">
+                <div id="map-container">
+                    <div id="map-canvas">
+                        <tour-google-map show-bubbles="vm.showBubblesInRadius.show" radius="vm.showBubblesInRadius.value"></tour-google-map>
+                    </div>
+                </div>
+                <div style="padding-top: 10px; padding-bottom: 10px">
+                    <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
+                    <small> Show all Bubbles in center Circle with radius</small>
+                    <input type="text" ng-disabled="!vm.showBubblesInRadius.show"
+                           tour-valid-number ng-model="vm.showBubblesInRadius.value"/> metres
+                </div>
+            </div>
         </div>
-
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-            data-translate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
-        </button>
-    </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                data-translate="entity.action.cancel">Cancel</span>
+            </button>
+            <button type="button" ng-click="vm.save()"
+                    ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span>&nbsp;<span
+                data-translate="entity.action.save">Save</span>
+            </button>
+        </div>
 </form>

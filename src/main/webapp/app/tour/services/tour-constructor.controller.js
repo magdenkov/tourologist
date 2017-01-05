@@ -11,6 +11,10 @@
         var vm = this;
 
         vm.mapControl = null;
+        vm.showBubblesInRadius = {
+            show: true,
+            value: 10000
+        };
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;

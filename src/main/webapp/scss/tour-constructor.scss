@@ -2,4 +2,9 @@
     .modal-dialog {
        width: 99%;
     }
+
+    .vertical-scrollable {
+        max-height: 600px;
+        overflow-y: auto;
+    }
 }

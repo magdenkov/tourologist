@@ -12,6 +12,11 @@
 
         vm.mapControl = null;
 
+        vm.showBubblesInRadius = {
+            show: true,
+            value: 10000
+        };
+
         vm.currentClickPosition = null;
         vm.startMarker = null;
         vm.endMarker = null;

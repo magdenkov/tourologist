@@ -1,2 +1,6 @@
 .tour-constructor .modal-dialog {
   width: 99%; }
+
+.tour-constructor .vertical-scrollable {
+  max-height: 600px;
+  overflow-y: auto; }

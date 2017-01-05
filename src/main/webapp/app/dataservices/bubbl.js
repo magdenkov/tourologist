@@ -1,5 +1,6 @@
 (function () {
     'use strict';
+
     angular
         .module('tourologistApp.dataservices')
         .factory('Bubbl', Bubbl);
@@ -10,14 +11,17 @@
         var resourceUrl = 'api/bubbls/:id';
 
           return $resource(resourceUrl, {}, {
-            'query': {method: 'GET', isArray: true,
-                url:  'api/my/bubbls/:id'
+            query: {
+                method: 'GET',
+                url:  'api/my/bubbls/:id',
+                isArray: true
             },
-            'queryAdmin': {method: 'GET', isArray: true,
-                url:  'api/bubbls/:id'
+            queryAdmin: {
+                method: 'GET',
+                url:  'api/bubbls/:id',
+                isArray: true
             },
-
-            'get': {
+            get: {
                 method: 'GET',
 
                 transformResponse: function (data) {
@@ -30,9 +34,14 @@
                     return data;
                 }
             },
-            'update': {method: 'PUT'},
-
-
+            update: {
+                method: 'PUT'
+            },
+            in_radius: {
+                method: "GET",
+                url: 'api/bubbls/in_radius',
+                isArray: true
+            },
             createPayload: {
                 method: "POST",
                 transFormRequest: angular.identity,
