@@ -92,7 +92,7 @@ public class AccountResource {
                     // mailchip here
                     // https://github.com/Ecwid/maleorang/blob/master/src/test/java/com/ecwid/maleorang/examples/ExistingMethodExample.java
 
-                    String apiKey = "some api key"; // TODO: 05.01.2017  move these vaiables to system vaiables
+                    String apiKey = "91ecf3952e6c441994c6ef3a9382878d-us14"; // TODO: 05.01.2017  move these vaRiables to system vaRiables
                     String listId = "listID";  // todo get api key and list id ask jason
                         MailchimpClient client = new MailchimpClient(apiKey);
                             EditMemberMethod.CreateOrUpdate method = new EditMemberMethod.CreateOrUpdate(listId, managedUserVM.getEmail());

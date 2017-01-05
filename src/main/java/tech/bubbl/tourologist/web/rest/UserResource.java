@@ -212,7 +212,7 @@ public class UserResource {
                 // mailchip here
                 // https://github.com/Ecwid/maleorang/blob/master/src/test/java/com/ecwid/maleorang/examples/ExistingMethodExample.java
 
-                String apiKey = "some api key";
+                String apiKey = "91ecf3952e6c441994c6ef3a9382878d-us14";
                 String listId = "listID";  // todo get api key and list id ask jason
                 MailchimpClient client = new MailchimpClient(apiKey);
                 EditMemberMethod.CreateOrUpdate method = new EditMemberMethod.CreateOrUpdate(listId, email);
