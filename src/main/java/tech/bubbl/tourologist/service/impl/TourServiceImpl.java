@@ -507,7 +507,7 @@ public class TourServiceImpl implements TourService{
         LatLng [] wayPoints = null;
         if (origin == null && destination == null && bubblsLatLngList.size() > 2) {
             // exclude first and last bubbls
-            wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 2);
+            wayPoints = ArrayUtils.subarray(bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]), 1, bubblsLatLngList.size() - 1);
         } else {
             wayPoints = bubblsLatLngList.toArray(new LatLng[bubblsLatLngList.size()]);
         }
