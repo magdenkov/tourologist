@@ -1,9 +1,9 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('tourologistApp')
-        .controller('TourDeleteController',TourDeleteController);
+        .module('tourologistApp.tour')
+        .controller('TourDeleteController', TourDeleteController);
 
     TourDeleteController.$inject = ['$uibModalInstance', 'entity', 'Tour'];
 
@@ -13,12 +13,12 @@
         vm.tour = entity;
         vm.clear = clear;
         vm.confirmDelete = confirmDelete;
-        
-        function clear () {
+
+        function clear() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        function confirmDelete (id) {
+        function confirmDelete(id) {
             Tour.delete({id: id},
                 function () {
                     $uibModalInstance.close(true);

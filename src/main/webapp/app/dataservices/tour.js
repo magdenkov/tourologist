@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.dataservices')
         .factory('Tour', Tour);
 
     Tour.$inject = ['$resource', 'DateUtils', 'Principal'];
@@ -10,11 +10,13 @@
         var resourceUrl = 'api/tours/:id';
 
         return $resource(resourceUrl, {}, {
-            'query': {method: 'GET',
-                      isArray: true,
-                      url:'api/my/tours/:id'
+            'query': {
+                method: 'GET',
+                isArray: true,
+                url: 'api/my/tours/:id'
             },
-            'queryAdmin': {method: 'GET',
+            'queryAdmin': {
+                method: 'GET',
                 isArray: true,
                 url: 'api/tours/:id'
             },

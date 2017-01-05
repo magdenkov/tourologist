@@ -26,6 +26,7 @@
 
             'tourologistApp.dataservices',
             'tourologistApp.directives',
+            'tourologistApp.tour',
             'tourologistApp.diy-tour'
 
         ])

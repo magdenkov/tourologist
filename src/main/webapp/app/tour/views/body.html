@@ -16,7 +16,8 @@
                     <div class="input-group">
                         <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-                        <input type="text" class="form-control" placeholder="Search Tours" ng-model="searchTours[queryBy]">
+                        <input type="text" class="form-control" placeholder="Search Tours"
+                               ng-model="searchTours[queryBy]">
 
                     </div>
                 </div>
@@ -36,10 +37,10 @@
                     <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="tourType"><span data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
-                <th has-authority="ROLE_ADMIN" jh-sort-by="author"><span>User</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
+                <th has-authority="ROLE_ADMIN" jh-sort-by="author">
+                    <span>User</span> <span class="glyphicon glyphicon-sort"></span>
+                </th>
                 <th class="text-left"> Ratings</th>
-
                 <th class="text-left"> Actions</th>
             </tr>
             </thead>

@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.tour')
         .controller('TourController', TourController);
 
-    TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants','Principal'];
+    TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal'];
 
-    function TourController ($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants,Principal) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -17,8 +17,7 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
 
         $scope.searchTours = '';
-        $scope.queryBy ='name';
-
+        $scope.queryBy = 'name';
 
         vm.account = null;
         vm.isAuthenticated = null;
@@ -34,8 +33,6 @@
                 vm.isAuthenticated = Principal.isAuthenticated;
                 changeUrl()
             });
-
-
         }
 
         function changeUrl() {
@@ -44,13 +41,9 @@
             } else {
                 loadAll();
             }
-
-
         }
 
-
-
-        function loadAdmin () {
+        function loadAdmin() {
             Tour.queryAdmin({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
@@ -63,6 +56,7 @@
                 }
                 return result;
             }
+
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
@@ -70,12 +64,13 @@
                 vm.tours = data;
                 vm.page = pagingParams.page;
             }
+
             function onError(error) {
                 AlertService.error(error.data.message);
             }
         }
 
-        function loadAll () {
+        function loadAll() {
             Tour.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
@@ -88,6 +83,7 @@
                 }
                 return result;
             }
+
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
@@ -95,17 +91,18 @@
                 vm.tours = data;
                 vm.page = pagingParams.page;
             }
+
             function onError(error) {
                 AlertService.error(error.data.message);
             }
         }
 
-        function loadPage (page) {
+        function loadPage(page) {
             vm.page = page;
             vm.transition();
         }
 
-        function transition () {
+        function transition() {
             $state.transitionTo($state.$current, {
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),

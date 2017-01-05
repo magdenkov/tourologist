@@ -1,13 +1,13 @@
-(function() {
+(function () {
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.tour')
         .controller('TourEditController', TourDialogController);
 
     TourDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
 
-    function TourDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
+    function TourDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
         var vm = this;
 
         vm.tour = entity;
@@ -24,15 +24,15 @@
         vm.tourroutepoints = TourRoutePoint.query();
         vm.tourbubbls = TourBubbl.query();
 
-        $timeout(function (){
+        $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
 
-        function clear () {
+        function clear() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        function save () {
+        function save() {
             vm.isSaving = true;
             if (vm.tour.id !== null) {
                 Tour.update(vm.tour, onSaveSuccess, onSaveError);
@@ -41,13 +41,13 @@
             }
         }
 
-        function onSaveSuccess (result) {
+        function onSaveSuccess(result) {
             $scope.$emit('tourologistApp:tourUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }
 
-        function onSaveError () {
+        function onSaveError() {
             vm.isSaving = false;
         }
 
@@ -55,7 +55,7 @@
         vm.datePickerOpenStatus.lastModified = false;
         vm.datePickerOpenStatus.deleted = false;
 
-        function openCalendar (date) {
+        function openCalendar(date) {
             vm.datePickerOpenStatus[date] = true;
         }
     }

@@ -2,12 +2,12 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.tour')
         .controller('CreateTourController', TourDialogController);
 
-    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest','ParseLinks','Principal'];
+    TourDialogController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks', 'Principal'];
 
-    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest,ParseLinks,Principal) {
+    function TourDialogController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks, Principal) {
         var vm = this;
 
         vm.tour = entity;
@@ -17,11 +17,10 @@
         vm.users = User.query();
         vm.interests = Interest.query();
 
-
         vm.add = add;
         vm.removebubbl = removebubbl;
 
-        vm.bubbls =[];
+        vm.bubbls = [];
         vm.loadPage = loadPage;
         vm.page = 0;
         vm.links = {
@@ -43,19 +42,14 @@
                 vm.isAuthenticated = Principal.isAuthenticated;
                 changeUrl()
             });
-
-
         }
 
         function changeUrl() {
-
             if (vm.account.authorities.includes('ROLE_ADMIN')) {
                 loadAdmin();
             } else {
                 loadAll();
             }
-
-
         }
 
         function loadAdmin() {
@@ -63,7 +57,6 @@
                 page: vm.page,
                 size: vm.size,
             }, onSuccess, onError);
-
 
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
@@ -113,6 +106,7 @@
         $scope.user = {
             interest: [vm.interests[0]]
         };
+
         if (vm.tour.bubbls === undefined) {
             vm.tour.bubbls = [];
         }
@@ -163,7 +157,5 @@
         function onSaveError() {
             vm.isSaving = false;
         }
-
-
     }
 })();

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.tour')
         .controller('TourDetailController', TourDetailController);
 
     TourDetailController.$inject = ['$scope', '$rootScope', 'previousState', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
@@ -31,7 +31,7 @@
                 myCoordinates.push(new google.maps.LatLng(lat, lng));
 
             }
-            $scope.back = function() {
+            $scope.back = function () {
                 window.history.back()
             }
 
