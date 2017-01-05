@@ -11,7 +11,11 @@
         var service = this;
 
         service.call = function (tour) {
-            $state.go('tour.constructor', {id: tour.id});
+            var params = {};
+            if (tour && tour.id) {
+                params = {id: tour.id};
+            }
+            $state.go('tour.constructor', params);
         }
     }
 })();

@@ -22,7 +22,7 @@
     }
 
     function controller(scope, initialMapConfig, uiGmapIsReady, Bubbl) {
-        scope.mapConfig = scope.mapConfig || initialMapConfig.call();
+        scope.mapConfig = initialMapConfig.call();
         scope.mapControl = null;
 
         scope.showBubblesInRadius = {
@@ -45,7 +45,6 @@
         };
 
         scope.searchbox = {template: 'app/directives/tour-google-map/searchbox.tpl.html', events: events};
-
 
         var updateBubblesInRadius = function (center) {
             if (scope.showBubblesInRadius.circle) {
@@ -112,6 +111,8 @@
         uiGmapIsReady.promise().then(function (maps) {
             scope.mapControl = maps[0].map;
 
+            google.maps.event.trigger(scope.mapControl, 'resize');
+
             scope.mapControl.addListener('center_changed', function () {
                 updateBubblesInRadius(this.getCenter());
             });
@@ -129,7 +130,6 @@
                     updateBubblesInRadius(scope.mapControl.getCenter());
                 }
             })
-
         })
     }
 

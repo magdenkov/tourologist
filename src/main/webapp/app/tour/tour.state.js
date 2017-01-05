@@ -112,37 +112,8 @@
                     });
                 }]
             })
-            .state('tour.new', {
-                parent: 'tour',
-                url: '/new',
-                data: {
-                    authorities: ['ROLE_USER']
-                },
-                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                    $uibModal.open({
-                        templateUrl: 'app/tour/views/tour-new.html',
-                        controller: 'CreateTourController',
-                        controllerAs: 'vm',
-                        backdrop: 'static',
-                        size: 'lg',
-                        resolve: {
-                            entity: function () {
-                                return {
-                                    id: null,
-                                    description: null,
-                                    name: null
-                                };
-                            }
-                        }
-                    }).result.then(function () {
-                        $state.go('tour', null, {reload: 'tour'});
-                    }, function () {
-                        $state.go('tour');
-                    });
-                }]
-            })
             .state('tour.constructor', {
-                url: '/{id}/constructor',
+                url: '/constructor/{id}',
                 data: {
                     authorities: ['ROLE_USER']
                 },
@@ -156,7 +127,15 @@
                         windowClass: 'tour-constructor',
                         resolve: {
                             entity: ['Tour', function (Tour) {
-                                return Tour.get({id: $stateParams.id}).$promise;
+                                if ($stateParams.id) {
+                                    return Tour.get({id: $stateParams.id}).$promise;
+                                } else {
+                                    return {
+                                        id: null,
+                                        description: null,
+                                        name: null
+                                    };
+                                }
                             }]
                         }
                     }).result.then(function () {

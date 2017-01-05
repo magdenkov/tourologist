@@ -5,9 +5,9 @@
         .module('tourologistApp.tour')
         .controller('TourEditController', TourDialogController);
 
-    TourDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
+    TourDialogController.$inject = ['$timeout', '$scope', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'TourRating', 'TourDownload', 'TourImage', 'TourAdminReview', 'TourRoutePoint', 'TourBubbl'];
 
-    function TourDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
+    function TourDialogController($timeout, $scope, $uibModalInstance, entity, Tour, User, Interest, TourRating, TourDownload, TourImage, TourAdminReview, TourRoutePoint, TourBubbl) {
         var vm = this;
 
         vm.tour = entity;

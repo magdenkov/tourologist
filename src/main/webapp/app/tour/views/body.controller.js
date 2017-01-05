@@ -22,6 +22,7 @@
 
         vm.account = null;
         vm.isAuthenticated = null;
+
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
@@ -36,11 +37,19 @@
             tourConstructor.call(tour);
         }
 
+        vm.onCreateTourClick = function() {
+            tourConstructor.call({
+                id: null,
+                description: null,
+                name: null
+            });
+        }
+
         function getAccount() {
             Principal.identity().then(function (account) {
                 vm.account = account;
                 vm.isAuthenticated = Principal.isAuthenticated;
-                changeUrl()
+                changeUrl();
             });
         }
 

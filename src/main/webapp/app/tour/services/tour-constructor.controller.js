@@ -15,13 +15,16 @@
             show: true,
             value: 10000
         };
+        vm.tour = entity;
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
         })
 
-        vm.tour = entity;
-        vm.clear = clear;
+
+        vm.close = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
 
         vm.save = save;
         vm.users = User.query();
@@ -144,10 +147,6 @@
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
-
-        function clear() {
-            $uibModalInstance.dismiss('cancel');
-        }
 
         function save() {
             vm.isSaving = true;
