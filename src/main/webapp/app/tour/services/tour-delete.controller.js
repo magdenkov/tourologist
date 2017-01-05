@@ -11,18 +11,16 @@
         var vm = this;
 
         vm.tour = entity;
-        vm.clear = clear;
-        vm.confirmDelete = confirmDelete;
 
-        function clear() {
+        vm.clear = function () {
             $uibModalInstance.dismiss('cancel');
-        }
+        };
 
-        function confirmDelete(id) {
-            Tour.delete({id: id},
+        vm.confirmDelete = function (id) {
+            Tour.delete({id: id}).$promise.then(
                 function () {
                     $uibModalInstance.close(true);
                 });
-        }
+        };
     }
 })();

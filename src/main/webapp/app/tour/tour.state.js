@@ -167,14 +167,13 @@
                 }]
             })
             .state('tour.delete', {
-                parent: 'tour',
                 url: '/{id}/delete',
                 data: {
                     authorities: ['ROLE_USER']
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/tour/tour-delete-dialog.html',
+                        templateUrl: 'app/tour/services/tour-delete.modal.html',
                         controller: 'TourDeleteController',
                         controllerAs: 'vm',
                         size: 'md',

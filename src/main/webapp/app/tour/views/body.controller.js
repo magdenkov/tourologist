@@ -5,9 +5,10 @@
         .module('tourologistApp.tour')
         .controller('TourController', TourController);
 
-    TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal'];
+    TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal',
+        'DeleteTourService'];
 
-    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, deleteTour) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -26,6 +27,10 @@
         });
 
         getAccount();
+
+        vm.onDeleteTourClick = function(tour) {
+            deleteTour.call(tour);
+        }
 
         function getAccount() {
             Principal.identity().then(function (account) {
