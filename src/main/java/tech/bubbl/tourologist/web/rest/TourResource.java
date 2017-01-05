@@ -71,7 +71,7 @@ public class TourResource {
             .body(result);
     }
 
-       @PutMapping("/tours")
+    @PutMapping("/tours")
     @Timed
     public ResponseEntity<TourDTO> updateTour(@Valid @RequestBody TourDTO tourDTO) throws URISyntaxException {
         log.debug("REST request to update Tour : {}", tourDTO);
@@ -194,7 +194,7 @@ public class TourResource {
         throws URISyntaxException {
         log.debug("REST request to get a page of DIY Tours");
 
-        List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat , tarLng,maxDelta );
+        List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat, tarLng, maxDelta);
 
         return new ResponseEntity<>(diyTours,  HttpStatus.OK);
     }

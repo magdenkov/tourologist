@@ -30,6 +30,9 @@ public interface BubblService {
      *@param userId @return the list of entities
      */
     Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId);
+    
+    Page<FullTourBubblNumberedDTO> findAllInRadius(Pageable pageable, Status status, Long userId, Double centerLat, 
+    		Double centerLng, Double radius);
 
     /**
      *  Get the "id" bubbl.

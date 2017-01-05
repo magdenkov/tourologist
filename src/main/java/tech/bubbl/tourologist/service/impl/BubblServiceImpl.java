@@ -4,10 +4,14 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+
+import org.gavaghan.geodesy.GlobalPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
@@ -44,7 +48,7 @@ import java.util.stream.Collectors;
  * Service Implementation for managing Bubbl.
  */
 @Service
-public class BubblServiceImpl implements BubblService{
+public class BubblServiceImpl implements BubblService {
 
     private final Logger log = LoggerFactory.getLogger(BubblServiceImpl.class);
 
@@ -91,11 +95,54 @@ public class BubblServiceImpl implements BubblService{
 
     @Transactional(readOnly = true)
     public Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId) {
-        log.debug("Request to get all Tours by params  type {}, status {}, userId {}", status, userId);
+        log.debug("Request to get all bubbles by params  status {}, userId {}", status, userId);
 //        final Boolean isAdmin = SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN);
 
         Specification<Bubbl> specification = getBubblsSpecification(status, userId);
         Page<Bubbl> result = bubblRepository.findAll(specification, pageable);
+        return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
+    }
+
+    @Transactional()
+    public Page<FullTourBubblNumberedDTO> findAllInRadius(Pageable pageable, Status status, Long userId,
+            Double centerLat, Double centerLng, Double radius) {
+        log.debug("Request to get all bubbles by params status {}, userId {}, curLat {}, curLng {}, radius {}", status,
+                userId, centerLat, centerLng, radius);
+
+        final double ELEVATION = 0.0;
+        GlobalPosition centerLocation = new GlobalPosition(centerLat, centerLng, ELEVATION);
+
+        log.debug("centerLocation {}", centerLocation);
+
+        Sort sort = new Sort(Sort.Direction.ASC, "distanceToBubbl");
+        Pageable page = new PageRequest(0, 100, sort);
+
+        setCurrentLatAndLngInDb(centerLat, centerLng);
+
+        log.debug("setCurrentLatAndLngInDb");
+
+        Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
+            @Override
+            public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+
+                if (status != null) {
+                    predicates.add(cb.equal(root.get("status"), status));
+                }
+                if (userId != null) {
+                    predicates.add(cb.equal(root.get("user").get("id"), userId));
+                }
+
+                predicates.add(cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("lat"), root.get("lng"),
+                        cb.literal(centerLocation.getLatitude()), cb.literal(centerLocation.getLongitude()),
+                        cb.literal(radius))));
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        });
+
+        log.debug("specification {}", specification);
+
+        Page<Bubbl> result = bubblRepository.findAll(specification, page);
         return result.map(bubbl -> new FullTourBubblNumberedDTO(bubbl, null, null));
     }
 
@@ -111,7 +158,7 @@ public class BubblServiceImpl implements BubblService{
                 if (userId != null) {
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
                 }
-
+          
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });

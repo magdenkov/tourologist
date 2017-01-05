@@ -1,18 +1,12 @@
 package tech.bubbl.tourologist.service.dto.bubbl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import tech.bubbl.tourologist.domain.Bubbl;
 import tech.bubbl.tourologist.domain.Interest;
-import tech.bubbl.tourologist.service.dto.PayloadDTO;
-import tech.bubbl.tourologist.service.dto.payload.*;
-import tech.bubbl.tourologist.service.impl.TourServiceImpl;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import tech.bubbl.tourologist.service.dto.payload.PayloadBubblDTO;
 
 /**
  * Created by Denis Magdenkov on 25.11.2016.
@@ -28,7 +22,6 @@ public class FullTourBubblNumberedDTO extends TourBubblNumberedDTO {
             .map(payload -> new PayloadBubblDTO(payload))
             .collect(Collectors.toList());
         this.interests = new ArrayList<>(bubbl.getInterests());
-
     }
 
     private List<Interest> interests = new ArrayList<>();

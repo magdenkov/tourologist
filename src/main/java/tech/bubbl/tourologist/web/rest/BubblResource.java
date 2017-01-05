@@ -1,20 +1,16 @@
 package tech.bubbl.tourologist.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.LatLng;
-import tech.bubbl.tourologist.domain.enumeration.Status;
-import tech.bubbl.tourologist.domain.enumeration.TourType;
-import tech.bubbl.tourologist.service.BubblDownloadService;
-import tech.bubbl.tourologist.service.BubblService;
-import tech.bubbl.tourologist.service.dto.ErrorDTO;
-import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
-import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
-import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
-import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
-import tech.bubbl.tourologist.service.dto.BubblDTO;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,14 +18,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.codahale.metrics.annotation.Timed;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
+
+import tech.bubbl.tourologist.domain.enumeration.Status;
+import tech.bubbl.tourologist.service.BubblDownloadService;
+import tech.bubbl.tourologist.service.BubblService;
+import tech.bubbl.tourologist.service.dto.BubblDTO;
+import tech.bubbl.tourologist.service.dto.ErrorDTO;
+import tech.bubbl.tourologist.service.dto.SuccessTransportObject;
+import tech.bubbl.tourologist.service.dto.bubbl.FullTourBubblNumberedDTO;
+import tech.bubbl.tourologist.web.rest.util.HeaderUtil;
+import tech.bubbl.tourologist.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing Bubbl.
@@ -85,6 +98,22 @@ public class BubblResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    @GetMapping("/bubbls/in_radius")
+    public ResponseEntity<List<FullTourBubblNumberedDTO>> getAllBubblsByParamsInRadius(
+            @RequestParam(value = "status", required = false) Status status,
+            @RequestParam(value = "userId", required = false) Long userId,
+            @RequestParam(value = "centerLat", required = false) Double centerLat,
+            @RequestParam(value = "centerLng", required = false) Double centerLng,
+            @RequestParam(value = "radius", required = false) Double radius, Pageable pageable)
+            throws URISyntaxException {
+        log.debug("REST request to get a page of Bubbls");
+        Page<FullTourBubblNumberedDTO> page = bubblService.findAllInRadius(pageable, status, userId, centerLat,
+                centerLng, radius);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/bubbls");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    
     @GetMapping("/my/bubbls")
     @Timed
     public ResponseEntity<List<FullTourBubblNumberedDTO>> getOnlyMy(@RequestParam(value = "status", required = false) Status status,
