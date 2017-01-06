@@ -5,7 +5,7 @@
             class="bubblItem row">
 
             <div class="col-xs-11">
-                <label class="control-label"><b>{{ bubbl.orderNumber }}.</b> {{ bubbl.name}}</label>
+                <label class="control-label"><b>{{ $index }}.</b> {{ bubbl.name}}</label>
             </div>
             <div class="col-xs-1">
                 <buttom ng-show="vm.tour.bubbls.length > 1"
@@ -17,11 +17,4 @@
             </div>
         </li>
     </ul>
-
-    <div class="text-right m-r-80">
-        <a href="" ng-click="vm.add()" class="mdl-color-text--pink">
-            <i class="">Add new Bubbls</i>
-            <!--Add new ingredient-->
-        </a>
-    </div>
 </div>

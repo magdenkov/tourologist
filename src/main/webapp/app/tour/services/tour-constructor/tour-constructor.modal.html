@@ -25,6 +25,8 @@
                     <div id="map-canvas">
                         <div ng-include="vm.mapContextMenuUrl"></div>
                         <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
+                                         tours="[vm.tour]"
+                                         only-center-map-by-tours="true"
                                          radius="vm.showBubblesInRadius.value"
                                          on-bubbl-marker-right-click="vm.onBubblMarkerRightClick"></tour-google-map>
                     </div>

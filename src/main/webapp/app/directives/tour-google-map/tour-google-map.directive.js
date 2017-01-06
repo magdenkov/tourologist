@@ -15,6 +15,7 @@
                 showBubbles: '=',
                 radius: '=',
                 tours: '=',
+                onlyCenterMapByTours: '=',
                 onCircleClick: '&',
                 onCircleRightClick: '&',
                 onBubblMarkerClick: '&',
@@ -22,13 +23,15 @@
             },
             link: function (scope, element, attrs) {
             },
-            controller: ['$timeout', '$scope', 'InitialMapConfig', 'uiGmapIsReady', 'Bubbl', controller]
+            controller: ['$scope', 'InitialMapConfig', 'uiGmapIsReady', 'Bubbl', controller]
         }
     }
 
-    function controller($timeout, scope, initialMapConfig, uiGmapIsReady, Bubbl) {
+    function controller(scope, initialMapConfig, uiGmapIsReady, Bubbl) {
         scope.mapConfig = initialMapConfig.call();
         scope.mapControl = null;
+
+        scope.onlyCenterMapByTours = scope.onlyCenterMapByTours || false;
 
         scope.showBubblesInRadius = {
             show: scope.showBubbles || false,
@@ -232,7 +235,7 @@
                     },
                     zIndex: 999999,
                     icon: {
-                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                        path: google.maps.SymbolPath.CIRCLE,
                         scale: 3,
                         strokeWeight: 3,
                         strokeColor: "blue"
@@ -255,7 +258,9 @@
                 if (scope.mapControl != null) {
                     if (newValue != null && newValue.length > 0) {
                         newValue.forEach(function (tour) {
-                            drawTourRoute(tour);
+                            if (scope.onlyCenterMapByTours === false) {
+                                drawTourRoute(tour);
+                            }
                         })
                     }
                 }
@@ -273,14 +278,16 @@
                 var mapBounds = new google.maps.LatLngBounds();
 
                 scope.tours.forEach(function (tour) {
-                    drawTourRoute(tour);
+                    if (scope.onlyCenterMapByTours === false) {
+                        drawTourRoute(tour);
+                    }
 
                     tour.tourRoutePoints.forEach(function (tourRoutePoint) {
                         mapBounds.extend(new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng));
                     })
                 })
 
-                scope.mapConfig.center = mapBounds.getCenter();
+                scope.mapConfig.center = {latitude: mapBounds.getCenter().lat(), longitude: mapBounds.getCenter().lng()};
                 scope.mapConfig.zoom = 15;
             }
 

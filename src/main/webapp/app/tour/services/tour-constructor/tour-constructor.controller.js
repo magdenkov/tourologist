@@ -20,14 +20,15 @@
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
             mapContextMenu.init(vm.mapControl);
+            drawTourOnMap();
         })
 
         vm.sortableOptions = {
             update: function (e, ui) {
-                alert(e);
+                // alert(e);
             },
             stop: function (e, ui) {
-                alert(e);
+                // alert(e);
             }
         };
 
@@ -63,11 +64,28 @@
 
         // tabs end
 
-        vm.save = save;
+        vm.save = function () {
+            vm.isSaving = true;
+
+            if (vm.tour.id !== null) {
+                Tour.updateFixedTour(vm.tour, onSaveSuccess, onSaveError);
+            } else {
+                Tour.createFixedTour(vm.tour, onSaveSuccess, onSaveError);
+            }
+        }
+
+        function onSaveSuccess(result) {
+            $scope.$emit('tourologistApp:tourUpdate', result);
+            $uibModalInstance.close(result);
+            vm.isSaving = false;
+        }
+
+        function onSaveError() {
+            vm.isSaving = false;
+        }
+
         vm.users = User.query();
         vm.interests = Interest.query();
-
-        vm.add = add;
 
         vm.removeBubbl = function (bubbl) {
             vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
@@ -162,74 +180,111 @@
             vm.tour.bubbls = [];
         }
 
-        function add() {
-            vm.tour.bubbls.push({
-                bubblId: '',
-                orderNumber: ''
-            });
-        }
-
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
-
-        function save() {
-            vm.isSaving = true;
-            if (vm.tour.id !== null) {
-                Tour.updateFixedTour(vm.tour, onSaveSuccess, onSaveError);
-            } else {
-                Tour.createFixedTour(vm.tour, onSaveSuccess, onSaveError);
-            }
-        }
-
-        function onSaveSuccess(result) {
-            $scope.$emit('tourologistApp:tourUpdate', result);
-            $uibModalInstance.close(result);
-            vm.isSaving = false;
-        }
-
-        function onSaveError() {
-            vm.isSaving = false;
-        }
 
         vm.onBubblMarkerRightClick = function (bubbl, event) {
             event.bubbl = bubbl;
             mapContextMenu.show(event);
         }
 
-        vm.showAddBubblToTourMenuItem = function () {
-            var bubbl = mapContextMenu.currentEvent() ? mapContextMenu.currentEvent().bubbl : null;
-            if (bubbl != null) {
-                return _.find(vm.tour.bubbls, {id: bubbl.id}) == null;
-            }
-        }
-
-        vm.showRemoveBubblFromTourMenuItem = function () {
-            var bubbl = mapContextMenu.currentEvent() ? mapContextMenu.currentEvent().bubbl : null;
-            if (bubbl != null) {
-                return _.find(vm.tour.bubbls, {id: bubbl.id}) != null;
-            }
-        }
-
         vm.onAddBubblToTourClick = function () {
-            debugger;
             mapContextMenu.close();
             var bubbl = mapContextMenu.currentEvent().bubbl;
-            $timeout(function () {
-                vm.tour.bubbls.push(bubbl);
-               // drawTourRoute();
-            })
+            if (_.find(vm.tour.bubbls, {id: bubbl.id}) == null) {
+                $timeout(function () {
+                    vm.tour.bubbls.push(bubbl);
+                })
+            } else {
+                alert("This Bubble is already added")
+            }
 
         }
 
         vm.onRemoveBubblFromTourClick = function () {
-            debugger;
             mapContextMenu.close();
             var bubbl = mapContextMenu.currentEvent().bubbl;
-            $timeout(function () {
-                vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
-               // drawTourRoute();
-            })
+            if (_.find(vm.tour.bubbls, {id: bubbl.id}) != null) {
+                $timeout(function () {
+                    vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
+                })
+            } else {
+                alert("This Bubble is not in Tour");
+            }
+        }
+
+        $scope.$watch('vm.tour.bubbls', function () {
+            console.log("!DD");
+            drawTourOnMap();
+        }, true);
+
+        vm.route = null;
+
+        var drawTourOnMap = function () {
+            if (vm.mapControl != null) {
+                var clear = function () {
+                    if (vm.route && vm.route.way) {
+                        vm.route.way.setMap(null);
+                        vm.route.way = null;
+                    }
+                    if (vm.route && vm.route.bubbls) {
+                        vm.route.bubbls.forEach(function (bubbl) {
+                            bubbl.setMap(null);
+                        })
+                        vm.route.bubbls = [];
+                    }
+                }
+
+                clear();
+
+                var coordinates = [];
+                var bubbls = [];
+
+                vm.tour.bubbls.forEach(function (bubble) {
+                    var coord = new google.maps.LatLng(bubble.lat, bubble.lng);
+                    coordinates.push(coord);
+
+                    var bubbleMarker = new MarkerWithLabel({
+                        position: coord,
+                        title: bubble.name,
+                        labelContent: bubble.name,
+                        labelClass: "labels",
+                        labelStyle: {
+                            opacity: 0.75,
+                            color: "yellow",
+                            background: 'black',
+                            padding: '2px',
+                            margin: '2px'
+                        },
+                        zIndex: 999999,
+                        icon: {
+                            path: google.maps.SymbolPath.CIRCLE,
+                            scale: 3,
+                            strokeWeight: 3,
+                            strokeColor: "blue"
+                        },
+                        map: vm.mapControl,
+                        strokeColor: "#1637F5"
+                    });
+                    bubbls.push(bubbleMarker);
+                })
+
+                var way = new google.maps.Polyline({
+                    path: coordinates,
+                    geodesic: true,
+                    strokeColor: 'red',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 10,
+                    map: vm.mapControl,
+                    title: 'way'
+                });
+
+                vm.route = {
+                    way: way,
+                    bubbls: bubbls
+                }
+            }
         }
 
 

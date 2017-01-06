@@ -29,7 +29,7 @@
         <table class="jh-table table table-striped">
             <thead>
             <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name">Name</span> <span
+                <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name" style="max-width: 300px">Name</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
                     class="glyphicon glyphicon-sort"></span></th>
@@ -46,7 +46,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="tour in vm.tours | filter:searchTours">
-                <td>{{tour.name}}</td>
+                <td style="max-width: 300px">{{tour.name}}</td>
                 <td>{{tour.bubblsAmount}}</td>
                 <td data-translate="{{'tourologistApp.Status.' + tour.status}}">
                     {{tour.status}}
