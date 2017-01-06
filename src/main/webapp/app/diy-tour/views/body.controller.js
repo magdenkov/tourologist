@@ -37,6 +37,18 @@
             drawDIYTour();
         }
 
+        vm.onCircleRightClick = function(event) {
+            vm.currentClickPosition = event.latLng;
+            showContextMenu(event.latLng);
+        }
+
+        vm.initContextMenu = function () {
+            google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
+                vm.currentClickPosition = event.latLng;
+                showContextMenu(event.latLng);
+            });
+        }
+
         vm.onMenuSetStartPointClick = function () {
             if (vm.startMarker) {
                 vm.startMarker.setMap(null);
@@ -75,50 +87,43 @@
             vm.redrawRoutes();
         }
 
-        vm.initContextMenu = function () {
-            google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
-                vm.currentClickPosition = event.latLng;
-                showContextMenu(event.latLng);
-            });
+        function getCanvasXY(currentLatLng) {
+            var scale = Math.pow(2, vm.mapControl.getZoom());
+            var nw = new google.maps.LatLng(
+                vm.mapControl.getBounds().getNorthEast().lat(),
+                vm.mapControl.getBounds().getSouthWest().lng()
+            );
+            var worldCoordinateNW = vm.mapControl.getProjection().fromLatLngToPoint(nw);
+            var worldCoordinate = vm.mapControl.getProjection().fromLatLngToPoint(currentLatLng);
+            var currentLatLngOffset = new google.maps.Point(
+                Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
+                Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
+            );
+            return currentLatLngOffset;
+        }
 
-            function getCanvasXY(currentLatLng) {
-                var scale = Math.pow(2, vm.mapControl.getZoom());
-                var nw = new google.maps.LatLng(
-                    vm.mapControl.getBounds().getNorthEast().lat(),
-                    vm.mapControl.getBounds().getSouthWest().lng()
-                );
-                var worldCoordinateNW = vm.mapControl.getProjection().fromLatLngToPoint(nw);
-                var worldCoordinate = vm.mapControl.getProjection().fromLatLngToPoint(currentLatLng);
-                var currentLatLngOffset = new google.maps.Point(
-                    Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
-                    Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
-                );
-                return currentLatLngOffset;
-            }
+        function setMenuXY(currentLatLng) {
+            var mapWidth = $('#map-canvas').width();
+            var mapHeight = $('#map-canvas').height();
+            var menuWidth = $('.contextmenu').width();
+            var menuHeight = $('.contextmenu').height();
+            var clickedPosition = getCanvasXY(currentLatLng);
+            var x = clickedPosition.x;
+            var y = clickedPosition.y;
 
-            function setMenuXY(currentLatLng) {
-                var mapWidth = $('#map-canvas').width();
-                var mapHeight = $('#map-canvas').height();
-                var menuWidth = $('.contextmenu').width();
-                var menuHeight = $('.contextmenu').height();
-                var clickedPosition = getCanvasXY(currentLatLng);
-                var x = clickedPosition.x;
-                var y = clickedPosition.y;
+            if ((mapWidth - x ) < menuWidth)
+                x = x - menuWidth;
+            if ((mapHeight - y ) < menuHeight)
+                y = y - menuHeight;
 
-                if ((mapWidth - x ) < menuWidth)
-                    x = x - menuWidth;
-                if ((mapHeight - y ) < menuHeight)
-                    y = y - menuHeight;
+            $('.contextmenu').css('left', x);
+            $('.contextmenu').css('top', y);
+        };
 
-                $('.contextmenu').css('left', x);
-                $('.contextmenu').css('top', y);
-            };
+        function showContextMenu(currentLatLng) {
+            setMenuXY(currentLatLng);
 
-            function showContextMenu(currentLatLng) {
-                setMenuXY(currentLatLng);
-
-                $(".contextmenu").get(0).style.visibility = "visible";
-            }
+            $(".contextmenu").get(0).style.visibility = "visible";
         }
 
         var drawDIYTour = function () {

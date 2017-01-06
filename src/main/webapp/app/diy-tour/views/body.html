@@ -27,7 +27,8 @@
                         </a>
                     </div>
                     <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
-                                     radius="vm.showBubblesInRadius.value"></tour-google-map>
+                                     radius="vm.showBubblesInRadius.value"
+                                     on-circle-right-click="vm.onCircleRightClick"></tour-google-map>
                     <div style="padding-top: 10px; padding-bottom: 10px">
                         <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
                         <small> Show all Bubbles in center Circle with radius</small>
