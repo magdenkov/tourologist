@@ -67,10 +67,27 @@
         vm.save = function () {
             vm.isSaving = true;
 
+            var i = 0;
+
+            var _bubbls = _.map(vm.tour.bubbls, function(bubbl) {
+                return {
+                    orderNumber: i++,
+                    bubblId: +bubbl.id
+                }
+            });
+
+            var params = {
+                bubbls: _bubbls,
+                description: vm.tour.description,
+                id: vm.tour.id,
+                interests: vm.tour.interests,
+                name: vm.tour.name
+            }
+
             if (vm.tour.id !== null) {
-                Tour.updateFixedTour(vm.tour, onSaveSuccess, onSaveError);
+                Tour.updateFixedTour(params, onSaveSuccess, onSaveError);
             } else {
-                Tour.createFixedTour(vm.tour, onSaveSuccess, onSaveError);
+                Tour.createFixedTour(params, onSaveSuccess, onSaveError);
             }
         }
 

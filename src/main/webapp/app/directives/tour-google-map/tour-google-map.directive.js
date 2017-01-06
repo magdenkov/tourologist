@@ -282,9 +282,11 @@
                         drawTourRoute(tour);
                     }
 
-                    tour.tourRoutePoints.forEach(function (tourRoutePoint) {
-                        mapBounds.extend(new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng));
-                    })
+                    if (tour.tourRoutePoints != null) {
+                        tour.tourRoutePoints.forEach(function (tourRoutePoint) {
+                            mapBounds.extend(new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng));
+                        })
+                    }
                 })
 
                 scope.mapConfig.center = {latitude: mapBounds.getCenter().lat(), longitude: mapBounds.getCenter().lng()};

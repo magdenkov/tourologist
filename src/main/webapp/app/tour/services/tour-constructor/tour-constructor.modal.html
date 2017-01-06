@@ -31,24 +31,25 @@
                                          on-bubbl-marker-right-click="vm.onBubblMarkerRightClick"></tour-google-map>
                     </div>
                 </div>
-                <div style="padding-top: 10px; padding-bottom: 10px">
-                    <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
-                    <small> Show all Bubbles in center Circle with radius</small>
-                    <input type="text" ng-disabled="!vm.showBubblesInRadius.show"
-                           tour-valid-number ng-model="vm.showBubblesInRadius.value"/> meters
-                </div>
+
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-                data-translate="entity.action.cancel">Cancel</span>
-            </button>
-            <button type="button" ng-click="vm.save()"
-                    ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span>&nbsp;<span
-                data-translate="entity.action.save">Save</span>
-            </button>
+        <div style="padding-top: 10px; padding-bottom: 10px">
+            <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
+            <small> Show all Bubbles in center Circle with radius</small>
+            <input type="text" ng-disabled="!vm.showBubblesInRadius.show"
+                   tour-valid-number ng-model="vm.showBubblesInRadius.value"/> meters
         </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+            data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="button" ng-click="vm.save()"
+                ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span
+            data-translate="entity.action.save">Save</span>
+        </button>
     </div>
 </form>
