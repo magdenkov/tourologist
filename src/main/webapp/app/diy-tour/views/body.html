@@ -21,6 +21,7 @@
                     <div ng-include="vm.mapContextMenuUrl"></div>
                     <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
                                      radius="vm.showBubblesInRadius.value"
+                                     tours="vm.tours"
                                      on-circle-right-click="vm.onCircleRightClick"></tour-google-map>
                     <div style="padding-top: 10px; padding-bottom: 10px">
                         <input type="checkbox" ng-model="vm.showBubblesInRadius.show">

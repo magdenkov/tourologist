@@ -14,6 +14,7 @@
             scope: {
                 showBubbles: '=',
                 radius: '=',
+                tours: '=',
                 onCircleClick: '&',
                 onCircleRightClick: '&',
                 onBubblMarkerClick: '&',
@@ -21,11 +22,11 @@
             },
             link: function (scope, element, attrs) {
             },
-            controller: ['$scope', 'InitialMapConfig', 'uiGmapIsReady', 'Bubbl', controller]
+            controller: ['$timeout', '$scope', 'InitialMapConfig', 'uiGmapIsReady', 'Bubbl', controller]
         }
     }
 
-    function controller(scope, initialMapConfig, uiGmapIsReady, Bubbl) {
+    function controller($timeout, scope, initialMapConfig, uiGmapIsReady, Bubbl) {
         scope.mapConfig = initialMapConfig.call();
         scope.mapControl = null;
 
@@ -87,13 +88,13 @@
                     radius: +scope.showBubblesInRadius.radius
                 });
 
-                scope.showBubblesInRadius.circle._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'click', function(event) {
+                scope.showBubblesInRadius.circle._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle, 'click', function (event) {
                     if (scope.onCircleClick()) {
                         scope.onCircleClick()(event);
                     }
                 });
 
-                scope.showBubblesInRadius.circle._rightClickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'rightclick', function(event) {
+                scope.showBubblesInRadius.circle._rightClickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle, 'rightclick', function (event) {
                     if (scope.onCircleRightClick()) {
                         scope.onCircleRightClick()(event);
                     }
@@ -131,13 +132,13 @@
                             strokeColor: "#1637F5"
                         });
 
-                        bubbleMarker._clickListenerHandler = google.maps.event.addListener(bubbleMarker, 'click', function(event) {
+                        bubbleMarker._clickListenerHandler = google.maps.event.addListener(bubbleMarker, 'click', function (event) {
                             if (scope.onBubblMarkerClick()) {
                                 scope.onBubblMarkerClick()(bubbl, event);
                             }
                         });
 
-                        bubbleMarker._rightClickListenerHandler = google.maps.event.addListener(bubbleMarker, 'rightclick', function(event) {
+                        bubbleMarker._rightClickListenerHandler = google.maps.event.addListener(bubbleMarker, 'rightclick', function (event) {
                             if (scope.onBubblMarkerRightClick()) {
                                 scope.onBubblMarkerRightClick()(bubbl, event);
                             }
@@ -149,8 +150,146 @@
             }
         }
 
+        scope.route = null;
+
+        var drawTourRoute = function (tour) {
+            var mapControl = scope.mapControl;
+
+            var clearRoute = function () {
+                if (scope.route && scope.route.way) {
+                    scope.route.way.setMap(null);
+                    scope.route.way = null;
+                }
+                if (scope.route && scope.route.wayPoints) {
+                    scope.route.wayPoints.forEach(function (wayPoint) {
+                        wayPoint.setMap(null);
+                    })
+                    scope.route.wayPoint = [];
+                }
+                if (scope.route && scope.route.bubbls) {
+                    scope.route.bubbls.forEach(function (bubbl) {
+                        bubbl.setMap(null);
+                    })
+                    scope.route.bubbls = [];
+                }
+            }
+
+            clearRoute();
+
+            var coordinates = [];
+            var wayPoints = [];
+
+            _.orderBy(tour.tourRoutePoints, 'orderNumber').forEach(function (tourRoutePoint) {
+                coordinates.push({lat: tourRoutePoint.lat, lng: tourRoutePoint.lng});
+
+                var wayPoint = new MarkerWithLabel({
+                    position: new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng),
+                    labelContent: tourRoutePoint.orderNumber,
+                    labelClass: "labels",
+                    labelStyle: {
+                        opacity: 0.90,
+                        color: "black",
+                        background: 'transparent',
+                        padding: '2px',
+                        margin: '2px',
+                        'font-size': '8px'
+                    },
+                    zIndex: 999999,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 1
+                    },
+                    map: mapControl,
+                    strokeColor: "#1637F5"
+                });
+                wayPoints.push(wayPoint);
+            })
+
+            var way = new google.maps.Polyline({
+                path: coordinates,
+                geodesic: true,
+                strokeColor: 'red',
+                strokeOpacity: 0.5,
+                strokeWeight: 10,
+                map: mapControl,
+                title: 'way'
+            });
+
+            var bubbls = [];
+
+            tour.bubbls.forEach(function (bubble) {
+                var bubbleMarker = new MarkerWithLabel({
+                    position: new google.maps.LatLng(bubble.lat, bubble.lng),
+                    title: bubble.name,
+                    labelContent: bubble.name,
+                    labelClass: "labels",
+                    labelStyle: {
+                        opacity: 0.75,
+                        color: "yellow",
+                        background: 'black',
+                        padding: '2px',
+                        margin: '2px'
+                    },
+                    zIndex: 999999,
+                    icon: {
+                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                        scale: 3,
+                        strokeWeight: 3,
+                        strokeColor: "blue"
+                    },
+                    map: mapControl,
+                    strokeColor: "#1637F5"
+                });
+                bubbls.push(bubbleMarker);
+            })
+
+            scope.route = {
+                way: way,
+                wayPoints: wayPoints,
+                bubbls: bubbls
+            }
+        }
+
+        scope.$watch('tours', function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                if (scope.mapControl != null) {
+                    if (newValue != null && newValue.length > 0) {
+                        newValue.forEach(function (tour) {
+                            drawTourRoute(tour);
+                        })
+                    }
+                }
+            }
+        }, true);
+
         uiGmapIsReady.promise().then(function (maps) {
             scope.mapControl = maps[0].map;
+
+            if (scope.tours != null && scope.tours.length > 0) {
+                var mapBounds = new google.maps.LatLngBounds();
+
+                scope.tours.forEach(function (tour) {
+                    drawTourRoute(tour);
+
+                    tour.tourRoutePoints.forEach(function (tourRoutePoint) {
+                        mapBounds.extend(new google.maps.LatLng(tourRoutePoint.lat, tourRoutePoint.lng));
+                    })
+                })
+
+                scope.mapControl.fitBounds(mapBounds);
+
+                var zoomChangeBoundsListener =
+                    google.maps.event.addListenerOnce(scope.mapControl, 'bounds_changed', function (event) {
+                        debugger;
+                        if (scope.mapControl.getZoom() > 10) {
+                            scope.mapControl.setZoom(10);
+                        }
+                    });
+
+                $timeout(function () {
+                    google.maps.event.removeListener(zoomChangeBoundsListener)
+                }, 2000);
+            }
 
             google.maps.event.trigger(scope.mapControl, 'resize');
 

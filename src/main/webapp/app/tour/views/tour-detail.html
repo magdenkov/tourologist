@@ -45,17 +45,13 @@
 
     <div id="map-container">
         <div id="map-canvas">
-            <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options"
-                                bounds="map.bounds">
-                <ui-gmap-polyline ng-repeat="p in routes" path="p.path" stroke="p.stroke" visible='p.visible'
-                                  geodesic='p.geodesic' fit="false" editable="p.editable"
-                                  draggable="p.draggable"></ui-gmap-polyline>
-            </ui-gmap-google-map>
+            <tour-google-map show-bubbles="false" tours="[vm.tour]"></tour-google-map>
         </div>
     </div>
 </div>
-<a ng-click="back()"
-   class="btn btn-info">
-    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-</a>
+
+<div style="padding-top: 10px">
+    <button ui-sref="tour" class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
 </div>
