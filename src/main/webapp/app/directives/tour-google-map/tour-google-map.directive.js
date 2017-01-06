@@ -15,7 +15,9 @@
                 showBubbles: '=',
                 radius: '=',
                 onCircleClick: '&',
-                onBubblMarkerClick: '&'
+                onCircleRightClick: '&',
+                onBubblMarkerClick: '&',
+                onBubblMarkerRightClick: '&'
             },
             link: function (scope, element, attrs) {
             },
@@ -53,6 +55,9 @@
                 if (scope.showBubblesInRadius.circle._clickListenerHandler != null) {
                     google.maps.event.removeListener(scope.showBubblesInRadius.circle._clickListenerHandler);
                 }
+                if (scope.showBubblesInRadius.circle._rightClickListenerHandler != null) {
+                    google.maps.event.removeListener(scope.showBubblesInRadius.circle._rightClickListenerHandler);
+                }
                 scope.showBubblesInRadius.circle.setMap(null);
             }
 
@@ -61,6 +66,9 @@
             scope.showBubblesInRadius.bubblMarkers.forEach(function (bubblMarker) {
                 if (bubblMarker._clickListenerHandler != null) {
                     google.maps.event.removeListener(bubblMarker._clickListenerHandler);
+                }
+                if (bubblMarker._rightClickListenerHandler != null) {
+                    google.maps.event.removeListener(bubblMarker._rightClickListenerHandler);
                 }
                 bubblMarker.setMap(null);
             })
@@ -82,6 +90,12 @@
                 scope.showBubblesInRadius.circle ._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'click', function(event) {
                     if (scope.onCircleClick()) {
                         scope.onCircleClick()(event);
+                    }
+                });
+
+                scope.showBubblesInRadius.circle ._rightClickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'rightclick', function(event) {
+                    if (scope.onCircleRightClick()) {
+                        scope.onCircleRightClick()(event);
                     }
                 });
 
@@ -120,6 +134,12 @@
                         bubbleMarker._clickListenerHandler = google.maps.event.addListener(bubbleMarker, 'click', function(event) {
                             if (scope.onBubblMarkerClick()) {
                                 scope.onBubblMarkerClick()(bubbl, event);
+                            }
+                        });
+
+                        bubbleMarker._rightClickListenerHandler = google.maps.event.addListener(bubbleMarker, 'rightclick', function(event) {
+                            if (scope.onBubblMarkerRightClick()) {
+                                scope.onBubblMarkerRightClick()(bubbl, event);
                             }
                         });
 
