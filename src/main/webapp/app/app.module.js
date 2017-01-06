@@ -23,6 +23,7 @@
             '$q-spread',
             'checklist-model',
             'ui.select',
+            'ui.sortable',
 
             'tourologistApp.dataservices',
             'tourologistApp.directives',
