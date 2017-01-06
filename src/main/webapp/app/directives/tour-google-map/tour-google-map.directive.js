@@ -13,7 +13,9 @@
             templateUrl: 'app/directives/tour-google-map/tour-google-map.html',
             scope: {
                 showBubbles: '=',
-                radius: '='
+                radius: '=',
+                onCircleClick: '&',
+                onBubblMarkerClick: '&'
             },
             link: function (scope, element, attrs) {
             },
@@ -48,12 +50,18 @@
 
         var updateBubblesInRadius = function (center) {
             if (scope.showBubblesInRadius.circle) {
+                if (scope.showBubblesInRadius.circle._clickListenerHandler != null) {
+                    google.maps.event.removeListener(scope.showBubblesInRadius.circle._clickListenerHandler);
+                }
                 scope.showBubblesInRadius.circle.setMap(null);
             }
 
             scope.showBubblesInRadius.circle = null;
 
             scope.showBubblesInRadius.bubblMarkers.forEach(function (bubblMarker) {
+                if (bubblMarker._clickListenerHandler != null) {
+                    google.maps.event.removeListener(bubblMarker._clickListenerHandler);
+                }
                 bubblMarker.setMap(null);
             })
 
@@ -71,6 +79,12 @@
                     radius: +scope.showBubblesInRadius.radius
                 });
 
+                scope.showBubblesInRadius.circle ._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'click', function(event) {
+                    if (scope.onCircleClick()) {
+                        scope.onCircleClick()(event);
+                    }
+                });
+
                 var params = {
                     centerLat: center.lat(),
                     centerLng: center.lng(),
@@ -80,6 +94,7 @@
                 Bubbl.in_radius(params).$promise.then(function (bubbles) {
                     bubbles.forEach(function (bubbl) {
                         var bubbleMarker = new MarkerWithLabel({
+                            bubbl: bubbl,
                             position: new google.maps.LatLng(bubbl.lat, bubbl.lng),
                             title: bubbl.name,
                             labelContent: bubbl.name,
@@ -100,6 +115,12 @@
                             },
                             map: scope.mapControl,
                             strokeColor: "#1637F5"
+                        });
+
+                        bubbleMarker._clickListenerHandler = google.maps.event.addListener(bubbleMarker, 'click', function(event) {
+                            if (scope.onBubblMarkerClick()) {
+                                scope.onBubblMarkerClick()(bubbl, event);
+                            }
                         });
 
                         scope.showBubblesInRadius.bubblMarkers.push(bubbleMarker);
