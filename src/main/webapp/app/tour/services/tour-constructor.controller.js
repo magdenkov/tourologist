@@ -21,6 +21,14 @@
             vm.mapControl = maps[0].map;
         })
 
+        vm.sortableOptions = {
+            update: function(e, ui) {
+                alert(e);
+            },
+            stop: function(e, ui) {
+                alert(e);
+            }
+        };
 
         vm.close = function() {
             $uibModalInstance.dismiss('cancel');
@@ -31,7 +39,10 @@
         vm.interests = Interest.query();
 
         vm.add = add;
-        vm.removebubbl = removebubbl;
+
+        vm.removeBubbl = function (bubbl) {
+            vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
+        }
 
         vm.bubbls = [];
         vm.loadPage = loadPage;
@@ -129,12 +140,6 @@
                 bubblId: '',
                 orderNumber: ''
             });
-        }
-
-
-        function removebubbl(bubblIndex) {
-            console.log('removing ingredient with id ' + bubblIndex);
-            vm.tour.bubbls.splice(bubblIndex, 1);
         }
 
         function add() {

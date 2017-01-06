@@ -7,4 +7,24 @@
         max-height: 600px;
         overflow-y: auto;
     }
+
+    .bubblList {
+        list-style: none outside none;
+        margin: 10px 0 30px;
+        padding: 0px;
+    }
+
+    .bubblItem {
+        width: 100%;
+        padding: 5px 10px;
+        margin: 5px 0;
+        border: 2px solid #3c763d;
+        border-radius: 20px;
+        background-color: #cfea8a;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-align: left;
+        cursor: move;
+        color: black;
+    }
 }

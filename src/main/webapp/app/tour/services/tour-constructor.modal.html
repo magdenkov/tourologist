@@ -51,39 +51,27 @@
                                checklist-value="interest"/> {{interest.name}}</label>
                 </div>
 
-                <ul ng-model="vm.tour.bubbls">
-                    <li ng-repeat="bubbls in vm.tour.bubbls track by $index">
-                        <div class="row">
-                            <div class="col-sm-1">
-                                <h6>{{$index+1}}.</h6>
-                            </div>
-                            <div class="form-group col-sm-3">
-                                <label class="control-label">Bubbl Name</label>
+                <!-- bubbl list -->
+                <p class="help-block">Please use use map to add bubbles and use mouse to reorder bubbls</p>
+                <ul ui-sortable="vm.sortableOptions" ng-model="vm.tour.bubbls" class="bubblList">
+                    <li ng-repeat="bubbl in vm.tour.bubbls | orderBy: 'orderNumber' track by $index"
+                        class="bubblItem row">
 
-                                <select class="form-control" id="field_bubbl" name="bubbl"
-                                        infinite-scroll="vm.loadPage(vm.page + 1)"
-                                        infinite-scroll-disabled="vm.page >= vm.links.last"
-                                        ng-model="bubbls.bubblId"
-                                        ng-options="bubbl.id as bubbl.name for bubbl in vm.bubbls track by bubbl.id">
-                                    <option value="">{{bubbls.name}}</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-sm-3">
-                                <label class="control-label" for="ingredient_small">Order Number</label>
-                                <input type="number" class="form-control" name="smallPortionTitle" id="ingredient_small"
-                                       ng-model="bubbls.orderNumber"/>
-                            </div>
-                            <div class="form-group col-sm-1">
-                                <a href ng-show="vm.tour.bubbls.length > 1"
-                                   ng-click="vm.removebubbl($index)"
-                                   class="btn btn-danger btn-sm">
-                                    <span class="glyphicon glyphicon-remove-circle"></span>
-                                    <span class="hidden-xs hidden-sm"></span>
-                                </a>
-                            </div>
+                        <div class="col-xs-11">
+                            <label class="control-label"><b>{{ bubbl.orderNumber }}.</b> {{ bubbl.name}}</label>
+                        </div>
+                        <div class="col-xs-1">
+                            <buttom ng-show="vm.tour.bubbls.length > 1"
+                               ng-click="vm.removeBubbl(bubbl)"
+                               class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </buttom>
                         </div>
                     </li>
                 </ul>
+
+                <!-- bubbl list end -->
 
                 <div class="text-right m-r-80">
                     <a href="" ng-click="vm.add()" class="mdl-color-text--pink">
@@ -95,7 +83,8 @@
             <div class="col-sm-7">
                 <div id="map-container">
                     <div id="map-canvas">
-                        <tour-google-map show-bubbles="vm.showBubblesInRadius.show" radius="vm.showBubblesInRadius.value"></tour-google-map>
+                        <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
+                                         radius="vm.showBubblesInRadius.value"></tour-google-map>
                     </div>
                 </div>
                 <div style="padding-top: 10px; padding-bottom: 10px">
