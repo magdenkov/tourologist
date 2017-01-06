@@ -1,8 +1,8 @@
 <div class="contextmenu" style="visibility: hidden">
-    <a id='menuAddBubblToTourId' ng-click='vm.onAddBubblToTourClick()'>
+    <a id='menuAddBubblToTourId' ng-click='vm.onAddBubblToTourClick()' ng-show='vm.showAddBubblToTourMenuItem()'>
         <div class=context>Add Bubbl to tour</div>
     </a>
-    <a id='menuRemoveBubblFromTourId' ng-click='vm.onRemoveBubblFromTourClick()'>
+    <a id='menuRemoveBubblFromTourId' ng-click='vm.onRemoveBubblFromTourClick()' ng-show='vm.showRemoveBubblFromTourMenuItem()'>
         <div class=context>Remove Bubbl from Tour</div>
     </a>
 </div>

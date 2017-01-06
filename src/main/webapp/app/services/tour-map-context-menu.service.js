@@ -10,13 +10,23 @@
     function TourMapContextMenuService() {
         var service = this;
 
+        var _currentEvent = null;
+
+        service.currentClickPosition = function() {
+            return _currentEvent.latLng;
+        }
+
+        service.currentEvent = function() {
+            return _currentEvent;
+        }
+
         service.init = function (mapControl) {
             service.mapControl = mapControl;
         }
 
-        service.show = function (currentLatLng) {
-            setMenuXY(currentLatLng);
-
+        service.show = function (event) {
+            setMenuXY(event.latLng);
+            _currentEvent = event;
             $(".contextmenu").get(0).style.visibility = "visible";
         }
 

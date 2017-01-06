@@ -19,7 +19,6 @@
 
         vm.mapContextMenuUrl = 'app/diy-tour/views/map-context-menu.html';
 
-        vm.currentClickPosition = null;
         vm.startMarker = null;
         vm.endMarker = null;
         vm.routes = [];
@@ -37,14 +36,12 @@
 
         vm.initContextMenu = function () {
             google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
-                vm.currentClickPosition = event.latLng;
-                mapContextMenu.show(event.latLng);
+                mapContextMenu.show(event);
             });
         }
 
         vm.onCircleRightClick = function(event) {
-            vm.currentClickPosition = event.latLng;
-            mapContextMenu.show(event.latLng);
+            mapContextMenu.show(event);
         }
 
         vm.onMenuSetStartPointClick = function () {
@@ -52,7 +49,7 @@
                 vm.startMarker.setMap(null);
             }
             vm.startMarker = new google.maps.Marker({
-                position: vm.currentClickPosition,
+                position: mapContextMenu.currentClickPosition(),
                 title: 'start',
                 animation: google.maps.Animation.DROP,
                 map: vm.mapControl,
@@ -71,7 +68,7 @@
                 vm.endMarker.setMap(null);
             }
             vm.endMarker = new google.maps.Marker({
-                position: vm.currentClickPosition,
+                position: mapContextMenu.currentClickPosition(),
                 title: 'end',
                 animation: google.maps.Animation.DROP,
                 map: vm.mapControl,
