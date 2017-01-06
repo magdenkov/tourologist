@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.services')
         .factory('Auth', Auth);
 
     Auth.$inject = ['$rootScope', '$state', '$sessionStorage', '$q', '$translate', 'Principal', 'AuthServerProvider', 'Account', 'Register', 'Activate', 'Password', 'PasswordResetInit', 'PasswordResetFinish'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.services')
         .factory('ProfileService', ProfileService);
 
     ProfileService.$inject = ['$http'];

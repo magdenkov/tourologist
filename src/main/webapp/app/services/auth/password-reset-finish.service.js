@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.services')
         .factory('PasswordResetFinish', PasswordResetFinish);
 
     PasswordResetFinish.$inject = ['$resource'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('tourologistApp')
+        .module('tourologistApp.services')
         .directive('hasAnyAuthority', hasAnyAuthority);
 
     hasAnyAuthority.$inject = ['Principal'];

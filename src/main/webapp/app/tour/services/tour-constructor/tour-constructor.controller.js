@@ -71,7 +71,11 @@
         }
 
         vm.bubbls = [];
-        vm.loadPage = loadPage;
+
+        vm.loadPage = function (page) {
+            vm.page = page;
+        }
+
         vm.page = 0;
         vm.links = {
             last: 0
@@ -80,6 +84,7 @@
         vm.reset = reset;
         vm.account = null;
         vm.isAuthenticated = null;
+
         $scope.$on('authenticationSuccess', function () {
             getAccount();
         });
@@ -121,13 +126,11 @@
             }
         }
 
-
         function loadAll() {
             Bubbl.query({
                 page: vm.page,
                 size: vm.size,
             }, onSuccess, onError);
-
 
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
@@ -148,24 +151,12 @@
             changeUrl();
         }
 
-        function loadPage(page) {
-            vm.page = page;
-
-        }
-
         $scope.user = {
             interest: [vm.interests[0]]
         };
 
-        if (vm.tour.bubbls === undefined) {
+        if (vm.tour.bubbls == null) {
             vm.tour.bubbls = [];
-        }
-
-        if (vm.tour.bubbls.length === 0) {
-            vm.tour.bubbls.push({
-                bubblId: '',
-                orderNumber: ''
-            });
         }
 
         function add() {
@@ -196,6 +187,10 @@
 
         function onSaveError() {
             vm.isSaving = false;
+        }
+
+        vm.onBubblMarkerRightClick = function (bubbl) {
+
         }
     }
 })();

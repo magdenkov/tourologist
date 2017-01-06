@@ -5,9 +5,9 @@
         .module('tourologistApp.diy-tour')
         .controller('DiyTourController', DiyTourController);
 
-    DiyTourController.$inject = ['uiGmapIsReady', 'DIYTour'];
+    DiyTourController.$inject = ['uiGmapIsReady', 'DIYTour', 'TourMapContextMenuService',];
 
-    function DiyTourController(uiGmapIsReady, DIYTour) {
+    function DiyTourController(uiGmapIsReady, DIYTour, mapContextMenu) {
         var vm = this;
 
         vm.mapControl = null;
@@ -29,24 +29,21 @@
             vm.initContextMenu();
         })
 
-        var closeContextMenu = function () {
-            $(".contextmenu").get(0).style.visibility = "hidden";
-        }
-
         vm.redrawRoutes = function () {
             drawDIYTour();
         }
 
-        vm.onCircleRightClick = function(event) {
-            vm.currentClickPosition = event.latLng;
-            showContextMenu(event.latLng);
-        }
-
         vm.initContextMenu = function () {
+            mapContextMenu.init(vm.mapControl);
             google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
                 vm.currentClickPosition = event.latLng;
-                showContextMenu(event.latLng);
+                mapContextMenu.show(event.latLng);
             });
+        }
+
+        vm.onCircleRightClick = function(event) {
+            vm.currentClickPosition = event.latLng;
+            mapContextMenu.show(event.latLng);
         }
 
         vm.onMenuSetStartPointClick = function () {
@@ -64,7 +61,7 @@
                     strokeColor: "darkgray"
                 }
             });
-            closeContextMenu();
+            mapContextMenu.close();
             vm.redrawRoutes();
         }
 
@@ -83,47 +80,8 @@
                     strokeColor: "gray"
                 }
             });
-            closeContextMenu();
+            mapContextMenu.close();
             vm.redrawRoutes();
-        }
-
-        function getCanvasXY(currentLatLng) {
-            var scale = Math.pow(2, vm.mapControl.getZoom());
-            var nw = new google.maps.LatLng(
-                vm.mapControl.getBounds().getNorthEast().lat(),
-                vm.mapControl.getBounds().getSouthWest().lng()
-            );
-            var worldCoordinateNW = vm.mapControl.getProjection().fromLatLngToPoint(nw);
-            var worldCoordinate = vm.mapControl.getProjection().fromLatLngToPoint(currentLatLng);
-            var currentLatLngOffset = new google.maps.Point(
-                Math.floor((worldCoordinate.x - worldCoordinateNW.x) * scale),
-                Math.floor((worldCoordinate.y - worldCoordinateNW.y) * scale)
-            );
-            return currentLatLngOffset;
-        }
-
-        function setMenuXY(currentLatLng) {
-            var mapWidth = $('#map-canvas').width();
-            var mapHeight = $('#map-canvas').height();
-            var menuWidth = $('.contextmenu').width();
-            var menuHeight = $('.contextmenu').height();
-            var clickedPosition = getCanvasXY(currentLatLng);
-            var x = clickedPosition.x;
-            var y = clickedPosition.y;
-
-            if ((mapWidth - x ) < menuWidth)
-                x = x - menuWidth;
-            if ((mapHeight - y ) < menuHeight)
-                y = y - menuHeight;
-
-            $('.contextmenu').css('left', x);
-            $('.contextmenu').css('top', y);
-        };
-
-        function showContextMenu(currentLatLng) {
-            setMenuXY(currentLatLng);
-
-            $(".contextmenu").get(0).style.visibility = "visible";
         }
 
         var drawDIYTour = function () {
