@@ -1,5 +1,5 @@
 <div>
-    <p class="help-block">Please use use map to add bubbles and use mouse to reorder bubbls</p>
+    <p class="help-block">Please use map to add bubbles and use mouse to reorder bubbls</p>
     <ul ui-sortable="vm.sortableOptions" ng-model="vm.tour.bubbls" class="bubblList">
         <li ng-repeat="bubbl in vm.tour.bubbls | orderBy: 'orderNumber' track by $index"
             class="bubblItem row">
