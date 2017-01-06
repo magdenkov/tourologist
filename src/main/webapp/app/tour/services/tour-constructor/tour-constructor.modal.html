@@ -23,9 +23,10 @@
             <div class="col-sm-7">
                 <div id="map-container">
                     <div id="map-canvas">
+                        <div ng-include="vm.mapContextMenuUrl"></div>
                         <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
                                          radius="vm.showBubblesInRadius.value"
-                                         on-bubbl-marker-rigth-click="vm.onBubblMarkerRightClick"></tour-google-map>
+                                         on-bubbl-marker-right-click="vm.onBubblMarkerRightClick"></tour-google-map>
                     </div>
                 </div>
                 <div style="padding-top: 10px; padding-bottom: 10px">

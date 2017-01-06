@@ -87,13 +87,13 @@
                     radius: +scope.showBubblesInRadius.radius
                 });
 
-                scope.showBubblesInRadius.circle ._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'click', function(event) {
+                scope.showBubblesInRadius.circle._clickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'click', function(event) {
                     if (scope.onCircleClick()) {
                         scope.onCircleClick()(event);
                     }
                 });
 
-                scope.showBubblesInRadius.circle ._rightClickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'rightclick', function(event) {
+                scope.showBubblesInRadius.circle._rightClickListenerHandler = google.maps.event.addListener(scope.showBubblesInRadius.circle , 'rightclick', function(event) {
                     if (scope.onCircleRightClick()) {
                         scope.onCircleRightClick()(event);
                     }

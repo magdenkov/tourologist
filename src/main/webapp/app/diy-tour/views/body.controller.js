@@ -5,7 +5,7 @@
         .module('tourologistApp.diy-tour')
         .controller('DiyTourController', DiyTourController);
 
-    DiyTourController.$inject = ['uiGmapIsReady', 'DIYTour', 'TourMapContextMenuService',];
+    DiyTourController.$inject = ['uiGmapIsReady', 'DIYTour', 'TourMapContextMenuService'];
 
     function DiyTourController(uiGmapIsReady, DIYTour, mapContextMenu) {
         var vm = this;
@@ -17,6 +17,8 @@
             value: 10000
         };
 
+        vm.mapContextMenuUrl = 'app/diy-tour/views/map-context-menu.html';
+
         vm.currentClickPosition = null;
         vm.startMarker = null;
         vm.endMarker = null;
@@ -25,7 +27,7 @@
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
-
+            mapContextMenu.init(vm.mapControl);
             vm.initContextMenu();
         })
 
@@ -34,7 +36,6 @@
         }
 
         vm.initContextMenu = function () {
-            mapContextMenu.init(vm.mapControl);
             google.maps.event.addListener(vm.mapControl, "rightclick", function (event) {
                 vm.currentClickPosition = event.latLng;
                 mapContextMenu.show(event.latLng);
@@ -163,7 +164,7 @@
                             var bubbleMarker = new MarkerWithLabel({
                                 position: new google.maps.LatLng(bubble.lat, bubble.lng),
                                 title: bubble.name,
-                                labelContent: "Bubble: " + bubble.name,
+                                labelContent: bubble.name,
                                 labelClass: "labels",
                                 labelStyle: {
                                     opacity: 0.75,

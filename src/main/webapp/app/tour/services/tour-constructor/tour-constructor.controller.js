@@ -5,12 +5,13 @@
         .module('tourologistApp.tour')
         .controller('TourConstructorController', TourConstructorController);
 
-    TourConstructorController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks', 'Principal', 'uiGmapIsReady'];
+    TourConstructorController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks', 'Principal', 'uiGmapIsReady', 'TourMapContextMenuService'];
 
-    function TourConstructorController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks, Principal, uiGmapIsReady) {
+    function TourConstructorController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks, Principal, uiGmapIsReady, mapContextMenu) {
         var vm = this;
 
         vm.mapControl = null;
+        vm.currentClickPosition = null;
         vm.showBubblesInRadius = {
             show: true,
             value: 10000
@@ -19,6 +20,7 @@
 
         uiGmapIsReady.promise().then(function (maps) {
             vm.mapControl = maps[0].map;
+            mapContextMenu.init(vm.mapControl);
         })
 
         vm.sortableOptions = {
@@ -33,6 +35,8 @@
         vm.close = function () {
             $uibModalInstance.dismiss('cancel');
         };
+
+        vm.mapContextMenuUrl = 'app/tour/services/tour-constructor/map-context-menu.html';
 
         // tabs
 
@@ -58,7 +62,7 @@
             return tab == vm.currentTab;
         }
 
-        // tabs
+        // tabs end
 
         vm.save = save;
         vm.users = User.query();
@@ -189,8 +193,10 @@
             vm.isSaving = false;
         }
 
-        vm.onBubblMarkerRightClick = function (bubbl) {
-
+        vm.onBubblMarkerRightClick = function (bubbl, event) {
+            event.bubbl = bubbl;
+            vm.currentClickPosition = event.latLng;
+            mapContextMenu.show(event.latLng);
         }
     }
 })();
