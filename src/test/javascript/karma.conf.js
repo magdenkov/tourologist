@@ -33,6 +33,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/google-maps-utility-library-v3-keydragzoom/dist/keydragzoom.js',
             'src/main/webapp/bower_components/js-rich-marker/src/richmarker.js',
             'src/main/webapp/bower_components/select2/dist/js/select2.js',
+            'src/main/webapp/bower_components/jquery-ui/jquery-ui.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
             'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
@@ -57,6 +58,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-q-spread/dist/q-spread.min.js',
             'src/main/webapp/bower_components/checklist-model/checklist-model.js',
             'src/main/webapp/bower_components/angular-ui-select/dist/select.js',
+            'src/main/webapp/bower_components/angular-ui-sortable/sortable.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             'src/main/webapp/bower_components/angular-google-maps/dist/angular-google-maps.js',
             // endbower
