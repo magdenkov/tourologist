@@ -265,6 +265,10 @@
         uiGmapIsReady.promise().then(function (maps) {
             scope.mapControl = maps[0].map;
 
+            scope.mapControl.addListener('center_changed', function () {
+                updateBubblesInRadius(this.getCenter());
+            });
+
             if (scope.tours != null && scope.tours.length > 0) {
                 var mapBounds = new google.maps.LatLngBounds();
 
@@ -276,26 +280,11 @@
                     })
                 })
 
-                scope.mapControl.fitBounds(mapBounds);
-
-                var zoomChangeBoundsListener =
-                    google.maps.event.addListenerOnce(scope.mapControl, 'bounds_changed', function (event) {
-                        debugger;
-                        if (scope.mapControl.getZoom() > 10) {
-                            scope.mapControl.setZoom(10);
-                        }
-                    });
-
-                $timeout(function () {
-                    google.maps.event.removeListener(zoomChangeBoundsListener)
-                }, 2000);
+                scope.mapConfig.center = mapBounds.getCenter();
+                scope.mapConfig.zoom = 15;
             }
 
             google.maps.event.trigger(scope.mapControl, 'resize');
-
-            scope.mapControl.addListener('center_changed', function () {
-                updateBubblesInRadius(this.getCenter());
-            });
 
             scope.$watch('showBubbles', function (newValue, oldValue) {
                 if (newValue != oldValue) {
