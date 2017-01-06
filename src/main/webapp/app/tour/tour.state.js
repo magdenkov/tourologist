@@ -119,7 +119,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/tour/services/tour-constructor.modal.html',
+                        templateUrl: 'app/tour/services/tour-constructor/tour-constructor.modal.html',
                         controller: 'TourConstructorController',
                         controllerAs: 'vm',
                         backdrop: 'static',

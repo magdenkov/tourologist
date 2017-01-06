@@ -22,3 +22,24 @@
   text-align: left;
   cursor: move;
   color: black; }
+
+.tour-constructor #tabs ul.tab {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  .tour-constructor #tabs ul.tab li {
+    float: left;
+    border: 1px solid #eeeeee;
+    border-bottom-width: 0;
+    margin: 3px 3px 0px 0px;
+    padding: 10px;
+    background-color: white;
+    color: #696969; }
+  .tour-constructor #tabs ul.tab .active {
+    background-color: #dff0d8;
+    color: #000; }
+
+.tour-constructor #tabs #mainTabView {
+  border: 1px solid #eeeeee;
+  clear: both;
+  padding: 5px; }
