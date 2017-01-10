@@ -1,7 +1,7 @@
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate show-validation>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                ng-click="vm.close()">&times;</button>
+                ng-click="vm.cancel()">&times;</button>
         <h4 class="modal-title" id="myTourLabel">{{ vm.tour.id ? 'Edit Tour: ' + vm.tour.name : 'Create Tour'}} </h4>
     </div>
     <div class="modal-body">
@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+        <button type="button" class="btn btn-default" ng-click="vm.cancel()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
             data-translate="entity.action.cancel">Cancel</span>
         </button>

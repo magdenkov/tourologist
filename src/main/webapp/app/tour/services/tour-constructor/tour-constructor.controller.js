@@ -32,7 +32,7 @@
             }
         };
 
-        vm.close = function () {
+        vm.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
 
