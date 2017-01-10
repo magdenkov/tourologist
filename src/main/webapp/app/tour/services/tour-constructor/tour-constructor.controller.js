@@ -5,9 +5,11 @@
         .module('tourologistApp.tour')
         .controller('TourConstructorController', TourConstructorController);
 
-    TourConstructorController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks', 'Principal', 'uiGmapIsReady', 'TourMapContextMenuService'];
+    TourConstructorController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks',
+        'Principal', 'uiGmapIsReady', 'TourMapContextMenuService', 'ConfirmDeleteBubblTourConstructorService'];
 
-    function TourConstructorController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks, Principal, uiGmapIsReady, mapContextMenu) {
+    function TourConstructorController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks,
+                                       Principal, uiGmapIsReady, mapContextMenu, confirmDeleteBubbl) {
         var vm = this;
 
         vm.mapControl = null;
@@ -69,7 +71,7 @@
 
             var i = 0;
 
-            var _bubbls = _.map(vm.tour.bubbls, function(bubbl) {
+            var _bubbls = _.map(vm.tour.bubbls, function (bubbl) {
                 return {
                     orderNumber: i++,
                     bubblId: +bubbl.id
@@ -105,7 +107,12 @@
         vm.interests = Interest.query();
 
         vm.removeBubbl = function (bubbl) {
-            vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
+            confirmDeleteBubbl.call(bubbl).then(function (result) {
+                if (result === true) {
+                    vm.tour.bubbls.splice(_.findIndex(vm.tour.bubbls, bubbl), 1);
+                }
+            })
+
         }
 
         vm.bubbls = [];
