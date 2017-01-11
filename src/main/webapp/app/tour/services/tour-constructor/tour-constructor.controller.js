@@ -6,10 +6,10 @@
         .controller('TourConstructorController', TourConstructorController);
 
     TourConstructorController.$inject = ['$timeout', '$scope', 'Bubbl', '$uibModalInstance', 'entity', 'Tour', 'User', 'Interest', 'ParseLinks',
-        'Principal', 'uiGmapIsReady', 'TourMapContextMenuService', 'ConfirmDeleteBubblTourConstructorService'];
+        'Principal', 'uiGmapIsReady', 'TourMapContextMenuService', 'ConfirmDeleteBubblTourConstructorService', 'AddBubblManuallyService'];
 
     function TourConstructorController($timeout, $scope, Bubbl, $uibModalInstance, entity, Tour, User, Interest, ParseLinks,
-                                       Principal, uiGmapIsReady, mapContextMenu, confirmDeleteBubbl) {
+                                       Principal, uiGmapIsReady, mapContextMenu, confirmDeleteBubbl, addBubblManually) {
         var vm = this;
 
         vm.mapControl = null;
@@ -213,9 +213,7 @@
             mapContextMenu.show(event);
         }
 
-        vm.onAddBubblToTourClick = function () {
-            mapContextMenu.close();
-            var bubbl = mapContextMenu.currentEvent().bubbl;
+        var addBubbl = function(bubbl) {
             if (_.find(vm.tour.bubbls, {id: bubbl.id}) == null) {
                 $timeout(function () {
                     vm.tour.bubbls.push(bubbl);
@@ -223,7 +221,20 @@
             } else {
                 alert("This Bubble is already added")
             }
+        }
 
+        vm.onAddBubblToTourClick = function () {
+            mapContextMenu.close();
+            var bubbl = mapContextMenu.currentEvent().bubbl;
+            addBubbl(bubbl);
+        }
+
+        vm.onAddBubblManuallyButtonClick = function () {
+            addBubblManually.call().then(function (bubbl) {
+                if (bubbl != null) {
+                    addBubbl(bubbl);
+                }
+            });
         }
 
         vm.onRemoveBubblFromTourClick = function () {

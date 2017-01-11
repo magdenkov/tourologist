@@ -59,6 +59,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/checklist-model/checklist-model.js',
             'src/main/webapp/bower_components/angular-ui-select/dist/select.js',
             'src/main/webapp/bower_components/angular-ui-sortable/sortable.js',
+            'src/main/webapp/bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             'src/main/webapp/bower_components/angular-google-maps/dist/angular-google-maps.js',
             // endbower

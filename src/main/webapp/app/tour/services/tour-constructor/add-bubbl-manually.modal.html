@@ -1,0 +1,15 @@
+<tour-modal title="Add Bubbl" ok-text="Add" cancel-text="Cancel">
+    <p>Please select Bubbl to add to Tour</p>
+
+    <ol id="array-collection" class="nya-bs-select select-bubbl" ng-model="vm.subject.bubbl"
+        title="Choose Bubbl" data-live-search="true" size="20"
+        tour-errors="vm.subject.errors.bubbl">
+        <li nya-bs-option="item in vm.items track by item.id" id="{{ item.id }}"
+            title="{{ item.name }}" data-value="item">
+            <a>
+                {{ item.name }}
+                <span class="glyphicon glyphicon-ok check-mark"></span>
+            </a>
+        </li>
+    </ol>
+</tour-modal>

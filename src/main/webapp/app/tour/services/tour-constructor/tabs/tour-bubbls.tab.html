@@ -1,5 +1,9 @@
 <div>
     <p class="help-block">Please use map to add bubbles and use mouse to reorder bubbls</p>
+    <button type="button" class="btn btn-default" ng-click="vm.onAddBubblManuallyButtonClick()">
+        <span class="glyphicon glyphicon-add"></span>Add Bubbl
+    </button>
+
     <ul ui-sortable="vm.sortableOptions" ng-model="vm.tour.bubbls" class="bubblList">
         <li ng-repeat="bubbl in vm.tour.bubbls | orderBy: 'orderNumber' track by $index"
             class="bubblItem row">

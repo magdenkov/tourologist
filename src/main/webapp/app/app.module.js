@@ -24,6 +24,7 @@
             'checklist-model',
             'ui.select',
             'ui.sortable',
+            'nya.bootstrap.select',
 
             'tourologistApp.dataservices',
             'tourologistApp.directives',
