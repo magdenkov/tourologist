@@ -52,6 +52,7 @@ public class TourServiceImpl implements TourService{
      */
     public static final int MAX_BUBBLS_ALLOWED_BY_GOOGLE = 20;
     public static final double ELEVATION = 0.0;
+    public static final int DEFAULT_TOLERANCE_DISTANCE = 500;
 
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
 
@@ -374,13 +375,16 @@ public class TourServiceImpl implements TourService{
 
         bubblService.setCurrentLatAndLngInDb(curLat, curLng);
 
+        Double toleranceDistance = maxDelta == null ? DEFAULT_TOLERANCE_DISTANCE : maxDelta;
+
+
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
             @Override
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
                 predicates.add(
                     cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("lat"), root.get("lng"),
-                        cb.literal(midPoint.getLatitude()), cb.literal(midPoint.getLongitude()), cb.literal(radius))));
+                        cb.literal(midPoint.getLatitude()), cb.literal(midPoint.getLongitude()), cb.literal(radius + toleranceDistance))));
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
