@@ -224,7 +224,7 @@
                 var bubbleMarker = new MarkerWithLabel({
                     position: new google.maps.LatLng(bubble.lat, bubble.lng),
                     title: bubble.name,
-                    labelContent: bubble.name,
+                    labelContent: '(' + bubble.orderNumber + ') ' + bubble.name,
                     labelClass: "labels",
                     labelStyle: {
                         opacity: 0.75,
