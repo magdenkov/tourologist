@@ -9,18 +9,18 @@
 </div>
 <div class="modal-footer" ng-if="okText || cancelText || vm.footerContentHTML">
     <div ng-if="vm.footerContentHTML" tour-bind-html-compile="vm.footerContentHTML"></div>
-    <button class="btn {{ btnOkType }} btn-lg modal-ok-button" type="button" ng-click="vm.ok()"
+    <button class="btn {{ btnOkType }} modal-ok-button" type="button" ng-click="vm.ok()"
             ng-disabled="vm.processing"
             ng-if="okText">{{ vm.processing ? processingText || okText : okText }}
     </button>
     <button ng-repeat="btn in vm.additionalButtons"
             ng-if="vm.additionalButtons && vm.additionalButtons.length > 0"
-            class="btn {{btn.type || 'btn-default'}} btn-lg {{ btn.className}}"
+            class="btn {{btn.type || 'btn-default'}} {{ btn.className}}"
             type="button"
             ng-click="vm.closeAfterSomeOperation(btn.operationPromise, btn.closeAfterOperationComplete, btn.shouldValidateBeforeOperation)"
             ng-disabled="btn.disabled">{{btn.title}}
     </button>
-    <button class="btn btn-default btn-lg modal-cancel-button" type="button" ng-click="vm.cancel()"
+    <button class="btn btn-default modal-cancel-button" type="button" ng-click="vm.cancel()"
             ng-if="cancelText">{{ cancelText }}
     </button>
 </div>
