@@ -1,33 +1,43 @@
-<div>
-    <h2 data-translate="tourologistApp.tourRating.home.title">Tour Ratings</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="tour-rating.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="tourologistApp.tourRating.home.createLabel">
-                        Create new Tour Rating
-                    </span>
-                </button>
-            </div>
+<div class="container-fluid">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+        <div class="col-md-12">
+            <h1 data-translate="tourologistApp.tourRating.home.title" class="m-n font-thin h3">Tour Ratings</h1>
+            <jhi-alert></jhi-alert>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
+
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" ui-sref="tour-rating.new">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="tourologistApp.tourRating.home.createLabel">
+                        Create new Tour Rating
+                    </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="rate"><span data-translate="tourologistApp.tourRating.rate">Rate</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="feedback"><span data-translate="tourologistApp.tourRating.feedback">Feedback</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="time"><span data-translate="tourologistApp.tourRating.time">Time</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="userEmail"><span data-translate="tourologistApp.tourRating.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="tourName"><span data-translate="tourologistApp.tourRating.tour">Tour</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="rate"><span data-translate="tourologistApp.tourRating.rate">Rate</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="feedback"><span data-translate="tourologistApp.tourRating.feedback">Feedback</span>
+                        <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="time"><span data-translate="tourologistApp.tourRating.time">Time</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="userEmail"><span data-translate="tourologistApp.tourRating.user">User</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="tourName"><span data-translate="tourologistApp.tourRating.tour">Tour</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr ng-repeat="tourRating in vm.tourRatings track by tourRating.id">
                     <td><a ui-sref="tour-rating-detail({id:tourRating.id})">{{tourRating.id}}</a></td>
                     <td>{{tourRating.rate}}</td>
@@ -62,11 +72,13 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

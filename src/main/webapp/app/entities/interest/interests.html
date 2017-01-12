@@ -1,30 +1,37 @@
-<div>
-    <h2 data-translate="tourologistApp.interest.home.title">Interests</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="interest.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="tourologistApp.interest.home.createLabel">
-                        Create new Interest
-                    </span>
-                </button>
-            </div>
+<div class="container-fluid">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+        <div class="col-md-12">
+            <h1 data-translate="tourologistApp.interest.home.title" class="m-n font-thin h3">Interests</h1>
+            <jhi-alert></jhi-alert>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
+
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" ui-sref="interest.new">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="tourologistApp.interest.home.createLabel">
+                        Create new Interest
+                    </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span data-translate="tourologistApp.interest.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="icon"><span data-translate="tourologistApp.interest.icon">Icon</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="tourologistApp.interest.name">Name</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="icon"><span data-translate="tourologistApp.interest.icon">Icon</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr ng-repeat="interest in vm.interests track by interest.id">
                     <td><a ui-sref="interest-detail({id:interest.id})">{{interest.id}}</a></td>
                     <td>{{interest.name}}</td>
@@ -52,11 +59,13 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

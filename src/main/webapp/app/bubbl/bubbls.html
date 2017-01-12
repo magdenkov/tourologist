@@ -1,152 +1,105 @@
-<div class="container-fluid ">
-    <div class="row">
+<div class="container-fluid fade-in-up">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
         <div class="col-md-12">
-            <h2 data-translate="tourologistApp.bubbl.home.title" class="text-center">Bubbls</h2>
+            <h1 data-translate="tourologistApp.bubbl.home.title" class="m-n font-thin h3">Bubbls</h1>
             <jhi-alert></jhi-alert>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-4 no-padding-left">
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
             <button class="btn btn-primary" ui-sref="bubbl.new">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span data-translate="tourologistApp.bubbl.home.createLabel">
                         Create new Bubbl
                     </span>
             </button>
-
         </div>
-        <form>
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        <div class="col-xs-8">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
 
-                    <input type="text" class="form-control" placeholder="Search Payloads" ng-model="searchBubbls[queryBy]">
-
-                </div>
+                <input type="text" class="form-control" placeholder="Search Payloads"
+                       ng-model="searchBubbls[queryBy]">
             </div>
-        </form>
-        <div class="col-xs-4">
-            <!--  <button class="btn btn-primary" ng-click="swapbubbls()">
-                  <i class="glyphicon glyphicon-map-marker">
-                      {{!multiple ? "Show Venue List" : 'Show Map'}}
-              </button> -->
         </div>
     </div>
 
-    <br>
     <div class="row">
-
         <div class="col-md-12">
             <div ng-hide="multiple">
-                <div class="table-responsive">
-                    <table class="jh-table table table-striped">
-                        <thead>
-                        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                <div class="panel panel-default">
+                    <div class="table-responsive">
+                        <table class="table table-striped b-t b-light">
+                            <thead>
+                            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
 
-                            <th jh-sort-by="name"><span data-translate="tourologistApp.bubbl.name">Name</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="description"><span
-                                data-translate="tourologistApp.bubbl.description">Description</span>
-                                <span class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="status"><span data-translate="tourologistApp.bubbl.status">Status</span>
-                                <span
+                                <th jh-sort-by="name"><span data-translate="tourologistApp.bubbl.name">Name</span> <span
                                     class="glyphicon glyphicon-sort"></span></th>
+                                <th jh-sort-by="description"><span
+                                    data-translate="tourologistApp.bubbl.description">Description</span>
+                                    <span class="glyphicon glyphicon-sort"></span></th>
+                                <th jh-sort-by="status"><span data-translate="tourologistApp.bubbl.status">Status</span>
+                                    <span
+                                        class="glyphicon glyphicon-sort"></span></th>
 
-                            <th has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span
-                                data-translate="tourologistApp.bubbl.user">User</span>
-                                <span
-                                    class="glyphicon glyphicon-sort"></span></th>
-                            <th>Interests</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="bubbl in vm.bubbls |filter:searchBubbls track by bubbl.id">
-                            <td>
+                                <th has-authority="ROLE_ADMIN" jh-sort-by="userEmail"><span
+                                    data-translate="tourologistApp.bubbl.user">User</span>
+                                    <span
+                                        class="glyphicon glyphicon-sort"></span></th>
+                                <th>Interests</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="bubbl in vm.bubbls |filter:searchBubbls track by bubbl.id">
+                                <td>
 
-                                <p>{{bubbl.name}}</p>
+                                    <p>{{bubbl.name}}</p>
 
-                            </td>
-                            <td>{{bubbl.description}}</td>
-                            <td data-translate="{{'tourologistApp.Status.' + bubbl.status}}">{{bubbl.status}}</td>
-                            <td has-authority="ROLE_ADMIN">
-                                {{bubbl.userEmail}}
-                            </td>
-                            <td><span
-                                ng-repeat="interest in bubbl.interests"> {{interest.name}}{{$last ? '' : ', '}}</span>
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group ">
-                                    <button type="submit"
-                                            ui-sref="bubbl-detail({id:bubbl.id})"
-                                            class="btn btn-info btn-sm">
-                                        <span class="glyphicon glyphicon-eye-open"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                                    </button>
-                                    <button type="submit"
-                                            ui-sref="bubbl.edit({id:bubbl.id})"
-                                            class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
-                                    </button>
-                                    <button type="submit"
-                                            ui-sref="bubbl.delete({id:bubbl.id})"
-                                            class="btn btn-danger btn-sm">
-                                        <span class="glyphicon glyphicon-remove-circle"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center">
-                    <jhi-item-count page="vm.page" total="vm.queryCount"
-                                    items-per-page="vm.itemsPerPage"></jhi-item-count>
-                    <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                                    ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-                </div>
-            </div>
+                                </td>
+                                <td>{{bubbl.description}}</td>
+                                <td data-translate="{{'tourologistApp.Status.' + bubbl.status}}">{{bubbl.status}}</td>
+                                <td has-authority="ROLE_ADMIN">
+                                    {{bubbl.userEmail}}
+                                </td>
+                                <td><span
+                                    ng-repeat="interest in bubbl.interests"> {{interest.name}}{{$last ? '' : ', '}}</span>
+                                </td>
+                                <td class="text-right">
+                                    <div>
+                                        <button type="submit"
+                                                ui-sref="bubbl-detail({id:bubbl.id})"
+                                                class="btn btn-info btn-icon btn-sm" title="View">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                        <button type="submit"
+                                                ui-sref="bubbl.edit({id:bubbl.id})"
+                                                class="btn btn-primary btn-icon btn-sm" title="Edit">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                          </button>
+                                          <button type="submit"
+                                                  ui-sref="bubbl.delete({id:bubbl.id})"
+                                                  class="btn btn-danger btn-icon btn-sm" title="Delete">
+                                              <span class="glyphicon glyphicon-remove-circle"></span>
+                                          </button>
+                                      </div>
+                                  </td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                  <div class="text-center">
+                      <jhi-item-count page="vm.page" total="vm.queryCount"
+                                      class="ext-muted m-t-sm m-b-sm"
+                                      items-per-page="vm.itemsPerPage"></jhi-item-count>
+                      <uib-pagination class="pagination pagination-sm m-t-none m-b-none" total-items="vm.totalItems"
+                                      items-per-page="vm.itemsPerPage"
+                                      ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 
-
-            <!-- <div ng-hide="multiple" ng-style="{height:mapHeight()}">
-                 <ul id="scrollup" class="dynamic-grid" angular-grid="bubbls"
-                     angular-grid-id="bubbls"
-                     grid-width="350" gutter-size="20"
-                     refresh-on-img-load="true" style="list-style: none;">
-                     <li data-ng-repeat="bubbl in vm.bubbls track by $index "
-                         class="grid">
-                         <div class="">
-                             <div class=""
-                                  style="background-image:url('{{bubbl.map()}}'); height:200px;">
-                             </div>
-                             <div class="mdl-card__supporting-text">
-                                 <h2 class="mdl-card__title-text mdl-color-text--black">{{bubbl.name | limitTo: 25
-                                     }}{{bubbl.name.length > 25 ? '...' : ''}}</h2>
-                                 <div class="tags m-t-10">
-
-                                 </div>
-                                 <div class="p-t-5">
-                                           <span class="mdl-color--grey-200 radius3 inline p-5 f11 m-r-5">
-                                                 {{bubbl.description}}
-                                           </span>
-                                 </div>
-                             </div>
-                         </div>
-                     </li>
-
-
-                 </ul>
-
-             </div>  -->
-
-        </div>
-
-    </div>
-
-
-</div>
-<style>
-</style>
