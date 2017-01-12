@@ -69,7 +69,7 @@
         vm.save = function () {
             vm.isSaving = true;
 
-            var i = 0;
+            var i = 1;
 
             var _bubbls = _.map(vm.tour.bubbls, function (bubbl) {
                 return {
