@@ -24,8 +24,6 @@
         vm.collapseNavbar = collapseNavbar;
         vm.$state = $state;
 
-
-
         $scope.back = function() {
 
             $window.history.back();

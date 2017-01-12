@@ -15,6 +15,16 @@
                     templateUrl: 'app/layouts/navbar/navbar.html',
                     controller: 'NavbarController',
                     controllerAs: 'vm'
+                },
+                'aside@': {
+                    templateUrl: 'app/layouts/aside/aside.html',
+                    controller: 'AsideController',
+                    controllerAs: 'vm'
+                },
+                'footer@': {
+                    templateUrl: 'app/layouts/footer/footer.html',
+                    controller: 'FooterController',
+                    controllerAs: 'vm'
                 }
             },
             resolve: {
