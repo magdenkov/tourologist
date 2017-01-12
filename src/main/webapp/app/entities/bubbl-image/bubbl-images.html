@@ -1,37 +1,53 @@
-<div>
-    <h2 data-translate="tourologistApp.bubblImage.home.title">Bubbl Images</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="bubbl-image.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="tourologistApp.bubblImage.home.createLabel">
-                        Create new Bubbl Image
-                    </span>
-                </button>
-            </div>
+<div class="container-fluid">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+        <div class="col-md-12">
+            <h1 data-translate="tourologistApp.bubblImage.home.title" class="m-n font-thin h3">Bubbl Images</h1>
+            <jhi-alert></jhi-alert>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
+
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" ui-sref="bubbl-image.new">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="tourologistApp.bubblImage.home.createLabel">
+                    Create new Bubbl Image
+                </span>
+            </button>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="table-responsive">
+            <table class="table table-striped b-t b-light">
+                <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span data-translate="tourologistApp.bubblImage.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="uploaded"><span data-translate="tourologistApp.bubblImage.uploaded">Uploaded</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="s3Key"><span data-translate="tourologistApp.bubblImage.s3Key">S 3 Key</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="s3Bucket"><span data-translate="tourologistApp.bubblImage.s3Bucket">S 3 Bucket</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="s3ThumbKey"><span data-translate="tourologistApp.bubblImage.s3ThumbKey">S 3 Thumb Key</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="s3Region"><span data-translate="tourologistApp.bubblImage.s3Region">S 3 Region</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="type"><span data-translate="tourologistApp.bubblImage.type">Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="master"><span data-translate="tourologistApp.bubblImage.master">Master</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="bubblName"><span data-translate="tourologistApp.bubblImage.bubbl">Bubbl</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="tourologistApp.bubblImage.name">Name</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="uploaded"><span data-translate="tourologistApp.bubblImage.uploaded">Uploaded</span>
+                        <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="s3Key"><span data-translate="tourologistApp.bubblImage.s3Key">S 3 Key</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="s3Bucket"><span
+                        data-translate="tourologistApp.bubblImage.s3Bucket">S 3 Bucket</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="s3ThumbKey"><span data-translate="tourologistApp.bubblImage.s3ThumbKey">S 3 Thumb Key</span>
+                        <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="s3Region"><span
+                        data-translate="tourologistApp.bubblImage.s3Region">S 3 Region</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="type"><span data-translate="tourologistApp.bubblImage.type">Type</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="master"><span data-translate="tourologistApp.bubblImage.master">Master</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="bubblName"><span data-translate="tourologistApp.bubblImage.bubbl">Bubbl</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr ng-repeat="bubblImage in vm.bubblImages track by bubblImage.id">
                     <td><a ui-sref="bubbl-image-detail({id:bubblImage.id})">{{bubblImage.id}}</a></td>
                     <td>{{bubblImage.name}}</td>
@@ -68,8 +84,9 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="text-center">
         <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>

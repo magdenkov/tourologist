@@ -1,92 +1,101 @@
-<div>
-    <h2 data-translate="tourologistApp.tour.home.title">Tours</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ng-click="vm.onCreateTourClick()">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span data-translate="tourologistApp.tour.home.createLabel">
-                        Create new Tour
-                    </span>
-                </button>
-            </div>
-            <form>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-
-                        <input type="text" class="form-control" placeholder="Search Tours"
-                               ng-model="searchTours[queryBy]">
-
-                    </div>
-                </div>
-            </form>
+<div class="container-fluid">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+        <div class="col-md-12">
+            <h1 data-translate="tourologistApp.tour.home.title" class="m-n font-thin h3">Tours</h1>
+            <jhi-alert></jhi-alert>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name" style="max-width: 300px">Name</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span>
-                    <span class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="tourType"><span data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th has-authority="ROLE_ADMIN" jh-sort-by="author">
-                    <span>User</span> <span class="glyphicon glyphicon-sort"></span>
-                </th>
-                <th class="text-left"> Ratings</th>
-                <th class="text-left"> Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="tour in vm.tours | filter:searchTours">
-                <td style="max-width: 300px">{{tour.name}}</td>
-                <td>{{tour.bubblsAmount}}</td>
-                <td data-translate="{{'tourologistApp.Status.' + tour.status}}">
-                    {{tour.status}}
-                </td>
-                <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
-                <td has-authority="ROLE_ADMIN">
-                    {{tour.author}}
-                </td>
-                <td has-authority="ROLE_ADMIN">
-                    {{tour.rating}}
-                </td>
-                <td class="text-left">
-                    <div class="btn-group">
-                        <button type="submit"
-                                ui-sref="tour-detail({id: tour.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                            <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                        </button>
-                        <button type="button"
-                                ng-click="vm.onEditTourClick(tour)"
-                                class="btn btn-primary btn-sm">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
-                        </button>
-                        <button type="button"
-                                ng-click="vm.onDeleteTourClick(tour)"
-                                class="btn btn-danger btn-sm">
-                            <span class="glyphicon glyphicon-remove-circle"></span>
-                            <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" ng-click="vm.onCreateTourClick()">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="tourologistApp.tour.home.createLabel">
+                        Create new Tour
+                    </span>
+            </button>
+        </div>
+        <div class="col-xs-8">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                <input type="text" class="form-control" placeholder="Search Tours"
+                       ng-model="searchTours[queryBy]">
+
+            </div>
+        </div>
     </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="table-responsive">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                            <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name"
+                                                        style="max-width: 300px">Name</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span>
+                                <span class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="tourType"><span
+                                data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+                            <th has-authority="ROLE_ADMIN" jh-sort-by="author">
+                                <span>User</span> <span class="glyphicon glyphicon-sort"></span>
+                            </th>
+                            <th class="text-left"> Ratings</th>
+                            <th class="text-left"> Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="tour in vm.tours | filter:searchTours">
+                            <td style="max-width: 300px">{{tour.name}}</td>
+                            <td>{{tour.bubblsAmount}}</td>
+                            <td data-translate="{{'tourologistApp.Status.' + tour.status}}">
+                                {{tour.status}}
+                            </td>
+                            <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
+                            <td has-authority="ROLE_ADMIN">
+                                {{tour.author}}
+                            </td>
+                            <td has-authority="ROLE_ADMIN">
+                                {{tour.rating}}
+                            </td>
+                            <td class="text-left">
+                                <div class="btn-group">
+                                    <button type="submit"
+                                            ui-sref="tour-detail({id: tour.id})"
+                                            class="btn btn-info btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                                    </button>
+                                    <button type="button"
+                                            ng-click="vm.onEditTourClick(tour)"
+                                            class="btn btn-primary btn-sm">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                                    </button>
+                                    <button type="button"
+                                            ng-click="vm.onDeleteTourClick(tour)"
+                                            class="btn btn-danger btn-sm">
+                                        <span class="glyphicon glyphicon-remove-circle"></span>
+                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+            </div>
+        </div>
     </div>
 </div>

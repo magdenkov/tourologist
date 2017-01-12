@@ -1,87 +1,95 @@
-<div>
-    <h2 data-translate="tourologistApp.payload.home.title">Payloads</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="payload.new">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span data-translate="tourologistApp.payload.home.createLabel">
-                        Create new Payload
-                    </span>
-                </button>
-            </div>
-            <form>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
-
-                        <input type="text" class="form-control" placeholder="Search Payloads"
-                               ng-model="searchPayloads[queryBy]">
-
-                    </div>
-                </div>
-            </form>
+<div class="container-fluid">
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+        <div class="col-md-12">
+            <h1 data-translate="tourologistApp.payload.home.title" class="m-n font-thin h3">Payloads</h1>
+            <jhi-alert></jhi-alert>
         </div>
     </div>
-    <br/>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped">
-            <thead>
-            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
 
-                <th jh-sort-by="payloadType"><span
-                    data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th><span class="text-center">Audio File</span></span></th>
-                <th jh-sort-by="mimeType"><span data-translate="tourologistApp.payload.mimeType">File Format</span>
-                    <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="payload in vm.payloads | filter:searchPayloads track by payload.id">
-                <td>{{payload.name}}</td>
-                <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">{{payload.payloadType}}
-                </td>
-                <td>
-                    <audio ng-src="{{trustSrc(payload.url)}}" controls>
-                        Your browser does not support the <code>video</code> element.
-                    </audio>
-                </td>
-                <td>{{payload.mimeType}}</td>
-                <td>
-
-                    <p> {{payload.bubblName}}</p>
-                </td>
-                <td>
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                ui-sref="payload-detail({id:payload.id})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                            <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                        </button>
-                        <button type="submit"
-                                ui-sref="payload.delete({id:payload.id})"
-                                class="btn btn-danger btn-sm">
-                            <span class="glyphicon glyphicon-remove-circle"></span>
-                            <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row" style="padding-bottom: 15px">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" ui-sref="payload.new">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span data-translate="tourologistApp.payload.home.createLabel">
+                        Create new Payload
+                    </span>
+            </button>
+        </div>
+        <div class="col-xs-8">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                <input type="text" class="form-control" placeholder="Search Payloads"
+                       ng-model="searchPayloads[queryBy]">
+            </div>
+        </div>
     </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="table-responsive">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                            <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+
+                            <th jh-sort-by="payloadType"><span
+                                data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+                            <th><span class="text-center">Audio File</span></span></th>
+                            <th jh-sort-by="mimeType"><span
+                                data-translate="tourologistApp.payload.mimeType">File Format</span>
+                                <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="bubblName"><span data-translate="tourologistApp.payload.bubbl">Bubbl</span>
+                                <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="payload in vm.payloads | filter:searchPayloads track by payload.id">
+                            <td>{{payload.name}}</td>
+                            <td data-translate="{{'tourologistApp.PayloadType.' + payload.payloadType}}">
+                                {{payload.payloadType}}
+                            </td>
+                            <td>
+                                <audio ng-src="{{trustSrc(payload.url)}}" controls>
+                                    Your browser does not support the <code>video</code> element.
+                                </audio>
+                            </td>
+                            <td>{{payload.mimeType}}</td>
+                            <td>
+
+                                <p> {{payload.bubblName}}</p>
+                            </td>
+                            <td>
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            ui-sref="payload-detail({id:payload.id})"
+                                            class="btn btn-info btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                                    </button>
+                                    <button type="submit"
+                                            ui-sref="payload.delete({id:payload.id})"
+                                            class="btn btn-danger btn-sm">
+                                        <span class="glyphicon glyphicon-remove-circle"></span>
+                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+                <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
+                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+            </div>
+        </div>
     </div>
 </div>
