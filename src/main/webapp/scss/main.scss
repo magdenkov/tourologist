@@ -6,7 +6,8 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 }
 
 html {
-    background: url('http://tourologist.com/images/background.jpeg');
+    #background: url('http://tourologist.com/images/background.jpeg');
+    background: url('../images/bg.jpg');
     background-attachment: fixed;
     background-size: cover;
     background-color: #f0f3f4;
