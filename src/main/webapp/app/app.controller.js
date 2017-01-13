@@ -5,10 +5,12 @@
         .module('tourologistApp')
         .controller('AppController', AppController);
 
-    AppController.$inject = ['$scope', '$localStorage', '$window'];
+    AppController.$inject = ['$scope', '$localStorage', '$window', 'Principal'];
 
-    function AppController($scope, $localStorage, $window) {
+    function AppController($scope, $localStorage, $window, Principal) {
         var vm = this;
+
+        vm.isAuthenticated = Principal.isAuthenticated;
 
         var isIE = !!navigator.userAgent.match(/MSIE/i);
         if (isIE) {
@@ -38,7 +40,7 @@
                 navbarHeaderColor: 'bg-danger',
                 navbarCollapseColor: 'bg-black',
                 asideColor: 'bg-danger',
-                headerFixed: true,
+                headerFixed: false,
                 asideFixed: true,
                 asideFolded: false,
                 asideDock: false,

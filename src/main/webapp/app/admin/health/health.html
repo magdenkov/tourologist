@@ -1,49 +1,49 @@
-<div class="container-fluid">
-    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-        <div class="col-md-12">
-            <h1 data-translate="health.title" class="m-n font-thin h3">Health Checks</h1>
-            <jhi-alert></jhi-alert>
-        </div>
-    </div>
+<div class="wrapper-md bg-light b-b">
+    <button type="button" class="btn btn-primary pull-right"
+            ng-click="vm.refresh()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;
+        <span data-translate="health.refresh.button">Refresh</span>
+    </button>
 
-    <div class="row" style="padding-bottom: 15px">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-primary"
-                    ng-click="vm.refresh()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;
-                <span data-translate="health.refresh.button">Refresh</span>
-            </button>
-        </div>
-    </div>
+    <h1 data-translate="health.title" class="m-n font-thin h3">Health Checks</h1>
+</div>
 
-    <div class="panel panel-default">
-        <div class="table-responsive">
-            <table id="healthCheck" class="table table-striped b-t b-light">
-                <thead>
-                <tr>
-                    <th class="col-md-7" data-translate="health.table.service">Service Name</th>
-                    <th class="col-md-2 text-center" data-translate="health.table.status">Status</th>
-                    <th class="col-md-2 text-center" data-translate="health.details.details">Details</th>
+<jhi-alert></jhi-alert>
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="health in vm.healthData">
-                    <td>{{'health.indicator.' + vm.baseName(health.name) | translate}}
-                        {{vm.subSystemName(health.name)}}
-                    </td>
-                    <td class="text-center">
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
+            <div class="panel panel-default">
+                <div class="table-responsive">
+                    <table id="healthCheck" class="table table-bordered table-hover table-condensed bg-white-onlyt">
+                        <thead>
+                        <tr>
+                            <th class="col-md-7" data-translate="health.table.service">Service Name</th>
+                            <th class="col-md-2 text-center" data-translate="health.table.status">Status</th>
+                            <th class="col-md-2 text-center" data-translate="health.details.details">Details</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="health in vm.healthData">
+                            <td>{{'health.indicator.' + vm.baseName(health.name) | translate}}
+                                {{vm.subSystemName(health.name)}}
+                            </td>
+                            <td class="text-center">
                     <span class="label" ng-class="vm.getLabelClass(health.status)">
                         {{'health.status.' + health.status | translate}}
                     </span>
-                    </td>
-                    <td class="text-center">
-                        <a class="hand" ng-click="vm.showHealth(health)" ng-show="health.details || health.error">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                            </td>
+                            <td class="text-center">
+                                <a class="hand" ng-click="vm.showHealth(health)"
+                                   ng-show="health.details || health.error">
+                                    <i class="glyphicon glyphicon-eye-open"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

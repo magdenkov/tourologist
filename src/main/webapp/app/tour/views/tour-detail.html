@@ -1,57 +1,70 @@
-<div>
-    <h2><span data-translate="tourologistApp.tour.detail.title">Tour</span> {{vm.tour.name}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt has-authority="ROLE_ADMIN">
-            <spa>Author</spa>
-        </dt>
-        <dd has-authority="ROLE_ADMIN">
-            <span>{{vm.tour.author}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.status">Status</span></dt>
-        <dd>
-            <span data-translate="{{'tourologistApp.Status.' + vm.tour.status}}">{{vm.tour.status}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.tourType">Tour Type</span></dt>
-        <dd>
-            <span data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
-        </dd>
-        <dt><span>Rating</span></dt>
-        <dd>
-            {{vm.tour.rating}}
-        </dd>
-        <dt><span>Description</span></dt>
-        <dd>
-            {{vm.tour.description}}
-        </dd>
-        <dt><span>Tour Route Points</span></dt>
-        <dd>
-            {{vm.tour.tourRoutePoints.length}}
-        </dd>
-        <dt><span data-translate="tourologistApp.tour.interest">Interest</span></dt>
-        <dd>
+<div class=" diy-tour">
+    <div class="wrapper-md bg-light b-b">
+        <h1 data-translate="tourologistApp.tour.detail.title" class="m-n font-thin h3">Tour</span> {{vm.tour.name}}</h1>
+    </div>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="hbox hbox-auto-xs hbox-auto-sm diy-tour">
+        <div class="col wrapper-md">
+            <div class="clearfix m-b">
+                <dl class="dl-horizontal jh-entity-details">
+                    <dt has-authority="ROLE_ADMIN">
+                        <spa>Author</spa>
+                    </dt>
+                    <dd has-authority="ROLE_ADMIN">
+                        <span>{{vm.tour.author}}</span>
+                    </dd>
+                    <dt><span data-translate="tourologistApp.tour.status">Status</span></dt>
+                    <dd>
+                        <span data-translate="{{'tourologistApp.Status.' + vm.tour.status}}">{{vm.tour.status}}</span>
+                    </dd>
+                    <dt><span data-translate="tourologistApp.tour.tourType">Tour Type</span></dt>
+                    <dd>
+                        <span
+                            data-translate="{{'tourologistApp.TourType.' + vm.tour.tourType}}">{{vm.tour.tourType}}</span>
+                    </dd>
+                    <dt><span>Rating</span></dt>
+                    <dd>
+                        {{vm.tour.rating}}
+                    </dd>
+                    <dt><span>Description</span></dt>
+                    <dd>
+                        {{vm.tour.description}}
+                    </dd>
+                    <dt><span>Tour Route Points</span></dt>
+                    <dd>
+                        {{vm.tour.tourRoutePoints.length}}
+                    </dd>
+                    <dt><span data-translate="tourologistApp.tour.interest">Interest</span></dt>
+                    <dd>
             <span ng-repeat="interest in vm.tour.interests">
                 <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
             </span>
-        </dd>
-        <dt><span>Bubbls in order</span></dt>
-        <dd>
+                    </dd>
+                    <dt><span>Bubbls in order</span></dt>
+                    <dd>
             <span ng-repeat="bubbl in vm.tour.bubbls">
                 <a ui-sref="interest-detail({id: interest.id})">{{bubbl.name}}</a>{{$last ? '' : ', '}}
             </span>
-        </dd>
-    </dl>
+                    </dd>
+                </dl>
 
-    <div id="map-container">
-        <div id="map-canvas">
-            <tour-google-map show-bubbles="false" tours="[vm.tour]" only-center-map-by-tours="false"></tour-google-map>
+                <div id="map-container">
+                    <div id="map-canvas">
+                        <tour-google-map show-bubbles="false" tours="[vm.tour]"
+                                         only-center-map-by-tours="false"></tour-google-map>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding-top: 10px">
+                <button ui-sref="tour" class="btn btn-info">
+                    <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span
+                    data-translate="entity.action.back">Back</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<div style="padding-top: 10px">
-    <button ui-sref="tour" class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
-</div>
