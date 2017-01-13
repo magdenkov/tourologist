@@ -1,0 +1,18 @@
+<div class="app app-header-fixed app-aside-fixed container" id="app"
+     ng-class="{'app-header-fixed': app.settings.headerFixed, 'app-aside-fixed': app.settings.asideFixed, 'app-aside-folded': app.settings.asideFolded, 'app-aside-dock': app.settings.asideDock, 'container': app.settings.container}">
+
+    <div ui-view="navbar" class="app-header navbar"></div>
+    <div ui-view="aside" class="app-aside hidden-xs {{app.settings.asideColor}}"></div>
+
+    <div class="app-content">
+        <div ui-butterbar></div>
+        <a href class="off-screen-toggle hide" ui-toggle-class="off-screen" data-target=".app-aside"></a>
+        <div class="app-content-body fade-in-up" ui-view="content">
+            <script type="text/javascript"
+                    src="https://bubbltech.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/-7o84h9/100024/c/1000.0.11/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-UK&collectorId=56096af3"></script>
+        </div>
+    </div>
+
+    <div class="app-footer wrapper b-t bg-light" ui-view="footer">
+    </div>
+</div>

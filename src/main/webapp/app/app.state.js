@@ -11,17 +11,22 @@
         $stateProvider.state('app', {
             abstract: true,
             views: {
-                'navbar@': {
+                'main@': {
+                    templateUrl: 'app/main.html',
+                    //controller: 'AppController',
+                    //controllerAs: 'vm'
+                },
+                'navbar@app': {
                     templateUrl: 'app/layouts/navbar/navbar.html',
                     controller: 'NavbarController',
                     controllerAs: 'vm'
                 },
-                'aside@': {
+                'aside@app': {
                     templateUrl: 'app/layouts/aside/aside.html',
                     controller: 'AsideController',
                     controllerAs: 'vm'
                 },
-                'footer@': {
+                'footer@app': {
                     templateUrl: 'app/layouts/footer/footer.html',
                     controller: 'FooterController',
                     controllerAs: 'vm'

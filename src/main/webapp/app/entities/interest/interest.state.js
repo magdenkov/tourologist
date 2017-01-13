@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.interest.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/interest/interests.html',
                     controller: 'InterestController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.interest.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/interest/interest-detail.html',
                     controller: 'InterestDetailController',
                     controllerAs: 'vm'

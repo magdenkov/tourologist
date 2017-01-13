@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.bubblDownload.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-download/bubbl-downloads.html',
                     controller: 'BubblDownloadController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.bubblDownload.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-download/bubbl-download-detail.html',
                     controller: 'BubblDownloadDetailController',
                     controllerAs: 'vm'

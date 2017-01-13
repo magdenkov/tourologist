@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.tourAdminReview.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-admin-review/tour-admin-reviews.html',
                     controller: 'TourAdminReviewController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.tourAdminReview.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-admin-review/tour-admin-review-detail.html',
                     controller: 'TourAdminReviewDetailController',
                     controllerAs: 'vm'

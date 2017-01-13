@@ -16,7 +16,7 @@
                 pageTitle: 'social.register.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/account/social/social-register.html',
                     controller: 'SocialRegisterController',
                     controllerAs: 'vm'
@@ -36,7 +36,7 @@
                 authorities: []
             },
             views: {
-                'content@': {
+                'content@app': {
                     controller: 'SocialAuthController'
                 }
             }

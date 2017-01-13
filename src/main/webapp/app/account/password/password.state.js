@@ -16,7 +16,7 @@
                 pageTitle: 'global.menu.account.password'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/account/password/password.html',
                     controller: 'PasswordController',
                     controllerAs: 'vm'

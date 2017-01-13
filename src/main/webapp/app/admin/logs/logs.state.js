@@ -16,7 +16,7 @@
                 pageTitle: 'logs.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/admin/logs/logs.html',
                     controller: 'LogsController',
                     controllerAs: 'vm'

@@ -15,7 +15,7 @@
                     pageTitle: 'app.diy-tour.home.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/diy-tour/views/body.html',
                         controller: 'DiyTourController',
                         controllerAs: 'vm'

@@ -3,6 +3,7 @@
         <nav ui-nav class="navi clearfix">
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                    <b class="label bg-primary pull-right">2</b>
                     <span class="glyphicon glyphicon-tower"></span>
                     <span>Bubbls</span>
                 </li>
@@ -25,6 +26,7 @@
         <nav ui-nav class="navi clearfix">
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                    <b class="label bg-primary pull-right">2</b>
                     <span class="glyphicon glyphicon-map-marker"></span>
                     <span>Tours</span>
                 </li>
@@ -37,7 +39,7 @@
                 </li>
 
                 <li ui-sref-active="active">
-                    <a href ui-sref="diy-tour">
+                    <a href ui-sref="app.diy-tour">
                         <span class="glyphicon glyphicon-map-marker"></span>
                         <span class="font-bold">DIY Tours</span>
                     </a>
@@ -48,14 +50,15 @@
         <nav ui-nav class="navi clearfix" has-authority="ROLE_ADMIN" ng-switch-when="true">
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                    <b class="label bg-primary pull-right">12</b>
                     <span class="glyphicon glyphicon-th-list"></span>
                     <span class="font-bold">Entities</span>
                 </li>
 
                 <li ui-sref-active="active">
-                    <a href ui-sref="tour-rating">
+                    <a href ui-sref="tour-admin-review">
                         <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourRating">Tour Rating</span>
+                        <span data-translate="global.menu.entities.tourAdminReview">Tour Admin Review</span>
                     </a>
                 </li>
                 <li ui-sref-active="active">
@@ -131,6 +134,7 @@
 
         <ul class="nav" id="admin-nav">
             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                <b class="label bg-primary pull-right">5</b>
                 <span class="glyphicon glyphicon-tower"></span>
                 <span>Administration</span>
             </li>

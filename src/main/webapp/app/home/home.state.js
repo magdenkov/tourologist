@@ -16,7 +16,7 @@
                 pageTitle: 'global.menu.home'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/home/home.html',
                     controller: 'HomeController',
                     controllerAs: 'vm'

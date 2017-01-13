@@ -16,7 +16,7 @@
                 pageTitle: 'metrics.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/admin/metrics/metrics.html',
                     controller: 'TlMetricsMonitoringController',
                     controllerAs: 'vm'

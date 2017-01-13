@@ -1,5 +1,5 @@
 <!-- navbar header -->
-<div class="navbar-header bg-black">
+<div class="navbar-header {{ app.settings.navbarHeaderColor }}" style="background-color: #820202;">
     <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target=".navbar-collapse">
         <i class="glyphicon glyphicon-cog"></i>
     </button>
@@ -10,14 +10,21 @@
     <a href="#/" class="navbar-brand text-lt">
         <i class="fa fa-btc"></i>
         <img src="content/images/logo.png" alt="." class="hide">
-        <span class="hidden-folded m-l-xs">Tourologist</span>
+        <span class="hidden-folded m-l-xs">{{app.name}}</span>
     </a>
     <!-- / brand -->
 </div>
 <!-- / navbar header -->
 
 <!-- navbar collapse -->
-<div class="collapse pos-rlt navbar-collapse box-shadow bg-black" ng-switch="vm.isAuthenticated()">
+<div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}" ng-switch="vm.isAuthenticated()">
+
+    <div class="nav navbar-nav hidden-xs">
+        <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
+            <i class="fa fa-fw fa-dedent"></i>
+        </a>
+    </div>
+
     <!-- nabar right -->
     <ul class="nav navbar-nav navbar-right">
         <li ui-sref-active="active" uib-dropdown class="dropdown pointer"

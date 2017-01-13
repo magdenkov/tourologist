@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.tourRoutePoint.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-route-point/tour-route-points.html',
                     controller: 'TourRoutePointController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.tourRoutePoint.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-route-point/tour-route-point-detail.html',
                     controller: 'TourRoutePointDetailController',
                     controllerAs: 'vm'

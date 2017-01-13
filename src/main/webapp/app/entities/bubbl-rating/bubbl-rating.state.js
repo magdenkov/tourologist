@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.bubblRating.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-rating/bubbl-ratings.html',
                     controller: 'BubblRatingController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.bubblRating.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-rating/bubbl-rating-detail.html',
                     controller: 'BubblRatingDetailController',
                     controllerAs: 'vm'

@@ -17,7 +17,7 @@
                     pageTitle: 'error.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/layouts/error/error.html'
                     }
                 },
@@ -35,7 +35,7 @@
                     authorities: []
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/layouts/error/accessdenied.html'
                     }
                 },
