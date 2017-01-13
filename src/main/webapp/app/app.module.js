@@ -15,6 +15,7 @@
             'ui.bootstrap.datetimepicker',
             'ui.router',
             'infinite-scroll',
+            'ngAnimate',
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'uiGmapgoogle-maps',
