@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.tourDownload.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-download/tour-downloads.html',
                     controller: 'TourDownloadController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.tourDownload.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-download/tour-download-detail.html',
                     controller: 'TourDownloadDetailController',
                     controllerAs: 'vm'

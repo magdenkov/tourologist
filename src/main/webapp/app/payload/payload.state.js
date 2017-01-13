@@ -17,7 +17,7 @@
                     pageTitle: 'tourologistApp.payload.home.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/payload/payloads.html',
                         controller: 'PayloadController',
                         controllerAs: 'vm'
@@ -60,7 +60,7 @@
                     pageTitle: 'tourologistApp.payload.detail.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/payload/payload-detail.html',
                         controller: 'PayloadDetailController',
                         controllerAs: 'vm'

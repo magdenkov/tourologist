@@ -16,7 +16,7 @@
                 pageTitle: 'audits.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/admin/audits/audits.html',
                     controller: 'AuditsController',
                     controllerAs: 'vm'

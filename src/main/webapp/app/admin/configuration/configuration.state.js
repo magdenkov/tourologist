@@ -16,7 +16,7 @@
                 pageTitle: 'configuration.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/admin/configuration/configuration.html',
                     controller: 'TlConfigurationController',
                     controllerAs: 'vm'

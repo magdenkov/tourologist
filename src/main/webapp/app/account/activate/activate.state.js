@@ -16,7 +16,7 @@
                 pageTitle: 'activate.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/account/activate/activate.html',
                     controller: 'ActivationController',
                     controllerAs: 'vm'

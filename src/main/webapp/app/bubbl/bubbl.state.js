@@ -17,7 +17,7 @@
                     pageTitle: 'tourologistApp.bubbl.home.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/bubbl/bubbls.html',
                         controller: 'BubblController',
                         controllerAs: 'vm'
@@ -60,7 +60,7 @@
                     pageTitle: 'tourologistApp.bubbl.detail.title'
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/bubbl/bubbl-detail.html',
                         controller: 'BubblDetailController',
                         controllerAs: 'vm'
@@ -117,7 +117,7 @@
                     authorities: ['ROLE_USER']
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/bubbl/bubbl-new.html',
                         controller: 'CreateBubblController',
                         controllerAs: 'vm'
@@ -148,7 +148,7 @@
                     authorities: ['ROLE_USER']
                 },
                 views: {
-                    'content@': {
+                    'content@app': {
                         templateUrl: 'app/bubbl/bubbl-edit.html',
                         controller: 'BubblEditController',
                         controllerAs: 'vm',

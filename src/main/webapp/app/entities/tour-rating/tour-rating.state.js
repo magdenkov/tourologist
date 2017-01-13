@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.tourRating.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-rating/tour-ratings.html',
                     controller: 'TourRatingController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.tourRating.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/tour-rating/tour-rating-detail.html',
                     controller: 'TourRatingDetailController',
                     controllerAs: 'vm'

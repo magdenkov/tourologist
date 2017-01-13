@@ -6,6 +6,9 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 }
 
 html {
+    background: url('http://tourologist.com/images/background.jpeg');
+    background-attachment: fixed;
+    background-size: cover;
     background-color: #f0f3f4;
 }
 
@@ -570,7 +573,7 @@ a:hover .caret-white {
 }
 
 .progress-bar-danger {
-    background-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
 }
 
 .progress-bar-black {
@@ -1527,12 +1530,6 @@ body {
     }
 }
 
-html.bg {
-    background: url('../img/bg.jpg');
-    background-attachment: fixed;
-    background-size: cover;
-}
-
 .app.container {
     padding-right: 0;
     padding-left: 0;
@@ -2007,7 +2004,7 @@ html.bg {
 }
 
 .arrow.top.arrow-danger:after {
-    border-bottom-color: #f05050;
+    border-bottom-color: rgba(155, 35, 53, 1);
 }
 
 .arrow.top.arrow-warning:after {
@@ -2054,7 +2051,7 @@ html.bg {
 }
 
 .arrow.right.arrow-danger:after {
-    border-left-color: #f05050;
+    border-left-color: rgba(155, 35, 53, 1);
 }
 
 .arrow.right.arrow-warning:after {
@@ -2101,7 +2098,7 @@ html.bg {
 }
 
 .arrow.bottom.arrow-danger:after {
-    border-top-color: #f05050;
+    border-top-color: rgba(155, 35, 53, 1);
 }
 
 .arrow.bottom.arrow-warning:after {
@@ -2148,7 +2145,7 @@ html.bg {
 }
 
 .arrow.left.arrow-danger:after {
-    border-right-color: #f05050;
+    border-right-color: rgba(155, 35, 53, 1);
 }
 
 .arrow.left.arrow-warning:after {
@@ -2252,8 +2249,9 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
     color: #ffffff !important;
-    background-color: #7266ba;
-    border-color: #7266ba;
+    background-color: rgb(155, 35, 53);
+    background-image: linear-gradient(153deg, rgb(155, 35, 53) 0%, rgb(155, 35, 53) 21%, rgb(219, 50, 54) 100%);
+    border-color: white;
 }
 
 .btn-primary:hover,
@@ -2262,8 +2260,8 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
     color: #ffffff !important;
-    background-color: #6254b2;
-    border-color: #5a4daa;
+    background-image: none;
+    border-color: white;
 }
 
 .btn-primary:active,
@@ -2416,8 +2414,8 @@ fieldset[disabled] .btn-warning.active {
 
 .btn-danger {
     color: #ffffff !important;
-    background-color: #f05050;
-    border-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
+    border-color: rgba(155, 35, 53, 1);
 }
 
 .btn-danger:hover,
@@ -2451,8 +2449,8 @@ fieldset[disabled] .btn-danger:active,
 .btn-danger.disabled.active,
 .btn-danger[disabled].active,
 fieldset[disabled] .btn-danger.active {
-    background-color: #f05050;
-    border-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
+    border-color: rgba(155, 35, 53, 1);
 }
 
 .btn-dark {
@@ -3242,7 +3240,7 @@ fieldset[disabled] .i-checks input + i:before {
 }
 
 .form-validation .form-control.ng-dirty.ng-invalid {
-    border-color: #f05050;
+    border-color: rgba(155, 35, 53, 1);
 }
 
 .form-validation .form-control.ng-dirty.ng-valid,
@@ -3251,7 +3249,7 @@ fieldset[disabled] .i-checks input + i:before {
 }
 
 .form-validation .i-checks .ng-invalid.ng-dirty + i {
-    border-color: #f05050;
+    border-color: rgba(155, 35, 53, 1);
 }
 
 .ng-animate .bg-auto:before {
@@ -4037,7 +4035,7 @@ fieldset[disabled] .i-checks input + i:before {
 
 .bg-danger {
     color: #ffffff;
-    background-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
 }
 
 .bg-danger.lt,
@@ -4062,7 +4060,7 @@ fieldset[disabled] .i-checks input + i:before {
 
 .bg-danger.bg,
 .bg-danger .bg {
-    background-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
 }
 
 .bg-danger a {
@@ -4300,7 +4298,7 @@ a.text-danger:hover {
 }
 
 .text-danger {
-    color: #f05050;
+    color: rgba(155, 35, 53, 1);
 }
 
 .text-danger-lt {
@@ -4721,7 +4719,7 @@ a.text-#000000:hover {
 }
 
 .b-danger {
-    border-color: #f05050;
+    border-color: rgba(155, 35, 53, 1);
 }
 
 .b-white {
@@ -4761,7 +4759,7 @@ a.text-#000000:hover {
 }
 
 .b-l-danger {
-    border-left-color: #f05050;
+    border-left-color: rgba(155, 35, 53, 1);
 }
 
 .b-l-white {
@@ -5178,7 +5176,7 @@ a.text-#000000:hover {
 }
 
 .avatar i.busy {
-    background-color: #f05050;
+    background-color: rgba(155, 35, 53, 1);
 }
 
 .avatar i.away {

@@ -15,7 +15,7 @@
                 authorities: []
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/components/login/login.html',
                     controller: 'LoginController',
                     controllerAs: 'vm'

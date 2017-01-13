@@ -17,7 +17,7 @@
                 pageTitle: 'tourologistApp.bubblAdminReview.home.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-admin-review/bubbl-admin-reviews.html',
                     controller: 'BubblAdminReviewController',
                     controllerAs: 'vm'
@@ -59,7 +59,7 @@
                 pageTitle: 'tourologistApp.bubblAdminReview.detail.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/entities/bubbl-admin-review/bubbl-admin-review-detail.html',
                     controller: 'BubblAdminReviewDetailController',
                     controllerAs: 'vm'

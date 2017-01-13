@@ -16,7 +16,7 @@
                 pageTitle: 'health.title'
             },
             views: {
-                'content@': {
+                'content@app': {
                     templateUrl: 'app/admin/health/health.html',
                     controller: 'TlHealthCheckController',
                     controllerAs: 'vm'
