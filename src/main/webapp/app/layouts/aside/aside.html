@@ -1,6 +1,6 @@
-<div class="aside-wrap">
-    <div class="navi-wrap" ng-switch="vm.isAuthenticated()">
-        <nav ui-nav class="navi clearfix">
+<div class="aside-wrap" ng-switch="vm.isAuthenticated()">
+    <div class="navi-wrap">
+        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                     <b class="label bg-primary pull-right">2</b>
@@ -23,7 +23,7 @@
             </ul>
         </nav>
 
-        <nav ui-nav class="navi clearfix">
+        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                     <b class="label bg-primary pull-right">2</b>
@@ -47,7 +47,7 @@
             </ul>
         </nav>
 
-        <nav ui-nav class="navi clearfix" has-authority="ROLE_ADMIN" ng-switch-when="true">
+        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
             <ul class="nav">
                 <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                     <b class="label bg-primary pull-right">12</b>
@@ -132,7 +132,7 @@
             </ul>
         </nav>
 
-        <ul class="nav" id="admin-nav">
+        <ul class="nav" id="admin-nav" ng-switch-when="true" has-authority="ROLE_ADMIN" >
             <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
                 <b class="label bg-primary pull-right">5</b>
                 <span class="glyphicon glyphicon-tower"></span>

@@ -1,36 +1,34 @@
-<div class="container-fluid">
-    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-        <div class="col-md-12">
-            <h1 data-translate="tourologistApp.tour.home.title" class="m-n font-thin h3">Tours</h1>
-            <jhi-alert></jhi-alert>
-        </div>
-    </div>
+<div class="wrapper-md bg-light b-b">
+    <button class="btn btn-primary pull-right" ng-click="vm.onCreateTourClick()">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span data-translate="tourologistApp.tour.home.createLabel">
+            Create new Tour
+        </span>
+    </button>
 
-    <div class="row" style="padding-bottom: 15px">
-        <div class="col-xs-4">
-            <button class="btn btn-primary" ng-click="vm.onCreateTourClick()">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span data-translate="tourologistApp.tour.home.createLabel">
-                        Create new Tour
-                    </span>
-            </button>
-        </div>
-        <div class="col-xs-8">
-            <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+    <h1 data-translate="tourologistApp.tour.home.title" class="m-n font-thin h3">Tours</h1>
+</div>
 
-                <input type="text" class="form-control" placeholder="Search Tours"
-                       ng-model="searchTours[queryBy]">
+<jhi-alert></jhi-alert>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row wrapper">
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                                <input type="text" class="form-control" placeholder="Search Tours"
+                                       ng-model="searchTours[queryBy]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-striped b-t b-light">
+                    <table class="table table-bordered table-hover table-condensed bg-white-only">
                         <thead>
                         <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                             <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name"
@@ -46,8 +44,8 @@
                             <th has-authority="ROLE_ADMIN" jh-sort-by="author">
                                 <span>User</span> <span class="glyphicon glyphicon-sort"></span>
                             </th>
-                            <th class="text-left"> Ratings</th>
-                            <th class="text-left"> Actions</th>
+                            <th class="text-left">Ratings</th>
+                            <th class="text-left" style="min-width: 130px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -65,24 +63,21 @@
                                 {{tour.rating}}
                             </td>
                             <td class="text-left">
-                                <div class="btn-group">
-                                    <button type="submit"
+                                <div class="buttons">
+                                    <button type="button"
                                             ui-sref="tour-detail({id: tour.id})"
-                                            class="btn btn-info btn-sm">
+                                            class="btn btn-info btn-icon btn-sm" title="View">
                                         <span class="glyphicon glyphicon-eye-open"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                                     </button>
                                     <button type="button"
                                             ng-click="vm.onEditTourClick(tour)"
-                                            class="btn btn-primary btn-sm">
+                                            class="btn btn-primary btn-icon btn-sm" title="Edit">
                                         <span class="glyphicon glyphicon-pencil"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
                                     </button>
                                     <button type="button"
                                             ng-click="vm.onDeleteTourClick(tour)"
-                                            class="btn btn-danger btn-sm">
+                                            class="btn btn-danger btn-icon btn-sm" title="Delete">
                                         <span class="glyphicon glyphicon-remove-circle"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
                                     </button>
                                 </div>
                             </td>
@@ -90,11 +85,21 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="text-center">
-                <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-                <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4 text-center">
+                            <jhi-item-count page="vm.page" total="vm.queryCount"
+                                            class="ext-muted m-t-sm m-b-sm"
+                                            items-per-page="vm.itemsPerPage"></jhi-item-count>
+                        </div>
+                        <div class="col-sm-4 text-right text-center-xs">
+                            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                            total-items="vm.totalItems"
+                                            items-per-page="vm.itemsPerPage"
+                                            ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>

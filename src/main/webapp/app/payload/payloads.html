@@ -1,39 +1,40 @@
-<div class="container-fluid">
-    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-        <div class="col-md-12">
-            <h1 data-translate="tourologistApp.payload.home.title" class="m-n font-thin h3">Payloads</h1>
-            <jhi-alert></jhi-alert>
-        </div>
-    </div>
+<div class="wrapper-md bg-light b-b">
+    <button class="btn btn-primary pull-right" ui-sref="payload.new">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span data-translate="tourologistApp.payload.home.createLabel">
+            Create new Payload
+        </span>
+    </button>
 
-    <div class="row" style="padding-bottom: 15px">
-        <div class="col-xs-4">
-            <button class="btn btn-primary" ui-sref="payload.new">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span data-translate="tourologistApp.payload.home.createLabel">
-                        Create new Payload
-                    </span>
-            </button>
-        </div>
-        <div class="col-xs-8">
-            <div class="input-group">
-                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                <input type="text" class="form-control" placeholder="Search Payloads"
-                       ng-model="searchPayloads[queryBy]">
-            </div>
-        </div>
-    </div>
+    <h1 data-translate="tourologistApp.payload.home.title" class="m-n font-thin h3">Payloads</h1>
+</div>
 
-    <div class="row">
-        <div class="col-md-12">
+<jhi-alert></jhi-alert>
+
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
             <div class="panel panel-default">
                 <div class="table-responsive">
-                    <table class="table table-striped b-t b-light">
+                    <div class="panel-heading">
+                        <div class="row wrapper">
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    <input type="text" class="form-control" placeholder="Search Payloads"
+                                           ng-model="searchPayloads[queryBy]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-hover table-condensed bg-white-onlyt">
                         <thead>
                         <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                            <th jh-sort-by="name"><span data-translate="tourologistApp.payload.name">Name</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-
+                            <th jh-sort-by="name" style="max-width: 200px">
+                                <span data-translate="tourologistApp.payload.name">Name</span> <span
+                                class="glyphicon glyphicon-sort">
+                                </span>
+                            </th>
                             <th jh-sort-by="payloadType"><span
                                 data-translate="tourologistApp.payload.payloadType">Payload Type</span> <span
                                 class="glyphicon glyphicon-sort"></span></th>
@@ -61,22 +62,19 @@
                             </td>
                             <td>{{payload.mimeType}}</td>
                             <td>
-
                                 <p> {{payload.bubblName}}</p>
                             </td>
                             <td>
-                                <div class="btn-group flex-btn-group-container">
-                                    <button type="submit"
+                                <div class="buttons">
+                                    <button type="button"
                                             ui-sref="payload-detail({id:payload.id})"
-                                            class="btn btn-info btn-sm">
+                                            class="btn btn-info btn-icon btn-sm" title="View">
                                         <span class="glyphicon glyphicon-eye-open"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                                     </button>
-                                    <button type="submit"
+                                    <button type="button"
                                             ui-sref="payload.delete({id:payload.id})"
-                                            class="btn btn-danger btn-sm">
+                                            class="btn btn-danger btn-icon btn-sm" title="Delete">
                                         <span class="glyphicon glyphicon-remove-circle"></span>
-                                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
                                     </button>
                                 </div>
                             </td>
@@ -84,11 +82,21 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="text-center">
-                <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-                <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4 text-center">
+                            <jhi-item-count page="vm.page" total="vm.queryCount"
+                                            class="ext-muted m-t-sm m-b-sm"
+                                            items-per-page="vm.itemsPerPage"></jhi-item-count>
+                        </div>
+                        <div class="col-sm-4 text-right text-center-xs">
+                            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                            total-items="vm.totalItems"
+                                            items-per-page="vm.itemsPerPage"
+                                            ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>

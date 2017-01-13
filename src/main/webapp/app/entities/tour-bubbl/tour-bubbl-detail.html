@@ -1,31 +1,39 @@
-
-<div>
-    <h2><span data-translate="tourologistApp.tourBubbl.detail.title">Tour Bubbl</span> {{vm.tourBubbl.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tourologistApp.tourBubbl.orderNumber">Order Number</span></dt>
-        <dd>
-            <span>{{vm.tourBubbl.orderNumber}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.tourBubbl.bubbl">Bubbl</span></dt>
-        <dd>
-            <a ui-sref="bubbl-detail({id:vm.tourBubbl.bubblId})">{{vm.tourBubbl.bubblName}}</a>
-        </dd>
-        <dt><span data-translate="tourologistApp.tourBubbl.tour">Tour</span></dt>
-        <dd>
-            <a ui-sref="tour-detail({id:vm.tourBubbl.tourId})">{{vm.tourBubbl.tourName}}</a>
-        </dd>
-    </dl>
-
-    <button type="submit"
-            ui-sref="{{ vm.previousState }}"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
-
-    <button type="button" ui-sref="tour-bubbl-detail.edit({id:vm.tourBubbl.id})" class="btn btn-primary">
-        <span class="glyphicon glyphicon-pencil"></span>
-        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
-    </button>
+<div class="wrapper-md bg-light b-b">
+    <h1 data-translate="tourologistApp.tourBubbl.detail.title" class="m-n font-thin h3">Tour Bubbl</span>
+        {{vm.tourBubbl.id}}</h1>
 </div>
+
+<jhi-alert></jhi-alert>
+
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
+            <dl class="dl-horizontal jh-entity-details">
+                <dt><span data-translate="tourologistApp.tourBubbl.orderNumber">Order Number</span></dt>
+                <dd>
+                    <span>{{vm.tourBubbl.orderNumber}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.tourBubbl.bubbl">Bubbl</span></dt>
+                <dd>
+                    <a ui-sref="bubbl-detail({id:vm.tourBubbl.bubblId})">{{vm.tourBubbl.bubblName}}</a>
+                </dd>
+                <dt><span data-translate="tourologistApp.tourBubbl.tour">Tour</span></dt>
+                <dd>
+                    <a ui-sref="tour-detail({id:vm.tourBubbl.tourId})">{{vm.tourBubbl.tourName}}</a>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    ui-sref="{{ vm.previousState }}"
+                    class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button" ui-sref="tour-bubbl-detail.edit({id:vm.tourBubbl.id})" class="btn btn-primary">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+

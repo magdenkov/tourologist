@@ -1,79 +1,69 @@
-<div class="container">
-    <div class="row">
-
-        <div class="col-md-12">
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
             <div class="alert alert-danger" ng-show="vm.authenticationError"
                  data-translate="login.messages.error.authentication">
                 <strong>Failed to sign in!</strong> Please check your credentials and try again.
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <img class="img-responsive" src="content/images/logo.png"/>
 
-        <div class="col-xs-4">
+            <img class="img-responsive" src="content/images/logo.png"/>
 
-            <jh-social ng-provider="facebook"></jh-social>
-
-        </div>
-        <div class="col-xs-4">
-            <jh-social ng-provider="google"></jh-social>
-
-
-        </div>
-        <div class="col-xs-4">
-
-            <jh-social ng-provider="twitter"></jh-social>
+            <div class="col-xs-4">
+                <jh-social ng-provider="facebook"></jh-social>
+            </div>
+            <div class="col-xs-4">
+                <jh-social ng-provider="google"></jh-social>
+            </div>
+            <div class="col-xs-4">
+                <jh-social ng-provider="twitter"></jh-social>
+            </div>
         </div>
 
-    </div>
-    <div class="row omb_loginOr">
-        <div class="col-xs-12 hidden-xs">
-            <hr class="omb_hrOr">
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-7 reg-border">
-            <form class="form" role="form" ng-submit="vm.login($event)">
-                <div class="form-group">
-                    <label for="username" data-translate="global.form.username">E-mail</label>
-                    <input type="text" class="form-control" id="username"
-                           placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="vm.username">
-                </div>
-                <div class="form-group">
-                    <label for="password" data-translate="login.form.password">Password</label>
-                    <input type="password" class="form-control" id="password"
-                           placeholder="{{'login.form.password.placeholder' | translate}}"
-                           ng-model="vm.password">
-                    <div class="spacing"><a href="#" ng-click="vm.requestResetPassword()">
-                        <small> Forgot Password?</small>
-                    </a><br/></div>
-
-                </div>
-                <div class="form-group">
-                    <label for="rememberMe">
-                        <input type="checkbox" id="rememberMe" ng-model="vm.rememberMe" checked>
-                        <span data-translate="login.form.rememberme">Remember me</span>
-                    </label>
-                </div>
-                <button type="submit" class="btn btn-primary" data-translate="login.form.button">Sign in</button>
-            </form>
+        <div class="row omb_loginOr">
+            <div class="col-xs-12 hidden-xs">
+                <hr class="omb_hrOr">
+            </div>
         </div>
 
-        <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-7 reg-border">
+                <form class="form" role="form" ng-submit="vm.login($event)">
+                    <div class="form-group">
+                        <label for="username" data-translate="global.form.username">E-mail</label>
+                        <input type="text" class="form-control" id="username"
+                               placeholder="{{'global.form.username.placeholder' | translate}}" ng-model="vm.username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" data-translate="login.form.password">Password</label>
+                        <input type="password" class="form-control" id="password"
+                               placeholder="{{'login.form.password.placeholder' | translate}}"
+                               ng-model="vm.password">
+                        <div class="spacing"><a href="#" ng-click="vm.requestResetPassword()">
+                            <small> Forgot Password?</small>
+                        </a><br/></div>
 
-            <h3 class="text-center"> Sign Up</h3>
-
-            <p class="text-center">If you dont have account yet</p>
-            <div class="col-md-12 text-center">
-                <a class=" btn btn-danger" ng-click="vm.register()">Register</a>
+                    </div>
+                    <div class="form-group">
+                        <label for="rememberMe">
+                            <input type="checkbox" id="rememberMe" ng-model="vm.rememberMe" checked>
+                            <span data-translate="login.form.rememberme">Remember me</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-translate="login.form.button">Sign in</button>
+                </form>
             </div>
 
+            <div class="col-md-5">
+
+                <h3 class="text-center"> Sign Up</h3>
+
+                <p class="text-center">If you dont have account yet</p>
+                <div class="col-md-12 text-center">
+                    <a class=" btn btn-danger" ng-click="vm.register()">Register</a>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </div>
 <style>
     .reg-border {
@@ -115,6 +105,4 @@
         color: #666;
 
     }
-
-
 </style>

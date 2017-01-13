@@ -1,5 +1,5 @@
-<div class="app app-header-fixed app-aside-fixed container" id="app"
-     ng-class="{'app-header-fixed': app.settings.headerFixed, 'app-aside-fixed': app.settings.asideFixed, 'app-aside-folded': app.settings.asideFolded, 'app-aside-dock': app.settings.asideDock, 'container': app.settings.container}">
+<div class="app container" id="app"
+     ng-class="{'app-header-fixed': app.settings.headerFixed, 'app-aside-fixed': app.settings.asideFixed && vm.isAuthenticated(), 'app-aside-folded': app.settings.asideFolded, 'app-aside-dock': app.settings.asideDock, 'container': app.settings.container}">
 
     <div ui-view="navbar" class="app-header navbar"></div>
     <div ui-view="aside" class="app-aside hidden-xs {{app.settings.asideColor}}"></div>

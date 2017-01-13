@@ -1,80 +1,92 @@
-<div class="container-fluid">
-    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-        <div class="col-md-12">
-            <h1 data-translate="tourologistApp.tourRoutePoint.home.title" class="m-n font-thin h3">Tour Route
-                Points</h1>
-            <jhi-alert></jhi-alert>
-        </div>
-    </div>
-
-    <div class="row" style="padding-bottom: 15px">
-        <div class="col-xs-4">
-            <button class="btn btn-primary" ui-sref="tour-route-point.new">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span data-translate="tourologistApp.tourRoutePoint.home.createLabel">
+<div class="wrapper-md bg-light b-b">
+    <button class="btn btn-primary pull-right" ui-sref="tour-route-point.new">
+        <span class="glyphicon glyphicon-plus"></span>
+        <span data-translate="tourologistApp.tourRoutePoint.home.createLabel">
                         Create new Tour Route Point
                     </span>
-            </button>
-        </div>
-    </div>
+    </button>
 
-    <div class="panel panel-default">
-        <div class="table-responsive">
-            <table class="table table-striped b-t b-light">
-                <thead>
-                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lat"><span data-translate="tourologistApp.tourRoutePoint.lat">Lat</span> <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="lng"><span data-translate="tourologistApp.tourRoutePoint.lng">Lng</span> <span
-                        class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="orderNumber"><span data-translate="tourologistApp.tourRoutePoint.orderNumber">Order Number</span>
-                        <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="tourName"><span data-translate="tourologistApp.tourRoutePoint.tour">Tour</span>
-                        <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="tourRoutePoint in vm.tourRoutePoints track by tourRoutePoint.id">
-                    <td><a ui-sref="tour-route-point-detail({id:tourRoutePoint.id})">{{tourRoutePoint.id}}</a></td>
-                    <td>{{tourRoutePoint.lat}}</td>
-                    <td>{{tourRoutePoint.lng}}</td>
-                    <td>{{tourRoutePoint.orderNumber}}</td>
-                    <td>
-                        <a ui-sref="tour-detail({id:tourRoutePoint.tourId})">{{tourRoutePoint.tourName}}</a>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    ui-sref="tour-route-point-detail({id:tourRoutePoint.id})"
-                                    class="btn btn-info btn-sm">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="tour-route-point.edit({id:tourRoutePoint.id})"
-                                    class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
-                            </button>
-                            <button type="submit"
-                                    ui-sref="tour-route-point.delete({id:tourRoutePoint.id})"
-                                    class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
-                            </button>
+    <h1 data-translate="tourologistApp.tourRoutePoint.home.title" class="m-n font-thin h3">Tour Route
+        Points</h1>
+</div>
+
+<jhi-alert></jhi-alert>
+
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
+            <div class="panel panel-default">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-condensed bg-white-onlyt">
+                        <thead>
+                        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                            <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span
+                                class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="lat"><span data-translate="tourologistApp.tourRoutePoint.lat">Lat</span>
+                                <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="lng"><span data-translate="tourologistApp.tourRoutePoint.lng">Lng</span>
+                                <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="orderNumber"><span
+                                data-translate="tourologistApp.tourRoutePoint.orderNumber">Order Number</span>
+                                <span class="glyphicon glyphicon-sort"></span></th>
+                            <th jh-sort-by="tourName"><span
+                                data-translate="tourologistApp.tourRoutePoint.tour">Tour</span>
+                                <span class="glyphicon glyphicon-sort"></span></th>
+                            <th class="text-left">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="tourRoutePoint in vm.tourRoutePoints track by tourRoutePoint.id">
+                            <td><a ui-sref="tour-route-point-detail({id:tourRoutePoint.id})">{{tourRoutePoint.id}}</a>
+                            </td>
+                            <td>{{tourRoutePoint.lat}}</td>
+                            <td>{{tourRoutePoint.lng}}</td>
+                            <td>{{tourRoutePoint.orderNumber}}</td>
+                            <td>
+                                <a ui-sref="tour-detail({id:tourRoutePoint.tourId})">{{tourRoutePoint.tourName}}</a>
+                            </td>
+                            <td class="text-left">
+                                <div class="buttons">
+                                    <button type="button"
+                                            ui-sref="tour-route-point-detail({id:tourRoutePoint.id})"
+                                            class="btn btn-info btn-icon btn-sm" title="View">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </button>
+                                    <button type="button"
+                                            ui-sref="tour-route-point.edit({id:tourRoutePoint.id})"
+                                            class="btn btn-primary btn-icon btn-sm" title="Edit">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>
+                                    <button type="button"
+                                            ui-sref="tour-route-point.delete({id:tourRoutePoint.id})"
+                                            class="btn btn-danger btn-icon btn-sm" title="Delete">
+                                        <span class="glyphicon glyphicon-remove-circle"></span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4 text-center">
+                            <jhi-item-count page="vm.page" total="vm.queryCount"
+                                            class="ext-muted m-t-sm m-b-sm"
+                                            items-per-page="vm.itemsPerPage"></jhi-item-count>
                         </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <div class="col-sm-4 text-right text-center-xs">
+                            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                            total-items="vm.totalItems"
+                                            items-per-page="vm.itemsPerPage"
+                                            ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        </div>
+                    </div>
+                </footer>
+            </div>
         </div>
     </div>
-    <div class="text-center">
-        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
-        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage"
-                        ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
-    </div>
+</div>
 </div>
