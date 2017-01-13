@@ -5,9 +5,11 @@
         .module('tourologistApp')
         .controller('AsideController', AsideController);
 
-    AsideController.$inject = [];
+    AsideController.$inject = ['Principal'];
 
-    function AsideController() {
+    function AsideController(Principal) {
         var vm = this;
+
+        vm.isAuthenticated = Principal.isAuthenticated;
     }
 })();
