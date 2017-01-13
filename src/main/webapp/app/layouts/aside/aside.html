@@ -1,187 +1,216 @@
 <div class="aside-wrap" ng-switch="vm.isAuthenticated()">
     <div class="navi-wrap">
-        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
+        <nav tour-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN">
             <ul class="nav">
-                <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                    <b class="label bg-primary pull-right">2</b>
-                    <span class="glyphicon glyphicon-tower"></span>
-                    <span>Bubbls</span>
-                </li>
-
-                <li ui-sref-active="active">
-                    <a href ui-sref="bubbl">
+                <li>
+                    <a href class="auto">
+                          <span class="pull-right text-muted">
+                            <i class="fa fa-fw fa-angle-right text"></i>
+                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                          </span>
+                        <b class="label bg-primary pull-right">2</b>
                         <i class="glyphicon glyphicon-map-marker"></i>
                         <span class="font-bold">Bubbls</span>
                     </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="payload">
-                        <i class="fa fa-file-audio-o"></i>
-                        <span class="font-bold">Payloads</span>
-                    </a>
+                    <ul class="nav nav-sub dk">
+                        <li ui-sref-active="active">
+                            <a href ui-sref="bubbl">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                                <span class="font-bold">Bubbls</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="payload">
+                                <i class="fa fa-file-audio-o"></i>
+                                <span>Payloads</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
 
-        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
+        <nav tour-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN">
             <ul class="nav">
-                <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                    <b class="label bg-primary pull-right">2</b>
-                    <span class="glyphicon glyphicon-map-marker"></span>
-                    <span>Tours</span>
-                </li>
-
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour">
-                        <span class="glyphicon glyphicon-map-marker"></span>
-                        <span class="font-bold">Tours</span>
+                <li>
+                    <a href class="auto">
+                          <span class="pull-right text-muted">
+                            <i class="fa fa-fw fa-angle-right text"></i>
+                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                          </span>
+                        <b class="label bg-primary pull-right">2</b>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        <span>Tours</span>
                     </a>
-                </li>
+                    <ul class="nav nav-sub dk">
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                                <span class="font-bold">Tours</span>
+                            </a>
+                        </li>
 
-                <li ui-sref-active="active">
-                    <a href ui-sref="app.diy-tour">
-                        <span class="glyphicon glyphicon-map-marker"></span>
-                        <span class="font-bold">DIY Tours</span>
-                    </a>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="app.diy-tour">
+                                <i class="glyphicon glyphicon-map-marker"></i>
+                                <span class="font-bold">DIY Tours</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
 
-        <nav ui-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN" >
+        <nav tour-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN">
             <ul class="nav">
-                <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                    <b class="label bg-primary pull-right">12</b>
-                    <span class="glyphicon glyphicon-th-list"></span>
-                    <span class="font-bold">Entities</span>
-                </li>
+                <li>
+                    <a href class="auto">
+                          <span class="pull-right text-muted">
+                            <i class="fa fa-fw fa-angle-right text"></i>
+                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                          </span>
+                        <b class="label bg-primary pull-right">12</b>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        <span>Entities</span>
+                    </a>
+                    <ul class="nav nav-sub dk">
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-admin-review">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourAdminReview">Tour Admin Review</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-rating">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourRating">Tour Rating</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-download">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourDownload">Tour Download</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="interest">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.interest">Interest</span>
+                            </a>
+                        </li>
 
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-admin-review">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourAdminReview">Tour Admin Review</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-rating">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourRating">Tour Rating</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-download">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourDownload">Tour Download</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="interest">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.interest">Interest</span>
-                    </a>
-                </li>
-
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-bubbl">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourBubbl">Tour Bubbl</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="bubbl-admin-review">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.bubblAdminReview">Bubbl Admin Review</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="bubbl-rating">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.bubblRating">Bubbl Rating</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="bubbl-download">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.bubblDownload">Bubbl Download</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="payload">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.payload">Payload</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-route-point">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourRoutePoint">Tour Route Point</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-bubbl-route-point">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span
-                            data-translate="global.menu.entities.tourBubblRoutePoint">Tour Bubbl Route Point</span>
-                    </a>
-                </li>
-                <li ui-sref-active="active">
-                    <a href ui-sref="tour-image">
-                        <span class="glyphicon glyphicon-asterisk"></span>
-                        <span data-translate="global.menu.entities.tourImage">Tour Image</span>
-                    </a>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-bubbl">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourBubbl">Tour Bubbl</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="bubbl-admin-review">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.bubblAdminReview">Bubbl Admin Review</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="bubbl-rating">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.bubblRating">Bubbl Rating</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="bubbl-download">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.bubblDownload">Bubbl Download</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="payload">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.payload">Payload</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-route-point">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourRoutePoint">Tour Route Point</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-bubbl-route-point">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span
+                                    data-translate="global.menu.entities.tourBubblRoutePoint">Tour Bubbl Route Point</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tour-image">
+                                <span class="glyphicon glyphicon-asterisk"></span>
+                                <span data-translate="global.menu.entities.tourImage">Tour Image</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
 
-        <ul class="nav" id="admin-nav" ng-switch-when="true" has-authority="ROLE_ADMIN" >
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <b class="label bg-primary pull-right">5</b>
-                <span class="glyphicon glyphicon-tower"></span>
-                <span>Administration</span>
-            </li>
-
-            <li ui-sref-active="active">
-                <a href ui-sref="user-management">
-                    <span class="glyphicon glyphicon-user"></span>
-                    <span data-translate="global.menu.admin.userManagement">User management</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a href ui-sref="tl-metrics">
-                    <span class="glyphicon glyphicon-dashboard"></span>
-                    <span data-translate="global.menu.admin.metrics">Metrics</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a href ui-sref="tl-health">
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span data-translate="global.menu.admin.health">Health</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a href ui-sref="tl-configuration">
-                    <span class="glyphicon glyphicon-list-alt"></span>
-                    <span data-translate="global.menu.admin.configuration">Configuration</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a href ui-sref="audits">
-                    <span class="glyphicon glyphicon-bell"></span>
-                    <span data-translate="global.menu.admin.audits">Audits</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a href ui-sref="logs">
-                    <span class="glyphicon glyphicon-tasks"></span>
-                    <span data-translate="global.menu.admin.logs">Logs</span>
-                </a>
-            </li>
-            <li ng-show="vm.swaggerEnabled" ui-sref-active="active">
-                <a href ui-sref="docs">
-                    <span class="glyphicon glyphicon-book"></span>
-                    <span data-translate="global.menu.admin.apidocs">API</span>
-                </a>
-            </li>
-        </ul>
+        <nav tour-nav class="navi clearfix" ng-switch-when="true" has-authority="ROLE_ADMIN">
+            <ul class="nav">
+                <li>
+                    <a href class="auto">
+                          <span class="pull-right text-muted">
+                            <i class="fa fa-fw fa-angle-right text"></i>
+                            <i class="fa fa-fw fa-angle-down text-active"></i>
+                          </span>
+                        <b class="label bg-primary pull-right">5</b>
+                        <i class="glyphicon glyphicon-tower"></i>
+                        <span>Administration</span>
+                    </a>
+                    <ul class="nav nav-sub dk">
+                        <li ui-sref-active="active">
+                            <a href ui-sref="user-management">
+                                <span class="glyphicon glyphicon-user"></span>
+                                <span data-translate="global.menu.admin.userManagement">User management</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tl-metrics">
+                                <i class="glyphicon glyphicon-dashboard"></i>
+                                <span data-translate="global.menu.admin.metrics">Metrics</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tl-health">
+                                <i class="glyphicon glyphicon-heart"></i>
+                                <span data-translate="global.menu.admin.health">Health</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="tl-configuration">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                                <span data-translate="global.menu.admin.configuration">Configuration</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="audits">
+                                <i class="glyphicon glyphicon-bell"></i>
+                                <span data-translate="global.menu.admin.audits">Audits</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a href ui-sref="logs">
+                                <i class="glyphicon glyphicon-tasks"></i>
+                                <span data-translate="global.menu.admin.logs">Logs</span>
+                            </a>
+                        </li>
+                        <li ng-show="vm.swaggerEnabled" ui-sref-active="active">
+                            <a href ui-sref="docs">
+                                <i class="glyphicon glyphicon-book"></i>
+                                <span data-translate="global.menu.admin.apidocs">API</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </nav>
     </div>
 </div>

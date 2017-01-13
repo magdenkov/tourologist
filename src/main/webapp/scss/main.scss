@@ -6,7 +6,6 @@ Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 }
 
 html {
-    #background: url('http://tourologist.com/images/background.jpeg');
     background: url('../images/bg.jpg');
     background-attachment: fixed;
     background-size: cover;
@@ -4050,7 +4049,7 @@ fieldset[disabled] .i-checks input + i:before {
 
 .bg-danger.dk,
 .bg-danger .dk {
-    background-color: #f13636;
+    background-color: rgba(155, 35, 53, 1);
 }
 
 .bg-danger.dker,
