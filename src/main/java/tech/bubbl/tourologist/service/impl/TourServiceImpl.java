@@ -52,7 +52,7 @@ public class TourServiceImpl implements TourService{
      */
     public static final int MAX_BUBBLS_ALLOWED_BY_GOOGLE = 20;
     public static final double ELEVATION = 0.0;
-    public static final double DEFAULT_TOLERANCE_DISTANCE = 25.0;
+    public static final double DEFAULT_TOLERANCE_DISTANCE = 100.0;
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
 
     @Inject
