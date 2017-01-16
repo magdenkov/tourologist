@@ -1,61 +1,66 @@
-<div>
-    <h2><span data-translate="tourologistApp.bubbl.detail.title">Bubbl</span> {{vm.bubbl.id}}</h2>
-    <hr>
-    <jhi-alert-error></jhi-alert-error>
-    <dl class="dl-horizontal jh-entity-details">
-        <dt><span data-translate="tourologistApp.bubbl.name">Name</span></dt>
-        <dd>
-            <span>{{vm.bubbl.name}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.description">Description</span></dt>
-        <dd>
-            <span>{{vm.bubbl.description}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.status">Status</span></dt>
-        <dd>
-            <span data-translate="{{'tourologistApp.Status.' + vm.bubbl.status}}">{{vm.bubbl.status}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
-        <dd>
-            <span>{{vm.bubbl.lat}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.lng">Lng</span></dt>
-        <dd>
-            <span>{{vm.bubbl.lng}}</span>
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.radiusMeters">Radius Meters</span></dt>
-        <dd>
-            <span>{{vm.bubbl.radiusMeters}}</span>
-        </dd>
+<div class="wrapper-md bg-light b-b">
+    <h1 data-translate="tourologistApp.bubbl.detail.title" class="m-n font-thin h3">Bubbl</span> {{vm.bubbl.id}}</span>
+        {{vm.bubblDownload.id}}</h1>
+</div>
 
-        <dt><span data-translate="tourologistApp.bubbl.user">User</span></dt>
-        <dd>
-            {{vm.bubbl.userEmail}}
-        </dd>
-        <dt><span data-translate="tourologistApp.bubbl.interest">Interest</span></dt>
-        <dd>
+<jhi-alert></jhi-alert>
+
+<div class="hbox hbox-auto-xs hbox-auto-sm">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
+            <dl class="dl-horizontal jh-entity-details">
+                <dt><span data-translate="tourologistApp.bubbl.name">Name</span></dt>
+                <dd>
+                    <span>{{vm.bubbl.name}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.description">Description</span></dt>
+                <dd>
+                    <span>{{vm.bubbl.description}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.status">Status</span></dt>
+                <dd>
+                    <span data-translate="{{'tourologistApp.Status.' + vm.bubbl.status}}">{{vm.bubbl.status}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.lat">Lat</span></dt>
+                <dd>
+                    <span>{{vm.bubbl.lat}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.lng">Lng</span></dt>
+                <dd>
+                    <span>{{vm.bubbl.lng}}</span>
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.radiusMeters">Radius Meters</span></dt>
+                <dd>
+                    <span>{{vm.bubbl.radiusMeters}}</span>
+                </dd>
+
+                <dt><span data-translate="tourologistApp.bubbl.user">User</span></dt>
+                <dd>
+                    {{vm.bubbl.userEmail}}
+                </dd>
+                <dt><span data-translate="tourologistApp.bubbl.interest">Interest</span></dt>
+                <dd>
             <span ng-repeat="interest in vm.bubbl.interests">
                 <a ui-sref="interest-detail({id: interest.id})">{{interest.name}}</a>{{$last ? '' : ', '}}
             </span>
-        </dd>
-        <div has-authority="ROLE_ADMIN">
-            <button
-                ng-click="approve()"
-                class="btn btn-success">
-                <i class="fa fa-check" aria-hidden="true"></i>Approve
-            </button>
-            <button ng-click="rejectBubbl()" class="btn btn-danger">
-                <i class="fa fa-ban" aria-hidden="true"></i>
+                </dd>
+                <div has-authority="ROLE_ADMIN">
+                    <button
+                        ng-click="approve()"
+                        class="btn btn-success">
+                        <i class="fa fa-check" aria-hidden="true"></i>Approve
+                    </button>
+                    <button ng-click="rejectBubbl()" class="btn btn-danger">
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        Reject
+                    </button>
+                </div>
+            </dl>
 
-                Reject
+            <button ng-click="back()"
+                    class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
             </button>
-
         </div>
-
-    </dl>
-
-    <button ng-click="back()"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
-    </button>
+    </div>
 </div>
