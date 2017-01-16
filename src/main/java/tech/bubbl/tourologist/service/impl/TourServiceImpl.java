@@ -439,7 +439,15 @@ public class TourServiceImpl implements TourService{
         createFixedTourDTO.setName("DIY tour created by " + user.getFullName() + " , creation time " + ZonedDateTime.now());
         List<String> origin = bubblService.reverseGeocode(curLat, curLng);
         List<String> destination = bubblService.reverseGeocode(tarLat, tarLng);
-        createFixedTourDTO.setDescription("DIY tour from: " + origin.get(0) + " ,to destination: " + destination.get(0));
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("currentLat=").append(curLat).append("&currentLng=").append(curLng).append("&targetLat=").append(tarLat)
+            .append("&currentLng=").append(curLng).append("&maxDelta=").append(maxDelta);
+
+        //
+
+        createFixedTourDTO.setDescription("DIY tour from: " + origin.get(0) + " current lat " + curLat + " lng " + curLng
+            + " ,to destination: " + destination.get(0) + " target lat " + tarLat  + " target lng " + tarLng + " maxdelta " + maxDelta + " url: " + sb.toString());
 
 
         LatLng originLL = new LatLng(curLat, curLng);
