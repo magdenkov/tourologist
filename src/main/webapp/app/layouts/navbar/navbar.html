@@ -8,7 +8,7 @@
     </button>
     <!-- brand -->
     <a href="#/" class="navbar-brand text-lt">
-        <i class="fa fa-btc"></i>
+        <i class="icon-app_icon_v2"></i>
         <img src="content/images/logo.png" alt="." class="hide">
         <span class="hidden-folded m-l-xs">{{app.name}}</span>
     </a>
@@ -17,7 +17,8 @@
 <!-- / navbar header -->
 
 <!-- navbar collapse -->
-<div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}" ng-switch="vm.isAuthenticated()">
+<div class="collapse pos-rlt navbar-collapse box-shadow {{app.settings.navbarCollapseColor}}"
+     ng-switch="vm.isAuthenticated()">
 
     <div class="nav navbar-nav hidden-xs">
         <a href class="btn no-shadow navbar-btn" ng-click="app.settings.asideFolded = !app.settings.asideFolded">
