@@ -11,7 +11,7 @@
             .state('app.diy-tour', {
                 url: '/diy-tour',
                 data: {
-                    authorities: ['ROLE_ADMIN'],
+                    authorities: ['ROLE_ADMIN','ROLE_USER'],
                     pageTitle: 'app.diy-tour.home.title'
                 },
                 views: {
