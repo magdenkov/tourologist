@@ -52,8 +52,7 @@ public class TourServiceImpl implements TourService{
      */
     public static final int MAX_BUBBLS_ALLOWED_BY_GOOGLE = 20;
     public static final double ELEVATION = 0.0;
-    public static final int DEFAULT_TOLERANCE_DISTANCE = 500;
-
+    public static final double DEFAULT_TOLERANCE_DISTANCE = 25.0;
     private final Logger log = LoggerFactory.getLogger(TourServiceImpl.class);
 
     @Inject
@@ -375,7 +374,8 @@ public class TourServiceImpl implements TourService{
 
         bubblService.setCurrentLatAndLngInDb(curLat, curLng);
 
-        Double toleranceDistance = maxDelta == null ? DEFAULT_TOLERANCE_DISTANCE : maxDelta;
+//        Double toleranceDistance = maxDelta == null ? DEFAULT_TOLERANCE_DISTANCE : maxDelta;
+        Double toleranceDistance = DEFAULT_TOLERANCE_DISTANCE;
 
 
         Specification<Bubbl> specification = Specifications.where(new Specification<Bubbl>() {
