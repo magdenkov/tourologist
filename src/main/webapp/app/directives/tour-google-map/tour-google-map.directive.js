@@ -159,22 +159,33 @@
             var mapControl = scope.mapControl;
 
             var clearRoute = function () {
-                if (scope.route && scope.route.way) {
-                    scope.route.way.setMap(null);
-                    scope.route.way = null;
+                if (scope.route) {
+                    if (scope.route.way) {
+                        scope.route.way.setMap(null);
+                        scope.route.way = null;
+                    }
+                    if (scope.route.startPoint) {
+                        scope.route.startPoint.setMap(null);
+                        scope.route.startPoint = null;
+                    }
+                    if (scope.route.endPoint) {
+                        scope.route.endPoint.setMap(null);
+                        scope.route.endPoint = null;
+                    }
+                    if (scope.route.wayPoints) {
+                        scope.route.wayPoints.forEach(function (wayPoint) {
+                            wayPoint.setMap(null);
+                        })
+                        scope.route.wayPoint = [];
+                    }
+                    if (scope.route.bubbls) {
+                        scope.route.bubbls.forEach(function (bubbl) {
+                            bubbl.setMap(null);
+                        })
+                        scope.route.bubbls = [];
+                    }
                 }
-                if (scope.route && scope.route.wayPoints) {
-                    scope.route.wayPoints.forEach(function (wayPoint) {
-                        wayPoint.setMap(null);
-                    })
-                    scope.route.wayPoint = [];
-                }
-                if (scope.route && scope.route.bubbls) {
-                    scope.route.bubbls.forEach(function (bubbl) {
-                        bubbl.setMap(null);
-                    })
-                    scope.route.bubbls = [];
-                }
+
             }
 
             clearRoute();
@@ -218,6 +229,32 @@
                 title: 'way'
             });
 
+            var startPoint = new google.maps.Marker({
+                position: new google.maps.LatLng(tour.tourRoutePoints[0].lat, tour.tourRoutePoints[0].lng),
+                title: 'Real Start Point',
+                animation: google.maps.Animation.DROP,
+                map: mapControl,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10,
+                    strokeColor: "darkgray"
+                }
+            });
+
+            var endPoint = new google.maps.Marker({
+                position: new google.maps.LatLng(
+                    tour.tourRoutePoints[tour.tourRoutePoints.length - 1].lat,
+                    tour.tourRoutePoints[tour.tourRoutePoints.length - 1].lng),
+                title: 'Real End Point',
+                animation: google.maps.Animation.DROP,
+                map: mapControl,
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 10,
+                    strokeColor: "gray"
+                }
+            });
+
             var bubbls = [];
 
             tour.bubbls.forEach(function (bubble) {
@@ -248,6 +285,8 @@
 
             scope.route = {
                 way: way,
+                startPoint: startPoint,
+                endPoint: endPoint,
                 wayPoints: wayPoints,
                 bubbls: bubbls
             }
@@ -289,7 +328,10 @@
                     }
                 })
 
-                scope.mapConfig.center = {latitude: mapBounds.getCenter().lat(), longitude: mapBounds.getCenter().lng()};
+                scope.mapConfig.center = {
+                    latitude: mapBounds.getCenter().lat(),
+                    longitude: mapBounds.getCenter().lng()
+                };
                 scope.mapConfig.zoom = 15;
             }
 

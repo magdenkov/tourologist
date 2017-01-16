@@ -55,7 +55,7 @@
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
-                    strokeColor: "darkgray"
+                    strokeColor: "darkblue"
                 }
             });
             mapContextMenu.close();
@@ -74,7 +74,7 @@
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
-                    strokeColor: "gray"
+                    strokeColor: "blue"
                 }
             });
             mapContextMenu.close();
@@ -96,7 +96,6 @@
                     params.maxDelta = +vm.maxDelta;
                 }
                 DIYTour.get(params).$promise.then(function (tours) {
-                    debugger;
                     $timeout(function() {
                         vm.tours = tours;
                     })
