@@ -120,7 +120,9 @@
                 wayPoints: wayPoints,
                 bubbls: bubblsvm.tour
         } */
-
+        $scope.back = function () {
+            window.history.back()
+        };
         var unsubscribe = $rootScope.$on('tourologistApp:tourUpdate', function (event, result) {
             vm.setTour(result);
           /*  if (vm.mapControl != null) {
