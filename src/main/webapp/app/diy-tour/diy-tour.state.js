@@ -9,7 +9,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
             .state('app.diy-tour', {
-                url: '/diy-tour',
+                url: '/diy-tour?startPosition&endPosition',
                 data: {
                     authorities: ['ROLE_ADMIN','ROLE_USER'],
                     pageTitle: 'app.diy-tour.home.title'
