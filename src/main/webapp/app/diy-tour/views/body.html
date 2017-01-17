@@ -1,45 +1,43 @@
-<div class=" diy-tour">
-    <div class="wrapper-md bg-light b-b">
-        <h1 class="m-n font-thin h3">DIY Tours</h1>
-    </div>
+<div class="wrapper-md bg-light b-b diy-tour">
+    <h1 class="m-n font-thin h3">DIY Tours</h1>
+</div>
 
-    <jhi-alert></jhi-alert>
+<jhi-alert></jhi-alert>
 
-    <div class="hbox hbox-auto-xs hbox-auto-sm diy-tour">
-        <div class="col wrapper-md">
-            <div class="clearfix m-b">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <label>
-                            Max Delta:
-                            <input ng-model="vm.maxDelta" type="text" tour-valid-number/>
-                            <button type="button" class="btn btn-default" ng-click="vm.redrawRoutes()">Apply</button>
-                        </label>
+<div class="hbox hbox-auto-xs hbox-auto-sm diy-tour">
+    <div class="col wrapper-md">
+        <div class="clearfix m-b">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <label>
+                        Max Delta:
+                        <input ng-model="vm.maxDelta" type="text" tour-valid-number/>
+                        <button type="button" class="btn btn-default" ng-click="vm.redrawRoutes()">Apply</button>
+                    </label>
 
-                        <p class="help-block">Please use context menu on the map to set start and end points, CONTEXT
-                            MENU
-                            MEANS
-                            RIGHT MOUSE CLICK ON MAP, for mac plz use http://www.wikihow.com/Right-Click-on-a-Mac </p>
-                    </div>
+                    <p class="help-block">Please use context menu on the map to set start and end points, CONTEXT
+                        MENU
+                        MEANS
+                        RIGHT MOUSE CLICK ON MAP, for mac plz use http://www.wikihow.com/Right-Click-on-a-Mac </p>
                 </div>
-
-                <div id="map-container">
-                    <div id="map-canvas">
-                        <div ng-include="vm.mapContextMenuUrl"></div>
-                        <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
-                                         radius="vm.showBubblesInRadius.value"
-                                         tours="vm.tours"
-                                         only-center-map-by-tours="false"
-                                         on-circle-right-click="vm.onCircleRightClick"></tour-google-map>
-                        <div style="padding-top: 10px; padding-bottom: 10px">
-                            <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
-                            <small> Show all Bubbles in center Circle with radius</small>
-                            <input type="text" ng-disabled="!vm.showBubblesInRadius.show"
-                                   tour-valid-number ng-model="vm.showBubblesInRadius.value"/> meters
-                        </div>
-                    </div>
+                <div class="panel-footer">
+                    <input type="checkbox" ng-model="vm.showBubblesInRadius.show">
+                    <small> Show all Bubbles in center Circle with radius</small>
+                    <input type="text" ng-disabled="!vm.showBubblesInRadius.show"
+                           tour-valid-number ng-model="vm.showBubblesInRadius.value"/> meters
                 </div>
+            </div>
 
+
+            <div id="map-container">
+                <div id="map-canvas">
+                    <div ng-include="vm.mapContextMenuUrl"></div>
+                    <tour-google-map show-bubbles="vm.showBubblesInRadius.show"
+                                     radius="vm.showBubblesInRadius.value"
+                                     tours="vm.tours"
+                                     only-center-map-by-tours="false"
+                                     on-circle-right-click="vm.onCircleRightClick"></tour-google-map>
+                </div>
             </div>
         </div>
     </div>
