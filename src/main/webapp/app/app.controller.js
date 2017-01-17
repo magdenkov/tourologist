@@ -47,25 +47,7 @@
                 container: true
             }
         }
-
-        // save settings to local storage
-        if (angular.isDefined($localStorage.settings)) {
-            $scope.app.settings = $localStorage.settings;
-        } else {
-            $localStorage.settings = $scope.app.settings;
-        }
-
-        $scope.$watch('app.settings', function () {
-            if ($scope.app.settings.asideDock && $scope.app.settings.asideFixed) {
-                // aside dock and fixed must set the header fixed.
-                $scope.app.settings.headerFixed = true;
-            }
-            // for box layout, add background image
-            $scope.app.settings.container ? angular.element('html').addClass('bg') : angular.element('html').removeClass('bg');
-            // save to local storage
-            $localStorage.settings = $scope.app.settings;
-        }, true);
-
+        
         function isSmartDevice($window) {
             // Adapted from http://www.detectmobilebrowsers.com
             var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];

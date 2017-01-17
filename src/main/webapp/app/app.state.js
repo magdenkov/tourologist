@@ -13,8 +13,6 @@
             views: {
                 'main@': {
                     templateUrl: 'app/main.html',
-                    //controller: 'AppController',
-                    //controllerAs: 'vm'
                 },
                 'navbar@app': {
                     templateUrl: 'app/layouts/navbar/navbar.html',
