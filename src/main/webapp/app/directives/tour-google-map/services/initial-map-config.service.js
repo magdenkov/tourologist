@@ -9,11 +9,10 @@
 
     function InitialMapConfig() {
         var service = this;
-
         service.call = function (lat, lng, zoom) {
             var config = {
-                center: {latitude: lat || 54.00366, longitude: lng || -2.547855},
-                zoom: zoom || 10,
+                center: {latitude: lat || 51.509948, longitude: lng || -0.135137},
+                zoom: zoom || 15,
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 scrollwheel: false,
                 events: {}
