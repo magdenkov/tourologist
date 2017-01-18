@@ -206,5 +206,9 @@
             vm.isSaving = false;
         }
 
+        $scope.back = function () {
+            window.history.back();
+        };
+
     }
 })();
