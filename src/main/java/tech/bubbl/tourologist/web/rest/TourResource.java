@@ -58,6 +58,17 @@ public class TourResource {
     @Inject
     private TourDownloadService tourDownloadService;
 
+    public static double MAX_DELTA = getProp("MAX_DELTA", 200.0);
+
+
+    public static double getProp(String property, double defaultP) {
+        String env = System.getProperty(property);
+        if (env == null) {
+            return defaultP;
+        }
+        return Double.parseDouble(env);
+    }
+
     @PostMapping("/tours")
     @Timed
     public ResponseEntity<TourDTO> createTour(@Valid @RequestBody TourDTO tourDTO) throws URISyntaxException {
@@ -193,6 +204,13 @@ public class TourResource {
                                                                                     )
         throws URISyntaxException {
         log.debug("REST request to get a page of DIY Tours");
+
+        if (maxDelta == null) {
+            maxDelta = MAX_DELTA;
+            if (maxDelta < 0 ) {
+                maxDelta = null;
+            }
+        }
 
         List<TourFullDTO> diyTours = tourService.getDIYTours(curLat, curLng, tarLat, tarLng, maxDelta);
 

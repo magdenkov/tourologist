@@ -570,15 +570,6 @@ public class TourServiceImpl implements TourService{
         return result;
     }
 
-    public <Entity> Predicate getDistancePredicate(Path<Entity> root, CriteriaBuilder cb) {
-        try {
-            double x = Double.valueOf("23.45");
-            double y = Double.valueOf("23.45");
-            int r = (int) Math.round(Double.valueOf("23.45") * 1000d);
-            return cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("x"), root.get("y"), cb.literal(x), cb.literal(y), cb.literal(r)));
-        } catch (Exception e) {
-            return null;
-        }
-    }
+
 
 }
