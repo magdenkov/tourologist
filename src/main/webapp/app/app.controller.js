@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('AppController', AppController);
 
-    AppController.$inject = ['$scope', '$localStorage', '$window', 'Principal'];
+    AppController.$inject = ['$state', '$scope', '$window', 'Principal'];
 
-    function AppController($scope, $localStorage, $window, Principal) {
+    function AppController($state, $scope, $window, Principal) {
         var vm = this;
 
         vm.isAuthenticated = Principal.isAuthenticated;
@@ -47,7 +47,7 @@
                 container: true
             }
         }
-        
+
         function isSmartDevice($window) {
             // Adapted from http://www.detectmobilebrowsers.com
             var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];
@@ -55,6 +55,12 @@
             return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
         }
 
+        // redirect to bubbl page if isAuthenticated
+        return Principal.promise().then(function() {
+            if (Principal.isAuthenticated()) {
+                $state.go('bubbl');
+            }
+        });
     }
 
 })();

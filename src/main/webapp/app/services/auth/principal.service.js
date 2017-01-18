@@ -20,6 +20,11 @@
             isIdentityResolved: isIdentityResolved
         };
 
+
+        service.promise = function() {
+            return this.identity();
+        }
+
         return service;
 
         function authenticate (identity) {
