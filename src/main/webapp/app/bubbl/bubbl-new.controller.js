@@ -6,10 +6,15 @@
         .controller('CreateBubblController', BubblDialogController);
 
     BubblDialogController.$inject = ['$scope', '$state', 'entity', 'Bubbl', 'Interest',
-      'Payload', 'TourBubbl', 'uiGmapGoogleMapApi', 'SharedProperties'];
+        'Payload', 'TourBubbl', 'uiGmapIsReady', 'SharedProperties', 'InitialMapConfig'];
 
-    function BubblDialogController( $scope, $state, entity, Bubbl, Interest, Payload,  TourBubbl, uiGmapGoogleMapApi, SharedProperties) {
+    function BubblDialogController($scope, $state, entity, Bubbl, Interest, Payload, TourBubbl, uiGmapIsReady, SharedProperties, initialMapConfig) {
         var vm = this;
+
+        debugger;
+
+        vm.mapConfig = initialMapConfig.call();
+        vm.mapControl = null;
 
         vm.bubbl = entity;
         vm.save = save;
@@ -33,21 +38,29 @@
         $scope.lat = "0";
         $scope.lng = "0";
 
-
-        $scope.map = {
-            center: {latitude: 54.00366, longitude: -2.547855},
-
-            events: {
-                tilesloaded: function (map, eventname, args) {
-                    $scope.mapInstance = map;
-                    $scope.drawBoundaries();
+        var events = {
+            places_changed: function (searchBox) {
+                var place = searchBox.getPlaces();
+                if (!place || place == 'undefined' || place.length == 0) {
+                    console.log('no place data :(');
+                    return;
                 }
+
+                vm.mapConfig = initialMapConfig.call(place[0].geometry.location.lat(), place[0].geometry.location.lng(), 18);
             }
-
         };
-        uiGmapGoogleMapApi.then(function (maps) {
 
-        });
+        vm.searchbox = {template: 'app/directives/tour-google-map/searchbox.tpl.html', events: events};
+
+        uiGmapIsReady.promise().then(function (maps) {
+            vm.mapControl = maps[0].map;
+
+            vm.getLocation();
+
+            vm.drawBoundaries();
+            google.maps.event.trigger(vm.mapControl, 'resize');
+        })
+
         $scope.removeLine = function () {
             $scope.circle.setMap(null);
             $scope.showFinishButton = false;
@@ -56,7 +69,9 @@
                 drawingControl: true
             });
         };
+
         $scope.showFinishButton = false;
+
         $scope.$watch('details', function () {
             if (!$scope.details) {
                 return;
@@ -66,20 +81,20 @@
             }
             $scope.marker = new google.maps.Marker({
                 position: $scope.details.geometry.location,
-                map: $scope.mapInstance,
+                map: vm.mapControl,
                 title: $scope.details.name
             });
 
-            $scope.mapInstance.setCenter($scope.details.geometry.location);
-            $scope.mapInstance.setZoom(17);  // Why 17? Because it looks good.
+            vm.mapControl.setCenter($scope.details.geometry.location);
+            vm.mapControl.setZoom(17);  // Why 17? Because it looks good.
             vm.bubbl.name = $scope.details.name;
             $scope.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
 
         });
 
         var firstLoad = true;
-        $scope.drawBoundaries = function () {
 
+        vm.drawBoundaries = function () {
             vm.bubbl.userId = $scope.currentUser;
 
             function updatePoly() {
@@ -91,9 +106,7 @@
                     vm.bubbl.lat = $scope.circle.getCenter().lat();
                     vm.bubbl.lng = $scope.circle.getCenter().lng();
                     vm.bubbl.radiusMeters = $scope.circle.getRadius();
-
                 };
-
                 console.log("lat " + vm.bubbl.lat + " lng " + vm.bubbl.lng)
             }
 
@@ -125,7 +138,7 @@
                         drawingModes: [google.maps.drawing.OverlayType.CIRCLE],
                     },
                     circleOptions: shapeOptions,
-                    map: $scope.mapInstance
+                    map: vm.mapControl
 
                 });
 
@@ -141,15 +154,12 @@
                     $scope.drawingManager.setDrawingMode(null);
                     updatePoly();
                     google.maps.event.addListener($scope.circle, "set_at", function (index) {
-
                         updatePoly();
                     });
                     google.maps.event.addListener($scope.circle, "insert_at", function (index) {
-
                         updatePoly();
                     });
                     google.maps.event.addListener($scope.circle, "dragend", function (index) {
-
                         updatePoly();
                     });
 
@@ -157,41 +167,21 @@
                 firstLoad = false;
             }
         };
-
-        $scope.options = {
-            watchEnter: true
-        };
-
-        $scope.search = function () {
-            if ($scope.search.location == '') {
-                $scope.errors.search = true;
-            }
-        };
-
-        $scope.getLocation = function () {
+        
+        vm.getLocation = function () {
             if (!navigator.geolocation) {
                 $scope.error = "Geolocation is not supported by this browser.";
                 return;
             }
             navigator.geolocation.getCurrentPosition(function (pos) {
-                if ($scope.mapInstance != null) {
-                    $scope.mapInstance.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-                    $scope.mapInstance.setZoom(17);
-
-                } else {
-                    $scope.map.center = {latitude: pos.coords.latitude, longitude: pos.coords.longitude};
-                    $scope.map.zoom = 17;
-                }
-
+                vm.mapControl.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+                vm.mapControl.setZoom(17);
             });
-
         };
-        $scope.getLocation();
+
         function save() {
             vm.isSaving = true;
-
             Bubbl.save(vm.bubbl, onSaveSuccess, onSaveError);
-
         }
 
         function onSaveSuccess(result) {
