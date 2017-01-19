@@ -1,9 +1,9 @@
 <!-- navbar header -->
 <div class="navbar-header {{ app.settings.navbarHeaderColor }}" style="background-color: #820202;">
-    <button class="pull-right visible-xs dk" ui-toggle-class="show" data-target=".navbar-collapse">
+    <button class="pull-right visible-xs dk" tour-toogle-class="show" data-target=".navbar-collapse">
         <i class="glyphicon glyphicon-cog"></i>
     </button>
-    <button class="pull-right visible-xs" ui-toggle-class="off-screen" data-target=".app-aside" ui-scroll-to="app">
+    <button class="pull-right visible-xs" tour-toggle-class="off-screen" data-target=".app-aside" tour-scroll-to="app">
         <i class="glyphicon glyphicon-align-justify"></i>
     </button>
     <!-- brand -->
@@ -43,9 +43,6 @@
                         findLanguageFromKey}}</a>
                 </li>
             </ul>
-        </li>
-        <li class="hidden-xs">
-            <a ui-fullscreen></a>
         </li>
 
         <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
