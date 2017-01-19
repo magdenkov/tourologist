@@ -185,6 +185,12 @@
                         })
                         scope.route.bubbls = [];
                     }
+                    if (scope.route.bubblCircles) {
+                        scope.route.bubblCircles.forEach(function (bubbl) {
+                            bubbl.setMap(null);
+                        })
+                        scope.route.bubblCircles = [];
+                    }
                 }
 
             }
@@ -257,6 +263,7 @@
             });
 
             var bubbls = [];
+            var bubblCircles = [];
 
             tour.bubbls.forEach(function (bubble) {
                 var bubbleMarker = new MarkerWithLabel({
@@ -282,6 +289,18 @@
                     strokeColor: "#1637F5"
                 });
                 bubbls.push(bubbleMarker);
+
+                var bubblCircleMarker = new google.maps.Circle({
+                    strokeColor: '#0D21FF',
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: '#0D21FF',
+                    fillOpacity: 0.25,
+                    map: mapControl,
+                    center:  new google.maps.LatLng(bubble.lat, bubble.lng),
+                    radius: bubble.radiusMeters
+                });
+                bubblCircles.push(bubblCircleMarker);
             })
 
             scope.route = {
@@ -289,7 +308,8 @@
                 startPoint: startPoint,
                 endPoint: endPoint,
                 wayPoints: wayPoints,
-                bubbls: bubbls
+                bubbls: bubbls,
+                bubblCircles: bubblCircles
             }
         }
 
