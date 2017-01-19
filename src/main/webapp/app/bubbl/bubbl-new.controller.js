@@ -167,7 +167,7 @@
                 firstLoad = false;
             }
         };
-        
+
         vm.getLocation = function () {
             if (!navigator.geolocation) {
                 $scope.error = "Geolocation is not supported by this browser.";
@@ -187,8 +187,7 @@
         function onSaveSuccess(result) {
             $scope.$emit('tourologistApp:bubblUpdate', result);
             SharedProperties.setValue('BubblEntity', vm.bubbl.id);
-
-            $state.go('payload.new');
+            $state.go('payload.new', {bubblId: result.id});
             vm.isSaving = false;
         }
 

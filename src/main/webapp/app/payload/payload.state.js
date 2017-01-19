@@ -112,11 +112,10 @@
             })
             .state('payload.new', {
                 parent: 'payload',
-                url: '/new',
+                url: '/new?bubblId',
                 data: {
                     authorities: ['ROLE_USER']
                 },
-                params: {bubbl: null},
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
                         templateUrl: 'app/payload/payload-dialog.html',
@@ -125,13 +124,15 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
+                            predefinedBubblId: function () {
+                                debugger;
+                                return $stateParams.bubblId;
+                            },
                             entity: function () {
                                 return {
                                     fileForUpload: null,
-
                                     id: null,
                                     payloadType: null
-
                                 };
                             }
                         }

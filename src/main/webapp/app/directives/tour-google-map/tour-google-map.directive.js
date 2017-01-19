@@ -49,6 +49,7 @@
                 }
 
                 scope.mapConfig = initialMapConfig.call(place[0].geometry.location.lat(), place[0].geometry.location.lng(), 18);
+                updateBubblesInRadius(place[0].geometry.location);
             }
         };
 
@@ -309,7 +310,9 @@
         uiGmapIsReady.promise().then(function (maps) {
             scope.mapControl = maps[0].map;
 
-            scope.mapControl.addListener('center_changed', function () {
+            updateBubblesInRadius(scope.mapControl.getCenter());
+
+            scope.mapControl.addListener('dragend', function () {
                 updateBubblesInRadius(this.getCenter());
             });
 
