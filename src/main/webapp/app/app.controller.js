@@ -54,13 +54,6 @@
             // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
             return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
         }
-
-        // redirect to bubbl page if isAuthenticated
-        return Principal.promise().then(function() {
-            if (Principal.isAuthenticated()) {
-                $state.go('bubbl');
-            }
-        });
     }
 
 })();
