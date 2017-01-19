@@ -400,12 +400,36 @@ public class TourServiceImpl implements TourService{
             DirectionsResult directionsFromGoogle = getDirectionsFromGoogle(new LatLng(curLat, curLng), new LatLng(tarLat, tarLng), null);
             List<LatLng> path = directionsFromGoogle.routes[0].overviewPolyline.decodePath();
             AtomicInteger i = new AtomicInteger(0);
-            Set<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
+            List<TourRoutePoint> routePoints = path.stream().map(latLng -> new TourRoutePoint()
                 .tour(null)
                 .lat(latLng.lat)
                 .lng(latLng.lng)
                 .orderNumber(i.getAndIncrement()))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
+
+            List <TourRoutePoint> midPoints = new ArrayList<>();
+            TourRoutePoint previousPoint = routePoints.get(0);
+            double halfMaxDelta = maxDelta / 2;
+
+            for (int j = 1; j < routePoints.size() - 1 ; j++) {
+                GlobalCoordinates currentPointCoord = new GlobalCoordinates(routePoints.get(j).getLat(), routePoints.get(j).getLng());
+                GlobalCoordinates previousPointCoord = new GlobalCoordinates(previousPoint.getLat(), previousPoint.getLng());
+
+                previousPoint = routePoints.get(j);
+
+                double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84,
+                    currentPointCoord, previousPointCoord).getEllipsoidalDistance();
+                if (distance < halfMaxDelta) {
+                    GlobalPosition mP = midPoint(currentPointCoord.getLatitude(), currentPointCoord.getLongitude(),
+                        previousPointCoord.getLatitude(), previousPointCoord.getLongitude());
+                    TourRoutePoint tRP = new TourRoutePoint().lat(mP.getLatitude()).lng(midPoint.getLongitude())
+                        .orderNumber(i.getAndIncrement()).tour(null);
+                    midPoints.add(tRP);
+                }
+
+            }
+
+            routePoints.addAll(midPoints);
 
              bubblsAround = bubblsAround.stream()
                 .filter(bubbl -> {
