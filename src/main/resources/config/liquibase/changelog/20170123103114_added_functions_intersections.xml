@@ -26,7 +26,7 @@
         />
 
         <sqlFile encoding="utf8"
-                 path="sql/circles_intersects.sql"
+                 path="sql/circles_intersect.sql"
                  relativeToChangelogFile="true"
                  splitStatements="false"
                  stripComments="false"
