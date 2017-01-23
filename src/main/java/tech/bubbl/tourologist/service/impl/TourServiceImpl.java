@@ -383,7 +383,8 @@ public class TourServiceImpl implements TourService{
             public Predicate toPredicate(Root<Bubbl> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicates = new ArrayList<>();
                 predicates.add(
-                    cb.isTrue(cb.function("IN_RADIUS", Boolean.class, root.get("lat"), root.get("lng"),
+                    cb.isTrue(cb.function("CIRCLES_INTERSECTS", Boolean.class, root.get("lat"), root.get("lng"),
+                        root.get("radiusMeters"),
                         cb.literal(midPoint.getLatitude()), cb.literal(midPoint.getLongitude()), cb.literal(radius + toleranceDistance))));
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
