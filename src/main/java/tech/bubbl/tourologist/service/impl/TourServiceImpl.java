@@ -443,6 +443,23 @@ public class TourServiceImpl implements TourService{
                     if (distanceBetweenCenters < maxDelta + bubbl.getRadiusMeters()) {
                         return true;
                     }
+
+                    if (distanceBetweenCenters < Math.abs(bubbl.getRadiusMeters() - radius)) {
+                        return bubbl.getRadiusMeters() < radius;
+                    }
+
+                    if (distanceBetweenCenters < maxDelta) {
+                        return true;  // this actually not necessary, just for sure
+                    }
+
+                    // also handle this case
+
+                    /*   1.7976931348623157E+308 is it Equal Double.MAX_VALUE
+                     IF (dist <=   AND abs(bubblRadius - radius) <= 1.7976931348623157E+308) THEN
+               return true; -- the circles are coincident
+            END IF;
+                     */
+
                 }
                 return false;
             }).limit(MAX_BUBBLS_ALLOWED_BY_GOOGLE)
