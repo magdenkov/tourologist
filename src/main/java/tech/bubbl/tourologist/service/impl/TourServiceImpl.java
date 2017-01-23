@@ -437,8 +437,10 @@ public class TourServiceImpl implements TourService{
                     GlobalCoordinates bubblCoordinate = new GlobalCoordinates(bubbl.getLat(), bubbl.getLng());
                     GlobalCoordinates pointWatloc = new GlobalCoordinates(routePoint.getLat(), routePoint.getLng());
 
-                    double distance = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, bubblCoordinate, pointWatloc).getEllipsoidalDistance();
-                    if (distance < maxDelta) {
+                    // distance between bubbl center and coordinate of route point
+                    double distanceBetweenCenters = GEODETIC_CALCULATOR.calculateGeodeticCurve(Ellipsoid.WGS84, bubblCoordinate, pointWatloc).getEllipsoidalDistance();
+
+                    if (distanceBetweenCenters < maxDelta + bubbl.getRadiusMeters()) {
                         return true;
                     }
                 }
