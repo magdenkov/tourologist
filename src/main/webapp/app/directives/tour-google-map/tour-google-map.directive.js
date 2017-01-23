@@ -37,6 +37,7 @@
             show: scope.showBubbles || false,
             radius: +scope.radius || 10000,
             bubblMarkers: [],
+            bubblCircles: [],
             circle: null
         };
 
@@ -79,6 +80,18 @@
             })
 
             scope.showBubblesInRadius.bubblMarkers = [];
+
+            scope.showBubblesInRadius.bubblCircles.forEach(function (bubblCircle) {
+                if (bubblCircle._clickListenerHandler != null) {
+                    google.maps.event.removeListener(bubblCircle._clickListenerHandler);
+                }
+                if (bubblCircle._rightClickListenerHandler != null) {
+                    google.maps.event.removeListener(bubblCircle._rightClickListenerHandler);
+                }
+                bubblCircle.setMap(null);
+            })
+
+            scope.showBubblesInRadius.bubblCircles = [];
 
             if (scope.showBubblesInRadius.show === true) {
                 scope.showBubblesInRadius.circle = new google.maps.Circle({
@@ -149,6 +162,31 @@
                         });
 
                         scope.showBubblesInRadius.bubblMarkers.push(bubbleMarker);
+
+                        var bubblCircle = new google.maps.Circle({
+                            strokeColor: '#05FF0D',
+                            strokeOpacity: 0.5,
+                            strokeWeight: 2,
+                            fillColor: '#05FF0D',
+                            fillOpacity: 0.25,
+                            map: scope.mapControl,
+                            center:  new google.maps.LatLng(bubbl.lat, bubbl.lng),
+                            radius: bubbl.radiusMeters
+                        });
+
+                        bubblCircle._clickListenerHandler = google.maps.event.addListener(bubblCircle, 'click', function (event) {
+                            if (scope.onCircleClick()) {
+                                scope.onCircleClick()(event);
+                            }
+                        });
+
+                        bubblCircle._rightClickListenerHandler = google.maps.event.addListener(bubblCircle, 'rightclick', function (event) {
+                            if (scope.onCircleRightClick()) {
+                                scope.onCircleRightClick()(event);
+                            }
+                        });
+
+                        scope.showBubblesInRadius.bubblCircles.push(bubblCircle);
                     })
                 })
             }
@@ -157,8 +195,6 @@
         scope.route = null;
 
         var drawTourRoute = function (tour) {
-            var mapControl = scope.mapControl;
-
             var clearRoute = function () {
                 if (scope.route) {
                     if (scope.route.way) {
@@ -186,8 +222,14 @@
                         scope.route.bubbls = [];
                     }
                     if (scope.route.bubblCircles) {
-                        scope.route.bubblCircles.forEach(function (bubbl) {
-                            bubbl.setMap(null);
+                        scope.route.bubblCircles.forEach(function (bubblCircle) {
+                            if (bubblCircle._clickListenerHandler != null) {
+                                google.maps.event.removeListener(bubblCircle._clickListenerHandler);
+                            }
+                            if (bubblCircle._rightClickListenerHandler != null) {
+                                google.maps.event.removeListener(bubblCircle._rightClickListenerHandler);
+                            }
+                            bubblCircle.setMap(null);
                         })
                         scope.route.bubblCircles = [];
                     }
@@ -220,7 +262,7 @@
                         path: google.maps.SymbolPath.CIRCLE,
                         scale: 1
                     },
-                    map: mapControl,
+                    map: scope.mapControl,
                     strokeColor: "#1637F5"
                 });
                 wayPoints.push(wayPoint);
@@ -232,7 +274,7 @@
                 strokeColor: 'red',
                 strokeOpacity: 0.5,
                 strokeWeight: 10,
-                map: mapControl,
+                map: scope.mapControl,
                 title: 'way'
             });
 
@@ -240,7 +282,7 @@
                 position: new google.maps.LatLng(tour.tourRoutePoints[0].lat, tour.tourRoutePoints[0].lng),
                 title: 'Real Start Point',
                 animation: google.maps.Animation.DROP,
-                map: mapControl,
+                map: scope.mapControl,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
@@ -254,7 +296,7 @@
                     tour.tourRoutePoints[tour.tourRoutePoints.length - 1].lng),
                 title: 'Real End Point',
                 animation: google.maps.Animation.DROP,
-                map: mapControl,
+                map: scope.mapControl,
                 icon: {
                     path: google.maps.SymbolPath.CIRCLE,
                     scale: 10,
@@ -285,22 +327,34 @@
                         strokeWeight: 3,
                         strokeColor: "blue"
                     },
-                    map: mapControl,
+                    map: scope.mapControl,
                     strokeColor: "#1637F5"
                 });
                 bubbls.push(bubbleMarker);
 
-                var bubblCircleMarker = new google.maps.Circle({
+                var bubblCircle = new google.maps.Circle({
                     strokeColor: '#0D21FF',
                     strokeOpacity: 0.5,
                     strokeWeight: 2,
                     fillColor: '#0D21FF',
                     fillOpacity: 0.25,
-                    map: mapControl,
+                    map: scope.mapControl,
                     center:  new google.maps.LatLng(bubble.lat, bubble.lng),
                     radius: bubble.radiusMeters
                 });
-                bubblCircles.push(bubblCircleMarker);
+
+                bubblCircle._clickListenerHandler = google.maps.event.addListener(bubblCircle, 'click', function (event) {
+                    if (scope.onCircleClick()) {
+                        scope.onCircleClick()(event);
+                    }
+                });
+
+                bubblCircle._rightClickListenerHandler = google.maps.event.addListener(bubblCircle, 'rightclick', function (event) {
+                    if (scope.onCircleRightClick()) {
+                        scope.onCircleRightClick()(event);
+                    }
+                });
+                bubblCircles.push(bubblCircle);
             })
 
             scope.route = {
@@ -377,4 +431,3 @@
     }
 
 })();
-
