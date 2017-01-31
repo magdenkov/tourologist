@@ -653,5 +653,5 @@ class RecordedSimulation extends Simulation {
 			.get(uri06 + "/chart/platforms")
 			.headers(headers_102)))
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(atOnceUsers(100))).protocols(httpProtocol)
 }
