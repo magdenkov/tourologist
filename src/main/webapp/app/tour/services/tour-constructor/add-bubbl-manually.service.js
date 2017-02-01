@@ -14,7 +14,7 @@
         service.call = function () {
             var deferred = $q.defer();
 
-            Bubbl.query().$promise.then(function (bubbls) {
+            Bubbl.query({page: 0, size: 500}).$promise.then(function (bubbls) {
                 service.items = bubbls;
 
                 modal.open('app/tour/services/tour-constructor/add-bubbl-manually.modal.html',
