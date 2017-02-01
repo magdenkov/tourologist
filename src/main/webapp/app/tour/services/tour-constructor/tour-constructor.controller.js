@@ -230,11 +230,22 @@
         }
 
         vm.onAddBubblManuallyButtonClick = function () {
-            addBubblManually.call().then(function (bubbl) {
-                if (bubbl != null) {
-                    addBubbl(bubbl);
-                }
-            });
+
+            if (vm.account.authorities.includes('ROLE_ADMIN')) {
+                addBubblManually.callAdmin().then(function (bubbl) {
+                    if (bubbl != null) {
+                        addBubbl(bubbl);
+                    }
+                });
+            } else {
+                addBubblManually.call().then(function (bubbl) {
+                    if (bubbl != null) {
+                        addBubbl(bubbl);
+                    }
+                });
+            }
+
+
         }
 
         vm.onRemoveBubblFromTourClick = function () {
