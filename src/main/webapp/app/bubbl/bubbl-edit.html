@@ -38,6 +38,38 @@
                         </p>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label" data-translate="tourologistApp.bubbl.lat"
+                           for="field_description">Latitude</label>
+                    <input type="number" class="form-control" name="description" id="field_lat"
+                           ng-model="vm.bubbl.lat"
+                           ng-maxlength="255"/>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" data-translate="tourologistApp.bubbl.lng"
+                           for="field_description">Longitude</label>
+                    <input type="number" class="form-control" name="description" id="field_lng"
+                           ng-model="vm.bubbl.lng"
+                           ng-maxlength="255"/>
+
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"
+                           for="field_description">Radius</label>
+                    <input type="number" class="form-control" name="description" id="field_radius"
+                           ng-model="vm.bubbl.radiusMeters"
+                           ng-maxlength="255"/>
+
+                </div>
+
+               <a href="https://www.google.co.uk/maps/place/{{vm.bubbl.lat}},{{vm.bubbl.lng}}">go to map https://www.google.co.uk/maps/place/{{vm.bubbl.lat}},{{vm.bubbl.lng}}</a>
+
+
+
                 <div class="form-group">
                     <label class="control-label" data-translate="tourologistApp.bubbl.status"
                            for="field_status">Status</label>
