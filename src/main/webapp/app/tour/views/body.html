@@ -25,82 +25,109 @@
                                        ng-model="searchTours[queryBy]">
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-condensed bg-white-only">
-                        <thead>
-                        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                            <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name"
-                                                        style="max-width: 300px">Name</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span>
-                                <span class="glyphicon glyphicon-sort"></span></th>
-                            <th jh-sort-by="tourType"><span
-                                data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
-                                class="glyphicon glyphicon-sort"></span></th>
-                            <th has-authority="ROLE_ADMIN" jh-sort-by="author">
-                                <span>User</span> <span class="glyphicon glyphicon-sort"></span>
-                            </th>
-                            <th class="text-left">Ratings</th>
-                            <th class="text-left" style="min-width: 130px;">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="tour in vm.tours | filter:searchTours">
-                            <td style="max-width: 300px">{{tour.name}}</td>
-                            <td>{{tour.bubblsAmount}}</td>
-                            <td data-translate="{{'tourologistApp.Status.' + tour.status}}">
-                                {{tour.status}}
-                            </td>
-                            <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}</td>
-                            <td has-authority="ROLE_ADMIN">
-                                {{tour.author}}
-                            </td>
-                            <td has-authority="ROLE_ADMIN">
-                                {{tour.rating}}
-                            </td>
-                            <td class="text-left">
-                                <div class="buttons">
-                                    <button type="button"
-                                            ui-sref="tour-detail({id: tour.id})"
-                                            class="btn btn-info btn-icon btn-sm" title="View">
-                                        <span class="glyphicon glyphicon-eye-open"></span>
-                                    </button>
-                                    <button type="button"
-                                            ng-click="vm.onEditTourClick(tour)"
-                                            class="btn btn-primary btn-icon btn-sm" title="Edit">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                    <button type="button"
-                                            ng-click="vm.onDeleteTourClick(tour)"
-                                            class="btn btn-danger btn-icon btn-sm" title="Delete">
-                                        <span class="glyphicon glyphicon-remove-circle"></span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <footer class="panel-footer">
-                    <div class="row">
-                        <div class="col-sm-4 col-sm-offset-4 text-center">
-                            <jhi-item-count page="vm.page" total="vm.queryCount"
-                                            class="ext-muted m-t-sm m-b-sm"
-                                            items-per-page="vm.itemsPerPage"></jhi-item-count>
+
+
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                <button class="btn btn-primary " ng-click="getDIY()">
+                                    <span>DIY tours</span>
+                                </button>
+                            </div>
+
                         </div>
-                        <div class="col-sm-4 text-right text-center-xs">
-                            <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
-                                            total-items="vm.totalItems"
-                                            items-per-page="vm.itemsPerPage"
-                                            ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                        <div class="col-sm-2 ">
+                            <div class="input-group text-center">
+                                <button ng-click="getFixed()" class="btn btn-primary ">
+                                    <span>Fixed tours</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-2 ">
+                            <div class="input-group col-lg-offset-1">
+                                <button ng-click="clearFilter()"  class="btn btn-primary ">
+                                    <span class="glyphicon glyphicon-remove-circle"></span>
+
+
+                                    clear
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </footer>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-condensed bg-white-only">
+                            <thead>
+                            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                                <th jh-sort-by="name"><span data-translate="tourologistApp.tour.name"
+                                                            style="max-width: 300px">Name</span> <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                                <th jh-sort-by="bubblsAmount"><span>Amount Of Bubbls</span> <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                                <th jh-sort-by="status"><span data-translate="tourologistApp.tour.status">Status</span>
+                                    <span class="glyphicon glyphicon-sort"></span></th>
+                                <th jh-sort-by="tourType"><span
+                                    data-translate="tourologistApp.tour.tourType">Tour Type</span> <span
+                                    class="glyphicon glyphicon-sort"></span></th>
+                                <th has-authority="ROLE_ADMIN" jh-sort-by="author">
+                                    <span>User</span> <span class="glyphicon glyphicon-sort"></span>
+                                </th>
+                                <th class="text-left">Ratings</th>
+                                <th class="text-left" style="min-width: 130px;">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="tour in vm.tours | filter:searchTours:tourType">
+                                <td style="max-width: 300px">{{tour.name}}</td>
+                                <td>{{tour.bubblsAmount}}</td>
+                                <td data-translate="{{'tourologistApp.Status.' + tour.status}}">
+                                    {{tour.status}}
+                                </td>
+                                <td data-translate="{{'tourologistApp.TourType.' + tour.tourType}}">{{tour.tourType}}
+                                </td>
+                                <td has-authority="ROLE_ADMIN">
+                                    {{tour.author}}
+                                </td>
+                                <td has-authority="ROLE_ADMIN">
+                                    {{tour.rating}}
+                                </td>
+                                <td class="text-left">
+                                    <div class="buttons">
+                                        <button type="button"
+                                                ui-sref="tour-detail({id: tour.id})"
+                                                class="btn btn-info btn-icon btn-sm" title="View">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                        <button type="button"
+                                                ng-click="vm.onEditTourClick(tour)"
+                                                class="btn btn-primary btn-icon btn-sm" title="Edit">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                        <button type="button"
+                                                ng-click="vm.onDeleteTourClick(tour)"
+                                                class="btn btn-danger btn-icon btn-sm" title="Delete">
+                                            <span class="glyphicon glyphicon-remove-circle"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <footer class="panel-footer">
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-offset-4 text-center">
+                                <jhi-item-count page="vm.page" total="vm.queryCount"
+                                                class="ext-muted m-t-sm m-b-sm"
+                                                items-per-page="vm.itemsPerPage"></jhi-item-count>
+                            </div>
+                            <div class="col-sm-4 text-right text-center-xs">
+                                <uib-pagination class="pagination pagination-sm m-t-none m-b-none"
+                                                total-items="vm.totalItems"
+                                                items-per-page="vm.itemsPerPage"
+                                                ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
             </div>
         </div>
     </div>
-</div>
