@@ -1,5 +1,6 @@
 package tech.bubbl.tourologist.domain;
 
+import org.hibernate.annotations.Where;
 import tech.bubbl.tourologist.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,6 +24,7 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Where(clause = "deleted is NULL")
 public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -94,12 +96,25 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Set<Interest> interests = new HashSet<>();
 
 
+    @Column(name = "deleted")
+
+    private ZonedDateTime deleted;
+
+
     public String getFullName() {
         if ((firstName != null && !firstName.isEmpty()) || (lastName != null && !lastName.isEmpty())) {
             return firstName + " " + lastName;
         }
 
         return email;
+    }
+
+    public ZonedDateTime getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(ZonedDateTime deleted) {
+        this.deleted = deleted;
     }
 
     public Set<Interest> getInterests() {

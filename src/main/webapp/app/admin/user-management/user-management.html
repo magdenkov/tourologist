@@ -18,8 +18,6 @@
                         <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                             <th jh-sort-by="id"><span data-translate="global.field.id">ID</span><span
                                 class="glyphicon glyphicon-sort"></span></th>
-                            <!--<th jh-sort-by="login"><span data-translate="userManagement.login">Login</span> <span-->
-                                <!--class="glyphicon glyphicon-sort"></span></th>-->
                             <th jh-sort-by="email"><span data-translate="userManagement.email">Email</span> <span
                                 class="glyphicon glyphicon-sort"></span></th>
                             <th>Status</th>
@@ -35,7 +33,6 @@
                         <tbody>
                         <tr ng-repeat="user in vm.users track by user.id">
                             <td><a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a></td>
-                            <!--<td>{{user.login}}</td>-->
                             <td>{{user.email}}</td>
                             <td>
                                 <span class="label label-danger" ng-click="vm.setActive(user, true)"

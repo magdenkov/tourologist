@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 /**
@@ -174,12 +175,18 @@ public class UserService {
             });
     }
 
-    public void deleteUser(String login) {
-        userRepository.findOneByLogin(login).ifPresent(u -> {
-            socialService.deleteUserSocialConnection(u.getLogin());
-            userRepository.delete(u);
-            log.debug("Deleted User: {}", u);
-        });
+    @Transactional
+    public void deleteUser(Long id) {
+        User user = userRepository.findOne(id);
+        if (user == null) {
+            throw new EntityNotFoundException("User does not exist ID " + id);
+        }
+        log.debug("Deleted User: {}", user);
+        socialService.deleteUserSocialConnection(user.getLogin());
+
+        user.setDeleted(ZonedDateTime.now());
+        userRepository.save(user);
+
     }
 
     public void changePassword(String password) {
