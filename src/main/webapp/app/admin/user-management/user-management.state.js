@@ -49,7 +49,7 @@
             }        })
         .state('user-management-detail', {
             parent: 'admin',
-            url: '/user/:login',
+            url: '/user/:id',
             data: {
                 authorities: ['ROLE_ADMIN'],
                 pageTitle: 'user-management.detail.title'
@@ -100,7 +100,7 @@
         })
         .state('user-management.edit', {
             parent: 'user-management',
-            url: '/{login}/edit',
+            url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_ADMIN']
             },
@@ -113,7 +113,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['User', function(User) {
-                            return User.get({login : $stateParams.login});
+                            return User.get({id : $stateParams.id});
                         }]
                     }
                 }).result.then(function() {
@@ -125,7 +125,7 @@
         })
         .state('user-management.delete', {
             parent: 'user-management',
-            url: '/{login}/delete',
+            url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_ADMIN']
             },
@@ -137,7 +137,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['User', function(User) {
-                            return User.get({login : $stateParams.login});
+                            return User.get({id : $stateParams.id});
                         }]
                     }
                 }).result.then(function() {

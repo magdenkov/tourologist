@@ -275,6 +275,8 @@ public class UserResource {
     @Secured(AuthoritiesConstants.ADMIN)
     public ResponseEntity<ManagedUserVM> updateUser(@RequestBody ManagedUserVM managedUserVM) {
         log.debug("REST request to update User : {}", managedUserVM);
+        managedUserVM.setLogin(managedUserVM.getEmail());
+
         Optional<User> existingUser = userRepository.findOneByEmail(managedUserVM.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "emailexists", "E-mail already in use")).body(null);
@@ -314,17 +316,19 @@ public class UserResource {
     /**
      * GET  /users/:login : get the "login" user.
      *
-     * @param login the login of the user to find
+     * @param id the login of the user to find
      * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)
      */
-    @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+    @GetMapping("/users/{id}")
     @Timed
-    public ResponseEntity<ManagedUserVM> getUser(@PathVariable String login) {
-        log.debug("REST request to get User : {}", login);
-        return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserVM::new)
-                .map(managedUserVM -> new ResponseEntity<>(managedUserVM, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ManagedUserVM> getUser(@PathVariable Long id) {
+        log.debug("REST request to get User : {}", id);
+        User user = userService.getUserWithAuthorities(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(new ManagedUserVM(user), HttpStatus.OK);
+        }
     }
 
     /**

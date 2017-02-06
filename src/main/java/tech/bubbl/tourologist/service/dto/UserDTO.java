@@ -71,6 +71,14 @@ public class UserDTO {
         return id;
     }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
