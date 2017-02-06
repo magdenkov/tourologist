@@ -16,7 +16,8 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-
+        $scope.tourType = '';
+        vm.tours = [];
         $scope.searchTours = '';
         $scope.queryBy = 'name';
 
@@ -27,17 +28,28 @@
             getAccount();
         });
 
+        $scope.getDIY = function(){
+            $scope.tourType = 'DIY';
+            changeUrl();
+        };
+        $scope.getFixed = function(){
+            $scope.tourType = 'FIXED';
+            changeUrl();
+        };
+        $scope.clearFilter = function(){
+            $scope.tourType = '';
+            changeUrl();
+        };
         getAccount();
-
-        vm.onDeleteTourClick = function(tour) {
+        vm.onDeleteTourClick = function (tour) {
             deleteTour.call(tour);
         }
 
-        vm.onEditTourClick = function(tour) {
+        vm.onEditTourClick = function (tour) {
             tourConstructor.call(tour);
         }
 
-        vm.onCreateTourClick = function() {
+        vm.onCreateTourClick = function () {
             tourConstructor.call({
                 id: null,
                 description: null,
@@ -65,7 +77,8 @@
             Tour.queryAdmin({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
-                sort: sort()
+                sort: sort(),
+                type:$scope.tourType
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
@@ -81,6 +94,7 @@
                 vm.queryCount = vm.totalItems;
                 vm.tours = data;
                 vm.page = pagingParams.page;
+
             }
 
             function onError(error) {
@@ -92,7 +106,9 @@
             Tour.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
-                sort: sort()
+                sort: sort(),
+                type:$scope.tourType
+
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
