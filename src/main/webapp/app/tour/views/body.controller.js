@@ -16,7 +16,7 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-        $scope.tourType = '';
+        $scope.tourType = 'FIXED';
         vm.tours = [];
         $scope.searchTours = '';
         $scope.queryBy = 'name';

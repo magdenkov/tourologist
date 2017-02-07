@@ -25,8 +25,13 @@
                                        ng-model="searchTours[queryBy]">
                             </div>
                         </div>
-
-
+                        <div class="col-sm-2 ">
+                            <div class="input-group text-center">
+                                <button ng-click="getFixed()" class="btn btn-primary ">
+                                    <span>Fixed tours</span>
+                                </button>
+                            </div>
+                        </div>
                         <div class="col-sm-2">
                             <div class="input-group">
                                 <button class="btn btn-primary " ng-click="getDIY()">
@@ -35,21 +40,10 @@
                             </div>
 
                         </div>
-                        <div class="col-sm-2 ">
-                            <div class="input-group text-center">
-                                <button ng-click="getFixed()" class="btn btn-primary ">
-                                    <span>Fixed tours</span>
-                                </button>
-                            </div>
-                        </div>
+
                         <div class="col-sm-2 ">
                             <div class="input-group col-lg-offset-1">
-                                <button ng-click="clearFilter()"  class="btn btn-primary ">
-                                    <span class="glyphicon glyphicon-remove-circle"></span>
 
-
-                                    clear
-                                </button>
                             </div>
                         </div>
                     </div>

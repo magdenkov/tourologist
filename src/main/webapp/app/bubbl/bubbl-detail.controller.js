@@ -5,9 +5,9 @@
         .module('tourologistApp')
         .controller('BubblDetailController', BubblDetailController);
 
-    BubblDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Bubbl', 'User', 'Interest', 'BubblRating', 'BubblDownload', 'Payload', 'BubblAdminReview', 'TourBubbl'];
+    BubblDetailController.$inject = ['$scope', '$rootScope', 'previousState', 'entity', 'Bubbl'];
 
-    function BubblDetailController($scope, $rootScope, $stateParams, previousState, entity, Bubbl, User, Interest, BubblRating, BubblDownload, Payload, BubblAdminReview, TourBubbl) {
+    function BubblDetailController($scope, $rootScope, previousState, entity, Bubbl) {
         var vm = this;
 
         vm.bubbl = entity;

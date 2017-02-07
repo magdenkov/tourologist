@@ -6,10 +6,10 @@
         .controller('BubblController', BubblController);
 
     BubblController.$inject = ['$scope', '$state', 'Bubbl', 'ParseLinks', 'AlertService', 'pagingParams',
-        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'Principal'];
+        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'Principal','filterFilter'];
 
     function BubblController($scope, $state, Bubbl, ParseLinks, AlertService, pagingParams, paginationConstants,
-                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, Principal) {
+                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, Principal,filterFilter) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -19,9 +19,12 @@
         vm.itemsPerPage = paginationConstants.itemsPerPage;
         $scope.mapControl = {};
 
-        $scope.searchBubbls = '';
-        $scope.queryBy = 'name';
-        var bubbls = {};
+
+
+       vm.bubbls = [];
+
+
+
         var circles = [];
         var markers = [];
         $timeout(function () {
@@ -101,9 +104,11 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
-                bubbls = vm.bubbls = data;
+                vm.bubbls = data;
                 vm.page = pagingParams.page;
 
+                $scope.searchBubbls = '';
+                $scope.queryBy = 'name';
 
                 getBubblMap();
             }
@@ -133,7 +138,7 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
-                bubbls = vm.bubbls = data;
+                vm.bubbls = data;
                 vm.page = pagingParams.page;
 
 
@@ -148,7 +153,7 @@
 
         function getBubblMap() {
 
-            $scope.bubblmap = bubbls;
+            $scope.bubblmap = vm.bubbls;
 
             function drawMapMarkers() {
                 $q.all([uiGmapIsReady.promise(), $scope.bubblmap])
