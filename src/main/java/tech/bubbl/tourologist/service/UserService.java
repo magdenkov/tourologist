@@ -185,6 +185,9 @@ public class UserService {
         socialService.deleteUserSocialConnection(user.getLogin());
 
         user.setDeleted(ZonedDateTime.now());
+        String time = ZonedDateTime.now().toString().replaceAll("[:+/\\[\\]]", "");
+        user.setLogin(user.getLogin() + time);
+        user.setEmail(user.getEmail() + time);
         userRepository.save(user);
 
     }
