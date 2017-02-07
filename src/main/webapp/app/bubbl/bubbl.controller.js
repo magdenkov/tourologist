@@ -155,8 +155,9 @@
             $scope.selectedBubbls = [];
             angular.forEach(vm.bubbls, function (bubbl) {
                 if (bubbl.selected) $scope.selectedBubbls.push(bubbl.id);
-                Bubbl.delete({id: $scope.selectedBubbls});
+
             });
+            Bubbl.delete({id: $scope.selectedBubbls});
             console.log($scope.selectedBubbls)
         };
 
