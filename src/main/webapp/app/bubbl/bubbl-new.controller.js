@@ -11,7 +11,6 @@
     function BubblDialogController($scope, $state, entity, Bubbl, Interest, Payload, TourBubbl, uiGmapIsReady, SharedProperties, initialMapConfig) {
         var vm = this;
 
-        debugger;
 
         vm.mapConfig = initialMapConfig.call();
         vm.mapControl = null;

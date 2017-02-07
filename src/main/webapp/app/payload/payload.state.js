@@ -125,7 +125,6 @@
                         size: 'lg',
                         resolve: {
                             predefinedBubblId: function () {
-                                debugger;
                                 return $stateParams.bubblId;
                             },
                             entity: function () {

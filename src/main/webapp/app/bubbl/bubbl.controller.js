@@ -6,10 +6,10 @@
         .controller('BubblController', BubblController);
 
     BubblController.$inject = ['$scope', '$state', 'Bubbl', 'ParseLinks', 'AlertService', 'pagingParams',
-        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'Principal','filterFilter'];
+        'paginationConstants', '$rootScope', 'angularGridInstance', '$timeout', '$q', 'uiGmapIsReady', 'Principal', '$filter'];
 
     function BubblController($scope, $state, Bubbl, ParseLinks, AlertService, pagingParams, paginationConstants,
-                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, Principal,filterFilter) {
+                             $rootScope, angularGridInstance, $timeout, $q, uiGmapIsReady, Principal, $filter) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -20,9 +20,7 @@
         $scope.mapControl = {};
 
 
-
-       vm.bubbls = [];
-
+        vm.bubbls = [];
 
 
         var circles = [];
@@ -150,6 +148,18 @@
                 AlertService.error(error.data.message);
             }
         }
+
+        $scope.showdeletebutton = false;
+
+        $scope.delete = function () {
+            $scope.selectedBubbls = [];
+            angular.forEach(vm.bubbls, function (bubbl) {
+                if (bubbl.selected) $scope.selectedBubbls.push(bubbl.id);
+                Bubbl.delete({id: $scope.selectedBubbls});
+            });
+            console.log($scope.selectedBubbls)
+        };
+
 
         function getBubblMap() {
 
