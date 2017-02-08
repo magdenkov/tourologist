@@ -113,7 +113,7 @@ public class BubblResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    
+
     @GetMapping("/my/bubbls")
     @Timed
     public ResponseEntity<List<FullTourBubblNumberedDTO>> getOnlyMy(@RequestParam(value = "status", required = false) Status status,
@@ -139,12 +139,12 @@ public class BubblResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/bubbls/{id}")
+    @DeleteMapping("/bubbls/{ids}")
     @Timed
-    public ResponseEntity<Void> deleteBubbl(@PathVariable Long id) {
-        log.debug("REST request to delete Bubbl : {}", id);
-        bubblService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("bubbl", id.toString())).build();
+    public ResponseEntity<Void> deleteBubbl(@PathVariable List<Long> ids) {
+        log.debug("REST request to delete Bubbl : {}", ids.stream().map(o -> o.toString()).collect(Collectors.joining(", ")));
+        bubblService.delete(ids);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("bubbl", ids.toString())).build();
     }
 
 

@@ -263,18 +263,19 @@ public class TourServiceImpl implements TourService{
     }
 
     @Transactional
-    public void delete(Long id) {
-        log.debug("Request to delete Tour : {}", id);
-        Tour tour = tourRepository.findOne(id);
-        Optional.ofNullable(tour)
-            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + id));
+    public void delete(List<Long> ids) {
+        log.debug("Request to delete Tour : {}", ids);
 
-        Set<TourBubbl> tourBubbls = tourBubblRepository.findByTour(tour);
-
-        tour.getTourBubbls().removeAll(tourBubbls);
-        tourRepository.save(tour);
-        tourBubblRepository.deleteByTour(tour);
-        tourRepository.delete(id);
+        for (Long id : ids) {
+            Tour tour = tourRepository.findOne(id);
+//        Optional.ofNullable(tour)
+//            .orElseThrow(() -> new EntityNotFoundException("Tour with id was not found " + id));
+            Set<TourBubbl> tourBubbls = tourBubblRepository.findByTour(tour);
+            tour.getTourBubbls().removeAll(tourBubbls);
+            tourRepository.save(tour);
+            tourBubblRepository.deleteByTour(tour);
+            tourRepository.delete(id);
+        }
     }
 
     @Override

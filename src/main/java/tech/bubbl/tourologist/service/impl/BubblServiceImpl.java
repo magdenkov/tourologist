@@ -158,7 +158,7 @@ public class BubblServiceImpl implements BubblService {
                 if (userId != null) {
                     predicates.add(cb.equal(root.get("user").get("id"), userId));
                 }
-          
+
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         });
@@ -180,36 +180,25 @@ public class BubblServiceImpl implements BubblService {
     /**
      *  Delete the  bubbl by id.
      *
-     *  @param id the id of the entity
+     * @param ids the id of the entity
      */
     @Transactional
-    public void delete(Long id) {
-        log.debug("Request to delete Bubbl : {}", id);
-        Bubbl bubbl = bubblRepository.findOne(id);
-        Optional.ofNullable(bubbl)
-            .orElseThrow(() -> new EntityNotFoundException("Bubbls w/ id was not found" + id));
-         // delete all payloads
+    public void delete(List<Long> ids) {
+        log.debug("Request to delete Bubbl : {}", ids);
+        for (Long id: ids) {
+            Bubbl bubbl = bubblRepository.findOne(id);
+//        Optional.ofNullable(bubbl)
+//            .orElseThrow(() -> new EntityNotFoundException("Bubbls w/ id was not found" + id));
+            if (bubbl == null) {
+                continue;
+            }
 
-        bubbl.getPayloads().stream().forEach(payload -> {
-                payloadService.deleteWithoutTransaction(payload);});
+            bubbl.getPayloads().stream().forEach(payload -> {
+                payloadService.deleteWithoutTransaction(payload);
+            });
 
-//        bubbl.getTourBubbls().stream().forEach(tourBubbl -> {
-//            tourBubblRepository.delete(tourBubbl);
-//        });
-
-        // TODO: 07.12.2016  1) handle bubbl order number changing in all tours (minus one)
-        //  2) recalculate all routes in these tours
-
-        bubblRepository.delete(id);
-
-//        Set<TourBubbl> tourBubbls = tourBubblRepository.findByBubbl(bubbl);
-//
-//        tourBubbls.stream().forEach(tourBubbl -> {
-//            // refresh cache
-//            tourBubbl.getTour().getTourBubbls().remove(tourBubbl);
-//            tourRepository.save(tourBubbl.getTour());
-//        });
-
+            bubblRepository.delete(id);
+        }
     }
 
     public void setCurrentLatAndLngInDb(Double curLat, Double curLng) {

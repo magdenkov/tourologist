@@ -26,7 +26,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByLogin(String login);
 
-    @Query(value = "select distinct user from User user left join fetch user.authorities",
+    @Query(value = "select distinct user from User user left join fetch user.authorities where user.deleted is null ",
         countQuery = "select count(user) from User user")
     Page<User> findAllWithAuthorities(Pageable pageable);
 

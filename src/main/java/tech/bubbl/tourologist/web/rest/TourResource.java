@@ -240,12 +240,12 @@ public class TourResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/tours/{id}")
+    @DeleteMapping("/tours/{ids}")
     @Timed
-    public ResponseEntity<Void> deleteTour(@PathVariable Long id) {
-        log.debug("REST request to delete Tour : {}", id);
-        tourService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tour", id.toString())).build();
+    public ResponseEntity<Void> deleteTour(@PathVariable List<Long> ids) {
+        log.debug("REST request to delete Tour : {}", ids);
+        tourService.delete(ids);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("tour", ids.toString())).build();
     }
 
 

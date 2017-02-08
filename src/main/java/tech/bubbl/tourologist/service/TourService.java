@@ -47,9 +47,9 @@ public interface TourService {
     /**
      *  Delete the "id" tour.
      *
-     *  @param id the id of the entity
+     * @param ids the id of the entity
      */
-    void delete(Long id);
+    void delete(List<Long> ids);
 
     TourFullDTO saveFixedTour(CreateFixedTourDTO tourDTO, LatLng origin, LatLng destination, TourType type);
 

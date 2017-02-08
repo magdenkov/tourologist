@@ -30,8 +30,8 @@ public interface BubblService {
      *@param userId @return the list of entities
      */
     Page<FullTourBubblNumberedDTO> findAll(Pageable pageable, Status status, Long userId);
-    
-    Page<FullTourBubblNumberedDTO> findAllInRadius(Pageable pageable, Status status, Long userId, Double centerLat, 
+
+    Page<FullTourBubblNumberedDTO> findAllInRadius(Pageable pageable, Status status, Long userId, Double centerLat,
     		Double centerLng, Double radius);
 
     /**
@@ -45,9 +45,9 @@ public interface BubblService {
     /**
      *  Delete the "id" bubbl.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
-    void delete(Long id);
+    void delete(List<Long> id);
 
     Page <Bubbl> findBubblsSurprise(Double curLat, Double curLng, Pageable pageable, List<Long> exceptBubblIds);
 
