@@ -6,9 +6,9 @@
         .controller('TourController', TourController);
 
     TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal',
-        'TourConstructorService', 'DeleteTourService', '$filter','$timeout'];
+        'TourConstructorService', 'DeleteTourService', '$filter', '$timeout'];
 
-    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour, $filter,$timeout) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour, $filter, $timeout) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -16,7 +16,7 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-        $scope.tourType = 'FIXED';
+        $scope.tourType = 'FIXED'; //leave blank if you want to search all tours
         vm.tours = [];
         $scope.searchTours = '';
         $scope.queryBy = 'name';
@@ -28,16 +28,15 @@
             getAccount();
         });
 
+        // DIY button filter
         $scope.getDIY = function () {
             $scope.tourType = 'DIY';
             changeUrl();
         };
+
+        // fixed buytton filter
         $scope.getFixed = function () {
             $scope.tourType = 'FIXED';
-            changeUrl();
-        };
-        $scope.clearFilter = function () {
-            $scope.tourType = '';
             changeUrl();
         };
 
@@ -51,6 +50,7 @@
             $scope.selectedTours = [];
 
 
+            // check if checkbox are ticked and push the values to selectedtours
             angular.forEach(vm.tours, function (tour) {
                 if (tour.selected) $scope.selectedTours.push(tour.id);
 
