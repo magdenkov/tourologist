@@ -149,15 +149,27 @@
             }
         }
 
-        $scope.showdeletebutton = false;
+        $scope.showdeletebutton = function () {
+            var trues = $filter("filter")(vm.bubbls, {
+                selected: true
+            });
+            return trues.length;
+        };
 
         $scope.delete = function () {
             $scope.selectedBubbls = [];
+
+
             angular.forEach(vm.bubbls, function (bubbl) {
-                if (bubbl.selected) $scope.selectedBubbls.push(bubbl.id);
+                if (bubbl.selected)         $scope.selectedBubbls.push(bubbl.id);
 
             });
+
+
             Bubbl.delete({id: $scope.selectedBubbls});
+            $timeout(function () {
+                changeUrl();
+            }, 1000);
             console.log($scope.selectedBubbls)
         };
 

@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <button type="button"
+                                    <button type="button" ng-show="showdeletebutton()"
                                             ng-click="delete()"
                                             class="btn btn-danger  btn-sm" title="Delete">
                                         <span class="glyphicon glyphicon-remove-circle"></span>Delete
@@ -94,7 +94,8 @@
                                                 class="btn btn-danger btn-icon btn-sm" title="Delete">
                                             <span class="glyphicon glyphicon-remove-circle"></span>
                                         </button>
-                                        <input type="checkbox" value="{{bubbl.id}}" ng-model="bubbl.selected">
+                                        <input type="checkbox" value="{{bubbl.id}}"
+                                               ng-model="bubbl.selected">
                                     </div>
                                 </td>
                             </tr>

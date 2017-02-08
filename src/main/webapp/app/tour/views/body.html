@@ -43,7 +43,11 @@
 
                         <div class="col-sm-2 ">
                             <div class="input-group col-lg-offset-1">
-
+                                <button type="button" ng-show="showdeletebutton()"
+                                        ng-click="delete()"
+                                        class="btn btn-danger  btn-sm" title="Delete">
+                                    <span class="glyphicon glyphicon-remove-circle"></span>Delete
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -100,6 +104,9 @@
                                                 class="btn btn-danger btn-icon btn-sm" title="Delete">
                                             <span class="glyphicon glyphicon-remove-circle"></span>
                                         </button>
+
+                                        <input type="checkbox" value="{{tour.id}}"
+                                               ng-model="tour.selected">
                                     </div>
                                 </td>
                             </tr>

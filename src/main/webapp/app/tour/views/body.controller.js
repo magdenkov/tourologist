@@ -6,9 +6,9 @@
         .controller('TourController', TourController);
 
     TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal',
-        'TourConstructorService', 'DeleteTourService'];
+        'TourConstructorService', 'DeleteTourService', '$filter','$timeout'];
 
-    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour, $filter,$timeout) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -28,18 +28,42 @@
             getAccount();
         });
 
-        $scope.getDIY = function(){
+        $scope.getDIY = function () {
             $scope.tourType = 'DIY';
             changeUrl();
         };
-        $scope.getFixed = function(){
+        $scope.getFixed = function () {
             $scope.tourType = 'FIXED';
             changeUrl();
         };
-        $scope.clearFilter = function(){
+        $scope.clearFilter = function () {
             $scope.tourType = '';
             changeUrl();
         };
+
+        $scope.showdeletebutton = function () {
+            var trues = $filter("filter")(vm.tours, {
+                selected: true
+            });
+            return trues.length;
+        };
+        $scope.delete = function () {
+            $scope.selectedTours = [];
+
+
+            angular.forEach(vm.tours, function (tour) {
+                if (tour.selected) $scope.selectedTours.push(tour.id);
+
+            });
+
+
+            Tour.delete({id: $scope.selectedTours});
+            $timeout(function () {
+                changeUrl();
+            }, 1000);
+            console.log($scope.selectedTours)
+        };
+
         getAccount();
         vm.onDeleteTourClick = function (tour) {
             deleteTour.call(tour);
@@ -78,7 +102,7 @@
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
                 sort: sort(),
-                type:$scope.tourType
+                type: $scope.tourType
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
@@ -107,7 +131,7 @@
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
                 sort: sort(),
-                type:$scope.tourType
+                type: $scope.tourType
 
             }, onSuccess, onError);
             function sort() {
