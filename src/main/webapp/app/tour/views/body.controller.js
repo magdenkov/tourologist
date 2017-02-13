@@ -44,10 +44,6 @@
             $cookies.put('tourType', $scope.tourType)
             changeUrl();
         };
-        $scope.clearFilter = function () {
-            $scope.tourType = '';
-            changeUrl();
-        };
 
         $scope.showdeletebutton = function () {
             var trues = $filter("filter")(vm.tours, {
@@ -59,6 +55,7 @@
             $scope.selectedTours = [];
 
 
+            // check if checkbox are ticked and push the values to selectedtours
             angular.forEach(vm.tours, function (tour) {
                 if (tour.selected) $scope.selectedTours.push(tour.id);
 
