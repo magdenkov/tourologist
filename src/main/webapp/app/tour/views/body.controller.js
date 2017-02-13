@@ -6,9 +6,9 @@
         .controller('TourController', TourController);
 
     TourController.$inject = ['$scope', '$state', 'Tour', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants', 'Principal',
-        'TourConstructorService', 'DeleteTourService', '$filter','$timeout'];
+        'TourConstructorService', 'DeleteTourService', '$filter','$timeout', '$cookies'];
 
-    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour, $filter,$timeout) {
+    function TourController($scope, $state, Tour, ParseLinks, AlertService, pagingParams, paginationConstants, Principal, tourConstructor, deleteTour, $filter, $timeout, $cookies) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -16,7 +16,13 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-        $scope.tourType = 'FIXED';
+        $scope.tourType = $cookies.get('tourType');
+
+        if ($scope.tourType === undefined) {
+            $scope.tourType = 'FIXED';
+            $cookies.put('tourType', $scope.tourType);
+        }
+
         vm.tours = [];
         $scope.searchTours = '';
         $scope.queryBy = 'name';
@@ -30,10 +36,12 @@
 
         $scope.getDIY = function () {
             $scope.tourType = 'DIY';
+            $cookies.put('tourType', $scope.tourType)
             changeUrl();
         };
         $scope.getFixed = function () {
             $scope.tourType = 'FIXED';
+            $cookies.put('tourType', $scope.tourType)
             changeUrl();
         };
         $scope.clearFilter = function () {
@@ -67,11 +75,11 @@
         getAccount();
         vm.onDeleteTourClick = function (tour) {
             deleteTour.call(tour);
-        }
+        };
 
         vm.onEditTourClick = function (tour) {
             tourConstructor.call(tour);
-        }
+        };
 
         vm.onCreateTourClick = function () {
             tourConstructor.call({
@@ -79,7 +87,7 @@
                 description: null,
                 name: null
             });
-        }
+        };
 
         function getAccount() {
             Principal.identity().then(function (account) {
